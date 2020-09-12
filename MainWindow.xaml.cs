@@ -9,6 +9,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
     using System.Threading;
     using System.Windows;
@@ -19,6 +20,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
     using Microsoft.Kinect;
     using Microsoft.Kinect.Wpf.Controls;
     using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
+    using Microsoft.Samples.Kinect.DiscreteGestureBasics;
 
     /// <summary>
     /// Interaction logic for MainWindow
@@ -35,6 +37,11 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         private static MainWindow instance = default;
         private static Timer timer;
         private static HandOverHelper handHelper;
+        /// <summary> Array for the bodies (Kinect will track up to 6 people simultaneously) </summary>
+        private Body[] bodies = null;
+        /// <summary> List of gesture detectors, there will be one detector created for each potential body (max of 6) </summary>
+        private List<GestureDetector> gestureDetectorList = new List<GestureDetector>();
+
         static MainWindow()
         {
             timer = new Timer(CheckPersonIsRemoved, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(100));
@@ -82,7 +89,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
             // Open a Main video when nowbody use system
             BodyFrameReader bodyFrameReader = this.kinectRegion.KinectSensor.BodyFrameSource.OpenReader();
-
+            // set the BodyFramedArrived event notifier
+            bodyFrameReader.FrameArrived += this.Reader_BodyFrameArrived;
             handHelper.OnHoverStart += () =>
             {
                 Log("Lenya start 1");
@@ -112,7 +120,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                 {
                     adminMode = !adminMode;
                     handHelper.adminMode = adminMode;
-                    Cursor =  adminMode ?  Cursors.Arrow : Cursors.None;
+                    Cursor = adminMode ? Cursors.Arrow : Cursors.None;
                 }
             };
 
@@ -122,7 +130,88 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                 BackgroungVideo.MediaEnded += BackgroungVideo_MediaEnded;
                 BackgroungVideo.Play();
             }
-            
+            var eggVideoFile = $@"{AppDomain.CurrentDomain.BaseDirectory}\vgbtechs\kinectrequired.mp4";
+            if (File.Exists(eggVideoFile))
+            {
+                EggVideo.Source = new Uri(eggVideoFile);
+                EggVideo.Visibility = Visibility.Collapsed;
+                EggVideo.MediaEnded += (s, e) =>
+                {
+                    BackgroungVideo.Volume = 1;
+                    EggVideo.Visibility = Visibility.Collapsed;
+                };
+            }
+            int maxBodies = this.kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
+            for (int i = 0; i < maxBodies; ++i)
+            {
+                GestureDetector detector = new GestureDetector(this.kinectRegion.KinectSensor);
+                detector.OnGestureFired += Detector_OnGestureFired;
+                this.gestureDetectorList.Add(detector);
+            }
+        }
+
+        private void Detector_OnGestureFired()
+        {
+            UI(() =>
+            {
+                BackgroungVideo.Volume = 0;
+                EggVideo.Visibility = Visibility.Visible;
+                EggVideo.Stop();
+                EggVideo.Play();
+            });
+        }
+
+        /// <summary>
+        /// Handles the body frame data arriving from the sensor and updates the associated gesture detector object for each body
+        /// </summary>
+        /// <param name="sender">object sending the event</param>
+        /// <param name="e">event arguments</param>
+        private void Reader_BodyFrameArrived(object sender, BodyFrameArrivedEventArgs e)
+        {
+            bool dataReceived = false;
+
+            using (BodyFrame bodyFrame = e.FrameReference.AcquireFrame())
+            {
+                if (bodyFrame != null)
+                {
+                    if (this.bodies == null)
+                    {
+                        // creates an array of 6 bodies, which is the max number of bodies that Kinect can track simultaneously
+                        this.bodies = new Body[bodyFrame.BodyCount];
+                    }
+
+                    // The first time GetAndRefreshBodyData is called, Kinect will allocate each Body in the array.
+                    // As long as those body objects are not disposed and not set to null in the array,
+                    // those body objects will be re-used.
+                    bodyFrame.GetAndRefreshBodyData(this.bodies);
+                    dataReceived = true;
+                }
+            }
+
+            if (dataReceived)
+            {
+                // we may have lost/acquired bodies, so update the corresponding gesture detectors
+                if (this.bodies != null)
+                {
+                    // loop through all bodies to see if any of the gesture detectors need to be updated
+                    int maxBodies = this.kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
+                    for (int i = 0; i < maxBodies; ++i)
+                    {
+                        Body body = this.bodies[i];
+                        ulong trackingId = body.TrackingId;
+
+                        // if the current body TrackingId changed, update the corresponding gesture detector with the new value
+                        if (trackingId != this.gestureDetectorList[i].TrackingId)
+                        {
+                            this.gestureDetectorList[i].TrackingId = trackingId;
+
+                            // if the current body is tracked, unpause its detector to get VisualGestureBuilderFrameArrived events
+                            // if the current body is not tracked, pause its detector so we don't waste resources trying to get invalid gesture results
+                            this.gestureDetectorList[i].IsPaused = trackingId == 0;
+                        }
+                    }
+                }
+            }
         }
 
         private void CheckTime()
@@ -132,7 +221,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                 BackgroungImage.Visibility = Visibility.Visible;
                 BackgroungVideo.Volume = 0;
             }
-            else
+            else if (!EggVideo.IsVisible)
             {
                 BackgroungImage.Visibility = Visibility.Collapsed;
                 BackgroungVideo.Volume = 1;
@@ -172,7 +261,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                     else if (sampleDataItem.Title == "Игры")
                     {
                         CreateData.GetGames();
-                    } else if (sampleDataItem.Title == "Расписание")
+                    }
+                    else if (sampleDataItem.Title == "Расписание")
                     {
                         CreateData.GetAllTimetable();
                     }
@@ -299,7 +389,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                             instance.MenuButton.Visibility = Visibility.Collapsed;
                         }
                     });
-                } 
+                }
             }
             catch (Exception)
             {
