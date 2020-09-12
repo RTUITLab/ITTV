@@ -10,6 +10,11 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
         public static void GetAllTimetable()
         {
             string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"TimeTables\";
+
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
+            Console.WriteLine(fullPath);
             string[] AllFiles = Directory.GetFiles(fullPath);
 
             SampleDataCollection course_group = new SampleDataCollection(
@@ -56,11 +61,19 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             }
 
             SampleDataSource.AddToGroups(course_group);
+
         }
 
-        public static void GetAllVideos() {
+        public static void GetAllVideos()
+        {
             string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Videos\";
+
+
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
             string[] AllFiles = Directory.GetFiles(fullPath);
+
 
             SampleDataCollection video_group = new SampleDataCollection(
                 "Video",
@@ -79,7 +92,9 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
                         SampleDataItem.TaskType.Page,
                         typeof(VideoPage),
                         SampleDataSource.StringToArr(video)));
-                } else {
+                }
+                else
+                {
                     video_group.Items.Add(new SampleDataItem(
                         "Video-" + i.ToString(),
                         Path.GetFileNameWithoutExtension(video),
@@ -92,6 +107,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             }
 
             SampleDataSource.AddToGroups(video_group);
+
         }
 
         public static void GetNewsFromSite()
@@ -134,18 +150,24 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
                 }
 
                 SampleDataSource.AddToGroups(news_group);
-            } catch (Exception) { MainWindow.Log("Нет доступа к сайту"); }
+            }
+            catch (Exception) { MainWindow.Log("Нет доступа к сайту"); }
         }
 
         public static void GetGames()
         {
             string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Games\";
+
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
             string[] AllDir = Directory.GetDirectories(fullPath);
 
+
             SampleDataCollection games_group = new SampleDataCollection(
-                "Games",
-                "Игры",
-                SampleDataCollection.GroupType.Video);
+                    "Games",
+                    "Игры",
+                    SampleDataCollection.GroupType.Video);
 
             int i = 0;
             foreach (var Game in AllDir)

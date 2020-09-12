@@ -108,17 +108,21 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
             handHelper.OnHoverKeyboardCheck += () =>
             {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.K) && !adminMode)
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.K))
                 {
                     adminMode = !adminMode;
                     handHelper.adminMode = adminMode;
-                    Cursor = Cursors.Arrow;
+                    Cursor =  adminMode ?  Cursors.Arrow : Cursors.None;
                 }
             };
 
-            BackgroungVideo.Source = new Uri(SampleDataSource.GetItem("Video-Main").Parametrs[0].ToString());
-            BackgroungVideo.MediaEnded += BackgroungVideo_MediaEnded;
-            BackgroungVideo.Play();
+            if (SampleDataSource.GetItem("Video-Main") != null)
+            {
+                BackgroungVideo.Source = new Uri(SampleDataSource.GetItem("Video-Main").Parametrs[0].ToString());
+                BackgroungVideo.MediaEnded += BackgroungVideo_MediaEnded;
+                BackgroungVideo.Play();
+            }
+            
         }
 
         private void CheckTime()
