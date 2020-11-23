@@ -74,7 +74,6 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
             string[] AllFiles = Directory.GetFiles(fullPath);
 
-
             SampleDataCollection video_group = new SampleDataCollection(
                 "Video",
                 "Видео",
@@ -83,31 +82,50 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             int i = 0;
             foreach (var video in AllFiles)
             {
-                if (Path.GetFileNameWithoutExtension(video) == "Main")
-                {
-                    video_group.Items.Add(new SampleDataItem(
-                        "Video-Main",
-                        "РТУ МИРЭА",
-                        string.Empty,
-                        SampleDataItem.TaskType.Page,
-                        typeof(VideoPage),
-                        SampleDataSource.StringToArr(video)));
-                }
-                else
-                {
-                    video_group.Items.Add(new SampleDataItem(
-                        "Video-" + i.ToString(),
-                        Path.GetFileNameWithoutExtension(video),
-                        string.Empty,
-                        SampleDataItem.TaskType.Page,
-                        typeof(VideoPage),
-                        SampleDataSource.StringToArr(video)));
-                }
+                video_group.Items.Add(new SampleDataItem(
+                    "Video-" + i.ToString(),
+                    Path.GetFileNameWithoutExtension(video),
+                    string.Empty,
+                    SampleDataItem.TaskType.Page,
+                    typeof(VideoPage),
+                    SampleDataSource.StringToArr(video)));
+
                 i++;
             }
 
             SampleDataSource.AddToGroups(video_group);
+        }
 
+        public static void GetBackgroundVideos()
+        {
+            string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Videos\Background\";
+
+
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
+            string[] AllFiles = Directory.GetFiles(fullPath);
+
+            SampleDataCollection video_group = new SampleDataCollection(
+                "Video-Background",
+                "Видео на фоне",
+                SampleDataCollection.GroupType.Video);
+
+            int i = 0;
+            foreach (var video in AllFiles)
+            {
+                video_group.Items.Add(new SampleDataItem(
+                   "Video-" + i.ToString(),
+                   Path.GetFileNameWithoutExtension(video),
+                   string.Empty,
+                   SampleDataItem.TaskType.Page,
+                   typeof(VideoPage),
+                   SampleDataSource.StringToArr(video)));
+
+                i++;
+            }
+
+            SampleDataSource.AddToGroups(video_group);
         }
 
         public static void GetNewsFromSite()
