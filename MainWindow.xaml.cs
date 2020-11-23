@@ -130,23 +130,29 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                 BackgroungVideo.MediaEnded += BackgroungVideo_MediaEnded;
                 BackgroungVideo.Play();
             }
-            var eggVideoFile = $@"{AppDomain.CurrentDomain.BaseDirectory}\vgbtechs\kinectrequired.mp4";
-            if (File.Exists(eggVideoFile))
+
+            string GesturePath = $@"{AppDomain.CurrentDomain.BaseDirectory}\GesturesDatabase\KinectGesture.gbd";
+            if (File.Exists(GesturePath))
             {
-                EggVideo.Source = new Uri(eggVideoFile);
-                EggVideo.Visibility = Visibility.Collapsed;
-                EggVideo.MediaEnded += (s, e) =>
+                var eggVideoFile = $@"{AppDomain.CurrentDomain.BaseDirectory}\vgbtechs\kinectrequired.mp4";
+                if (File.Exists(eggVideoFile))
                 {
-                    BackgroungVideo.Volume = 1;
+                    EggVideo.Source = new Uri(eggVideoFile);
                     EggVideo.Visibility = Visibility.Collapsed;
-                };
-            }
-            int maxBodies = this.kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
-            for (int i = 0; i < maxBodies; ++i)
-            {
-                GestureDetector detector = new GestureDetector(this.kinectRegion.KinectSensor);
-                detector.OnGestureFired += Detector_OnGestureFired;
-                this.gestureDetectorList.Add(detector);
+                    EggVideo.MediaEnded += (s, e) =>
+                    {
+                        BackgroungVideo.Volume = 1;
+                        EggVideo.Visibility = Visibility.Collapsed;
+                    };
+                }
+
+                int maxBodies = this.kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
+                for (int i = 0; i < maxBodies; ++i)
+                {
+                    GestureDetector detector = new GestureDetector(this.kinectRegion.KinectSensor);
+                    detector.OnGestureFired += Detector_OnGestureFired;
+                    this.gestureDetectorList.Add(detector);
+                }
             }
         }
 
