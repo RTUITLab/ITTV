@@ -44,6 +44,7 @@
     <Reference Include="Microsoft.Kinect">
       <HintPath>$(KINECTSDK20_DIR)Assemblies\Microsoft.Kinect.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Kinect.VisualGestureBuilder, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64" />
     <Reference Include="Microsoft.Kinect.Wpf.Controls">
       <HintPath>$(KINECTSDK20_DIR)\Redist\WpfControls\Microsoft.Kinect.Wpf.Controls.dll</HintPath>
     </Reference>
@@ -71,6 +72,7 @@
     <Compile Include="DataModel\CreateData.cs" />
     <Compile Include="DataModel\HandOverHelper.cs" />
     <Compile Include="DataModel\SampleDataSource.cs" />
+    <Compile Include="GestureDetector.cs" />
     <Compile Include="HandPointers\HandInScreenEngagementModel.cs" />
     <Compile Include="Pages\Courses.xaml.cs">
       <DependentUpon>Courses.xaml</DependentUpon>
@@ -157,11 +159,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="vgbtechs\AdaBoostTech.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="vgbtechs\RFRProgressTech.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="GesturesDatabase\KinectGesture.gbd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -202,6 +211,10 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -209,4 +222,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="GesturesDatabase\KinectGesture.gbd" DestinationFolder="$(OutputPath)\GesturesDatabase\" ContinueOnError="true" />
+  </Target>
 </Project>
