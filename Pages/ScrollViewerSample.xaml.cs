@@ -22,7 +22,11 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         {
             this.InitializeComponent();
 
-            BitmapImage bi3 = new BitmapImage(new Uri(ImageSource, UriKind.Relative));
+            BitmapImage bi3 = new BitmapImage();
+
+            bi3.BeginInit();
+            bi3.UriSource = new Uri(ImageSource);
+            bi3.EndInit();
 
             ImageField.Source = bi3;
         }

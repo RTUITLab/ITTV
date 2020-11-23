@@ -171,21 +171,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Kinect.ico" />
-    <Resource Include="Images\Logo.png" />
     <Resource Include="Assets\DarkGray.png" />
     <Resource Include="Assets\LightGray.png" />
     <Resource Include="Assets\MediumGray.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="HandPointers\HighlightRectangle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\beach.jpg" />
-    <Resource Include="Images\clouds.jpg" />
-    <Resource Include="Images\fireworks.jpg" />
-    <Resource Include="Images\hamlet.jpg" />
-    <Resource Include="Images\operahouse.jpg" />
-    <Resource Include="Images\sydney.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\CursorSpriteSheetPurple.png" />
@@ -195,30 +186,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\ITlogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\TimeTables\2.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\TimeTables\3.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\TimeTables\4.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\TimeTables\5.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\TimeTables\6.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\TimeTables\1.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Play.png" />

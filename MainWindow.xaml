@@ -70,7 +70,7 @@
                     </Grid.RowDefinitions>
 
                     <k:KinectUserViewer Grid.Row="0" />
-                    <TextBlock Grid.Row="1" VerticalAlignment="Bottom" Foreground="{StaticResource MediumGreyBrush}" FontSize="18" Text="RTU IT Lab"/>
+                    <TextBlock Grid.Row="1" VerticalAlignment="Bottom" Foreground="{StaticResource MediumGreyBrush}" FontSize="18" Text="© RTU IT Lab 2019"/>
                 </Grid>
             </Grid>
         </Grid>

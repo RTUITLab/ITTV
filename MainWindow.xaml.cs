@@ -15,6 +15,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
     using System.Windows.Automation.Peers;
     using System.Windows.Automation.Provider;
     using System.Windows.Controls;
+    using System.Windows.Input;
     using Microsoft.Kinect;
     using Microsoft.Kinect.Wpf.Controls;
     using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
@@ -28,10 +29,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         public static ContentControl var_navigationRegion;
 
         private static bool needCheckTime;
+        private bool adminMode = false;
 
         private static DateTime LastUIOperation;
         private static MainWindow instance = default;
-        private static bool isBackgroundEnabled = true;
         private static Timer timer;
         private static HandOverHelper handHelper;
         static MainWindow()
@@ -47,16 +48,21 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         {
             this.InitializeComponent();
 
+
+            AppDomain.CurrentDomain.ProcessExit += (e, s) => { Process.Start("ControlsBasics-WPF.exe"); };
+            AppDomain.CurrentDomain.UnhandledException += (e, s) => { Process.Start("ControlsBasics-WPF.exe"); App.Current.Shutdown(); };
+
+
             instance = this;
 
             CheckTime();
-
 
             var_navigationRegion = navigationRegion;
 
             CreateData.GetAllVideos();
             CreateData.GetNewsFromSite();
             CreateData.GetGames();
+            CreateData.GetAllTimetable();
 
             KinectRegion.SetKinectRegion(this, kinectRegion);
 
@@ -76,10 +82,6 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
             // Open a Main video when nowbody use system
             BodyFrameReader bodyFrameReader = this.kinectRegion.KinectSensor.BodyFrameSource.OpenReader();
-
-            handHelper.OnHoverStart += () => Log("start");
-            handHelper.OnHoverEnd += () => Log("end");
-
 
             handHelper.OnHoverStart += () =>
             {
@@ -102,6 +104,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                 }
 
                 Log("Lenya start 2");
+            };
+
+            handHelper.OnHoverKeyboardCheck += () =>
+            {
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.K) && !adminMode)
+                {
+                    adminMode = !adminMode;
+                    handHelper.adminMode = adminMode;
+                    Cursor = Cursors.Arrow;
+                }
             };
 
             BackgroungVideo.Source = new Uri(SampleDataSource.GetItem("Video-Main").Parametrs[0].ToString());
@@ -145,18 +157,21 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             {
                 if (sampleDataItem.Task == SampleDataItem.TaskType.Page && sampleDataItem.NavigationPage != null)
                 {
-                    //if (sampleDataItem.Title == "Новости")
-                    //{
-                    //    CreateData.GetNewsFromSite();
-                    //}
-                    //else if (sampleDataItem.Title == "Видео")
-                    //{
-                    //    CreateData.GetAllVideos();
-                    //}
-                    //else if (sampleDataItem.Title == "Игры")
-                    //{
-                    //    CreateData.GetGames();
-                    //}
+                    if (sampleDataItem.Title == "Новости")
+                    {
+                        CreateData.GetNewsFromSite();
+                    }
+                    else if (sampleDataItem.Title == "Видео")
+                    {
+                        CreateData.GetAllVideos();
+                    }
+                    else if (sampleDataItem.Title == "Игры")
+                    {
+                        CreateData.GetGames();
+                    } else if (sampleDataItem.Title == "Расписание")
+                    {
+                        CreateData.GetAllTimetable();
+                    }
 
                     history.Add(sampleDataItem.UniqueId);
                     backButton.Visibility = System.Windows.Visibility.Visible;

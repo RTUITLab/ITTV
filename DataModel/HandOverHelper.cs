@@ -15,7 +15,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
 
         public event Action OnHoverStart;
+        public event Action OnHoverKeyboardCheck;
         public event Action OnHoverEnd;
+
+        public bool adminMode;
 
         public HandOverHelper(KinectRegion kinectRegion, Dispatcher d)
         {
@@ -23,23 +26,24 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             {
                 var hoverNow = kinectRegion?.EngagedBodyTrackingIds?.Count > 0;
 
-                if (hoverNow && !IsHover)
+                if (hoverNow && !IsHover || adminMode)
                 {
                     OnHoverStart?.Invoke();
                 }
-                else if (IsHover && !hoverNow)
+                else if (IsHover && !hoverNow && !adminMode)
                 {
                     OnHoverEnd?.Invoke();
                 }
                 IsHover = hoverNow;
+
+                OnHoverKeyboardCheck?.Invoke();
+
             }, d);
-            //Task.Run(async () =>
-            //{
-            //    MainWindow.Log("before wait");
-            //    await Task.Delay(TimeSpan.FromSeconds(3));
-            //    MainWindow.Log("after wait");
-            //    OnHoverStart?.Invoke();
-            //});
+            Task.Run(async () =>
+            {
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                OnHoverStart?.Invoke();
+            });
         }
 
     }

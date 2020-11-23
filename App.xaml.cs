@@ -7,7 +7,8 @@
 namespace Microsoft.Samples.Kinect.ControlsBasics
 {
     using Microsoft.Kinect.Wpf.Controls;
-using System.Windows;
+    using System;
+    using System.Windows;
 
     /// <summary>
     /// Interaction logic for App

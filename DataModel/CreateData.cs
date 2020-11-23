@@ -7,6 +7,57 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 {
     public class CreateData
     {
+        public static void GetAllTimetable()
+        {
+            string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"TimeTables\";
+            string[] AllFiles = Directory.GetFiles(fullPath);
+
+            SampleDataCollection course_group = new SampleDataCollection(
+                "Courses",
+                "Расписание",
+                SampleDataCollection.GroupType.Courses);
+
+            int i = 0;
+            string name;
+            foreach (var image in AllFiles)
+            {
+                switch (Path.GetFileNameWithoutExtension(image))
+                {
+                    case "1":
+                        name = "Первый курс";
+                        break;
+                    case "2":
+                        name = "Второй курс";
+                        break;
+                    case "3":
+                        name = "Третий курс";
+                        break;
+                    case "4":
+                        name = "Четвертый курс";
+                        break;
+                    case "5":
+                        name = "Первый курс магистратуры";
+                        break;
+                    case "6":
+                        name = "Второй курс магистратуры";
+                        break;
+                    default:
+                        name = "";
+                        break;
+                }
+                course_group.Items.Add(new SampleDataItem(
+                "Course-" + i.ToString(),
+                name,
+                SampleDataItem.TaskType.Page,
+                typeof(ScrollViewerSample),
+                SampleDataSource.StringToArr(image)));
+
+                i++;
+            }
+
+            SampleDataSource.AddToGroups(course_group);
+        }
+
         public static void GetAllVideos() {
             string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Videos\";
             string[] AllFiles = Directory.GetFiles(fullPath);
@@ -45,41 +96,45 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
         public static void GetNewsFromSite()
         {
-            string URI = "https://www.mirea.ru/news/";
-
-            SampleDataCollection news_group = new SampleDataCollection(
-                "News",
-                "Новости",
-                SampleDataCollection.GroupType.News);
-
-            HtmlWeb web = new HtmlWeb();
-            var HtmlDoc = web.Load(URI);
-            var NewsList = HtmlDoc.DocumentNode.SelectSingleNode("//div[@id='page-wrapper']/div[2]/div/div[2]/div/div[2]/div[1]/div[1]").ChildNodes;
-
-            int i = 0;
-            string name;
-            string source;
-            string news_page;
-            foreach (var News in NewsList)
+            try
             {
-                if (News.Name == "div") {
-                    name = News.SelectSingleNode(".//a[@class='uk-link-reset']").InnerText.Trim();
-                    source = "https://www.mirea.ru/" + News.SelectSingleNode(".//img[@class='uk-transition-scale-up uk-transition-opaque']").Attributes["src"].Value;
-                    news_page = "https://www.mirea.ru/" + News.SelectSingleNode(".//a[@class='uk-link-reset']").Attributes["href"].Value;
+                string URI = "https://www.mirea.ru/news/";
 
-                    news_group.Items.Add(new SampleDataItem(
-                        "News-" + i.ToString(),
-                        name,
-                        source,
-                        SampleDataItem.TaskType.Page,
-                        typeof(News),
-                        news_page));
-                    i++;
+                SampleDataCollection news_group = new SampleDataCollection(
+                    "News",
+                    "Новости",
+                    SampleDataCollection.GroupType.News);
+
+                HtmlWeb web = new HtmlWeb();
+                var HtmlDoc = web.Load(URI);
+                var NewsList = HtmlDoc.DocumentNode.SelectSingleNode("//div[@id='page-wrapper']/div[2]/div/div[2]/div/div[2]/div[1]/div[1]").ChildNodes;
+
+                int i = 0;
+                string name;
+                string source;
+                string news_page;
+                foreach (var News in NewsList)
+                {
+                    if (News.Name == "div")
+                    {
+                        name = News.SelectSingleNode(".//a[@class='uk-link-reset']").InnerText.Trim();
+                        source = "https://www.mirea.ru/" + News.SelectSingleNode(".//img[@class='uk-transition-scale-up uk-transition-opaque']").Attributes["src"].Value;
+                        news_page = "https://www.mirea.ru/" + News.SelectSingleNode(".//a[@class='uk-link-reset']").Attributes["href"].Value;
+
+                        news_group.Items.Add(new SampleDataItem(
+                            "News-" + i.ToString(),
+                            name,
+                            source,
+                            SampleDataItem.TaskType.Page,
+                            typeof(News),
+                            news_page));
+                        i++;
+                    }
+
                 }
 
-            }
-
-            SampleDataSource.AddToGroups(news_group);
+                SampleDataSource.AddToGroups(news_group);
+            } catch (Exception) { MainWindow.Log("Нет доступа к сайту"); }
         }
 
         public static void GetGames()

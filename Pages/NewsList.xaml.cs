@@ -25,8 +25,9 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
         {
             InitializeComponent();
 
-            this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(SampleDataSource.GetGroup("News").TypeGroup + "Template");
-            this.itemsControl.ItemsSource = SampleDataSource.GetGroup("News");
+            SampleDataCollection sampleDataCollection = SampleDataSource.GetGroup("News");
+            this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(sampleDataCollection.TypeGroup + "Template");
+            this.itemsControl.ItemsSource = sampleDataCollection;
         }
 
         private void ButtonClick(object sender, RoutedEventArgs e)

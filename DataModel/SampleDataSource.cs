@@ -82,55 +82,55 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             this.AllGroups.Add(group_main);
 
 
-            var group_course = new SampleDataCollection(
-                "Courses",
-                "Курсы",
-                SampleDataCollection.GroupType.Courses);
+            //var group_course = new SampleDataCollection(
+            //    "Courses",
+            //    "Курсы",
+            //    SampleDataCollection.GroupType.Courses);
 
-            group_course.Items.Add(
-                new SampleDataItem(
-                    "Courses-1",
-                    "Первый курс бакалавриата",
-                    SampleDataItem.TaskType.Page,
-                    typeof(ScrollViewerSample),
-                    StringToArr("/Images/TimeTables/1.jpg")));
-            group_course.Items.Add(
-                new SampleDataItem(
-                    "Courses-2",
-                    "Второй курс бакалавриата",
-                    SampleDataItem.TaskType.Page,
-                    typeof(ScrollViewerSample),
-                    StringToArr("/Images/TimeTables/2.jpg")));
-            group_course.Items.Add(
-                new SampleDataItem(
-                    "Courses-3",
-                    "Третий курс бакалавриата",
-                    SampleDataItem.TaskType.Page,
-                    typeof(ScrollViewerSample),
-                    StringToArr("/Images/TimeTables/3.jpg")));
-            group_course.Items.Add(
-                new SampleDataItem(
-                    "Courses-4",
-                    "Четвертый курс бакалавриата",
-                    SampleDataItem.TaskType.Page,
-                    typeof(ScrollViewerSample),
-                    StringToArr("/Images/TimeTables/4.jpg")));
-            group_course.Items.Add(
-                new SampleDataItem(
-                    "Courses-5",
-                    "Первый курс магистратуры",
-                    SampleDataItem.TaskType.Page,
-                    typeof(ScrollViewerSample),
-                    StringToArr("/Images/TimeTables/5.jpg")));
-            group_course.Items.Add(
-                new SampleDataItem(
-                    "Courses-6",
-                    "Второй курс магистратуры",
-                    SampleDataItem.TaskType.Page,
-                    typeof(ScrollViewerSample),
-                    StringToArr("/Images/TimeTables/6.jpg")));
+            //group_course.Items.Add(
+            //    new SampleDataItem(
+            //        "Courses-1",
+            //        "Первый курс бакалавриата",
+            //        SampleDataItem.TaskType.Page,
+            //        typeof(ScrollViewerSample),
+            //        StringToArr("/Images/TimeTables/1.jpg")));
+            //group_course.Items.Add(
+            //    new SampleDataItem(
+            //        "Courses-2",
+            //        "Второй курс бакалавриата",
+            //        SampleDataItem.TaskType.Page,
+            //        typeof(ScrollViewerSample),
+            //        StringToArr("/Images/TimeTables/2.jpg")));
+            //group_course.Items.Add(
+            //    new SampleDataItem(
+            //        "Courses-3",
+            //        "Третий курс бакалавриата",
+            //        SampleDataItem.TaskType.Page,
+            //        typeof(ScrollViewerSample),
+            //        StringToArr("/Images/TimeTables/3.jpg")));
+            //group_course.Items.Add(
+            //    new SampleDataItem(
+            //        "Courses-4",
+            //        "Четвертый курс бакалавриата",
+            //        SampleDataItem.TaskType.Page,
+            //        typeof(ScrollViewerSample),
+            //        StringToArr("/Images/TimeTables/4.jpg")));
+            //group_course.Items.Add(
+            //    new SampleDataItem(
+            //        "Courses-5",
+            //        "Первый курс магистратуры",
+            //        SampleDataItem.TaskType.Page,
+            //        typeof(ScrollViewerSample),
+            //        StringToArr("/Images/TimeTables/5.jpg")));
+            //group_course.Items.Add(
+            //    new SampleDataItem(
+            //        "Courses-6",
+            //        "Второй курс магистратуры",
+            //        SampleDataItem.TaskType.Page,
+            //        typeof(ScrollViewerSample),
+            //        StringToArr("/Images/TimeTables/6.jpg")));
 
-            this.AllGroups.Add(group_course);
+            //this.AllGroups.Add(group_course);
 
         }
 
@@ -141,6 +141,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
         public static void AddToGroups(SampleDataCollection group)
         {
+            if (SampleDataSource.GetGroup(group.UniqueId) != null)
+            {
+                sampleDataSource.AllGroups.Remove(SampleDataSource.GetGroup(group.UniqueId));
+            }
             sampleDataSource.AllGroups.Add(group);
         }
 
