@@ -30,10 +30,9 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         public static List<string> history = new List<string>();
         public static ContentControl var_navigationRegion;
 
+        private static bool needCheckTime = Settings.Settings.NeedCheckTime;
+        private static bool adminMode = Settings.Settings.IsAdmin;
         private BackgroundVideoPlaylist backgroundVideoPlaylist;
-
-        private static bool needCheckTime;
-        private bool adminMode = false;
 
         private static DateTime LastUIOperation;
         private static MainWindow instance = default;
@@ -47,7 +46,6 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         static MainWindow()
         {
             timer = new Timer(CheckPersonIsRemoved, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(100));
-            needCheckTime = bool.Parse(System.IO.File.ReadAllText("time.txt"));
         }
 
         /// <summary>
@@ -57,10 +55,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         {
             this.InitializeComponent();
 
-
-            AppDomain.CurrentDomain.ProcessExit += (e, s) => { Process.Start("ControlsBasics-WPF.exe"); };
-            AppDomain.CurrentDomain.UnhandledException += (e, s) => { Process.Start("ControlsBasics-WPF.exe"); App.Current.Shutdown(); };
-
+            if (!adminMode) {
+                AppDomain.CurrentDomain.ProcessExit += (e, s) => { Process.Start("ControlsBasics-WPF.exe"); };
+                AppDomain.CurrentDomain.UnhandledException += (e, s) => { Process.Start("ControlsBasics-WPF.exe"); App.Current.Shutdown(); };
+            }
 
             instance = this;
 
@@ -96,7 +94,6 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             bodyFrameReader.FrameArrived += this.Reader_BodyFrameArrived;
             handHelper.OnHoverStart += () =>
             {
-                Log("Lenya start 1");
                 try
                 {
                     UI(() =>
@@ -113,19 +110,9 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                     Log(ex.Message);
                     throw;
                 }
-
-                Log("Lenya start 2");
             };
 
-            handHelper.OnHoverKeyboardCheck += () =>
-            {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.K))
-                {
-                    adminMode = !adminMode;
-                    handHelper.adminMode = adminMode;
-                    Cursor = adminMode ? Cursors.Arrow : Cursors.None;
-                }
-            };
+            Cursor = adminMode ? Cursors.Arrow : Cursors.None;
 
             backgroundVideoPlaylist = new BackgroundVideoPlaylist();
 
@@ -146,7 +133,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                     EggVideo.Visibility = Visibility.Collapsed;
                     EggVideo.MediaEnded += (s, e) =>
                     {
-                        BackgroungVideo.Volume = 1;
+                        BackgroungVideo.Volume = Settings.Settings.Volume;
                         EggVideo.Visibility = Visibility.Collapsed;
                     };
                 }
@@ -235,7 +222,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             else if (!EggVideo.IsVisible)
             {
                 BackgroungImage.Visibility = Visibility.Collapsed;
-                BackgroungVideo.Volume = 1;
+                BackgroungVideo.Volume = Settings.Settings.Volume;
             }
         }
 
