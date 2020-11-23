@@ -25,6 +25,7 @@
             </Grid.RowDefinitions>
 
             <Image x:Name="BackgroungImage" Grid.RowSpan="2" Panel.ZIndex="3" Source="/Images/Gerb.png" Width="1920" Height="1088"/>
+            <MediaElement x:Name="EggVideo" Grid.RowSpan="2" Panel.ZIndex="3" LoadedBehavior="Manual" UnloadedBehavior="Manual" Volume="0" Width="1920" Height="1088"/>
             <MediaElement x:Name="BackgroungVideo" Grid.RowSpan="2" Panel.ZIndex="1" LoadedBehavior="Manual" UnloadedBehavior="Manual" Volume="1" Width="1920" Height="1088"/>
             <Button Panel.ZIndex="2" x:Name="MenuButton" Grid.RowSpan="2" Width="400" Height="150" Visibility="Collapsed" Click="MenuButton_Click" Style="{StaticResource KinectTileButton}">
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}" Width="400" Height="150">
@@ -70,7 +71,7 @@
                     </Grid.RowDefinitions>
 
                     <k:KinectUserViewer Grid.Row="0" />
-                    <TextBlock Grid.Row="1" VerticalAlignment="Bottom" Foreground="{StaticResource MediumGreyBrush}" FontSize="18" Text="© RTU IT Lab 2019"/>
+                    <TextBlock Grid.Row="1" VerticalAlignment="Bottom" Foreground="{StaticResource MediumGreyBrush}" FontSize="18" Text="© RTU IT Lab 2020"/>
                 </Grid>
             </Grid>
         </Grid>
