@@ -10,8 +10,10 @@
         mc:Ignorable="d"
         d:DesignWidth="1200"
         d:DesignHeight="700"
+        Width="1280"
+        Height="720"
         FontFamily="Segoe UI"
-        WindowState="Maximized"
+        WindowState="Normal"
         WindowStyle="None" Cursor="None">
     
     <k:KinectRegion x:Name="kinectRegion">
@@ -21,9 +23,9 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Image x:Name="BackgroungImage" Grid.RowSpan="2" Panel.ZIndex="3" Source="/Images/Gerb.png"/>
-            <MediaElement x:Name="EggVideo" Grid.RowSpan="2" Panel.ZIndex="3" LoadedBehavior="Manual" UnloadedBehavior="Manual"/>
-            <MediaElement x:Name="BackgroungVideo" Grid.RowSpan="2" Panel.ZIndex="1" LoadedBehavior="Manual" UnloadedBehavior="Manual"/>
+            <Image x:Name="BackgroungImage" Grid.RowSpan="2" Panel.ZIndex="3" Source="/Images/Gerb.png" Stretch="Fill" Visibility="Hidden"/>
+            <MediaElement x:Name="EggVideo" Grid.RowSpan="2" Panel.ZIndex="3" LoadedBehavior="Manual" UnloadedBehavior="Manual" Stretch="Fill" Visibility="Hidden"/>
+            <MediaElement x:Name="BackgroungVideo" Grid.RowSpan="2" Panel.ZIndex="1" LoadedBehavior="Manual" UnloadedBehavior="Manual" Stretch="Fill" Visibility="Hidden"/>
             
             <Button Panel.ZIndex="2" x:Name="MenuButton" Grid.RowSpan="2" Width="400" Height="150" Visibility="Collapsed" Click="MenuButton_Click" Style="{StaticResource KinectTileButton}">
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}" Width="400" Height="150">
@@ -41,7 +43,7 @@
                         <ItemsControl Grid.Row="0" Name="itemsControl" Button.Click="ButtonClick">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <WrapPanel  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <UniformGrid Columns="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>

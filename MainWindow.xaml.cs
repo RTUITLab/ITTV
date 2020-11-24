@@ -20,7 +20,9 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
     using Microsoft.Kinect;
     using Microsoft.Kinect.Wpf.Controls;
     using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
+    using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
     using Microsoft.Samples.Kinect.DiscreteGestureBasics;
+    using static Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models.DataBase;
 
     /// <summary>
     /// Interaction logic for MainWindow
@@ -56,8 +58,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             this.InitializeComponent();
 
             if (!adminMode) {
-                AppDomain.CurrentDomain.ProcessExit += (e, s) => { Process.Start("ControlsBasics-WPF.exe"); };
-                AppDomain.CurrentDomain.UnhandledException += (e, s) => { Process.Start("ControlsBasics-WPF.exe"); App.Current.Shutdown(); };
+                AppDomain.CurrentDomain.ProcessExit += (e, s) => {
+                    NewsUpdateThread.StopUpdating();
+                    Process.Start("ControlsBasics-WPF.exe"); 
+                };
+                AppDomain.CurrentDomain.UnhandledException += (e, s) => {
+                    NewsUpdateThread.StopUpdating();
+                    Process.Start("ControlsBasics-WPF.exe"); App.Current.Shutdown(); 
+                };
             }
 
             instance = this;
@@ -69,8 +77,11 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             CreateData.GetAllVideos();
             CreateData.GetBackgroundVideos();
             CreateData.GetNewsFromSite();
+            CreateData.GetNewsFromFile();
             CreateData.GetGames();
             CreateData.GetAllTimetable();
+
+            NewsUpdateThread.StartUpdating();
 
             KinectRegion.SetKinectRegion(this, kinectRegion);
 
@@ -83,10 +94,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             this.kinectRegion.KinectSensor = KinectSensor.GetDefault();
 
             //// Add in display content
-            var sampleDataSource = SampleDataSource.GetGroup("Menu");
+            var localDataSource = DataSource.GetGroup("Menu");
             history.Add("Menu");
-            this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(sampleDataSource.TypeGroup + "Template");
-            this.itemsControl.ItemsSource = sampleDataSource;
+            this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(localDataSource.TypeGroup + "Template");
+            this.itemsControl.ItemsSource = localDataSource;
 
             // Open a Main video when nowbody use system
             BodyFrameReader bodyFrameReader = this.kinectRegion.KinectSensor.BodyFrameSource.OpenReader();
@@ -243,48 +254,60 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         {
             UIInvoked();
             var button = (Button)e.OriginalSource;
-            SampleDataItem sampleDataItem = button.DataContext as SampleDataItem;
+            DataBase dataBase = button.DataContext as DataBase;
 
-            if (sampleDataItem != null)
+            if (dataBase != null)
             {
-                if (sampleDataItem.Task == SampleDataItem.TaskType.Page && sampleDataItem.NavigationPage != null)
+                if (dataBase.Title == "Видео")
                 {
-                    if (sampleDataItem.Title == "Новости")
-                    {
-                        CreateData.GetNewsFromSite();
-                    }
-                    else if (sampleDataItem.Title == "Видео")
-                    {
-                        CreateData.GetAllVideos();
-                    }
-                    else if (sampleDataItem.Title == "Игры")
-                    {
-                        CreateData.GetGames();
-                    }
-                    else if (sampleDataItem.Title == "Расписание")
-                    {
-                        CreateData.GetAllTimetable();
-                    }
-
-                    history.Add(sampleDataItem.UniqueId);
-                    backButton.Visibility = System.Windows.Visibility.Visible;
-                    navigationRegion.Content = Activator.CreateInstance(sampleDataItem.NavigationPage, sampleDataItem.Parametrs);
+                    CreateData.GetAllVideos();
                 }
-                if (sampleDataItem.Task == SampleDataItem.TaskType.ChangeGroup && sampleDataItem.NewGroup != null)
+                else if (dataBase.Title == "Игры")
                 {
-                    history.Add(sampleDataItem.NewGroup);
-                    backButton.Visibility = System.Windows.Visibility.Visible;
-                    var type = SampleDataSource.GetGroup(sampleDataItem.NewGroup).TypeGroup;
-                    this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(type + "Template");
-                    this.itemsControl.ItemsSource = SampleDataSource.GetGroup(sampleDataItem.NewGroup);
+                    CreateData.GetGames();
                 }
-                if (sampleDataItem.Task == SampleDataItem.TaskType.Execute && sampleDataItem.Parametrs != null)
+                else if (dataBase.Title == "Расписание")
                 {
-                    Process.Start((string)sampleDataItem.Parametrs[0]);
+                    CreateData.GetAllTimetable();
+                }
 
-                    ButtonAutomationPeer peer = new ButtonAutomationPeer(backButton);
-                    IInvokeProvider invokeProv = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
-                    invokeProv.Invoke();
+                if (dataBase is DataPageBase)
+                {
+                    DataPageBase dataPageBase = (DataPageBase)dataBase;
+
+                    if (dataPageBase.NavigationPage != null)
+                    {
+                        history.Add(dataPageBase.UniqueId);
+                        backButton.Visibility = System.Windows.Visibility.Visible;
+                        navigationRegion.Content = Activator.CreateInstance(dataPageBase.NavigationPage, dataPageBase.Parametrs);
+                    }
+                }
+                if (dataBase is DataGroupBase) 
+                {
+                    DataGroupBase dataGroupBase = (DataGroupBase)dataBase;
+
+                    if (dataGroupBase.NewGroup != null)
+                    {
+                        history.Add(dataGroupBase.NewGroup);
+                        backButton.Visibility = Visibility.Visible;
+                        scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                        var type = DataSource.GetGroup(dataGroupBase.NewGroup).TypeGroup;
+                        itemsControl.ItemTemplate = (DataTemplate)FindResource(type + "Template");
+                        itemsControl.ItemsSource = DataSource.GetGroup(dataGroupBase.NewGroup);
+                    }
+                }
+                if (dataBase is DataExecuteBase) 
+                {
+                    DataExecuteBase dataExecuteBase = (DataExecuteBase)dataBase;
+
+                    if (dataExecuteBase.Parametrs != null)
+                    {
+                        Process.Start(dataExecuteBase.Parametrs[0]);
+
+                        ButtonAutomationPeer peer = new ButtonAutomationPeer(backButton);
+                        IInvokeProvider invokeProv = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
+                        invokeProv.Invoke();
+                    }
                 }
             }
             else
@@ -321,24 +344,34 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             //{
             UIInvoked();
             history.RemoveAt(history.Count - 1);
-            SampleDataItem sampleDataItem = SampleDataSource.GetItem(history[history.Count - 1]);
+            DataBase dataBase = DataSource.GetItem(history[history.Count - 1]) as DataBase;
 
-            if (sampleDataItem == null)
+            if (dataBase == null)
             {
                 navigationRegion.Content = this.kinectRegionGrid;
-                var type = SampleDataSource.GetGroup(history.Last()).TypeGroup;
+                var type = DataSource.GetGroup(history.Last()).TypeGroup;
                 this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(type + "Template");
-                this.itemsControl.ItemsSource = SampleDataSource.GetGroup(history[history.Count - 1]);
+                this.itemsControl.ItemsSource = DataSource.GetGroup(history[history.Count - 1]);
             }
-            else if (sampleDataItem.Task == SampleDataItem.TaskType.Page && sampleDataItem.NavigationPage != null)
+            else if (dataBase is DataPageBase)
             {
-                navigationRegion.Content = Activator.CreateInstance(sampleDataItem.NavigationPage, sampleDataItem.Parametrs);
+                DataPageBase dataPageBase = (DataPageBase)dataBase;
+
+                if (dataPageBase.NavigationPage != null)
+                {
+                    navigationRegion.Content = Activator.CreateInstance(dataPageBase.NavigationPage, dataPageBase.Parametrs);
+                }
             }
-            else if (sampleDataItem.Task == SampleDataItem.TaskType.ChangeGroup && sampleDataItem.NewGroup != null)
+            else if (dataBase is DataGroupBase)
             {
-                var type_b = SampleDataSource.GetGroup(history[history.Count - 1]).TypeGroup;
-                this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(type_b + "Template");
-                this.itemsControl.ItemsSource = SampleDataSource.GetGroup(sampleDataItem.NewGroup);
+                DataGroupBase dataGroupBase = (DataGroupBase)dataBase;
+
+                if (dataGroupBase.NewGroup != null)
+                {
+                    var type_b = DataSource.GetGroup(history[history.Count - 1]).TypeGroup;
+                    this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(type_b + "Template");
+                    this.itemsControl.ItemsSource = DataSource.GetGroup(dataGroupBase.NewGroup);
+                }
             }
             if (history[history.Count - 1] == "Menu")
             {
@@ -434,8 +467,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
         public BackgroundVideoPlaylist()
         {
-            SampleDataCollection test = SampleDataSource.GetGroup("Video-Background");
-            foreach (var video in test.Items)
+            DataCollection<object> test = DataSource.GetGroup("Video-Background");
+            foreach (Video video in test.Items)
             {
                 playlist.Add(new Uri(video.Parametrs[0].ToString()));
             }

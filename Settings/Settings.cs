@@ -33,5 +33,13 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Settings
                 return int.Parse(JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("Settings/settings.json"))["volume"]);
             }
         }
+
+        public static int MinForUpdate
+        {
+            get
+            {
+                return int.Parse(JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("Settings/settings.json"))["MinForUpdate"]);
+            }
+        }
     }
 }

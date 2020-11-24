@@ -74,15 +74,25 @@
     <Compile Include="Common\BindableBase.cs" />
     <Compile Include="DataModel\CreateData.cs" />
     <Compile Include="DataModel\HandOverHelper.cs" />
-    <Compile Include="DataModel\SampleDataSource.cs" />
+    <Compile Include="DataModel\Models\DataBase.cs" />
+    <Compile Include="DataModel\Models\DataCollection.cs" />
+    <Compile Include="DataModel\Models\DataExecuteBase.cs" />
+    <Compile Include="DataModel\Models\DataGroupBase.cs" />
+    <Compile Include="DataModel\Models\DataPageBase.cs" />
+    <Compile Include="DataModel\Models\DataSource.cs" />
+    <Compile Include="DataModel\Models\Game.cs" />
+    <Compile Include="DataModel\Models\News.cs" />
+    <Compile Include="DataModel\Models\Page.cs" />
+    <Compile Include="DataModel\Models\Video.cs" />
+    <Compile Include="DataModel\NewsUpdateThread.cs" />
     <Compile Include="GestureDetector.cs" />
     <Compile Include="HandPointers\HandInScreenEngagementModel.cs" />
     <Compile Include="Pages\Courses.xaml.cs">
       <DependentUpon>Courses.xaml</DependentUpon>
     </Compile>
     <Compile Include="HandPointers\HandOverHeadEngagementModel.cs" />
-    <Compile Include="Pages\News.xaml.cs">
-      <DependentUpon>News.xaml</DependentUpon>
+    <Compile Include="Pages\NewsPage.xaml.cs">
+      <DependentUpon>NewsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\VideoList.xaml.cs">
       <DependentUpon>VideoList.xaml</DependentUpon>
@@ -124,7 +134,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\News.xaml">
+    <Page Include="Pages\NewsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,6 +220,7 @@
     <Resource Include="Images\Gerb.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Settings\news.json" />
     <None Include="Settings\settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
