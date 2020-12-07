@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
+using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
 {
@@ -25,19 +26,19 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
         {
             InitializeComponent();
 
-            this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(SampleDataSource.GetGroup("Video").TypeGroup + "Template");
-            this.itemsControl.ItemsSource = SampleDataSource.GetGroup("Video");
+            this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(DataSource.GetGroup("Video").TypeGroup + "Template");
+            this.itemsControl.ItemsSource = DataSource.GetGroup("Video");
         }
 
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
 
             var button = (Button)e.OriginalSource;
-            SampleDataItem sampleDataItem = button.DataContext as SampleDataItem;
+            Video sampleDataItem = button.DataContext as Video;
 
             if (sampleDataItem != null)
             {
-                if (sampleDataItem.Task == SampleDataItem.TaskType.Page && sampleDataItem.NavigationPage != null)
+                if (sampleDataItem.Task == DataBase.TaskType.Page && sampleDataItem.NavigationPage != null)
                 {
                     MainWindow.history.Add(sampleDataItem.UniqueId);
                     MainWindow.var_navigationRegion.Content = Activator.CreateInstance(sampleDataItem.NavigationPage, sampleDataItem.Parametrs);

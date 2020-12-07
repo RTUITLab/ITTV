@@ -28,7 +28,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
 
             Uri uri = new Uri(VideoSource, UriKind.Relative);
             Video.Source = uri;
-            Video.Volume = 100;
+            Video.Volume = Settings.Settings.Volume;
             Video.Play();
             Video.MediaOpened += (s, a) => MainWindow.UIInvoked(DateTime.Now  + Video.NaturalDuration.TimeSpan);
         }

@@ -10,12 +10,11 @@
         mc:Ignorable="d"
         d:DesignWidth="1200"
         d:DesignHeight="700"
-        MinWidth="500"
-        MinHeight="700"
+        Width="1280"
+        Height="720"
         FontFamily="Segoe UI"
         WindowState="Maximized"
-        WindowStyle="None" Cursor="None"
-        >
+        WindowStyle="None" Cursor="None">
     
     <k:KinectRegion x:Name="kinectRegion">
         <Grid>
@@ -24,8 +23,10 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Image x:Name="BackgroungImage" Grid.RowSpan="2" Panel.ZIndex="3" Source="/Images/Gerb.png" Width="1920" Height="1088"/>
-            <MediaElement x:Name="BackgroungVideo" Grid.RowSpan="2" Panel.ZIndex="1" LoadedBehavior="Manual" UnloadedBehavior="Manual" Volume="1" Width="1920" Height="1088"/>
+            <Image x:Name="BackgroungImage" Grid.RowSpan="2" Panel.ZIndex="3" Source="/Images/Gerb.png" Stretch="Fill" Visibility="Hidden"/>
+            <MediaElement x:Name="EggVideo" Grid.RowSpan="2" Panel.ZIndex="3" LoadedBehavior="Manual" UnloadedBehavior="Manual" Stretch="Fill" Visibility="Hidden"/>
+            <MediaElement x:Name="BackgroungVideo" Grid.RowSpan="2" Panel.ZIndex="1" LoadedBehavior="Manual" UnloadedBehavior="Manual" Stretch="Fill" Visibility="Hidden"/>
+            
             <Button Panel.ZIndex="2" x:Name="MenuButton" Grid.RowSpan="2" Width="400" Height="150" Visibility="Collapsed" Click="MenuButton_Click" Style="{StaticResource KinectTileButton}">
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}" Width="400" Height="150">
                     <TextBlock Text="Нажмите, чтобы начать работу" HorizontalAlignment="Center" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
@@ -42,7 +43,7 @@
                         <ItemsControl Grid.Row="0" Name="itemsControl" Button.Click="ButtonClick">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <WrapPanel  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <UniformGrid Columns="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
@@ -70,7 +71,7 @@
                     </Grid.RowDefinitions>
 
                     <k:KinectUserViewer Grid.Row="0" />
-                    <TextBlock Grid.Row="1" VerticalAlignment="Bottom" Foreground="{StaticResource MediumGreyBrush}" FontSize="18" Text="© RTU IT Lab 2019"/>
+                    <TextBlock Grid.Row="1" VerticalAlignment="Bottom" Foreground="{StaticResource MediumGreyBrush}" FontSize="18" Text="© RTU IT Lab 2020"/>
                 </Grid>
             </Grid>
         </Grid>

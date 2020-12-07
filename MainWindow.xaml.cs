@@ -9,6 +9,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
     using System.Threading;
     using System.Windows;
@@ -19,6 +20,9 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
     using Microsoft.Kinect;
     using Microsoft.Kinect.Wpf.Controls;
     using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
+    using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
+    using Microsoft.Samples.Kinect.DiscreteGestureBasics;
+    using static Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models.DataBase;
 
     /// <summary>
     /// Interaction logic for MainWindow
@@ -28,17 +32,22 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         public static List<string> history = new List<string>();
         public static ContentControl var_navigationRegion;
 
-        private static bool needCheckTime;
-        private bool adminMode = false;
+        private static bool needCheckTime = Settings.Settings.NeedCheckTime;
+        private static bool adminMode = Settings.Settings.IsAdmin;
+        private BackgroundVideoPlaylist backgroundVideoPlaylist;
 
         private static DateTime LastUIOperation;
         private static MainWindow instance = default;
         private static Timer timer;
         private static HandOverHelper handHelper;
+        /// <summary> Array for the bodies (Kinect will track up to 6 people simultaneously) </summary>
+        private Body[] bodies = null;
+        /// <summary> List of gesture detectors, there will be one detector created for each potential body (max of 6) </summary>
+        private List<GestureDetector> gestureDetectorList = new List<GestureDetector>();
+
         static MainWindow()
         {
             timer = new Timer(CheckPersonIsRemoved, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(100));
-            needCheckTime = bool.Parse(System.IO.File.ReadAllText("time.txt"));
         }
 
         /// <summary>
@@ -48,10 +57,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         {
             this.InitializeComponent();
 
-
-            AppDomain.CurrentDomain.ProcessExit += (e, s) => { Process.Start("ControlsBasics-WPF.exe"); };
-            AppDomain.CurrentDomain.UnhandledException += (e, s) => { Process.Start("ControlsBasics-WPF.exe"); App.Current.Shutdown(); };
-
+            if (!adminMode) {
+                AppDomain.CurrentDomain.ProcessExit += (e, s) => {
+                    NewsUpdateThread.StopUpdating();
+                    Process.Start("ControlsBasics-WPF.exe"); 
+                };
+                AppDomain.CurrentDomain.UnhandledException += (e, s) => {
+                    NewsUpdateThread.StopUpdating();
+                    Process.Start("ControlsBasics-WPF.exe"); App.Current.Shutdown(); 
+                };
+            }
 
             instance = this;
 
@@ -60,9 +75,13 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             var_navigationRegion = navigationRegion;
 
             CreateData.GetAllVideos();
+            CreateData.GetBackgroundVideos();
             CreateData.GetNewsFromSite();
+            CreateData.GetNewsFromFile();
             CreateData.GetGames();
             CreateData.GetAllTimetable();
+
+            NewsUpdateThread.StartUpdating();
 
             KinectRegion.SetKinectRegion(this, kinectRegion);
 
@@ -75,17 +94,17 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             this.kinectRegion.KinectSensor = KinectSensor.GetDefault();
 
             //// Add in display content
-            var sampleDataSource = SampleDataSource.GetGroup("Menu");
+            var localDataSource = DataSource.GetGroup("Menu");
             history.Add("Menu");
-            this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(sampleDataSource.TypeGroup + "Template");
-            this.itemsControl.ItemsSource = sampleDataSource;
+            this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(localDataSource.TypeGroup + "Template");
+            this.itemsControl.ItemsSource = localDataSource;
 
             // Open a Main video when nowbody use system
             BodyFrameReader bodyFrameReader = this.kinectRegion.KinectSensor.BodyFrameSource.OpenReader();
-
+            // set the BodyFramedArrived event notifier
+            bodyFrameReader.FrameArrived += this.Reader_BodyFrameArrived;
             handHelper.OnHoverStart += () =>
             {
-                Log("Lenya start 1");
                 try
                 {
                     UI(() =>
@@ -102,23 +121,109 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                     Log(ex.Message);
                     throw;
                 }
-
-                Log("Lenya start 2");
             };
 
-            handHelper.OnHoverKeyboardCheck += () =>
+            Cursor = adminMode ? Cursors.Arrow : Cursors.None;
+
+            backgroundVideoPlaylist = new BackgroundVideoPlaylist();
+
+            if (backgroundVideoPlaylist.currentVideo != null)
             {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.K) && !adminMode)
-                {
-                    adminMode = !adminMode;
-                    handHelper.adminMode = adminMode;
-                    Cursor = Cursors.Arrow;
-                }
-            };
+                BackgroungVideo.Source = backgroundVideoPlaylist.currentVideo;
+                BackgroungVideo.MediaEnded += BackgroungVideo_MediaEnded;
+                BackgroungVideo.Play();
+            }
 
-            BackgroungVideo.Source = new Uri(SampleDataSource.GetItem("Video-Main").Parametrs[0].ToString());
-            BackgroungVideo.MediaEnded += BackgroungVideo_MediaEnded;
-            BackgroungVideo.Play();
+            string GesturePath = $@"{AppDomain.CurrentDomain.BaseDirectory}\GesturesDatabase\KinectGesture.gbd";
+            if (File.Exists(GesturePath))
+            {
+                var eggVideoFile = $@"{AppDomain.CurrentDomain.BaseDirectory}\vgbtechs\kinectrequired.mp4";
+                if (File.Exists(eggVideoFile))
+                {
+                    EggVideo.Source = new Uri(eggVideoFile);
+                    EggVideo.Visibility = Visibility.Collapsed;
+                    EggVideo.MediaEnded += (s, e) =>
+                    {
+                        BackgroungVideo.Volume = Settings.Settings.Volume;
+                        EggVideo.Visibility = Visibility.Collapsed;
+                    };
+                }
+
+                int maxBodies = this.kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
+                for (int i = 0; i < maxBodies; ++i)
+                {
+                    GestureDetector detector = new GestureDetector(this.kinectRegion.KinectSensor);
+                    detector.OnGestureFired += Detector_OnGestureFired;
+                    this.gestureDetectorList.Add(detector);
+                }
+            }
+        }
+
+        private void Detector_OnGestureFired()
+        {
+            UI(() =>
+            {
+                BackgroungVideo.Volume = 0;
+                EggVideo.Visibility = Visibility.Visible;
+                EggVideo.Stop();
+                EggVideo.Play();
+            });
+        }
+
+        /// <summary>
+        /// Handles the body frame data arriving from the sensor and updates the associated gesture detector object for each body
+        /// </summary>
+        /// <param name="sender">object sending the event</param>
+        /// <param name="e">event arguments</param>
+        private void Reader_BodyFrameArrived(object sender, BodyFrameArrivedEventArgs e)
+        {
+            bool dataReceived = false;
+
+            using (BodyFrame bodyFrame = e.FrameReference.AcquireFrame())
+            {
+                if (bodyFrame != null)
+                {
+                    if (this.bodies == null)
+                    {
+                        // creates an array of 6 bodies, which is the max number of bodies that Kinect can track simultaneously
+                        this.bodies = new Body[bodyFrame.BodyCount];
+                    }
+
+                    // The first time GetAndRefreshBodyData is called, Kinect will allocate each Body in the array.
+                    // As long as those body objects are not disposed and not set to null in the array,
+                    // those body objects will be re-used.
+                    bodyFrame.GetAndRefreshBodyData(this.bodies);
+                    dataReceived = true;
+                }
+            }
+
+            if (dataReceived)
+            {
+                // we may have lost/acquired bodies, so update the corresponding gesture detectors
+                if (this.bodies != null)
+                {
+                    // loop through all bodies to see if any of the gesture detectors need to be updated
+                    int maxBodies = this.kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
+                    for (int i = 0; i < maxBodies; ++i)
+                    {
+                        Body body = this.bodies[i];
+                        ulong trackingId = body.TrackingId;
+
+                        // check that maxBodies is smaller than gestureDetectorList Count
+                        if (maxBodies < this.gestureDetectorList.Count) {
+                            // if the current body TrackingId changed, update the corresponding gesture detector with the new value
+                            if (trackingId != this.gestureDetectorList[i].TrackingId)
+                            {
+                                this.gestureDetectorList[i].TrackingId = trackingId;
+
+                                // if the current body is tracked, unpause its detector to get VisualGestureBuilderFrameArrived events
+                                // if the current body is not tracked, pause its detector so we don't waste resources trying to get invalid gesture results
+                                this.gestureDetectorList[i].IsPaused = trackingId == 0;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void CheckTime()
@@ -128,16 +233,17 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                 BackgroungImage.Visibility = Visibility.Visible;
                 BackgroungVideo.Volume = 0;
             }
-            else
+            else if (!EggVideo.IsVisible)
             {
                 BackgroungImage.Visibility = Visibility.Collapsed;
-                BackgroungVideo.Volume = 1;
+                BackgroungVideo.Volume = Settings.Settings.Volume;
             }
         }
 
         private void BackgroungVideo_MediaEnded(object sender, RoutedEventArgs e)
         {
             BackgroungVideo.Stop();
+            BackgroungVideo.Source = backgroundVideoPlaylist.nextVideo();
             BackgroungVideo.Play();
         }
 
@@ -151,47 +257,60 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         {
             UIInvoked();
             var button = (Button)e.OriginalSource;
-            SampleDataItem sampleDataItem = button.DataContext as SampleDataItem;
+            DataBase dataBase = button.DataContext as DataBase;
 
-            if (sampleDataItem != null)
+            if (dataBase != null)
             {
-                if (sampleDataItem.Task == SampleDataItem.TaskType.Page && sampleDataItem.NavigationPage != null)
+                if (dataBase.Title == "Видео")
                 {
-                    if (sampleDataItem.Title == "Новости")
-                    {
-                        CreateData.GetNewsFromSite();
-                    }
-                    else if (sampleDataItem.Title == "Видео")
-                    {
-                        CreateData.GetAllVideos();
-                    }
-                    else if (sampleDataItem.Title == "Игры")
-                    {
-                        CreateData.GetGames();
-                    } else if (sampleDataItem.Title == "Расписание")
-                    {
-                        CreateData.GetAllTimetable();
-                    }
-
-                    history.Add(sampleDataItem.UniqueId);
-                    backButton.Visibility = System.Windows.Visibility.Visible;
-                    navigationRegion.Content = Activator.CreateInstance(sampleDataItem.NavigationPage, sampleDataItem.Parametrs);
+                    CreateData.GetAllVideos();
                 }
-                if (sampleDataItem.Task == SampleDataItem.TaskType.ChangeGroup && sampleDataItem.NewGroup != null)
+                else if (dataBase.Title == "Игры")
                 {
-                    history.Add(sampleDataItem.NewGroup);
-                    backButton.Visibility = System.Windows.Visibility.Visible;
-                    var type = SampleDataSource.GetGroup(sampleDataItem.NewGroup).TypeGroup;
-                    this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(type + "Template");
-                    this.itemsControl.ItemsSource = SampleDataSource.GetGroup(sampleDataItem.NewGroup);
+                    CreateData.GetGames();
                 }
-                if (sampleDataItem.Task == SampleDataItem.TaskType.Execute && sampleDataItem.Parametrs != null)
+                else if (dataBase.Title == "Расписание")
                 {
-                    Process.Start((string)sampleDataItem.Parametrs[0]);
+                    CreateData.GetAllTimetable();
+                }
 
-                    ButtonAutomationPeer peer = new ButtonAutomationPeer(backButton);
-                    IInvokeProvider invokeProv = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
-                    invokeProv.Invoke();
+                if (dataBase is DataPageBase)
+                {
+                    DataPageBase dataPageBase = (DataPageBase)dataBase;
+
+                    if (dataPageBase.NavigationPage != null)
+                    {
+                        history.Add(dataPageBase.UniqueId);
+                        backButton.Visibility = Visibility.Visible;
+                        navigationRegion.Content = Activator.CreateInstance(dataPageBase.NavigationPage, dataPageBase.Parametrs);
+                    }
+                }
+                if (dataBase is DataGroupBase) 
+                {
+                    DataGroupBase dataGroupBase = (DataGroupBase)dataBase;
+
+                    if (dataGroupBase.NewGroup != null)
+                    {
+                        history.Add(dataGroupBase.NewGroup);
+                        backButton.Visibility = Visibility.Visible;
+                        scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                        var type = DataSource.GetGroup(dataGroupBase.NewGroup).TypeGroup;
+                        itemsControl.ItemTemplate = (DataTemplate)FindResource(type + "Template");
+                        itemsControl.ItemsSource = DataSource.GetGroup(dataGroupBase.NewGroup);
+                    }
+                }
+                if (dataBase is DataExecuteBase) 
+                {
+                    DataExecuteBase dataExecuteBase = (DataExecuteBase)dataBase;
+
+                    if (dataExecuteBase.Parametrs != null)
+                    {
+                        Process.Start(dataExecuteBase.Parametrs[0]);
+
+                        ButtonAutomationPeer peer = new ButtonAutomationPeer(backButton);
+                        IInvokeProvider invokeProv = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
+                        invokeProv.Invoke();
+                    }
                 }
             }
             else
@@ -228,29 +347,40 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             //{
             UIInvoked();
             history.RemoveAt(history.Count - 1);
-            SampleDataItem sampleDataItem = SampleDataSource.GetItem(history[history.Count - 1]);
+            DataBase dataBase = DataSource.GetItem(history[history.Count - 1]) as DataBase;
 
-            if (sampleDataItem == null)
+            if (dataBase == null)
             {
                 navigationRegion.Content = this.kinectRegionGrid;
-                var type = SampleDataSource.GetGroup(history.Last()).TypeGroup;
+                var type = DataSource.GetGroup(history.Last()).TypeGroup;
                 this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(type + "Template");
-                this.itemsControl.ItemsSource = SampleDataSource.GetGroup(history[history.Count - 1]);
+                this.itemsControl.ItemsSource = DataSource.GetGroup(history[history.Count - 1]);
             }
-            else if (sampleDataItem.Task == SampleDataItem.TaskType.Page && sampleDataItem.NavigationPage != null)
+            else if (dataBase is DataPageBase)
             {
-                navigationRegion.Content = Activator.CreateInstance(sampleDataItem.NavigationPage, sampleDataItem.Parametrs);
+                DataPageBase dataPageBase = (DataPageBase)dataBase;
+
+                if (dataPageBase.NavigationPage != null)
+                {
+                    navigationRegion.Content = Activator.CreateInstance(dataPageBase.NavigationPage, dataPageBase.Parametrs);
+                }
             }
-            else if (sampleDataItem.Task == SampleDataItem.TaskType.ChangeGroup && sampleDataItem.NewGroup != null)
+            else if (dataBase is DataGroupBase)
             {
-                var type_b = SampleDataSource.GetGroup(history[history.Count - 1]).TypeGroup;
-                this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(type_b + "Template");
-                this.itemsControl.ItemsSource = SampleDataSource.GetGroup(sampleDataItem.NewGroup);
+                DataGroupBase dataGroupBase = (DataGroupBase)dataBase;
+
+                if (dataGroupBase.NewGroup != null)
+                {
+                    var type_b = DataSource.GetGroup(history[history.Count - 1]).TypeGroup;
+                    this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(type_b + "Template");
+                    this.itemsControl.ItemsSource = DataSource.GetGroup(dataGroupBase.NewGroup);
+                }
             }
             if (history[history.Count - 1] == "Menu")
             {
                 backButton.Visibility = System.Windows.Visibility.Hidden;
             }
+
             //}
         }
 
@@ -295,7 +425,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                             instance.MenuButton.Visibility = Visibility.Collapsed;
                         }
                     });
-                } 
+                }
             }
             catch (Exception)
             {
@@ -328,5 +458,41 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         {
             UIInvoked();
         }
+    }
+
+
+    public class BackgroundVideoPlaylist
+    {
+
+        private int currentIndex = 0;
+        private List<Uri> playlist = new List<Uri>();
+
+        public Uri currentVideo;
+
+        public BackgroundVideoPlaylist()
+        {
+            DataCollection<object> test = DataSource.GetGroup("Video-Background");
+            foreach (Video video in test.Items)
+            {
+                playlist.Add(new Uri(video.Parametrs[0].ToString()));
+            }
+            if (playlist.Count > 0)
+                currentVideo = playlist.First();
+        }
+
+
+
+        public Uri nextVideo()
+        {
+            if (playlist.Count > currentIndex + 1)
+                currentIndex++;
+            else
+                currentIndex = 0;
+
+            currentVideo = playlist[currentIndex];
+
+            return currentVideo;
+        }
+
     }
 }
