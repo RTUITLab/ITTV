@@ -10,6 +10,26 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Settings
 {
     class Settings
     {
+        static Settings(){
+            string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Settings\";
+
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
+            string settingsFullPath = fullPath + "settings.json";
+            if (!File.Exists(settingsFullPath))
+            {
+                using (StreamWriter sw = File.CreateText(settingsFullPath))
+                {
+                    sw.WriteLine("{\n\t\"time\": \"false\",\n\t\"admin\": \"true\",\n\t\"volume\": 0,\n\t\"MinForUpdate\":  5\n}");
+                }
+            }
+
+            string newsFullPath = fullPath + "news.json";
+            if (!File.Exists(newsFullPath))
+                File.Create(newsFullPath);
+        }
+
         public static bool NeedCheckTime
         {
             get

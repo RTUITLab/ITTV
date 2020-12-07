@@ -13,7 +13,7 @@
         Width="1280"
         Height="720"
         FontFamily="Segoe UI"
-        WindowState="Normal"
+        WindowState="Maximized"
         WindowStyle="None" Cursor="None">
     
     <k:KinectRegion x:Name="kinectRegion">

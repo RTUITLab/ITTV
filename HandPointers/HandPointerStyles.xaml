@@ -100,9 +100,9 @@
     </DataTemplate>
 
     <DataTemplate x:Key="MenuTemplate">
-        <Button Margin="15" Style="{StaticResource KinectTileButton}">
+        <Button Margin="15" HorizontalAlignment="Stretch" Style="{StaticResource KinectTileButton}">
             <Border>
-                <Grid Width="850" Height="350" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
                         <TextBlock Text="{Binding Title}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" FontSize="45" HorizontalAlignment="Center" Margin="0 0 0 15"/>
                         <TextBlock Text="{Binding Subtitle}" Foreground="{StaticResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap" HorizontalAlignment="Center"/>
@@ -113,9 +113,9 @@
     </DataTemplate>
 
     <DataTemplate x:Key="CoursesTemplate">
-        <Button Margin="15" Style="{StaticResource KinectTileButton}">
+        <Button Margin="15" HorizontalAlignment="Stretch" Style="{StaticResource KinectTileButton}">
             <Border>
-                <Grid Width="850" Height="250" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
                         <TextBlock Text="{Binding Title}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" FontSize="45" HorizontalAlignment="Center" Margin="0 0 0 15"/>
                         <TextBlock Text="{Binding Subtitle}" Foreground="{StaticResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap" HorizontalAlignment="Center"/>
@@ -126,11 +126,11 @@
     </DataTemplate>
 
     <DataTemplate x:Key="NewsTemplate">
-        <Button Margin="15" Style="{StaticResource KinectTileButton}">
+        <Button Margin="15" Width="700" Style="{StaticResource KinectTileButton}">
             <Border>
-                <Grid Width="600" Height="600" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
-                        <Image x:Name="NewsImage" Source="{Binding Source}" Stretch="UniformToFill"  Margin="15"/>
+                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                    <StackPanel Margin="15" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <Image x:Name="NewsImage" Source="{Binding Source}" Height="300" Stretch="Uniform"  Margin="15"/>
                         <TextBlock Text="{Binding Title}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" FontSize="30" Margin="15 0" HorizontalAlignment="Left"/>
                     </StackPanel>
                 </Grid>
@@ -139,12 +139,12 @@
     </DataTemplate>
 
     <DataTemplate x:Key="VideoTemplate">
-        <Button Margin="15" Style="{StaticResource KinectTileButton}">
+        <Button Margin="15" Width="700" HorizontalAlignment="Stretch" Style="{StaticResource KinectTileButton}">
             <Border>
-                <Grid Width="600" Height="350" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
-                        <Image x:Name="Image" Source="{Binding SampleDataItem.Source}" Stretch="UniformToFill"  Margin="0 0 0 15"/>
-                        <TextBlock Text="{Binding Title}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" FontSize="45" Margin="15 0"/>
+                        <MediaElement Source="{Binding Source}" Volume="0"/>
+                        <TextBlock Text="{Binding Title}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" FontSize="45" Margin="15 5 15 5"/>
                     </StackPanel>
                 </Grid>
             </Border>

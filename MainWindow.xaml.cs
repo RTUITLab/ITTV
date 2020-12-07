@@ -209,14 +209,17 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                         Body body = this.bodies[i];
                         ulong trackingId = body.TrackingId;
 
-                        // if the current body TrackingId changed, update the corresponding gesture detector with the new value
-                        if (trackingId != this.gestureDetectorList[i].TrackingId)
-                        {
-                            this.gestureDetectorList[i].TrackingId = trackingId;
+                        // check that maxBodies is smaller than gestureDetectorList Count
+                        if (maxBodies < this.gestureDetectorList.Count) {
+                            // if the current body TrackingId changed, update the corresponding gesture detector with the new value
+                            if (trackingId != this.gestureDetectorList[i].TrackingId)
+                            {
+                                this.gestureDetectorList[i].TrackingId = trackingId;
 
-                            // if the current body is tracked, unpause its detector to get VisualGestureBuilderFrameArrived events
-                            // if the current body is not tracked, pause its detector so we don't waste resources trying to get invalid gesture results
-                            this.gestureDetectorList[i].IsPaused = trackingId == 0;
+                                // if the current body is tracked, unpause its detector to get VisualGestureBuilderFrameArrived events
+                                // if the current body is not tracked, pause its detector so we don't waste resources trying to get invalid gesture results
+                                this.gestureDetectorList[i].IsPaused = trackingId == 0;
+                            }
                         }
                     }
                 }
@@ -278,7 +281,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                     if (dataPageBase.NavigationPage != null)
                     {
                         history.Add(dataPageBase.UniqueId);
-                        backButton.Visibility = System.Windows.Visibility.Visible;
+                        backButton.Visibility = Visibility.Visible;
                         navigationRegion.Content = Activator.CreateInstance(dataPageBase.NavigationPage, dataPageBase.Parametrs);
                     }
                 }

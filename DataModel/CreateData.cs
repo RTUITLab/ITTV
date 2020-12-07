@@ -94,7 +94,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
                     "Video-" + i.ToString(),
                     Path.GetFileNameWithoutExtension(video),
                     typeof(VideoPage),
-                    StringToArr(video)));
+                    StringToArr(video),
+                    video));
 
                 i++;
             }
@@ -124,7 +125,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
                    "Video-" + i.ToString(),
                    Path.GetFileNameWithoutExtension(video),
                    typeof(VideoPage),
-                   StringToArr(video)));
+                   StringToArr(video),
+                   ""));
 
                 i++;
             }
