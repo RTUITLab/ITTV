@@ -380,6 +380,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             {
                 backButton.Visibility = System.Windows.Visibility.Hidden;
             }
+
             //}
         }
 
