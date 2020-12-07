@@ -1,7 +1,16 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Samples.Kinect.ControlsBasics.Pages;
+using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
 using HtmlAgilityPack;
+using static Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models.DataBase;
+using static Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models.DataSource;
+using System.Collections.Generic;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
+using System.Linq;
+using System.Net;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 {
@@ -17,10 +26,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             Console.WriteLine(fullPath);
             string[] AllFiles = Directory.GetFiles(fullPath);
 
-            SampleDataCollection course_group = new SampleDataCollection(
+            DataCollection<object> course_group = new DataCollection<object>(
                 "Courses",
                 "Расписание",
-                SampleDataCollection.GroupType.Courses);
+                DataCollection<object>.GroupType.Courses);
 
             int i = 0;
             string name;
@@ -50,17 +59,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
                         name = "";
                         break;
                 }
-                course_group.Items.Add(new SampleDataItem(
+                course_group.Items.Add(new Page(
                 "Course-" + i.ToString(),
                 name,
-                SampleDataItem.TaskType.Page,
                 typeof(ScrollViewerSample),
-                SampleDataSource.StringToArr(image)));
+                StringToArr(image)));
 
                 i++;
             }
 
-            SampleDataSource.AddToGroups(course_group);
+            AddToGroups(course_group);
 
         }
 
@@ -74,26 +82,25 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
             string[] AllFiles = Directory.GetFiles(fullPath);
 
-            SampleDataCollection video_group = new SampleDataCollection(
+            DataCollection<object> video_group = new DataCollection<object>(
                 "Video",
                 "Видео",
-                SampleDataCollection.GroupType.Video);
+                DataCollection<object>.GroupType.Video);
 
             int i = 0;
             foreach (var video in AllFiles)
             {
-                video_group.Items.Add(new SampleDataItem(
+                video_group.Items.Add(new Video(
                     "Video-" + i.ToString(),
                     Path.GetFileNameWithoutExtension(video),
-                    string.Empty,
-                    SampleDataItem.TaskType.Page,
                     typeof(VideoPage),
-                    SampleDataSource.StringToArr(video)));
+                    StringToArr(video),
+                    video));
 
                 i++;
             }
 
-            SampleDataSource.AddToGroups(video_group);
+            AddToGroups(video_group);
         }
 
         public static void GetBackgroundVideos()
@@ -106,26 +113,25 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
             string[] AllFiles = Directory.GetFiles(fullPath);
 
-            SampleDataCollection video_group = new SampleDataCollection(
+            DataCollection<object> video_group = new DataCollection<object>(
                 "Video-Background",
                 "Видео на фоне",
-                SampleDataCollection.GroupType.Video);
+                DataCollection<object>.GroupType.Video);
 
             int i = 0;
             foreach (var video in AllFiles)
             {
-                video_group.Items.Add(new SampleDataItem(
+                video_group.Items.Add(new Video(
                    "Video-" + i.ToString(),
                    Path.GetFileNameWithoutExtension(video),
-                   string.Empty,
-                   SampleDataItem.TaskType.Page,
                    typeof(VideoPage),
-                   SampleDataSource.StringToArr(video)));
+                   StringToArr(video),
+                   ""));
 
                 i++;
             }
 
-            SampleDataSource.AddToGroups(video_group);
+            AddToGroups(video_group);
         }
 
         public static void GetNewsFromSite()
@@ -133,43 +139,64 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             try
             {
                 string URI = "https://www.mirea.ru/news/";
-
-                SampleDataCollection news_group = new SampleDataCollection(
-                    "News",
-                    "Новости",
-                    SampleDataCollection.GroupType.News);
+                List<News> news_list = new List<News>();
 
                 HtmlWeb web = new HtmlWeb();
                 var HtmlDoc = web.Load(URI);
-                var NewsList = HtmlDoc.DocumentNode.SelectSingleNode("//div[@id='page-wrapper']/div[2]/div/div[2]/div/div[2]/div[1]/div[1]").ChildNodes;
+                var NewsList = HtmlDoc.DocumentNode.SelectNodes("//div[contains(@id, 'bx')]");
 
                 int i = 0;
-                string name;
-                string source;
-                string news_page;
-                foreach (var News in NewsList)
+                foreach (var news in NewsList.Take(10))
                 {
-                    if (News.Name == "div")
+                    if (news.Name == "div")
                     {
-                        name = News.SelectSingleNode(".//a[@class='uk-link-reset']").InnerText.Trim();
-                        source = "https://www.mirea.ru/" + News.SelectSingleNode(".//img[@class='uk-transition-scale-up uk-transition-opaque']").Attributes["src"].Value;
-                        news_page = "https://www.mirea.ru/" + News.SelectSingleNode(".//a[@class='uk-link-reset']").Attributes["href"].Value;
+                        HtmlWeb web1 = new HtmlWeb();
+                        var HtmlDoc1 = web.Load("https://www.mirea.ru/" + news.SelectSingleNode(".//a[@class='uk-link-reset']").Attributes["href"].Value);
+                        var HtmlImagesList = HtmlDoc1.DocumentNode.SelectNodes("//a[@data-fancybox='gallery']");
 
-                        news_group.Items.Add(new SampleDataItem(
-                            "News-" + i.ToString(),
-                            name,
-                            source,
-                            SampleDataItem.TaskType.Page,
-                            typeof(News),
-                            news_page));
+                        string name = HtmlDoc1.DocumentNode.SelectSingleNode("//h1").InnerText.Trim();
+                        string content = HtmlDoc1.DocumentNode.SelectSingleNode("//div[@class='news-item-text uk-margin-bottom']").InnerText.Trim().Replace("&nbsp;", "");
+
+                        List<byte[]> images = new List<byte[]>();
+                        foreach (var HtmlImage in HtmlImagesList)
+                        {
+                            if (HtmlImage.Name == "a")
+                            {
+                                string ImagePath = "https://www.mirea.ru/" + HtmlImage.Attributes["href"].Value;
+                                WebClient webClient = new WebClient();
+                                byte[] data = webClient.DownloadData(ImagePath);
+                                images.Add(data);
+                            }
+                        }
+
+                        var temp = new News("News-" + i.ToString(), name, typeof(NewsPage), content, images);
+                        news_list.Add(temp);
                         i++;
                     }
 
                 }
-
-                SampleDataSource.AddToGroups(news_group);
+                string json = JsonConvert.SerializeObject(news_list);
+                File.WriteAllText("Settings/news.json", json);
             }
             catch (Exception) { MainWindow.Log("Нет доступа к сайту"); }
+        }
+
+        public static void GetNewsFromFile()
+        {
+            DataCollection<object> news_group = new DataCollection<object>(
+                    "News",
+                    "Новости",
+                    DataCollection<object>.GroupType.News);
+
+            string json = File.ReadAllText("Settings/news.json");
+            List<News> news_list = JsonConvert.DeserializeObject<List<News>>(json);
+
+            foreach (News news in news_list)
+            {
+                news_group.Items.Add(news);
+            }
+
+            AddToGroups(news_group);
         }
 
         public static void GetGames()
@@ -182,10 +209,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             string[] AllDir = Directory.GetDirectories(fullPath);
 
 
-            SampleDataCollection games_group = new SampleDataCollection(
+            DataCollection<object> games_group = new DataCollection<object>(
                     "Games",
                     "Игры",
-                    SampleDataCollection.GroupType.Video);
+                    DataCollection<object>.GroupType.Video);
 
             int i = 0;
             foreach (var Game in AllDir)
@@ -199,17 +226,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
                     }
                 }
 
-                games_group.Items.Add(new SampleDataItem(
+                games_group.Items.Add(new Game(
                     "Game-" + i.ToString(),
                     new DirectoryInfo(Game).Name,
-                    string.Empty,
-                    SampleDataItem.TaskType.Execute,
-                    typeof(VideoPage),
-                    SampleDataSource.StringToArr(filePath)));
+                    StringToArr(filePath)));
                 i++;
             }
 
-            SampleDataSource.AddToGroups(games_group);
+            AddToGroups(games_group);
         }
     }
 }

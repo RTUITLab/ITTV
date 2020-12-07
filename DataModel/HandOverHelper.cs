@@ -18,7 +18,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
         public event Action OnHoverKeyboardCheck;
         public event Action OnHoverEnd;
 
-        public bool adminMode;
+        public bool adminMode = Settings.Settings.IsAdmin;
 
         public HandOverHelper(KinectRegion kinectRegion, Dispatcher d)
         {

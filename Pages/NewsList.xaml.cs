@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
+using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
+using static Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models.DataBase;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
 {
@@ -25,23 +27,23 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
         {
             InitializeComponent();
 
-            SampleDataCollection sampleDataCollection = SampleDataSource.GetGroup("News");
-            this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(sampleDataCollection.TypeGroup + "Template");
-            this.itemsControl.ItemsSource = sampleDataCollection;
+            DataCollection<object> dataCollection = DataSource.GetGroup("News");
+            itemsControl.ItemTemplate = (DataTemplate)FindResource(dataCollection.TypeGroup + "Template");
+            itemsControl.ItemsSource = dataCollection;
         }
 
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
             MainWindow.UIInvoked();
             var button = (Button)e.OriginalSource;
-            SampleDataItem sampleDataItem = button.DataContext as SampleDataItem;
+            News dataItem = button.DataContext as News;
 
-            if (sampleDataItem != null)
+            if (dataItem != null)
             {
-                if (sampleDataItem.Task == SampleDataItem.TaskType.Page && sampleDataItem.NavigationPage != null)
+                if (dataItem.NavigationPage != null)
                 {
-                    MainWindow.history.Add(sampleDataItem.UniqueId);
-                    MainWindow.var_navigationRegion.Content = Activator.CreateInstance(sampleDataItem.NavigationPage, sampleDataItem.Parametrs);
+                    MainWindow.history.Add(dataItem.UniqueId);
+                    MainWindow.var_navigationRegion.Content = Activator.CreateInstance(dataItem.NavigationPage, dataItem);
                 }
             }
         }
