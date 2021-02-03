@@ -19,55 +19,47 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
     public class News : DataPageBase
     {
         private string content;
-        private List<byte[]> imageList;
+        private List<byte[]> byteImageList;
+        private List<BitmapImage> imageList;
 
         public News(string uniqueId, string title, Type navigationPage, string content, List<byte[]> images) : base(uniqueId, title, navigationPage, null) 
         {
             this.content = content;
-            this.ImageList = images;
+            this.byteImageList = images;
         }
 
         [JsonIgnore]
         public BitmapImage Source
         {
-            get { return ConvertToImage(ImageList)[0]; }
+            get { return ConvertByteToImage(byteImageList[0]); }
         }
         public string Content { get => content; }
-        public List<byte[]> ImageList { get => imageList; set => imageList = value; }
+        public List<byte[]> ByteImageList { get => byteImageList; set => byteImageList = value; }
 
-        public static List<byte[]> ConvertToArray(List<ImageSource> images)
+        [JsonIgnore]
+        public List<BitmapImage> ImageList { get { if (imageList == null) { imageList = ConvertBytesToImages(byteImageList); } return imageList; } }
+
+
+        private BitmapImage ConvertByteToImage (byte[] array)
         {
-            List<byte[]> bytes = new List<byte[]>();
-            foreach (BitmapSource image in images)
+            using (var ms = new MemoryStream(array))
             {
-                byte[] data;
-                JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(image));
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    encoder.Save(ms);
-                    data = ms.ToArray();
-                }
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = ms;
+                image.EndInit();
 
-                bytes.Add(data);
+                return image;
             }
-            return bytes;
         }
 
-        public static List<BitmapImage> ConvertToImage(List<byte[]> arrays)
+        private List<BitmapImage> ConvertBytesToImages(List<byte[]> arrays)
         {
             List<BitmapImage> images = new List<BitmapImage>();
             foreach (byte[] array in arrays)
             {
-                using (var ms = new MemoryStream(array))
-                {
-                    var image = new BitmapImage();
-                    image.BeginInit();
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.StreamSource = ms;
-                    image.EndInit();
-                    images.Add(image);
-                }
+                images.Add(ConvertByteToImage(array));
             }
             return images;
         }

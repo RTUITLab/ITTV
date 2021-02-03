@@ -100,8 +100,10 @@
     <Compile Include="DataModel\Models\Page.cs" />
     <Compile Include="DataModel\Models\Video.cs" />
     <Compile Include="DataModel\NewsUpdateThread.cs" />
+    <Compile Include="DataModel\Singleton.cs" />
     <Compile Include="GestureDetector.cs" />
     <Compile Include="HandPointers\HandInScreenEngagementModel.cs" />
+    <Compile Include="Network\NewsFromSite.cs" />
     <Compile Include="Pages\Courses.xaml.cs">
       <DependentUpon>Courses.xaml</DependentUpon>
     </Compile>
