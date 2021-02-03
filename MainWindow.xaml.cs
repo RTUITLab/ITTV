@@ -21,6 +21,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
     using Microsoft.Kinect.Wpf.Controls;
     using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
     using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
+    using Microsoft.Samples.Kinect.ControlsBasics.Network.NewsTasks;
     using Microsoft.Samples.Kinect.DiscreteGestureBasics;
     using static Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models.DataBase;
 
@@ -59,11 +60,11 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
             if (!adminMode) {
                 AppDomain.CurrentDomain.ProcessExit += (e, s) => {
-                    NewsUpdateThread.StopUpdating();
+                    NewsUpdateThread.Instance.StopUpdating();
                     Process.Start("ControlsBasics-WPF.exe"); 
                 };
                 AppDomain.CurrentDomain.UnhandledException += (e, s) => {
-                    NewsUpdateThread.StopUpdating();
+                    NewsUpdateThread.Instance.StopUpdating();
                     Process.Start("ControlsBasics-WPF.exe"); App.Current.Shutdown(); 
                 };
             }
@@ -74,14 +75,13 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
             var_navigationRegion = navigationRegion;
 
-            CreateData.GetAllVideos();
-            CreateData.GetBackgroundVideos();
-            CreateData.GetNewsFromSite();
-            CreateData.GetNewsFromFile();
-            CreateData.GetGames();
-            CreateData.GetAllTimetable();
+            CreateData.Instance.GetAllVideos();
+            CreateData.Instance.GetBackgroundVideos();
+            CreateData.Instance.GetNewsFromFile();
+            CreateData.Instance.GetGames();
+            CreateData.Instance.GetAllTimetable();
 
-            NewsUpdateThread.StartUpdating();
+            NewsUpdateThread.Instance.StartUpdating();
 
             KinectRegion.SetKinectRegion(this, kinectRegion);
 
@@ -263,15 +263,15 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             {
                 if (dataBase.Title == "Видео")
                 {
-                    CreateData.GetAllVideos();
+                    CreateData.Instance.GetAllVideos();
                 }
                 else if (dataBase.Title == "Игры")
                 {
-                    CreateData.GetGames();
+                    CreateData.Instance.GetGames();
                 }
                 else if (dataBase.Title == "Расписание")
                 {
-                    CreateData.GetAllTimetable();
+                    CreateData.Instance.GetAllTimetable();
                 }
 
                 if (dataBase is DataPageBase)
