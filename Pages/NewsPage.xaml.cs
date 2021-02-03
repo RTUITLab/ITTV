@@ -22,7 +22,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
             Left.Height = Left.Width;
             Right.Height = Right.Width;
 
-            ImageList = News.ConvertToImage(news.ImageList);
+            ImageList = news.ImageList;
 
             Title.Text = news.Title;
             Content.Text = news.Content;

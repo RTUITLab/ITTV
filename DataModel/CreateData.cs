@@ -11,12 +11,13 @@ using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Net;
+using Microsoft.Samples.Kinect.ControlsBasics.Network.NewsTasks;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 {
-    public class CreateData
+    public class CreateData : Singleton<CreateData>
     {
-        public static void GetAllTimetable()
+        public void GetAllTimetable()
         {
             string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"TimeTables\";
 
@@ -72,7 +73,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
         }
 
-        public static void GetAllVideos()
+        public void GetAllVideos()
         {
             string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Videos\";
 
@@ -103,7 +104,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             AddToGroups(video_group);
         }
 
-        public static void GetBackgroundVideos()
+        public void GetBackgroundVideos()
         {
             string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Videos\Background\";
 
@@ -134,54 +135,9 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             AddToGroups(video_group);
         }
 
-        public static void GetNewsFromSite()
-        {
-            try
-            {
-                string URI = "https://www.mirea.ru/news/";
-                List<News> news_list = new List<News>();
+        
 
-                HtmlWeb web = new HtmlWeb();
-                var HtmlDoc = web.Load(URI);
-                var NewsList = HtmlDoc.DocumentNode.SelectNodes("//div[contains(@id, 'bx')]");
-
-                int i = 0;
-                foreach (var news in NewsList.Take(10))
-                {
-                    if (news.Name == "div")
-                    {
-                        HtmlWeb web1 = new HtmlWeb();
-                        var HtmlDoc1 = web.Load("https://www.mirea.ru/" + news.SelectSingleNode(".//a[@class='uk-link-reset']").Attributes["href"].Value);
-                        var HtmlImagesList = HtmlDoc1.DocumentNode.SelectNodes("//a[@data-fancybox='gallery']");
-
-                        string name = HtmlDoc1.DocumentNode.SelectSingleNode("//h1").InnerText.Trim();
-                        string content = HtmlDoc1.DocumentNode.SelectSingleNode("//div[@class='news-item-text uk-margin-bottom']").InnerText.Trim().Replace("&nbsp;", "");
-
-                        List<byte[]> images = new List<byte[]>();
-                        foreach (var HtmlImage in HtmlImagesList)
-                        {
-                            if (HtmlImage.Name == "a")
-                            {
-                                string ImagePath = "https://www.mirea.ru/" + HtmlImage.Attributes["href"].Value;
-                                WebClient webClient = new WebClient();
-                                byte[] data = webClient.DownloadData(ImagePath);
-                                images.Add(data);
-                            }
-                        }
-
-                        var temp = new News("News-" + i.ToString(), name, typeof(NewsPage), content, images);
-                        news_list.Add(temp);
-                        i++;
-                    }
-
-                }
-                string json = JsonConvert.SerializeObject(news_list);
-                File.WriteAllText("Settings/news.json", json);
-            }
-            catch (Exception) { MainWindow.Log("Нет доступа к сайту"); }
-        }
-
-        public static void GetNewsFromFile()
+        public void GetNewsFromFile()
         {
             DataCollection<object> news_group = new DataCollection<object>(
                     "News",
@@ -191,6 +147,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             string json = File.ReadAllText("Settings/news.json");
             List<News> news_list = JsonConvert.DeserializeObject<List<News>>(json);
 
+            if (news_list == null)
+            {
+                NewsFromSite.Instance.GetNewsFromSite();
+
+                json = File.ReadAllText("Settings/news.json");
+                news_list = JsonConvert.DeserializeObject<List<News>>(json);
+            }
+
             foreach (News news in news_list)
             {
                 news_group.Items.Add(news);
@@ -199,7 +163,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             AddToGroups(news_group);
         }
 
-        public static void GetGames()
+        public void GetGames()
         {
             string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Games\";
 
