@@ -31,7 +31,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Images\Kinect.ico</ApplicationIcon>
+    <ApplicationIcon>Interface\Images\Kinect.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <OutputPath>$(BinDir)$(PlatformTarget).$(Configuration)\</OutputPath>
@@ -86,7 +86,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Common\BindableBase.cs" />
+    <Compile Include="Interface\Common\BindableBase.cs" />
     <Compile Include="DataModel\CreateData.cs" />
     <Compile Include="DataModel\HandOverHelper.cs" />
     <Compile Include="DataModel\Models\DataBase.cs" />
@@ -101,39 +101,46 @@
     <Compile Include="DataModel\Models\Video.cs" />
     <Compile Include="DataModel\NewsUpdateThread.cs" />
     <Compile Include="DataModel\Singleton.cs" />
-    <Compile Include="GestureDetector.cs" />
-    <Compile Include="HandPointers\HandInScreenEngagementModel.cs" />
+    <Compile Include="Interface\Common\GestureDetector.cs" />
+    <Compile Include="Interface\KinnectButtons\HandInScreenEngagementModel.cs" />
+    <Compile Include="Interface\Pages\FrameContainer.xaml.cs">
+      <DependentUpon>FrameContainer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Network\NewsFromSite.cs" />
-    <Compile Include="Pages\Courses.xaml.cs">
+    <Compile Include="Interface\Pages\Courses.xaml.cs">
       <DependentUpon>Courses.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HandPointers\HandOverHeadEngagementModel.cs" />
-    <Compile Include="Pages\NewsPage.xaml.cs">
+    <Compile Include="Interface\KinnectButtons\HandOverHeadEngagementModel.cs" />
+    <Compile Include="Interface\Pages\NewsPage.xaml.cs">
       <DependentUpon>NewsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\VideoList.xaml.cs">
+    <Compile Include="Interface\Pages\VideoList.xaml.cs">
       <DependentUpon>VideoList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\NewsList.xaml.cs">
+    <Compile Include="Interface\Pages\NewsList.xaml.cs">
       <DependentUpon>NewsList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ScrollViewerSample.xaml.cs">
+    <Compile Include="Interface\Pages\ScrollViewerSample.xaml.cs">
       <DependentUpon>ScrollViewerSample.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\VideoPage.xaml.cs">
+    <Compile Include="Interface\Pages\VideoPage.xaml.cs">
       <DependentUpon>VideoPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SelectionDisplay.xaml.cs">
+    <Compile Include="Interface\KinnectButtons\SelectionDisplay.xaml.cs">
       <DependentUpon>SelectionDisplay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\Settings.cs" />
-    <Page Include="Common\StandardStyles.xaml">
+    <Page Include="Interface\Common\StandardStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="HandPointers\HandPointerStyles.xaml">
+    <Page Include="Interface\KinnectButtons\HandPointerStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Pages\FrameContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -147,31 +154,31 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\Courses.xaml">
+    <Page Include="Interface\Pages\Courses.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\NewsPage.xaml">
+    <Page Include="Interface\Pages\NewsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\VideoList.xaml">
+    <Page Include="Interface\Pages\VideoList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\NewsList.xaml">
+    <Page Include="Interface\Pages\NewsList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\ScrollViewerSample.xaml">
+    <Page Include="Interface\Pages\ScrollViewerSample.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\VideoPage.xaml">
+    <Page Include="Interface\Pages\VideoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SelectionDisplay.xaml">
+    <Page Include="Interface\KinnectButtons\SelectionDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,19 +217,19 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Kinect.ico" />
+    <Resource Include="Interface\Images\Kinect.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="HandPointers\HighlightRectangle.png" />
+    <Resource Include="Interface\KinnectButtons\HighlightRectangle.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\ITlogo.png" />
+    <Resource Include="Interface\Images\ITlogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Play.png" />
+    <Resource Include="Interface\Images\Play.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Gerb.png" />
+    <Resource Include="Interface\Images\Gerb.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Settings\news.json" />

@@ -65,7 +65,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                 };
                 AppDomain.CurrentDomain.UnhandledException += (e, s) => {
                     NewsUpdateThread.Instance.StopUpdating();
-                    Process.Start("ControlsBasics-WPF.exe"); App.Current.Shutdown(); 
+                    Process.Start("ControlsBasics-WPF.exe");
+                    Application.Current.Shutdown(); 
                 };
             }
 
@@ -98,6 +99,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             history.Add("Menu");
             this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(localDataSource.TypeGroup + "Template");
             this.itemsControl.ItemsSource = localDataSource;
+            //this.itemsControl.MouseDown += ;
 
             // Open a Main video when nowbody use system
             BodyFrameReader bodyFrameReader = this.kinectRegion.KinectSensor.BodyFrameSource.OpenReader();
@@ -339,12 +341,6 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         /// <param name="e">Event arguments</param>
         private void GoBack(object sender, RoutedEventArgs e)
         {
-            //if (navigationRegion.Content != kinectRegionGrid)
-            //{
-            //    navigationRegion.Content = this.kinectRegionGrid;
-            //} 
-            //else
-            //{
             UIInvoked();
             history.RemoveAt(history.Count - 1);
             DataBase dataBase = DataSource.GetItem(history[history.Count - 1]) as DataBase;

@@ -12,12 +12,12 @@
             </Style>
             <ResourceDictionary.MergedDictionaries>
 
-                <ResourceDictionary Source="Common/StandardStyles.xaml"/>
+                <ResourceDictionary Source="Interface/Common/StandardStyles.xaml"/>
 
                 <!-- 
                     Styles that define look and feel of Kinect controls  
                 -->
-                <ResourceDictionary Source="HandPointers/HandPointerStyles.xaml"/>
+                <ResourceDictionary Source="Interface/KinnectButtons/HandPointerStyles.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

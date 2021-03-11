@@ -14,7 +14,8 @@
         Height="720"
         FontFamily="Segoe UI"
         WindowState="Maximized"
-        WindowStyle="None" Cursor="None">
+        WindowStyle="None" 
+        Cursor="None">
     
     <k:KinectRegion x:Name="kinectRegion">
         <Grid>
@@ -23,7 +24,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Image x:Name="BackgroungImage" Grid.RowSpan="2" Panel.ZIndex="3" Source="/Images/Gerb.png" Stretch="Fill" Visibility="Hidden"/>
+            <Image x:Name="BackgroungImage" Grid.RowSpan="2" Panel.ZIndex="3" Source="Interface/Images/Gerb.png" Stretch="Fill" Visibility="Hidden"/>
             <MediaElement x:Name="EggVideo" Grid.RowSpan="2" Panel.ZIndex="3" LoadedBehavior="Manual" UnloadedBehavior="Manual" Stretch="Fill" Visibility="Hidden"/>
             <MediaElement x:Name="BackgroungVideo" Grid.RowSpan="2" Panel.ZIndex="1" LoadedBehavior="Manual" UnloadedBehavior="Manual" Stretch="Fill" Visibility="Hidden"/>
             
@@ -40,10 +41,14 @@
                                   VerticalScrollBarVisibility="Disabled" 
                                   k:KinectRegion.IsScrollInertiaEnabled="true"
                                   ScrollChanged="scrollViewer_ScrollChanged">
-                        <ItemsControl Grid.Row="0" Name="itemsControl" Button.Click="ButtonClick">
+                        <ItemsControl Grid.Row="0" Name="itemsControl">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                    <UniformGrid Name="uniformGrid"
+                                                 Columns="2" 
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalAlignment="Stretch" 
+                                                 ButtonBase.Click="ButtonClick"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
@@ -61,7 +66,7 @@
                 <Button x:Name="backButton" Height="119" Width="119" Visibility="Hidden" Grid.Column="0" Style="{StaticResource BackButtonStyle}" Click="GoBack" />
 
                 <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center">
-                    <Image VerticalAlignment="Center" Source="Images/ITlogo.png" Stretch="UniformToFill" Margin="0 0 15 0" Width="100" Height="100"/>
+                    <Image VerticalAlignment="Center" Source="Interface/Images/ITlogo.png" Stretch="UniformToFill" Margin="0 0 15 0" Width="100" Height="100"/>
                     <TextBlock VerticalAlignment="Center" Foreground="{StaticResource BlackBrush}" FontSize="40" Text="Институт информационных технологий"/>
                 </StackPanel>
                 <Grid Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">
