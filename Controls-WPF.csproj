@@ -211,27 +211,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Kinect.ico" />
-    <Resource Include="Assets\DarkGray.png" />
-    <Resource Include="Assets\LightGray.png" />
-    <Resource Include="Assets\MediumGray.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="HandPointers\HighlightRectangle.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\CursorSpriteSheetPurple.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\CursorSpriteSheet.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\ITlogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Play.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\1.jpg" />
+    <Resource Include="Images\Play.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Gerb.png" />
