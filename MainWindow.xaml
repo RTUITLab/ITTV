@@ -4,14 +4,12 @@
         xmlns:k="http://schemas.microsoft.com/kinect/2014"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Microsoft.Samples.Kinect.ControlsBasics"
+        xmlns:local="clr-namespace:Microsoft.Samples.Kinect.ControlsBasics" xmlns:pages="clr-namespace:Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages"
         Name="ControlsBasicsWindow"
         Title="Controls Basics"
         mc:Ignorable="d"
-        d:DesignWidth="1200"
-        d:DesignHeight="700"
-        Width="1280"
-        Height="720"
+        d:DesignWidth="1920"
+        d:DesignHeight="1080"
         FontFamily="Segoe UI"
         WindowState="Maximized"
         WindowStyle="None" 
@@ -21,63 +19,137 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="90" />
             </Grid.RowDefinitions>
 
-            <Image x:Name="BackgroungImage" Grid.RowSpan="2" Panel.ZIndex="3" Source="Interface/Images/Gerb.png" Stretch="Fill" Visibility="Hidden"/>
-            <MediaElement x:Name="EggVideo" Grid.RowSpan="2" Panel.ZIndex="3" LoadedBehavior="Manual" UnloadedBehavior="Manual" Stretch="Fill" Visibility="Hidden"/>
-            <MediaElement x:Name="BackgroungVideo" Grid.RowSpan="2" Panel.ZIndex="1" LoadedBehavior="Manual" UnloadedBehavior="Manual" Stretch="Fill" Visibility="Hidden"/>
-            
-            <Button Panel.ZIndex="2" x:Name="MenuButton" Grid.RowSpan="2" Width="400" Height="150" Visibility="Collapsed" Click="MenuButton_Click" Style="{StaticResource KinectTileButton}">
-                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}" Width="400" Height="150">
-                    <TextBlock Text="Нажмите, чтобы начать работу" HorizontalAlignment="Center" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
-                </Grid>                
-            </Button>
+            <pages:FrameContainer x:Name="content" Grid.Row="0"/>
 
-            <ContentControl Grid.Row="0" x:Name="navigationRegion" Margin="15">
-                <Grid x:Name="kinectRegionGrid" Margin="20">
-                    <ScrollViewer Grid.Row="0" Name="scrollViewer" 
-                                  HorizontalScrollBarVisibility="Disabled"
-                                  VerticalScrollBarVisibility="Disabled" 
-                                  k:KinectRegion.IsScrollInertiaEnabled="true"
-                                  ScrollChanged="scrollViewer_ScrollChanged">
-                        <ItemsControl Grid.Row="0" Name="itemsControl">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Name="uniformGrid"
-                                                 Columns="2" 
-                                                 HorizontalAlignment="Stretch"
-                                                 VerticalAlignment="Stretch" 
-                                                 ButtonBase.Click="ButtonClick"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                    </ScrollViewer>
-                </Grid>
-            </ContentControl>
-
-            <Grid Grid.Row="1" Margin="15">
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="backButton" Height="119" Width="119" Visibility="Hidden" Grid.Column="0" Style="{StaticResource BackButtonStyle}" Click="GoBack" />
+                <Button x:Name="backButton" 
+                        Margin="30, 0, 30, 0"
+                        Height="60"
+                        Width="60" 
+                        Grid.Column="0" 
+                        Style="{StaticResource BackButtonStyle}" 
+                        Click="GoBack" />
 
-                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center">
-                    <Image VerticalAlignment="Center" Source="Interface/Images/ITlogo.png" Stretch="UniformToFill" Margin="0 0 15 0" Width="100" Height="100"/>
-                    <TextBlock VerticalAlignment="Center" Foreground="{StaticResource BlackBrush}" FontSize="40" Text="Институт информационных технологий"/>
-                </StackPanel>
-                <Grid Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                <Grid Grid.Column="1" HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <k:KinectUserViewer Grid.Row="0" />
-                    <TextBlock Grid.Row="1" VerticalAlignment="Bottom" Foreground="{StaticResource MediumGreyBrush}" FontSize="18" Text="© RTU IT Lab 2021"/>
+                    <Grid Grid.Column="0" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image x:Name="ITLogoImage"
+                           Source="{StaticResource ITLogo}"
+                           VerticalAlignment="Center"
+                           Stretch="UniformToFill" 
+                           Margin="0 0 30 0" 
+                           Width="50" 
+                           Height="50"
+                           Grid.Column="0"/>
+                        <TextBlock x:Name="IIT"
+                               Foreground="{StaticResource BlackBrush}" 
+                               FontSize="25"
+                               TextWrapping="WrapWithOverflow"
+                               TextAlignment="Center"
+                               Grid.Column="1"
+                               Text="Институт Информационных Технологий"/>
+                    </Grid>
+                    <Rectangle x:Name="Sep"
+                               Grid.Column="1"
+                               Fill="Black"
+                               Margin="40, 25"
+                               Width="2.5"/>
+                    <Grid Grid.Column="2" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image x:Name="LabLogoImage"
+                           Source="{StaticResource RTUITLabLogo}"
+                           VerticalAlignment="Center"
+                           Stretch="UniformToFill" 
+                           Margin="0 0 30 0" 
+                           Width="60" 
+                           Height="50"
+                           Grid.Column="0"/>
+                        <TextBlock x:Name="Lab"
+                               Foreground="{StaticResource BlackBrush}" 
+                               FontSize="25"
+                               TextWrapping="WrapWithOverflow"
+                               TextAlignment="Center"
+                               Grid.Column="1"
+                               Text="RTUITLab"/>
+                    </Grid>
                 </Grid>
+                <Grid Grid.Column="2"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock x:Name="Time"
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Foreground="{StaticResource BlackBrush}"
+                               FontSize="20"
+                               Margin="0, 0, 7.5, 5"
+                               Text="12:00:00"/>
+                    <TextBlock x:Name="Para"
+                               Grid.Row="0"
+                               Grid.Column="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Foreground="{StaticResource BlackBrush}"
+                               FontSize="20"
+                               Margin="7.5, 0, 0, 5"
+                               Text="12:00:00"/>
+                    <TextBlock x:Name="Date"
+                               Grid.Row="1"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Foreground="{StaticResource BlackBrush}"
+                               FontSize="20"
+                               Margin="0, 0, 7.5, 0"
+                               Text="12:00:00"/>
+                    <TextBlock x:Name="Week"
+                               Grid.Row="1"
+                               Grid.Column="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Foreground="{StaticResource BlackBrush}"
+                               FontSize="20"
+                               Margin="7.5, 0, 0, 0"
+                               Text="12:00:00"/>
+                </Grid>
+                
+                <k:KinectUserViewer Grid.Row="0" 
+                                    Grid.Column="3" 
+                                    VerticalAlignment="Stretch"/>
             </Grid>
         </Grid>
     </k:KinectRegion>

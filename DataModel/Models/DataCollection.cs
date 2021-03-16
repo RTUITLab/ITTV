@@ -18,7 +18,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
         private ObservableCollection<T> topItem = new ObservableCollection<T>();
         private GroupType typeGroup;
 
-        public enum GroupType { Menu, News, Courses, Video };
+        public enum GroupType { Menu, News, Courses, Video, Games };
 
         public DataCollection(string uniqueId, string title, GroupType groupType) : base(uniqueId, title)
         {

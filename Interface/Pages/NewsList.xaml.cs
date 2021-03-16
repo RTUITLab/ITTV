@@ -27,14 +27,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
         {
             InitializeComponent();
 
-            DataCollection<object> dataCollection = DataSource.GetGroup("News");
+            DataCollection<object> dataCollection = DataSource.Instance.GetGroup("News");
             itemsControl.ItemTemplate = (DataTemplate)FindResource(dataCollection.TypeGroup + "Template");
             itemsControl.ItemsSource = dataCollection;
         }
 
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            MainWindow.UIInvoked();
+            MainWindow.Instance.UIInvoked();
             var button = (Button)e.OriginalSource;
             News dataItem = button.DataContext as News;
 
@@ -42,15 +42,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
             {
                 if (dataItem.NavigationPage != null)
                 {
-                    MainWindow.history.Add(dataItem.UniqueId);
-                    MainWindow.var_navigationRegion.Content = Activator.CreateInstance(dataItem.NavigationPage, dataItem);
+                    MainWindow.Instance.content.NavigateTo((UserControl)Activator.CreateInstance(dataItem.NavigationPage, dataItem));
                 }
             }
         }
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            MainWindow.UIInvoked();
+            MainWindow.Instance.UIInvoked();
         }
     }
 }

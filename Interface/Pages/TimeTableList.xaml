@@ -1,24 +1,24 @@
-﻿<UserControl x:Class="Microsoft.Samples.Kinect.ControlsBasics.Pages.NewsList"
+﻿<UserControl x:Class="Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages.TimeTableList"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages"
              mc:Ignorable="d" 
-             d:DesignHeight="1080" d:DesignWidth="1920">
+             d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled"
                       ScrollChanged="ScrollViewer_ScrollChanged">
-            <ItemsControl Grid.Row="0" Name="itemsControl" Button.Click="ButtonClick" Margin="40 0">
+            <ItemsControl Grid.Row="0" Name="itemsControl" Button.Click="itemsControl_Click" Margin="40 0">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel x:Name="container"
-                                   Orientation="Horizontal"
+                        <WrapPanel Orientation="Horizontal"
                                    HorizontalAlignment="Center" 
                                    VerticalAlignment="Center"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-        </ScrollViewer>   
+        </ScrollViewer>
     </Grid>
 </UserControl>

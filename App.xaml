@@ -13,6 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
 
                 <ResourceDictionary Source="Interface/Common/StandardStyles.xaml"/>
+                <ResourceDictionary Source="Interface/Images/Logos.xaml"/>
 
                 <!-- 
                     Styles that define look and feel of Kinect controls  
