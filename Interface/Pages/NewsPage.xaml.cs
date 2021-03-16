@@ -36,7 +36,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            MainWindow.UIInvoked();
+            MainWindow.Instance.UIInvoked();
 
             switch (((Button)sender).Name)
             {
@@ -73,7 +73,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            MainWindow.UIInvoked();
+            MainWindow.Instance.UIInvoked();
         }
     }
 }

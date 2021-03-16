@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
+using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,11 +8,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.Samples.Kinect.ControlsBasics.Settings
+namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
 {
-    class Settings
+    public class Settings : Singleton<Settings>
     {
-        static Settings(){
+        public event Action SettingsUpdated;
+        [JsonProperty]
+        bool? needCheckTime = null;
+        [JsonProperty]
+        bool? isAdmin = null;
+        [JsonProperty]
+        int? videoVolume = null;
+        [JsonProperty]
+        int? minForUpdate = null;
+        [JsonProperty]
+        List<string> backgroundVideoOrder = null;
+
+        private void CreateData(){
             string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Settings\";
 
             if (!Directory.Exists(fullPath))
@@ -21,7 +35,20 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Settings
             {
                 using (StreamWriter sw = File.CreateText(settingsFullPath))
                 {
-                    sw.WriteLine("{\n\t\"time\": \"false\",\n\t\"admin\": \"true\",\n\t\"volume\": 0,\n\t\"MinForUpdate\":  5\n}");
+                    sw.WriteLine("{\n\t\"needCheckTime\": true,\n\t\"isAdmin\": true,\n\t\"videoVolume\": 0,\n\t\"minForUpdate\": 5, \n\t\"backgroundVideoOrder\": [");
+
+                    string backgroundVideosPath = AppDomain.CurrentDomain.BaseDirectory + @"Videos\Background\";
+
+                    if (!Directory.Exists(backgroundVideosPath))
+                        Directory.CreateDirectory(backgroundVideosPath);
+
+                    string[] AllFiles = Directory.GetFiles(backgroundVideosPath);
+
+                    foreach (string video in AllFiles)
+                    {
+                        sw.WriteLine("\t\t\"" + video.Replace("\\", "\\\\") + "\",");
+                    }
+                    sw.WriteLine("\t]\n}");
                 }
             }
 
@@ -30,35 +57,60 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Settings
                 File.Create(newsFullPath);
         }
 
-        public static bool NeedCheckTime
+        private void GetData()
         {
-            get
+            string path = "Settings/settings.json";
+
+            if (File.Exists(path)) {
+                instance = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path));
+            } else
             {
-                return bool.Parse(JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("Settings/settings.json"))["time"]);
+                CreateData();
+                GetData();  
             }
         }
 
-        public static bool IsAdmin
+        public bool NeedCheckTime
         {
             get
             {
-                return bool.Parse(JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("Settings/settings.json"))["admin"]);
+                if (Instance.needCheckTime == null) { GetData(); }
+                return (bool)Instance.needCheckTime;
             }
         }
 
-        public static int Volume
+        public bool IsAdmin
         {
             get
             {
-                return int.Parse(JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("Settings/settings.json"))["volume"]);
+                if (Instance.isAdmin == null) { GetData(); }
+                return (bool)Instance.isAdmin;
             }
         }
 
-        public static int MinForUpdate
+        public int VideoVolume
         {
             get
             {
-                return int.Parse(JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("Settings/settings.json"))["MinForUpdate"]);
+                if (Instance.videoVolume == null) { GetData(); }
+                return (int)Instance.videoVolume;
+            }
+        }
+
+        public int MinForUpdate
+        {
+            get
+            {
+                if (Instance.minForUpdate == null) { GetData(); }
+                return (int)Instance.minForUpdate;
+            }
+        }
+
+        public List<string> BackgroundVideoOrder
+        {
+            get {
+                if (Instance.backgroundVideoOrder == null) { GetData(); }
+                return Instance.backgroundVideoOrder;
             }
         }
     }
