@@ -10,18 +10,15 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using System.Linq;
-    using System.Threading;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
     using System.Windows.Threading;
     using Microsoft.Kinect;
     using Microsoft.Kinect.Wpf.Controls;
     using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
-    using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
     using Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages;
+    using Microsoft.Samples.Kinect.ControlsBasics.Network.Controll;
     using Microsoft.Samples.Kinect.ControlsBasics.TVSettings;
     using Microsoft.Samples.Kinect.DiscreteGestureBasics;
 
@@ -42,6 +39,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
         public MainWindow()
         {
+            Instance = this;
+
             this.InitializeComponent();
 
             CreateData.Instance.GetAllVideos();
@@ -69,14 +68,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
             KinectRegion.SetKinectRegion(this, kinectRegion);
 
-            Instance = this;
-
             ((App)Application.Current).KinectRegion = kinectRegion;
             kinectRegion.KinectSensor = KinectSensor.GetDefault();
             BodyFrameReader bodyFrameReader = this.kinectRegion.KinectSensor.BodyFrameSource.OpenReader();
             bodyFrameReader.FrameArrived += this.Reader_BodyFrameArrived;
-
-            // code from 12/03/2021
 
             DispatcherTimer TimeTimer = new DispatcherTimer(
                 TimeSpan.FromSeconds(1), 
@@ -114,13 +109,35 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
             Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
 
+            ConfigControlLogic.Instance.SendSettingsData();
+
             content.OpenBackgroundVideo();
         }
 
         private void Settings_SettingsUpdated()
         {
             adminMode = Settings.Instance.IsAdmin;
-            ControlsBasicsWindow.Topmost = !adminMode;
+            UI(() => { 
+                ControlsBasicsWindow.Topmost = !adminMode;
+
+                if (!adminMode)
+                {
+                    AppDomain.CurrentDomain.ProcessExit += (e, s) => {
+                        NewsUpdateThread.Instance.StopUpdating();
+                        Process.Start("ControlsBasics-WPF.exe");
+                    };
+                    AppDomain.CurrentDomain.UnhandledException += (e, s) => {
+                        NewsUpdateThread.Instance.StopUpdating();
+                        Process.Start("ControlsBasics-WPF.exe");
+                        Application.Current.Shutdown();
+                    };
+                    Cursor = Cursors.None;
+                }
+                else
+                {
+                    Cursor = Cursors.Arrow;
+                }
+            });
         }
 
         /// <summary>

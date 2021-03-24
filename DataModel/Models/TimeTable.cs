@@ -242,7 +242,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
                 Groups = new Dictionary<string, int>();
                 foreach (int i in timetable[choosing[0]][choosing[1]][choosing[2]])
                 {
-                    Groups.Add(choosing[2] + "-" + i.ToString() + "-" + (DateTime.Now.Year + (DateTime.Now.Month < 9 ? 0 : 1) - int.Parse(choosing[1])).ToString() , i);
+                    Groups.Add(choosing[2] + "-" + i.ToString("D2") + "-" + (DateTime.Now.Year + (DateTime.Now.Month < 9 ? 0 : 1) - int.Parse(choosing[1])).ToString("D2") , i);
                 }
 
                 return Groups.Keys.ToList();

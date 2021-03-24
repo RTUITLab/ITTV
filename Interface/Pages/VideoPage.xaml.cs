@@ -38,7 +38,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
 
         private void Instance_SettingsUpdated()
         {
-            Video.Volume = Settings.Instance.VideoVolume;
+            MainWindow.Instance.UI(() => { Video.Volume = Settings.Instance.VideoVolume; });
+            
         }
 
         private void Video_MediaEnded(object sender, RoutedEventArgs e)
