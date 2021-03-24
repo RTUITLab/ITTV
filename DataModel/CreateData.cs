@@ -51,40 +51,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             }
 
             DataSource.Instance.AddToGroups(video_group);
-        }
-
-        public void GetBackgroundVideos()
-        {
-            string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Videos\Background\";
-
-
-            if (!Directory.Exists(fullPath))
-                Directory.CreateDirectory(fullPath);
-
-            string[] AllFiles = Directory.GetFiles(fullPath);
-
-            DataCollection<object> video_group = new DataCollection<object>(
-                "Video-Background",
-                "Видео на фоне",
-                DataCollection<object>.GroupType.Video);
-
-            int i = 0;
-            foreach (var video in AllFiles)
-            {
-                video_group.Items.Add(new Video(
-                   "Video-" + i.ToString(),
-                   Path.GetFileNameWithoutExtension(video),
-                   typeof(VideoPage),
-                   DataSource.Instance.StringToArr(video),
-                   ""));
-
-                i++;
-            }
-
-            DataSource.Instance.AddToGroups(video_group);
-        }
-
-        
+        }        
 
         public void GetNewsFromFile()
         {
@@ -92,6 +59,11 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
                     "News",
                     "Новости",
                     DataCollection<object>.GroupType.News);
+
+            if (!File.Exists("Settings/news.json"))
+            {
+                NewsFromSite.Instance.GetNewsFromSite();
+            }
 
             string json = File.ReadAllText("Settings/news.json");
             List<News> news_list = JsonConvert.DeserializeObject<List<News>>(json);
