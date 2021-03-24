@@ -1,5 +1,6 @@
 ﻿using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
 using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
+using Microsoft.Samples.Kinect.ControlsBasics.Network.Controll;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,15 +13,17 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
 {
     public class Settings : Singleton<Settings>
     {
+        bool configured = false;
+
         public event Action SettingsUpdated;
         [JsonProperty]
         bool? needCheckTime = null;
         [JsonProperty]
         bool? isAdmin = null;
         [JsonProperty]
-        int? videoVolume = null;
+        double? videoVolume = null;
         [JsonProperty]
-        int? minForUpdate = null;
+        double? minForUpdate = null;
         [JsonProperty]
         List<string> backgroundVideoOrder = null;
 
@@ -57,12 +60,33 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
                 File.Create(newsFullPath);
         }
 
-        private void GetData()
+        public void GetData()
         {
+            if (!configured) {
+                ConfigControlLogic.Instance.GetSettingsData = () => {
+                    return new List<ConfigControlLogic.StateControlSetting<object>>()
+                    {
+                        new ConfigControlLogic.StateControlSetting<object>("needCheckTime", ConfigControlLogic.StateControlSetting<object>.DataTypes.Bool, NeedCheckTime),
+                        new ConfigControlLogic.StateControlSetting<object>("isAdmin", ConfigControlLogic.StateControlSetting<object>.DataTypes.Bool, IsAdmin),
+                        new ConfigControlLogic.StateControlSetting<object>("videoVolume", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, VideoVolume),
+                        new ConfigControlLogic.StateControlSetting<object>("minForUpdate", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, MinForUpdate),
+                        new ConfigControlLogic.StateControlSetting<object>("backgroundVideoOrder", ConfigControlLogic.StateControlSetting<object>.DataTypes.List, BackgroundVideoOrder),
+                    };
+                };
+                ConfigControlLogic.Instance.SettingsUpdated += GetData;
+                configured = !configured;
+            }
+
             string path = "Settings/settings.json";
 
             if (File.Exists(path)) {
-                instance = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path));
+                instance.backgroundVideoOrder = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).backgroundVideoOrder;
+                instance.needCheckTime = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).needCheckTime;
+                instance.isAdmin = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).isAdmin;
+                instance.minForUpdate = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).minForUpdate;
+                instance.videoVolume = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).videoVolume;
+                ConfigControlLogic.Instance.SendSettingsData();
+                SettingsUpdated?.Invoke();
             } else
             {
                 CreateData();
@@ -88,12 +112,12 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
             }
         }
 
-        public int VideoVolume
+        public double VideoVolume
         {
             get
             {
                 if (Instance.videoVolume == null) { GetData(); }
-                return (int)Instance.videoVolume;
+                if (Instance.videoVolume > 100) { return 1; } else if (Instance.videoVolume < 0) { return 0; } else { return (double)Instance.videoVolume / 100; }
             }
         }
 
