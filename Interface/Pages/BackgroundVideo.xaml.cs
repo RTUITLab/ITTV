@@ -58,7 +58,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
         private void Settings_SettingsUpdated()
         {
-            BackgroungVideo.Volume = Settings.Instance.VideoVolume;
+            MainWindow.Instance.UI(() => {
+                BackgroungVideo.Volume = Settings.Instance.VideoVolume;
+                backgroundVideoPlaylist = new BackgroundVideoPlaylist();
+            });
         }
 
         private void BackgroundVideo_Loaded(object sender, RoutedEventArgs e)
