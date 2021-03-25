@@ -52,7 +52,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
                         MainWindow.Instance.content.NavigateTo(new VideoList());
                         break;
                     case "Расписание":
-                        MainWindow.Instance.content.NavigateTo(await TimeTable.Instance.GetContent());
+                        MainWindow.Instance.content.NavigateTo(new TimeTableList());
                         break;
                     case "Игры":
                         MainWindow.Instance.content.NavigateTo(new GamesList());
