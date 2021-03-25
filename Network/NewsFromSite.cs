@@ -52,7 +52,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.NewsTasks
                             }
                         }
 
-                        var temp = new News("News-" + i.ToString(), name, typeof(NewsPage), content, images);
+                        var temp = new News(name, content, images);
                         news_list.Add(temp);
                         i++;
                     }
