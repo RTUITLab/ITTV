@@ -27,4 +27,20 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
         public LessonInfo lesson;
         public TimeInfo time;
     }
+
+    public class FullSchedule
+    {
+        public Week first;
+        public Week second;
+
+        public class Week
+        {
+            public List<Lesson> monday;
+            public List<Lesson> tuesday;
+            public List<Lesson> wednesday;
+            public List<Lesson> thursday;
+            public List<Lesson> friday; 
+            public List<Lesson> saturday;
+        }
+    }
 }
