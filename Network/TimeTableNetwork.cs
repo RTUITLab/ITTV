@@ -12,25 +12,26 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.Network
 {
-    class TimeTableNetwork : Singleton<TimeTableNetwork>
+    class TimeTableNetwork
     {
         public enum TimeTableTime
         {
             today,
             tomorrow,
-            all
+            full_schedule
         }
 
 
         HttpClient client = new HttpClient();
-
         string BaseURL = "https://schedule-rtu.rtuitlab.dev/api/schedule/";
 
-        public async Task GetGroups()
+        public async Task GetGroupsToFile()
         {
-            var response = await client.GetStringAsync(BaseURL + "get_groups");
+            client.DefaultRequestHeaders.Add("Accept-Charset", "");
+            var response = await client.GetByteArrayAsync(BaseURL + "get_groups");
+            var cyrilic_response = (Encoding.ASCII.GetString(response));
 
-            File.WriteAllText("Settings/groups.json", response);
+            File.WriteAllText("Settings/groups.json", cyrilic_response);
         }
 
         public async Task<List<Lesson>> GetTimeTable(string group, TimeTableTime time)
@@ -47,6 +48,15 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network
 
             //var custom_answer = JsonConvert.DeserializeObject<List<Dictionary<string, Dictionary<string, string>>>>(response, settings);
             return null; 
+        }
+        public async Task<FullSchedule> GetAllTimeTable(string group)
+        {
+            string uri = BaseURL + group + "/" + TimeTableTime.full_schedule.ToString();
+            var response = await client.GetStringAsync(uri);
+            FullSchedule answer = JsonConvert.DeserializeObject<FullSchedule>(response);
+
+            //var custom_answer = JsonConvert.DeserializeObject<List<Dictionary<string, Dictionary<string, string>>>>(response, settings);
+            return null;
         }
     }
 }

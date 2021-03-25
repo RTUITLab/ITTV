@@ -7,10 +7,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ItemsControl Grid.Row="0" x:Name="allControl" ButtonBase.Click="allControl_Click" Margin="40 0"/>
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled"
                       ScrollChanged="ScrollViewer_ScrollChanged">
-            <ItemsControl Grid.Row="0" Name="itemsControl" Button.Click="itemsControl_Click" Margin="40 0">
+            <ItemsControl Name="itemsControl" Button.Click="itemsControl_Click" Margin="40 0">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal"

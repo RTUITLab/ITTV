@@ -94,6 +94,7 @@
     </ApplicationDefinition>
     <Compile Include="DataModel\BackgroundVideoPlaylist.cs" />
     <Compile Include="DataModel\MireaDateTime.cs" />
+    <Compile Include="DataModel\Models\Groups.cs" />
     <Compile Include="DataModel\Models\Lesson.cs" />
     <Compile Include="DataModel\Models\TimeTable.cs" />
     <Compile Include="Interface\Common\BindableBase.cs" />
