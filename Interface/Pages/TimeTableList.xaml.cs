@@ -22,36 +22,40 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
     /// </summary>
     public partial class TimeTableList : UserControl
     {
-        public TimeTableList(List<string> content)
+        TimeTable timeTable = TimeTable.Instance;
+
+        public TimeTableList()
         {
             InitializeComponent();
 
             DataTemplate template = (DataTemplate)FindResource("CoursesTemplate");
             itemsControl.ItemTemplate = template;
-            itemsControl.ItemsSource = content;
+            itemsControl.ItemsSource = timeTable.GetContent();
+
+            if (timeTable.GetAll()) {
+                allControl.ItemTemplate = template;
+                allControl.ItemsSource = "Расписание всего курса";
+                allControl.Visibility = Visibility.Visible;
+            } else
+            {
+                allControl.Visibility = Visibility.Collapsed;
+            }
         }
 
-        public TimeTableList(List<Lesson> content)
+        private void itemsControl_Click(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
-
-            DataTemplate template = (DataTemplate)FindResource("CoursesTemplate");
-            itemsControl.ItemTemplate = template;
-            itemsControl.ItemsSource = content;
-        }
-
-        private async void itemsControl_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)e.OriginalSource;
-            TextBlock textBlock = (TextBlock)button.FindName("Title");
-            string text = textBlock.Text;
-            TimeTable.Instance.Choose(text);
-            MainWindow.Instance.content.NavigateTo(await TimeTable.Instance.GetContent());
+            //((ItemsControl) sender).ItemsSource
+            timeTable.Choose(0);
         }
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             MainWindow.Instance.UIInvoked();
+        }
+
+        private void allControl_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.Instance.content.NavigateTo(new ScrollViewerSample(timeTable.GetImageSourceTimeTable()));
         }
     }
 }
