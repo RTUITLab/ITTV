@@ -40,10 +40,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
 
             if (dataItem != null)
             {
-                if (dataItem.NavigationPage != null)
-                {
-                    MainWindow.Instance.content.NavigateTo((UserControl)Activator.CreateInstance(dataItem.NavigationPage, dataItem));
-                }
+                 MainWindow.Instance.content.NavigateTo(new NewsPage(dataItem));
             }
         }
 
