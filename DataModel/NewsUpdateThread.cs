@@ -1,4 +1,5 @@
 ﻿using Microsoft.Samples.Kinect.ControlsBasics.Network.NewsTasks;
+using Microsoft.Samples.Kinect.ControlsBasics.TVSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             timer = new Timer((e) =>
             {
                 NewsFromSite.Instance.GetNewsFromSite();
-            }, null, TimeSpan.Zero, TimeSpan.FromMinutes(Settings.Settings.MinForUpdate));
+            }, null, TimeSpan.Zero, TimeSpan.FromMinutes(Settings.Instance.MinForUpdate));
         }
 
         public void StopUpdating()

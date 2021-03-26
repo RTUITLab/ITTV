@@ -17,6 +17,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.NewsTasks
     {
         public void GetNewsFromSite()
         {
+            MainWindow.Instance.Log("Start download news from site");
+
             try
             {
                 string URI = "https://www.mirea.ru/news/";
@@ -50,7 +52,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.NewsTasks
                             }
                         }
 
-                        var temp = new News("News-" + i.ToString(), name, typeof(NewsPage), content, images);
+                        var temp = new News(name, content, images);
                         news_list.Add(temp);
                         i++;
                     }
@@ -59,7 +61,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.NewsTasks
                 string json = JsonConvert.SerializeObject(news_list);
                 File.WriteAllText("Settings/news.json", json);
             }
-            catch (Exception) { MainWindow.Log("Нет доступа к сайту"); }
+            catch (Exception) { MainWindow.Instance.Log("Нет доступа к сайту"); }
         }
     }
 }

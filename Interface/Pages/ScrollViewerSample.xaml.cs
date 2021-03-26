@@ -33,7 +33,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            MainWindow.UIInvoked();
+            MainWindow.Instance.UIInvoked();
         }
     }
 }
