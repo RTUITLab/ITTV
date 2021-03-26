@@ -2,10 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using WebSocketSharp;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
@@ -13,9 +9,9 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
     class ConfigControlNetwork
     {
         WebSocket socket;
-        string BaseUrl = "ws://localhost:8080/AppControl";
+        string BaseUrl;
 
-        string AppName = "TV";
+        string AppName;
         string DeviceName;
         string SessionID;
 
@@ -48,24 +44,34 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
                 GetConfigControlSettings();
             }
 
+            try
+            {
+                socket = new WebSocket("ws://" + BaseUrl + "/AppControl");
 
-            socket = new WebSocket(BaseUrl);
+                socket.OnMessage += Socket_OnMessage;
 
-            socket.OnMessage += Socket_OnMessage;
-
-            socket.Connect();
+                socket.Connect();
+            } catch (Exception e)
+            {
+                ConfigControlLogic.Instance.Log(e.Message.Replace(Environment.NewLine, " "));
+            }
         }
 
         private void GetConfigControlSettings()
         {
-            string path = "Settings/config_control.json";
+            string path = "RFControl/configuration.json";
 
             if (File.Exists(path))
             {
                 var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(path));
-
+                
                 AppName = dict["AppName"];
                 DeviceName = dict["DeviceName"];
+                BaseUrl = dict["BaseURL"];
+
+                if (string.IsNullOrEmpty(AppName) || string.IsNullOrEmpty(DeviceName) || string.IsNullOrEmpty(BaseUrl)) {
+                    ConfigControlLogic.Instance.Log("Некорректно задана конфигурация RFControl.");
+                }
             }
             else
             {
@@ -76,23 +82,25 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
 
         private void CreateConfigControlSettings()
         {
-            string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Settings\";
+            string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"RFControl\";
 
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
 
-            string settingsFullPath = fullPath + "config_control.json";
+            string settingsFullPath = fullPath + "configuration.json";
             if (!File.Exists(settingsFullPath))
             {
                 using (StreamWriter sw = File.CreateText(settingsFullPath))
                 {
-                    sw.WriteLine("{\n\t\"AppName\": \"ITTV\",\n\t\"DeviceName\": \"ITTV\"\n}");
+                    sw.WriteLine("{\n\t\"AppName\": \"\",\n\t\"DeviceName\": \"\",\n\t\"BaseURL\": \"\"\n}");
                 }
             }
         }
 
         private void Socket_OnMessage(object sender, MessageEventArgs e)
         {
+            ConfigControlLogic.Instance.Log("Получение сообщения от сервера.");
+
             WebSocketMessage socketMessage = JsonConvert.DeserializeObject<WebSocketMessage>(e.Data);
 
             if (string.IsNullOrEmpty(SessionID))
@@ -105,9 +113,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
 
         public void SendSettingsToServer(string settings)
         {
+            ConfigControlLogic.Instance.Log("Отправка сообщения на сервер.");
+
             WebSocketMessage data = new WebSocketMessage(AppName, DeviceName, settings, SessionID);
-            if (socket.IsAlive) {
+            if (socket != null && socket.IsAlive) {
                 socket.Send(data.ToString());
+            } else
+            {
+                ConfigControlLogic.Instance.Log("Отправка не возможна. Нет подключения с сервером по сокету.");
             }
         }
     }

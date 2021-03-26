@@ -19,6 +19,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
         [JsonProperty]
         bool? needCheckTime = null;
         [JsonProperty]
+        double? sleepHour = null;
+        [JsonProperty]
         bool? isAdmin = null;
         [JsonProperty]
         double? videoVolume = null;
@@ -38,7 +40,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
             {
                 using (StreamWriter sw = File.CreateText(settingsFullPath))
                 {
-                    sw.WriteLine("{\n\t\"needCheckTime\": true,\n\t\"isAdmin\": true,\n\t\"videoVolume\": 0,\n\t\"minForUpdate\": 5, \n\t\"backgroundVideoOrder\": [");
+                    sw.WriteLine("{\n\t\"needCheckTime\": true,\n\t\"sleepHour\": 22,\n\t\"isAdmin\": true,\n\t\"videoVolume\": 0,\n\t\"minForUpdate\": 5, \n\t\"backgroundVideoOrder\": [");
 
                     string backgroundVideosPath = AppDomain.CurrentDomain.BaseDirectory + @"Videos\Background\";
 
@@ -67,12 +69,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
                     return new List<ConfigControlLogic.StateControlSetting<object>>()
                     {
                         new ConfigControlLogic.StateControlSetting<object>("needCheckTime", ConfigControlLogic.StateControlSetting<object>.DataTypes.Bool, NeedCheckTime),
+                        new ConfigControlLogic.StateControlSetting<object>("sleepHour", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, sleepHour),
                         new ConfigControlLogic.StateControlSetting<object>("isAdmin", ConfigControlLogic.StateControlSetting<object>.DataTypes.Bool, IsAdmin),
                         new ConfigControlLogic.StateControlSetting<object>("videoVolume", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, VideoVolume),
                         new ConfigControlLogic.StateControlSetting<object>("minForUpdate", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, MinForUpdate),
                         new ConfigControlLogic.StateControlSetting<object>("backgroundVideoOrder", ConfigControlLogic.StateControlSetting<object>.DataTypes.List, BackgroundVideoOrder),
                     };
                 };
+                ConfigControlLogic.Instance.SettingFilePath = AppDomain.CurrentDomain.BaseDirectory + @"Settings\settings.json";
                 ConfigControlLogic.Instance.SettingsUpdated += GetData;
                 configured = !configured;
             }
@@ -82,6 +86,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
             if (File.Exists(path)) {
                 instance.backgroundVideoOrder = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).backgroundVideoOrder;
                 instance.needCheckTime = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).needCheckTime;
+                instance.sleepHour = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).sleepHour;
                 instance.isAdmin = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).isAdmin;
                 instance.minForUpdate = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).minForUpdate;
                 instance.videoVolume = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).videoVolume;
@@ -100,6 +105,15 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
             {
                 if (Instance.needCheckTime == null) { GetData(); }
                 return (bool)Instance.needCheckTime;
+            }
+        }
+
+        public int SleepHour
+        {
+            get
+            {
+                if (Instance.sleepHour == null) { GetData(); }
+                return (int)Instance.sleepHour;
             }
         }
 
