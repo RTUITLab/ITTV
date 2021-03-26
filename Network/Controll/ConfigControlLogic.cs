@@ -29,18 +29,13 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
 
 
         Func<List<StateControlSetting<object>>> getSettingsData = null;
+        string settingsFilePath;
         public event Action SettingsUpdated;
         private ConfigControlNetwork network;
+        public string SettingFilePath { set => settingsFilePath = value; }
+        public Func<List<StateControlSetting<object>>> GetSettingsData { set => this.getSettingsData = value; }
 
-        public Func<List<StateControlSetting<object>>> GetSettingsData
-        { 
-            set
-            {
-                this.getSettingsData = value;
-            }
-        }
-
-        public async void SendSettingsData()
+        public void SendSettingsData()
         {
             if (getSettingsData != null) {
                 List<StateControlSetting<object>> localSettings = getSettingsData.Invoke();
@@ -53,6 +48,9 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
                 }
 
                 network.SendSettingsToServer(json);
+            } else
+            {
+                Log("Не настроенно метод получение конфигурации из приложения в RFControl");
             }
         }
 
@@ -63,17 +61,33 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
 
             foreach(StateControlSetting<object> setting in settings)
             {
-                if (setting.value.GetType() == typeof(string) && setting.type.Equals(StateControlSetting<object>.DataTypes.List.ToString()))
+                if (setting.value != null && !string.IsNullOrEmpty(setting.name)) {
+                    if (setting.value.GetType() == typeof(string) && setting.type.Equals(StateControlSetting<object>.DataTypes.List.ToString()))
+                    {
+                        List<object> temp = setting.value.ToString().Replace("[", "").Replace("]", "").Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList<object>();
+                        localSettings.Add(setting.name, temp);
+                    } else {
+                        localSettings.Add(setting.name, setting.value);
+                    }
+                } else
                 {
-                    List<object> temp = setting.value.ToString().Replace("[", "").Replace("]", "").Split(new char[] { ',', ' '}, StringSplitOptions.RemoveEmptyEntries).ToList<object>();
-                    localSettings.Add(setting.name, temp);
-                } else {
-                    localSettings.Add(setting.name, setting.value);
+                    Log($"Получено значение null в поле конфигурации {setting.name}.");
                 }
             }
 
             string json = JsonConvert.SerializeObject(localSettings);
-            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"Settings\settings.json", json);
+            try
+            {
+                File.WriteAllText(settingsFilePath, json);
+            } catch (Exception)
+            {
+                if (!string.IsNullOrEmpty(settingsFilePath) && File.Exists(settingsFilePath)) {
+                    Log("Нет доступа к файлу конфигурации приложения.");
+                } else
+                {
+                    Log("Не задан путь к конфигурационному файлу приложения");
+                }
+            }
 
             SettingsUpdated?.Invoke();
         }
@@ -99,6 +113,15 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
                 this.type = type.ToString();
             }
 
+        }
+
+        public void Log(string log)
+        {
+            try
+            {
+                File.AppendAllLines("RFControl/logs.txt", new string[] { DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + log });
+            }
+            catch (Exception) { }
         }
     }
 }

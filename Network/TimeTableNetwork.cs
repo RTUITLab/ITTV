@@ -38,25 +38,15 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network
         {
             string uri = BaseURL + group + "/" + time.ToString();
             var response = await client.GetStringAsync(uri);
-
-            var settings = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore
-            };
-            //List<Lesson> answer = JsonConvert.DeserializeObject<List<Lesson>>(response, settings);
-
-            //var custom_answer = JsonConvert.DeserializeObject<List<Dictionary<string, Dictionary<string, string>>>>(response, settings);
-            return null; 
+            List<Lesson> answer = JsonConvert.DeserializeObject<List<Lesson>>(response);
+            return answer; 
         }
         public async Task<FullSchedule> GetAllTimeTable(string group)
         {
             string uri = BaseURL + group + "/" + TimeTableTime.full_schedule.ToString();
             var response = await client.GetStringAsync(uri);
             FullSchedule answer = JsonConvert.DeserializeObject<FullSchedule>(response);
-
-            //var custom_answer = JsonConvert.DeserializeObject<List<Dictionary<string, Dictionary<string, string>>>>(response, settings);
-            return null;
+            return answer;
         }
     }
 }
