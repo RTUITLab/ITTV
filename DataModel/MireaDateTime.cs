@@ -10,6 +10,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 {
     class MireaDateTime : Singleton<MireaDateTime>
     {
+        int SleepTime;
+
+        public MireaDateTime()
+        {
+            SleepTime = Settings.Instance.SleepHour;
+            Settings.Instance.SettingsUpdated += () => { 
+                SleepTime = Settings.Instance.SleepHour;
+            };
+        }
+
         public string GetTime(DateTime dateTime)
         {
             return dateTime.ToLongTimeString();
@@ -55,7 +65,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
                     return "4-ая пара";
                 }
                 else if (dateTime >= new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 15, 50, 1) &&
-                    dateTime <= new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 16, 9, 59))
+                    dateTime <= new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 16, 19, 59))
                 {
                     return "Большой перерыв перед 5-ой парой";
                 }
@@ -108,16 +118,12 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             return "";
         }
 
-        public static bool WorkTime()
+        public bool WorkTime()
         {
-            if (Settings.Instance.NeedCheckTime && (DateTime.Now.Hour >= 22 || DateTime.Now.Hour < 8))
+            if (Settings.Instance.NeedCheckTime && (DateTime.Now.Hour >= SleepTime || DateTime.Now.Hour < 8))
             {
                 return false;
             }
-            //else if (!EggVideo.IsVisible)
-            //{
-            //    return true;
-            //}
             return true;
         }
     }

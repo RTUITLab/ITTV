@@ -109,8 +109,6 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
             Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
 
-            ConfigControlLogic.Instance.SendSettingsData();
-
             content.OpenBackgroundVideo();
         }
 
@@ -206,6 +204,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                 content.GoBack();
                 backButton.Visibility = Visibility.Hidden;
             }
+            Keyboard.ClearFocus();
         }       
 
         public void UIInvoked(DateTime dateTime = default)
@@ -238,7 +237,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             try
             {
                 Instance?.UI(() => {
-                    if (!MireaDateTime.WorkTime())
+                    if (!MireaDateTime.Instance.WorkTime())
                     {
                         if (Instance.content.ContentType() != typeof(NightPhoto)) {
                             content.OpenNightPhoto();

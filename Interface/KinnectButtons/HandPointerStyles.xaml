@@ -80,6 +80,10 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -117,6 +121,22 @@
 
     <DataTemplate x:Key="CoursesTemplate">
         <Button Margin="50" Width="480" Height="270" Style="{StaticResource KinectTileButton}">
+            <Border>
+                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                    <TextBlock x:Name="Title"
+                               Text="{Binding}" 
+                               Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" 
+                               Style="{StaticResource TitleTextStyle}" 
+                               FontSize="45" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+        </Button>
+    </DataTemplate>
+
+    <DataTemplate x:Key="AllCoursesTemplate">
+        <Button Margin="30" Width="1200" Height="270" Style="{StaticResource KinectTileButton}">
             <Border>
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <TextBlock x:Name="Title"
@@ -1256,22 +1276,6 @@
                                 <TextBlock x:Name="ArrowGlyph" Text="&#xE0A6;" Foreground="White" Opacity="0" FontFamily="Segoe UI Symbol" FontSize="56"/>
                             </Grid>
                         </Border>
-                        <Rectangle
-                            x:Name="FocusVisualWhite"
-                            IsHitTestVisible="False"
-                            Stroke="White"
-                            StrokeEndLineCap="Square"
-                            StrokeDashArray="1,1"
-                            Opacity="0"
-                            StrokeDashOffset="1.5"/>
-                        <Rectangle
-                            x:Name="FocusVisualBlack"
-                            IsHitTestVisible="False"
-                            Stroke="Black"
-                            StrokeEndLineCap="Square"
-                            StrokeDashArray="1,1"
-                            Opacity="0"
-                            StrokeDashOffset="0.5"/>
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
