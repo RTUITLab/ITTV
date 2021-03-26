@@ -11,15 +11,11 @@ using static Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models.DataBase;
 namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
 {
     [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "File is from Windows Store template")]
-    public sealed class DataSource
+    public sealed class DataSource : Singleton<DataSource>
     {
         private static DataSource dataSource = new DataSource();
 
         private ObservableCollection<DataCollection<object>> allGroups = new ObservableCollection<DataCollection<object>>();
-
-        private static Uri darkGrayImage = new Uri("Assets/DarkGray.png", UriKind.Relative);
-        private static Uri mediumGrayImage = new Uri("assets/mediumGray.png", UriKind.Relative);
-        private static Uri lightGrayImage = new Uri("assets/lightGray.png", UriKind.Relative);
 
         public DataSource()
         {
@@ -63,16 +59,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
             get { return allGroups as ObservableCollection<DataCollection<object>>; }
         }
 
-        public static void AddToGroups(DataCollection<object> group)
+        public void AddToGroups(DataCollection<object> group)
         {
-            if (DataSource.GetGroup(group.UniqueId) != null)
+            if (GetGroup(group.UniqueId) != null)
             {
-                dataSource.AllGroups.Remove(DataSource.GetGroup(group.UniqueId));
+                dataSource.AllGroups.Remove(GetGroup(group.UniqueId));
             }
             dataSource.AllGroups.Add(group);
         }
 
-        public static DataCollection<object> GetGroup(string uniqueId)
+        public DataCollection<object> GetGroup(string uniqueId)
         {
             // Simple linear search is acceptable for small data sets
             var matches = dataSource.AllGroups.Where((group) => group.UniqueId.Equals(uniqueId));
@@ -84,7 +80,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
             return null;
         }
 
-        public static object GetItem(string uniqueId)
+        public object GetItem(string uniqueId)
         {
             // Simple linear search is acceptable for small data sets
             var matches = dataSource.AllGroups.SelectMany(group => group.Items).Where((item) => ((DataBase) item).UniqueId.Equals(uniqueId));
@@ -96,7 +92,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
             return null;
         }
 
-        public static string[] StringToArr(params string[] param)
+        public string[] StringToArr(params string[] param)
         {
             return param;
         }

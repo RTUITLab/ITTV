@@ -1,9 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style x:Key="BasicTextStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource ApplicationForegroundThemeBrush}"/>
-        <Setter Property="FontSize" Value="{StaticResource ControlContentThemeFontSize}"/>
-        <Setter Property="FontFamily" Value="{StaticResource ContentControlThemeFontFamily}"/>
         <Setter Property="TextTrimming" Value="WordEllipsis"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="Typography.StylisticSet20" Value="True"/>

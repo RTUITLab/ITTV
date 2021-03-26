@@ -26,8 +26,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
         {
             InitializeComponent();
 
-            this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(DataSource.GetGroup("Video").TypeGroup + "Template");
-            this.itemsControl.ItemsSource = DataSource.GetGroup("Video");
+            this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(DataSource.Instance.GetGroup("Video").TypeGroup + "Template");
+            this.itemsControl.ItemsSource = DataSource.Instance.GetGroup("Video");
         }
 
         private void ButtonClick(object sender, RoutedEventArgs e)
@@ -40,15 +40,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
             {
                 if (sampleDataItem.Task == DataBase.TaskType.Page && sampleDataItem.NavigationPage != null)
                 {
-                    MainWindow.history.Add(sampleDataItem.UniqueId);
-                    MainWindow.var_navigationRegion.Content = Activator.CreateInstance(sampleDataItem.NavigationPage, sampleDataItem.Parametrs);
+                    MainWindow.Instance.content.NavigateTo((UserControl) Activator.CreateInstance(sampleDataItem.NavigationPage, sampleDataItem.Parametrs));
                 }
             }
         }
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            MainWindow.UIInvoked();
+            MainWindow.Instance.UIInvoked();
         }
     }
 }
