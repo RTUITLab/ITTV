@@ -80,6 +80,10 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -100,12 +104,15 @@
     </DataTemplate>
 
     <DataTemplate x:Key="MenuTemplate">
-        <Button Margin="15" HorizontalAlignment="Stretch" Style="{StaticResource KinectTileButton}">
+        <Button Margin="50" HorizontalAlignment="Stretch" Style="{StaticResource KinectTileButton}">
             <Border>
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
-                        <TextBlock Text="{Binding Title}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" FontSize="45" HorizontalAlignment="Center" Margin="0 0 0 15"/>
-                        <TextBlock Text="{Binding Subtitle}" Foreground="{StaticResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding Title}" 
+                                   Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"
+                                   Style="{StaticResource TitleTextStyle}" 
+                                   FontSize="45" 
+                                   HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -113,25 +120,49 @@
     </DataTemplate>
 
     <DataTemplate x:Key="CoursesTemplate">
-        <Button Margin="15" HorizontalAlignment="Stretch" Style="{StaticResource KinectTileButton}">
+        <Button Margin="50" Width="480" Height="270" Style="{StaticResource KinectTileButton}">
             <Border>
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
-                        <TextBlock Text="{Binding Title}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" FontSize="45" HorizontalAlignment="Center" Margin="0 0 0 15"/>
-                        <TextBlock Text="{Binding Subtitle}" Foreground="{StaticResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap" HorizontalAlignment="Center"/>
-                    </StackPanel>
+                    <TextBlock x:Name="Title"
+                               Text="{Binding}" 
+                               Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" 
+                               Style="{StaticResource TitleTextStyle}" 
+                               FontSize="45" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+        </Button>
+    </DataTemplate>
+
+    <DataTemplate x:Key="AllCoursesTemplate">
+        <Button Margin="30" Width="1200" Height="270" Style="{StaticResource KinectTileButton}">
+            <Border>
+                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                    <TextBlock x:Name="Title"
+                               Text="{Binding}" 
+                               Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" 
+                               Style="{StaticResource TitleTextStyle}" 
+                               FontSize="45" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
                 </Grid>
             </Border>
         </Button>
     </DataTemplate>
 
     <DataTemplate x:Key="NewsTemplate">
-        <Button Margin="15" Width="700" Style="{StaticResource KinectTileButton}">
+        <Button Margin="50" Width="740" Style="{StaticResource KinectTileButton}">
             <Border>
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <StackPanel Margin="15" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                        <Image x:Name="NewsImage" Source="{Binding Source}" Height="300" Stretch="Uniform"  Margin="15"/>
-                        <TextBlock Text="{Binding Title}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" FontSize="30" Margin="15 0" HorizontalAlignment="Left"/>
+                        <Image x:Name="NewsImage" Source="{Binding Source}" Height="400" Stretch="Uniform"  Margin="15" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding Title}" 
+                                   Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" 
+                                   Style="{StaticResource TitleTextStyle}" 
+                                   FontSize="30" 
+                                   Margin="15 0 15 5" 
+                                   TextAlignment="Center"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -139,12 +170,37 @@
     </DataTemplate>
 
     <DataTemplate x:Key="VideoTemplate">
-        <Button Margin="15" Width="700" HorizontalAlignment="Stretch" Style="{StaticResource KinectTileButton}">
+        <Button Margin="50" Width="740" HorizontalAlignment="Stretch" Style="{StaticResource KinectTileButton}">
             <Border>
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
-                        <MediaElement Source="{Binding Source}" Volume="0"/>
-                        <TextBlock Text="{Binding Title}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" FontSize="45" Margin="15 5 15 5"/>
+                        <MediaElement Source="{Binding Source}" 
+                                      Height="400"
+                                      Volume="0" 
+                                      Margin="15 15 15 0"/>
+                        <TextBlock Text="{Binding Title}" 
+                                   Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" 
+                                   Style="{StaticResource TitleTextStyle}" 
+                                   FontSize="45" 
+                                   Margin="15 0 15 10"
+                                   TextAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Button>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GamesTemplate">
+        <Button Margin="50" Width="740" HorizontalAlignment="Stretch" Style="{StaticResource KinectTileButton}">
+            <Border>
+                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <TextBlock Text="{Binding Title}" 
+                                   Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" 
+                                   Style="{StaticResource TitleTextStyle}" 
+                                   FontSize="45" 
+                                   Margin="0 80"
+                                   TextAlignment="Center"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -1202,10 +1258,10 @@
     <Style x:Key="BackButtonStyle" TargetType="Button">
         <Setter Property="MinWidth" Value="48"/>
         <Setter Property="MinHeight" Value="48"/>
-        <Setter Property="Padding" Value="36,36,36,36" />
         <Setter Property="k:KinectRegion.KinectPressInset" Value="36,36,36,36" />
-        <Setter Property="VerticalAlignment" Value="Bottom"/>        
-        <Setter Property="FontWeight" Value="Normal"/>        
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="AutomationProperties.AutomationId" Value="BackButton"/>
         <Setter Property="AutomationProperties.Name" Value="Back"/>
         <Setter Property="AutomationProperties.ItemType" Value="Navigation Button"/>
@@ -1214,28 +1270,12 @@
                 <ControlTemplate TargetType="Button">
                     <Grid x:Name="RootGrid">
                         <Border Padding="{TemplateBinding Padding}" Background="Transparent">
-                            <Grid Margin="-1,-16,0,0">
+                            <Grid HorizontalAlignment="Center">
                                 <TextBlock x:Name="BackgroundGlyph" Text="&#xE0A8;" Foreground="Black" Opacity="0" FontFamily="Segoe UI Symbol" FontSize="56" />
                                 <TextBlock x:Name="NormalGlyph" Text="&#xE071;" Foreground="Black" FontFamily="Segoe UI Symbol" FontSize="56" />
                                 <TextBlock x:Name="ArrowGlyph" Text="&#xE0A6;" Foreground="White" Opacity="0" FontFamily="Segoe UI Symbol" FontSize="56"/>
                             </Grid>
                         </Border>
-                        <Rectangle
-                            x:Name="FocusVisualWhite"
-                            IsHitTestVisible="False"
-                            Stroke="White"
-                            StrokeEndLineCap="Square"
-                            StrokeDashArray="1,1"
-                            Opacity="0"
-                            StrokeDashOffset="1.5"/>
-                        <Rectangle
-                            x:Name="FocusVisualBlack"
-                            IsHitTestVisible="False"
-                            Stroke="Black"
-                            StrokeEndLineCap="Square"
-                            StrokeDashArray="1,1"
-                            Opacity="0"
-                            StrokeDashOffset="0.5"/>
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
@@ -1287,5 +1327,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>    
+    </Style>
 </ResourceDictionary>

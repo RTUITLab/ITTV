@@ -9,7 +9,7 @@
     <Grid>
         <MediaElement x:Name="Video" LoadedBehavior="Manual" UnloadedBehavior="Stop" MediaEnded="Video_MediaEnded"/>
         <Button x:Name="play" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="auto" Height="auto" Click="Play_Click" Style="{StaticResource PlayButton}">
-            <Image Source="/Assets/Play.png" Width="100"/>
+            <Image Source="../Images/Play.png" Width="100"/>
         </Button>
     </Grid>
 </UserControl>

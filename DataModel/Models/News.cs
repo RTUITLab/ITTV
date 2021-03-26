@@ -16,14 +16,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
     /// </summary>
     [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:FileMayOnlyContainASingleClass", Justification = "Reviewed.")]
     [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "File is from Windows Store template")]
-    public class News : DataPageBase
+    public class News
     {
+        private string title;
         private string content;
         private List<byte[]> byteImageList;
         private List<BitmapImage> imageList;
 
-        public News(string uniqueId, string title, Type navigationPage, string content, List<byte[]> images) : base(uniqueId, title, navigationPage, null) 
+        public News(string title,string content, List<byte[]> images)
         {
+            this.title = title;
             this.content = content;
             this.byteImageList = images;
         }
@@ -34,6 +36,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
             get { return ConvertByteToImage(byteImageList[0]); }
         }
         public string Content { get => content; }
+        public string Title { get => title; }
         public List<byte[]> ByteImageList { get => byteImageList; set => byteImageList = value; }
 
         [JsonIgnore]

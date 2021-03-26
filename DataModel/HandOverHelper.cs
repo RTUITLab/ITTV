@@ -9,7 +9,7 @@ using System.Windows.Threading;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 {
-    class HandOverHelper
+    public class HandOverHelper
     {
         public bool IsHover { get; private set; }
 
@@ -18,19 +18,17 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
         public event Action OnHoverKeyboardCheck;
         public event Action OnHoverEnd;
 
-        public bool adminMode = Settings.Settings.IsAdmin;
-
         public HandOverHelper(KinectRegion kinectRegion, Dispatcher d)
         {
             var timer = new DispatcherTimer(TimeSpan.FromMilliseconds(33), DispatcherPriority.Normal, (s, a) =>
             {
                 var hoverNow = kinectRegion?.EngagedBodyTrackingIds?.Count > 0;
 
-                if (hoverNow && !IsHover || adminMode)
+                if (hoverNow && !IsHover)
                 {
                     OnHoverStart?.Invoke();
                 }
-                else if (IsHover && !hoverNow && !adminMode)
+                else if (IsHover && !hoverNow)
                 {
                     OnHoverEnd?.Invoke();
                 }
