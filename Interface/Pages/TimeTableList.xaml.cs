@@ -22,21 +22,31 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
     /// </summary>
     public partial class TimeTableList : UserControl
     {
-        TimeTable timeTable = TimeTable.Instance;
+        TimeTable timeTable;
+        List<string> content;
 
-        public TimeTableList()
+        public TimeTableList(List<string> content)
         {
             InitializeComponent();
 
-            DataTemplate template = (DataTemplate)FindResource("CoursesTemplate");
-            itemsControl.ItemTemplate = template;
-            itemsControl.ItemsSource = timeTable.GetContent();
+            this.content = content;
+            Loaded += TimeTableList_Loaded;
+        }
 
-            if (timeTable.GetAll()) {
-                allControl.ItemTemplate = template;
-                allControl.ItemsSource = "Расписание всего курса";
+        private void TimeTableList_Loaded(object sender, RoutedEventArgs e)
+        {
+            timeTable = TimeTable.Instance; 
+
+            itemsControl.ItemTemplate = (DataTemplate)FindResource("CoursesTemplate");
+            itemsControl.ItemsSource = content;
+
+            if (timeTable.GetAll())
+            {
+                allControl.ItemTemplate = (DataTemplate)FindResource("AllCoursesTemplate");
+                allControl.ItemsSource = new List<string>(){ "Расписание всего курса" };
                 allControl.Visibility = Visibility.Visible;
-            } else
+            }
+            else
             {
                 allControl.Visibility = Visibility.Collapsed;
             }
@@ -44,8 +54,9 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
         private void itemsControl_Click(object sender, RoutedEventArgs e)
         {
-            //((ItemsControl) sender).ItemsSource
-            timeTable.Choose(0);
+            var button = (Button)e.OriginalSource;
+            string dataItem = button.DataContext as string;
+            timeTable.Choose(dataItem);
         }
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)

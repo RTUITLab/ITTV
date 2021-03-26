@@ -132,6 +132,9 @@
     <Compile Include="Interface\Pages\NightPhoto.xaml.cs">
       <DependentUpon>NightPhoto.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interface\Pages\SchedulePage.xaml.cs">
+      <DependentUpon>SchedulePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interface\Pages\TimeTableList.xaml.cs">
       <DependentUpon>TimeTableList.xaml</DependentUpon>
     </Compile>
@@ -195,6 +198,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Interface\Pages\NightPhoto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\Pages\SchedulePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

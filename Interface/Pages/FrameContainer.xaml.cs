@@ -38,7 +38,12 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
             return history.Count > 2;
         }
         public void GoBack()
-        {            
+        {   
+            if (ContentType() == typeof(TimeTableList))
+            {
+                TimeTable.Instance.UnChoose();
+            }
+
             MainWindow.Instance.Log("Navigated back to " + history[history.Count - 1].GetType().ToString());
 
             history.RemoveAt(history.Count - 1);
