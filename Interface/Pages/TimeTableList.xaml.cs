@@ -85,15 +85,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
                 Back.Visibility = Visibility.Collapsed;
             }
 
-            if (timeTable.GetAll())
-            {
-                allControl.ItemsSource = new List<string>() { "Расписание всего курса" };
-                allControl.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                allControl.Visibility = Visibility.Collapsed;
-            }
+            allControl.ItemsSource = new List<string>() { "Расписание всего курса" };
+            AllCourseColumn.Width = new GridLength(timeTable.GetAll() ? 1 : 0, GridUnitType.Star);
         }
     }
 }
