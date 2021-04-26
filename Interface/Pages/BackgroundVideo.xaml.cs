@@ -1,4 +1,5 @@
 ﻿using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
+using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
 using Microsoft.Samples.Kinect.ControlsBasics.TVSettings;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,9 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
             Loaded += BackgroundVideo_Loaded;
             this.Unloaded += BackgroundVideo_Unloaded;
-            Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;            
+            Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
+
+            TimeTable.Instance.CloseTimeTable();
 
             MainWindow.Instance.HandHelper.OnHoverStart += () =>
             {

@@ -37,6 +37,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         private Body[] bodies = null;
         public List<GestureDetector> gestureDetectorList = new List<GestureDetector>();
 
+        private List<Delegate> cloasingTasks = new List<Delegate>();
+
         public MainWindow()
         {
             Instance = this;
@@ -50,18 +52,18 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
             NewsUpdateThread.Instance.StartUpdating();
 
-            if (!adminMode) {
-                AppDomain.CurrentDomain.ProcessExit += (e, s) => {
-                    NewsUpdateThread.Instance.StopUpdating();
-                    Process.Start("ControlsBasics-WPF.exe"); 
-                };
-                AppDomain.CurrentDomain.UnhandledException += (e, s) => {
-                    NewsUpdateThread.Instance.StopUpdating();
-                    Process.Start("ControlsBasics-WPF.exe");
-                    Application.Current.Shutdown(); 
-                };
+            AppDomain.CurrentDomain.UnhandledException += (e, s) =>
+            {
+                Log(s.ToString());
+            };
+
+            if (!adminMode)
+            {
+                AppDomain.CurrentDomain.ProcessExit += ReOpenApp;
+                AppDomain.CurrentDomain.UnhandledException += ReOpenAppInException;
                 Cursor = Cursors.None;
-            } else
+            }
+            else
             {
                 Cursor = Cursors.Arrow;
             }
@@ -74,15 +76,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             bodyFrameReader.FrameArrived += this.Reader_BodyFrameArrived;
 
             DispatcherTimer TimeTimer = new DispatcherTimer(
-                TimeSpan.FromSeconds(1), 
-                DispatcherPriority.Normal, 
-                (sender, e) => {
+                TimeSpan.FromSeconds(1),
+                DispatcherPriority.Normal,
+                (sender, e) =>
+                {
                     DateTime dateTime = DateTime.Now; //new DateTime(DateTime.Now.Year, 2, 10, 12, 20, 00);
                     Time.Text = MireaDateTime.Instance.GetTime(dateTime);
                     Para.Text = MireaDateTime.Instance.GetPara(dateTime);
                     Date.Text = MireaDateTime.Instance.GetDay(dateTime);
                     Week.Text = MireaDateTime.Instance.GetWeek(dateTime);
-                }, 
+                },
                 Dispatcher);
 
             DispatcherTimer CheckOutTimer = new DispatcherTimer(
@@ -115,27 +118,36 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         private void Settings_SettingsUpdated()
         {
             adminMode = Settings.Instance.IsAdmin;
-            UI(() => { 
+            UI(() =>
+            {
                 ControlsBasicsWindow.Topmost = !adminMode;
 
                 if (!adminMode)
                 {
-                    AppDomain.CurrentDomain.ProcessExit += (e, s) => {
-                        NewsUpdateThread.Instance.StopUpdating();
-                        Process.Start("ControlsBasics-WPF.exe");
-                    };
-                    AppDomain.CurrentDomain.UnhandledException += (e, s) => {
-                        NewsUpdateThread.Instance.StopUpdating();
-                        Process.Start("ControlsBasics-WPF.exe");
-                        Application.Current.Shutdown();
-                    };
+                    AppDomain.CurrentDomain.ProcessExit += ReOpenApp;
+                    AppDomain.CurrentDomain.UnhandledException += ReOpenAppInException;
                     Cursor = Cursors.None;
                 }
                 else
                 {
+                    AppDomain.CurrentDomain.ProcessExit -= ReOpenApp;
+                    AppDomain.CurrentDomain.UnhandledException -= ReOpenAppInException;
                     Cursor = Cursors.Arrow;
                 }
             });
+        }
+
+        private void ReOpenApp(object sender, EventArgs e)
+        {
+            NewsUpdateThread.Instance.StopUpdating();
+            Process.Start("ControlsBasics-WPF.exe");
+        }
+
+        private void ReOpenAppInException(object sender, UnhandledExceptionEventArgs e)
+        { 
+            NewsUpdateThread.Instance.StopUpdating();
+            Process.Start("ControlsBasics-WPF.exe");
+            Application.Current.Shutdown();
         }
 
         /// <summary>
@@ -171,7 +183,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                         Body body = this.bodies[i];
                         ulong trackingId = body.TrackingId;
 
-                        if (maxBodies < this.gestureDetectorList.Count) {
+                        if (maxBodies < this.gestureDetectorList.Count)
+                        {
                             if (trackingId != this.gestureDetectorList[i].TrackingId)
                             {
                                 gestureDetectorList[i].TrackingId = trackingId;
@@ -184,9 +197,9 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             }
         }
 
-        
 
-        
+
+
 
         /// <summary>
         /// Handle the back button click.
@@ -199,13 +212,13 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             if (content.CanGoBackFuther())
             {
                 content.GoBack();
-            } else
+            }
+            else
             {
                 content.GoBack();
                 backButton.Visibility = Visibility.Hidden;
             }
-            Keyboard.ClearFocus();
-        }       
+        }
 
         public void UIInvoked(DateTime dateTime = default)
         {
@@ -229,22 +242,26 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             try
             {
                 File.AppendAllLines("./logs.txt", new string[] { DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + m });
-            } catch (Exception e) { }
+            }
+            catch (Exception e) { }
         }
 
         private void CheckPersonIsRemoved()
         {
             try
             {
-                Instance?.UI(() => {
+                Instance?.UI(() =>
+                {
                     if (!MireaDateTime.Instance.WorkTime())
                     {
-                        if (Instance.content.ContentType() != typeof(NightPhoto)) {
+                        if (Instance.content.ContentType() != typeof(NightPhoto))
+                        {
                             content.OpenNightPhoto();
                         }
-                    } else
+                    }
+                    else
                     {
-                        if (DateTime.Now - LastUIOperation > TimeSpan.FromMinutes(1) && !adminMode)
+                        if (DateTime.Now - LastUIOperation > TimeSpan.FromMinutes(1))
                         {
                             if (Instance.content.ContentType() != typeof(BackgroundVideo) && Instance.content.ContentType() != typeof(EggVideo))
                             {
@@ -266,7 +283,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                                     bv.SetButtonVisibility(Visibility.Collapsed);
                                 }
                             }
-                            
+
                         }
                     }
                 });

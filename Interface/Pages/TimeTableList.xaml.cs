@@ -24,39 +24,40 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
     {
         TimeTable timeTable;
         List<string> content;
+        string backContent;
 
-        public TimeTableList(List<string> content)
+        public TimeTableList(List<string> content, string bakcPath)
         {
+            timeTable = TimeTable.Instance;
+
             InitializeComponent();
 
             this.content = content;
-            Loaded += TimeTableList_Loaded;
-        }
+            this.backContent = bakcPath;
 
-        private void TimeTableList_Loaded(object sender, RoutedEventArgs e)
-        {
-            timeTable = TimeTable.Instance; 
-
+            allControl.ItemTemplate = (DataTemplate)FindResource("BackTemplate");
             itemsControl.ItemTemplate = (DataTemplate)FindResource("CoursesTemplate");
-            itemsControl.ItemsSource = content;
+            Back.ItemTemplate = (DataTemplate)FindResource("BackTemplate");
 
-            if (timeTable.GetAll())
-            {
-                allControl.ItemTemplate = (DataTemplate)FindResource("AllCoursesTemplate");
-                allControl.ItemsSource = new List<string>(){ "Расписание всего курса" };
-                allControl.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                allControl.Visibility = Visibility.Collapsed;
-            }
+            PutContent(content, backContent);
+
+            Unloaded += TimeTableList_Unloaded;
         }
 
-        private void itemsControl_Click(object sender, RoutedEventArgs e)
+        private void TimeTableList_Unloaded(object sender, RoutedEventArgs e)
+        {
+            TimeTable.Instance.CloseTimeTable();
+        }
+
+        private async void itemsControl_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)e.OriginalSource;
             string dataItem = button.DataContext as string;
-            timeTable.Choose(dataItem);
+
+            TimeTableList newContent = await timeTable.Choose(dataItem);
+            if (newContent != null) {
+                PutContent(newContent.content, newContent.backContent);
+            }
         }
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -67,6 +68,39 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
         private void allControl_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.Instance.content.NavigateTo(new ScrollViewerSample(timeTable.GetImageSourceTimeTable()));
+        }
+
+        private async void Back_Click(object sender, RoutedEventArgs e)
+        {
+            TimeTable.Instance.UnChoose();
+
+            TimeTableList tmp = await TimeTable.Instance.GetContent();
+            PutContent(tmp.content, tmp.backContent);
+        }
+
+        private void PutContent(List<string> content, string backMessage)
+        {
+            itemsControl.ItemsSource = content;
+            
+            if (!string.IsNullOrWhiteSpace(backMessage))
+            {
+                Back.ItemsSource = new List<string>() { backMessage };
+                Back.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Back.Visibility = Visibility.Collapsed;
+            }
+
+            if (timeTable.GetAll())
+            {
+                allControl.ItemsSource = new List<string>() { "Расписание всего курса" };
+                allControl.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                allControl.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

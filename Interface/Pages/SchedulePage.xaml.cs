@@ -27,7 +27,21 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
             mainGrid.Margin = new Thickness(100, 50, 100, 50);
 
-            createDayLessons(lessons, mainGrid);
+            bool empty = true;
+            foreach (Lesson lesson in lessons)
+            {
+                if (lesson.lesson != null)
+                {
+                    empty = false;
+                    break;
+                }
+            }
+
+            if (!empty) {
+                createDayLessons(lessons, mainGrid);
+            } else {
+                OutList.Visibility = Visibility.Visible;
+            }
         }
 
         public SchedulePage(FullSchedule lessons)

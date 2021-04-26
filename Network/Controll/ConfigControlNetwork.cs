@@ -14,6 +14,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
         string AppName;
         string DeviceName;
         string SessionID;
+        string AuthToken;
 
         public class WebSocketMessage
         {
@@ -21,14 +22,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
             public string DeviceName;
             public string SessionID;
             public string Configs;
+            public string AuthToken;
 
             public WebSocketMessage() { }
-            public WebSocketMessage(string appName, string deviceName, string configs, string sessionId = "")
+            public WebSocketMessage(string appName, string deviceName, string configs, string authToken, string sessionId = "")
             {
                 AppName = appName;
                 DeviceName = deviceName;
                 SessionID = sessionId;
                 Configs = configs;
+                AuthToken = authToken;
             }
 
             override
@@ -46,7 +49,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
 
             try
             {
-                socket = new WebSocket("ws://" + BaseUrl + "/AppControl");
+                socket = new WebSocket("ws://" + BaseUrl + "/configs");
 
                 socket.OnMessage += Socket_OnMessage;
 
@@ -68,6 +71,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
                 AppName = dict["AppName"];
                 DeviceName = dict["DeviceName"];
                 BaseUrl = dict["BaseURL"];
+                AuthToken = dict["AuthToken"];
 
                 if (string.IsNullOrEmpty(AppName) || string.IsNullOrEmpty(DeviceName) || string.IsNullOrEmpty(BaseUrl)) {
                     ConfigControlLogic.Instance.Log("Некорректно задана конфигурация RFControl.");
@@ -115,7 +119,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
         {
             ConfigControlLogic.Instance.Log("Отправка сообщения на сервер.");
 
-            WebSocketMessage data = new WebSocketMessage(AppName, DeviceName, settings, SessionID);
+            WebSocketMessage data = new WebSocketMessage(AppName, DeviceName, settings, AuthToken, SessionID);
             if (socket != null && socket.IsAlive) {
                 socket.Send(data.ToString());
             } else

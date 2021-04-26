@@ -7,6 +7,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid x:Name="mainGrid" VerticalAlignment="Center"/>
+        <Grid x:Name="mainGrid" VerticalAlignment="Center">
+            <TextBlock x:Name="OutList"
+                       Visibility="Collapsed"
+                       Text="Пар в этот день нет"
+                       HorizontalAlignment="Center"
+                       FontWeight="Medium"
+                       FontSize="40"/>
+        </Grid>
     </ScrollViewer>
 </UserControl>

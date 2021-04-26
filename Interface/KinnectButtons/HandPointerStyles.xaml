@@ -135,6 +135,22 @@
         </Button>
     </DataTemplate>
 
+    <DataTemplate x:Key="BackTemplate">
+        <Button Margin="50" Width="1000" Height="150" Style="{StaticResource KinectTileButton}">
+            <Border>
+                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                    <TextBlock x:Name="Title"
+                               Text="{Binding}" 
+                               Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" 
+                               Style="{StaticResource TitleTextStyle}" 
+                               FontSize="45" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+        </Button>
+    </DataTemplate>
+
     <DataTemplate x:Key="AllCoursesTemplate">
         <Button Margin="30" Width="1200" Height="270" Style="{StaticResource KinectTileButton}">
             <Border>

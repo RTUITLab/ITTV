@@ -29,32 +29,25 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
         [JsonProperty]
         List<string> backgroundVideoOrder = null;
 
-        private void CreateData(){
+        private void CreateData()
+        {
             string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Settings\";
 
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
 
             string settingsFullPath = fullPath + "settings.json";
-            if (!File.Exists(settingsFullPath))
+            using (StreamWriter sw = File.CreateText(settingsFullPath))
             {
-                using (StreamWriter sw = File.CreateText(settingsFullPath))
+                sw.WriteLine("{\n\t\"needCheckTime\": true,\n\t\"sleepHour\": 22,\n\t\"isAdmin\": true,\n\t\"videoVolume\": 0,\n\t\"minForUpdate\": 5, \n\t\"backgroundVideoOrder\": [");
+
+                string[] AllFiles = CreateVideoData();
+
+                foreach (string video in AllFiles)
                 {
-                    sw.WriteLine("{\n\t\"needCheckTime\": true,\n\t\"sleepHour\": 22,\n\t\"isAdmin\": true,\n\t\"videoVolume\": 0,\n\t\"minForUpdate\": 5, \n\t\"backgroundVideoOrder\": [");
-
-                    string backgroundVideosPath = AppDomain.CurrentDomain.BaseDirectory + @"Videos\Background\";
-
-                    if (!Directory.Exists(backgroundVideosPath))
-                        Directory.CreateDirectory(backgroundVideosPath);
-
-                    string[] AllFiles = Directory.GetFiles(backgroundVideosPath);
-
-                    foreach (string video in AllFiles)
-                    {
-                        sw.WriteLine("\t\t\"" + video.Replace("\\", "\\\\") + "\",");
-                    }
-                    sw.WriteLine("\t]\n}");
+                    sw.WriteLine("\t\t\"" + video.Replace("\\", "\\\\") + "\",");
                 }
+                sw.WriteLine("\t]\n}");
             }
 
             string newsFullPath = fullPath + "news.json";
@@ -64,14 +57,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
 
         public void GetData()
         {
-            if (!configured) {
-                ConfigControlLogic.Instance.GetSettingsData = () => {
+            if (!configured)
+            {
+                ConfigControlLogic.Instance.GetSettingsData = () =>
+                {
                     return new List<ConfigControlLogic.StateControlSetting<object>>()
                     {
                         new ConfigControlLogic.StateControlSetting<object>("needCheckTime", ConfigControlLogic.StateControlSetting<object>.DataTypes.Bool, NeedCheckTime),
                         new ConfigControlLogic.StateControlSetting<object>("sleepHour", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, sleepHour),
                         new ConfigControlLogic.StateControlSetting<object>("isAdmin", ConfigControlLogic.StateControlSetting<object>.DataTypes.Bool, IsAdmin),
-                        new ConfigControlLogic.StateControlSetting<object>("videoVolume", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, VideoVolume),
+                        new ConfigControlLogic.StateControlSetting<object>("videoVolume", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, videoVolume),
                         new ConfigControlLogic.StateControlSetting<object>("minForUpdate", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, MinForUpdate),
                         new ConfigControlLogic.StateControlSetting<object>("backgroundVideoOrder", ConfigControlLogic.StateControlSetting<object>.DataTypes.List, BackgroundVideoOrder),
                     };
@@ -83,20 +78,41 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
 
             string path = "Settings/settings.json";
 
-            if (File.Exists(path)) {
+            if (File.Exists(path))
+            {
                 instance.backgroundVideoOrder = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).backgroundVideoOrder;
                 instance.needCheckTime = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).needCheckTime;
                 instance.sleepHour = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).sleepHour;
                 instance.isAdmin = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).isAdmin;
                 instance.minForUpdate = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).minForUpdate;
                 instance.videoVolume = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).videoVolume;
+
+                foreach (string uri in instance.backgroundVideoOrder)
+                {
+                    if (!File.Exists(uri))
+                    {
+                        instance.backgroundVideoOrder = CreateVideoData().ToList();
+                    }
+                }
+
                 ConfigControlLogic.Instance.SendSettingsData();
                 SettingsUpdated?.Invoke();
-            } else
+            }
+            else
             {
                 CreateData();
-                GetData();  
+                GetData();
             }
+        }
+
+        private string[] CreateVideoData()
+        {
+            string backgroundVideosPath = AppDomain.CurrentDomain.BaseDirectory + @"Videos\Background\";
+
+            if (!Directory.Exists(backgroundVideosPath))
+                Directory.CreateDirectory(backgroundVideosPath);
+
+            return Directory.GetFiles(backgroundVideosPath);
         }
 
         public bool NeedCheckTime
@@ -146,7 +162,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
 
         public List<string> BackgroundVideoOrder
         {
-            get {
+            get
+            {
                 if (Instance.backgroundVideoOrder == null) { GetData(); }
                 return Instance.backgroundVideoOrder;
             }
