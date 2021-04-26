@@ -37,13 +37,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         private Body[] bodies = null;
         public List<GestureDetector> gestureDetectorList = new List<GestureDetector>();
 
-        private List<Delegate> cloasingTasks = new List<Delegate>();
-
         public MainWindow()
         {
             Instance = this;
 
             this.InitializeComponent();
+
+            this.Activate();
+            this.Focus();
 
             CreateData.Instance.GetAllVideos();
             CreateData.Instance.GetNewsFromFile();
@@ -52,9 +53,11 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
             NewsUpdateThread.Instance.StartUpdating();
 
-            AppDomain.CurrentDomain.UnhandledException += (e, s) =>
+            AppDomain.CurrentDomain.UnhandledException += (sender, s) =>
             {
-                Log(s.ToString());
+                Exception e = (Exception) s.ExceptionObject;
+
+                Log(e.ToString());
             };
 
             if (!adminMode)

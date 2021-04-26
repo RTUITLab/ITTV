@@ -40,13 +40,6 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
             Back.ItemTemplate = (DataTemplate)FindResource("BackTemplate");
 
             PutContent(content, backContent);
-
-            Unloaded += TimeTableList_Unloaded;
-        }
-
-        private void TimeTableList_Unloaded(object sender, RoutedEventArgs e)
-        {
-            TimeTable.Instance.CloseTimeTable();
         }
 
         private async void itemsControl_Click(object sender, RoutedEventArgs e)
