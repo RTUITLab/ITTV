@@ -33,6 +33,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
             var localDataSource = DataSource.Instance.GetGroup("Menu");
             itemsControl.ItemTemplate = (DataTemplate)FindResource(localDataSource.TypeGroup + "Template");
             itemsControl.ItemsSource = localDataSource;
+
+            Loaded += (sender, e) => { TimeTable.Instance.CloseTimeTable(); };
         }
 
         private async void UniformGrid_Click(object sender, RoutedEventArgs e)

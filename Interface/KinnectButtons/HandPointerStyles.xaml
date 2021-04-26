@@ -136,7 +136,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="BackTemplate">
-        <Button Margin="50" Width="1000" Height="150" Style="{StaticResource KinectTileButton}">
+        <Button Margin="50" Height="125" Style="{StaticResource KinectTileButton}">
             <Border>
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <TextBlock x:Name="Title"

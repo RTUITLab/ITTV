@@ -8,17 +8,11 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <ItemsControl Grid.Row="0" 
-                      x:Name="allControl" 
-                      ButtonBase.Click="allControl_Click" 
-                      Margin="40 0"/>
-        
-        <ScrollViewer Grid.Row="1"
+        <ScrollViewer Grid.Row="0"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled"
                       ScrollChanged="ScrollViewer_ScrollChanged">
@@ -35,9 +29,21 @@
             </ItemsControl>
         </ScrollViewer>
 
-        <ItemsControl Grid.Row="2"
+        <Grid Grid.Row="1"
+              Margin="40 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <ItemsControl Grid.Column="1" 
+                      x:Name="allControl" 
+                      ButtonBase.Click="allControl_Click" 
+                      Margin="0 0 10 0"/>
+
+            <ItemsControl Grid.Column="0"
                       Name="Back"
-                      ButtonBase.Click="Back_Click"
-                      Margin="40 0"/>
+                      ButtonBase.Click="Back_Click"/>
+        </Grid>
     </Grid>
 </UserControl>
