@@ -35,7 +35,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
             this.content = content;
             this.backContent = bakcPath;
 
-            allControl.ItemTemplate = (DataTemplate)FindResource("BackTemplate");
+            allControl.ItemTemplate = (DataTemplate)FindResource("AllTimeTableTemplate");
             itemsControl.ItemTemplate = (DataTemplate)FindResource("CoursesTemplate");
             Back.ItemTemplate = (DataTemplate)FindResource("BackTemplate");
 
