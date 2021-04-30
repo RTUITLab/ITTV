@@ -52,6 +52,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.Controll
                 socket = new WebSocket("ws://" + BaseUrl + "/configs");
 
                 socket.OnMessage += Socket_OnMessage;
+                socket.OnError += (sender, e) => { ConfigControlLogic.Instance.Log(e.Exception.ToString()); };
 
                 socket.Connect();
             } catch (Exception e)
