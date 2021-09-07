@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls-WPF", "Controls-WPF.csproj", "{69BB0E72-9FA9-43B7-9673-1BCB6F7F3877}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls-WPF", "KinectTvV2.OldVersion\Controls-WPF.csproj", "{69BB0E72-9FA9-43B7-9673-1BCB6F7F3877}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinectTvV2.UWP", "KinectTvV2.UWP\KinectTvV2.UWP.csproj", "{DCDB0E0A-AB87-4067-ABB9-2B16C7C9BA60}"
 EndProject
