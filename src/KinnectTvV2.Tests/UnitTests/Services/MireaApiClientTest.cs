@@ -23,7 +23,7 @@ namespace KinnectTvV2.Tests.UnitTests.Services
             
             Assert.NotNull(actualNews.First().Title);
             Assert.NotNull(actualNews.First().Content);
-
+            Assert.NotEmpty(actualNews.First().Photos);
         }
 
         [Fact]
