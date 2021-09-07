@@ -17,10 +17,7 @@ namespace KinectTvV2.Core.Services.ApiClient
 
         public MireaApiClient()
         {
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri(MireaApiEndpoints.BaseAddress)
-            };
+            _httpClient = new HttpClient();
         }
 
         public async Task<ApiNewsItem[]> GetNews(int countNews = 10)
