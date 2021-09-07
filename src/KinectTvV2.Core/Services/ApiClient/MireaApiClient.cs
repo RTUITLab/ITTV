@@ -46,7 +46,8 @@ namespace KinectTvV2.Core.Services.ApiClient
             var cards = document.QuerySelectorAll(query)
                 .Take(countNews);
 
-            var semaphore = new SemaphoreSlim(5);
+            const int countThreads = 5;
+            using var semaphore = new SemaphoreSlim(countThreads);
 
             var result = new List<ApiNewsItem>();
 
@@ -65,7 +66,7 @@ namespace KinectTvV2.Core.Services.ApiClient
             });
 
             await Task.WhenAll(tasks);
-
+            
             return result.ToArray();
         }
 
