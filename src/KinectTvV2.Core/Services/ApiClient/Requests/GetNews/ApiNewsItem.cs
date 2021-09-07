@@ -2,10 +2,8 @@
 {
     public class ApiNewsItem
     {
-        public ApiNewsItem(ApiImageItem[] photos)
-        {
-            Photos = photos;
-        }
+        public ApiNewsItem()
+        { }
 
         public ApiNewsItem(string title, 
             string content,
