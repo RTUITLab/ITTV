@@ -78,6 +78,7 @@ namespace KinectTvV2.Core.Services.ApiClient
             var cardTitleElement = card.GetElementsByClassName(cardTitleClassName)
                 .FirstOrDefault() as IHtmlElement;
             var cardTitleText = cardTitleElement?.Title;
+
             
             var linkCard = card.Attributes["href"]?.Value;
 
@@ -90,8 +91,32 @@ namespace KinectTvV2.Core.Services.ApiClient
 
             var cardNewsText = cardDetailNewsElement?.TextContent;
 
-            var result = new ApiNewsItem(cardTitleText, cardNewsText, linkCard);
+            var photos = await GetPhotos(cardDocument);
+
+            var result = new ApiNewsItem(cardTitleText, cardNewsText, linkCard, photos);
             return result;
+        }
+
+        private async Task<ApiImageItem[]> GetPhotos(IParentNode detailCardDocument)
+        {
+            var result = new List<ApiImageItem>();
+            
+            const string photoQuery = "[data-fancybox=gallery]";
+
+            var cardPhotosElements = detailCardDocument.QuerySelectorAll(photoQuery);
+
+            foreach (var cardPhotoElement in cardPhotosElements)
+            {
+                var link = cardPhotoElement.Attributes["href"]?.Value;
+               
+                var name = link?.Split('/')[^1];
+                var photoData = await _httpClient.GetByteArrayAsync(link);
+
+                var newFile = new ApiImageItem(link, photoData, name);
+                result.Add(newFile);
+            }
+            
+            return result.ToArray();
         }
     }
 }
