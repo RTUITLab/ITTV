@@ -52,7 +52,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
                 image.CacheOption = BitmapCacheOption.OnLoad;
                 image.StreamSource = ms;
                 image.EndInit();
-
+            
                 return image;
             }
         }
