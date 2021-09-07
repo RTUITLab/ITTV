@@ -5,12 +5,16 @@
         public ApiNewsItem()
         { }
 
-        public ApiNewsItem(string title, string content)
+        public ApiNewsItem(string title, 
+            string content,
+            string link)
         {
             Title = title;
             Content = content;
+            Link = link;
         }
         public string Title { get; set; }
         public string Content { get; set; }
+        public string Link { get; set; }
     }
 }
