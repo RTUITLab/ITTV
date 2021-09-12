@@ -79,10 +79,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
             return "";
         }
 
-        public void Choose(string answer)
+        public async Task<TimeTableList> Choose(string answer)
         {
             answers.Add(answer);
-            GetContent();
+            return await GetContent();
         }
 
         public void UnChoose()
@@ -92,19 +92,24 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
             }
         }
 
-        public async void GetContent()
+        public void CloseTimeTable()
+        {
+            answers.Clear();
+        }
+
+        public async Task<TimeTableList> GetContent()
         {
             if (answers.Count == 0)
             {
-                MainWindow.Instance.content.NavigateTo(new TimeTableList(new List<string>() { "Бакалавриат", "Магистратура" }));
+                return new TimeTableList(new List<string>() { "Бакалавриат", "Магистратура" }, "");
             } 
             else if (answers.Count == 1)
             {
                 if (answers[0].Equals("Бакалавриат")) {
-                    MainWindow.Instance.content.NavigateTo(new TimeTableList(new List<string>() { "1-ый курс", "2-ой курс", "3-ий курс", "4-ый курс" })); 
+                    return new TimeTableList(new List<string>() { "1-ый курс", "2-ой курс", "3-ий курс", "4-ый курс" }, "Назад к уровням подготовки"); 
                 } 
                 else if (answers[0].Equals("Магистратура")) {
-                    MainWindow.Instance.content.NavigateTo(new TimeTableList(new List<string>() { "1-ый курс", "2-ой курс" })); 
+                    return new TimeTableList(new List<string>() { "1-ый курс", "2-ой курс" }, "Назад к уровням подготовки"); 
                 }
             }
             else if (answers.Count == 2)
@@ -116,20 +121,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
                     {
                         case "1-ый курс":
                             Groups.bachelor.first.ForEach(direction => { outList.Add(direction.name); });
-                            MainWindow.Instance.content.NavigateTo(new TimeTableList(outList));
-                            break;
+                            return new TimeTableList(outList, "Назад к выбору курса");
                         case "2-ой курс":
                             Groups.bachelor.second.ForEach(direction => { outList.Add(direction.name); });
-                            MainWindow.Instance.content.NavigateTo(new TimeTableList(outList));
-                            break;
+                            return new TimeTableList(outList, "Назад к выбору курса");
                         case "3-ий курс":
                             Groups.bachelor.third.ForEach(direction => { outList.Add(direction.name); });
-                            MainWindow.Instance.content.NavigateTo(new TimeTableList(outList));
-                            break;
+                            return new TimeTableList(outList, "Назад к выбору курса");
                         case "4-ый курс":
                             Groups.bachelor.fourth.ForEach(direction => { outList.Add(direction.name); });
-                            MainWindow.Instance.content.NavigateTo(new TimeTableList(outList));
-                            break;
+                            return new TimeTableList(outList, "Назад к выбору курса");
                     }
                 } 
                 else if (answers[0].Equals("Магистратура"))
@@ -139,12 +140,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
                     {
                         case "1-ый курс":
                             Groups.master.first.ForEach(direction => { outList.Add(direction.name); });
-                            MainWindow.Instance.content.NavigateTo(new TimeTableList(outList));
-                            break;
+                            return new TimeTableList(outList, "Назад к выбору курса");
                         case "2-ой курс":
                             Groups.master.second.ForEach(direction => { outList.Add(direction.name); });
-                            MainWindow.Instance.content.NavigateTo(new TimeTableList(outList));
-                            break;
+                            return new TimeTableList(outList, "Назад к выбору курса");
                     }
                 }
             }
@@ -157,20 +156,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
                     {
                         case "1-ый курс":
                             Groups.bachelor.first.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
-                            MainWindow.Instance.content.NavigateTo(new TimeTableList(outList));
-                            break;
+                            return new TimeTableList(outList, "Назад к выбору направления");
                         case "2-ой курс":
                             Groups.bachelor.second.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
-                            MainWindow.Instance.content.NavigateTo(new TimeTableList(outList));
-                            break;
+                            return new TimeTableList(outList, "Назад к выбору направления");
                         case "3-ий курс":
                             Groups.bachelor.third.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
-                            MainWindow.Instance.content.NavigateTo(new TimeTableList(outList));
-                            break;
+                            return new TimeTableList(outList, "Назад к выбору направления");
                         case "4-ый курс":
                             Groups.bachelor.fourth.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
-                            MainWindow.Instance.content.NavigateTo(new TimeTableList(outList));
-                            break;
+                            return new TimeTableList(outList, "Назад к выбору направления");
                     }
                 }
                 else if (answers[0].Equals("Магистратура"))
@@ -180,18 +175,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
                     {
                         case "1-ый курс":
                             Groups.master.first.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
-                            MainWindow.Instance.content.NavigateTo(new TimeTableList(outList));
-                            break;
+                            return new TimeTableList(outList, "Назад к выбору направления");
                         case "2-ой курс":
                             Groups.master.second.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
-                            MainWindow.Instance.content.NavigateTo(new TimeTableList(outList));
-                            break;
+                            return new TimeTableList(outList, "Назад к выбору направления");
                     }
                 }
             }
             else if (answers.Count == 4)
             {
-                MainWindow.Instance.content.NavigateTo(new TimeTableList(new List<string>() { "Сегодня", "Завтра", "Общее" }));
+                return new TimeTableList(new List<string>() { "Сегодня", "Завтра", "Общее" }, "Назад к выбору группы");
             }
             else if (answers.Count >= 5)
             {
@@ -201,19 +194,20 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
                         List<Lesson> todayLessons = await GetTodaySchedule(answers[3]);
                         MainWindow.Instance.content.NavigateTo(new SchedulePage(todayLessons));
                         UnChoose();
-                        break;
+                        return null;
                     case "Завтра":
                         List<Lesson> tommorowLessons = await GetTomorrowSchedule(answers[3]);
                         MainWindow.Instance.content.NavigateTo(new SchedulePage(tommorowLessons));
                         UnChoose();
-                        break;
+                        return null;
                     case "Общее":
                         FullSchedule allLessons = await GetFullSchedule(answers[3]);
                         MainWindow.Instance.content.NavigateTo(new SchedulePage(allLessons));
                         UnChoose();
-                        break;
+                        return null;
                 }
             }
+            return null;
         }
 
         public bool GetAll()

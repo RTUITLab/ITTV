@@ -38,7 +38,8 @@
                         Width="60" 
                         Grid.Column="0" 
                         Style="{StaticResource BackButtonStyle}" 
-                        Click="GoBack" />
+                        Click="GoBack"
+                        FocusVisualStyle="{x:Null}"/>
 
                 <Grid Grid.Column="1" HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
