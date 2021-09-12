@@ -11,12 +11,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
     class MireaDateTime : Singleton<MireaDateTime>
     {
         int SleepTime;
+        bool NeedToCheckTime;
 
         public MireaDateTime()
         {
             SleepTime = Settings.Instance.SleepHour;
             Settings.Instance.SettingsUpdated += () => { 
                 SleepTime = Settings.Instance.SleepHour;
+                NeedToCheckTime = Settings.Instance.NeedCheckTime;
             };
         }
 
@@ -37,7 +39,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
                 else if (dateTime >= new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 10, 30, 1) &&
                   dateTime <= new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 10, 39, 59))
                 {
-                    return "Перерыв перед 1-ой парой";
+                    return "Перерыв перед 2-ой парой";
                 }
                 else if (dateTime >= new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 10, 40, 0) &&
                     dateTime <= new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 12, 10, 0))
@@ -120,7 +122,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
         public bool WorkTime()
         {
-            if (Settings.Instance.NeedCheckTime && (DateTime.Now.Hour >= SleepTime || DateTime.Now.Hour < 8))
+            if (NeedToCheckTime && (DateTime.Now.Hour >= SleepTime || DateTime.Now.Hour < 8))
             {
                 return false;
             }

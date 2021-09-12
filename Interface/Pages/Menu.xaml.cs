@@ -33,9 +33,11 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
             var localDataSource = DataSource.Instance.GetGroup("Menu");
             itemsControl.ItemTemplate = (DataTemplate)FindResource(localDataSource.TypeGroup + "Template");
             itemsControl.ItemsSource = localDataSource;
+
+            Loaded += (sender, e) => { TimeTable.Instance.CloseTimeTable(); };
         }
 
-        private void UniformGrid_Click(object sender, RoutedEventArgs e)
+        private async void UniformGrid_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.Instance.UIInvoked();
             var button = (Button)e.OriginalSource;
@@ -52,7 +54,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
                         MainWindow.Instance.content.NavigateTo(new VideoList());
                         break;
                     case "Расписание":
-                        TimeTable.Instance.GetContent();
+                        MainWindow.Instance.content.NavigateTo(await TimeTable.Instance.GetContent());
                         break;
                     case "Игры":
                         MainWindow.Instance.content.NavigateTo(new GamesList());

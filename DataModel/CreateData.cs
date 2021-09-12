@@ -19,7 +19,11 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
     {
         public void GetAllTimetable()
         {
-            // Cache all TimeTable from server
+            string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"TimeTables\";
+
+
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
         }
 
         public void GetAllVideos()
