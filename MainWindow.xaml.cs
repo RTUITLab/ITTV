@@ -10,6 +10,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Input;
     using System.Windows.Media;
@@ -34,7 +35,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         public static MainWindow Instance;
         private DateTime LastUIOperation = DateTime.Now;
 
-        private Body[] bodies = null;
+        private List<Body> bodies = null;
         public List<GestureDetector> gestureDetectorList = new List<GestureDetector>();
 
         public MainWindow()
@@ -168,10 +169,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                 {
                     if (bodies == null)
                     {
-                        bodies = new Body[bodyFrame.BodyCount];
+                        bodies = new List<Body>(new Body[bodyFrame.BodyCount].ToList());
                     }
 
-                    bodyFrame.GetAndRefreshBodyData(this.bodies);
+                    bodyFrame.GetAndRefreshBodyData(bodies);
                     dataReceived = true;
                 }
             }
@@ -183,16 +184,18 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                     int maxBodies = this.kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
                     for (int i = 0; i < maxBodies; ++i)
                     {
-                        Body body = this.bodies[i];
-                        ulong trackingId = body.TrackingId;
+                        if (i < bodies.Count) {
+                            Body body = this.bodies[i];
+                            ulong trackingId = body.TrackingId;
 
-                        if (maxBodies < this.gestureDetectorList.Count)
-                        {
-                            if (trackingId != this.gestureDetectorList[i].TrackingId)
+                            if (maxBodies < this.gestureDetectorList.Count)
                             {
-                                gestureDetectorList[i].TrackingId = trackingId;
+                                if (trackingId != this.gestureDetectorList[i].TrackingId)
+                                {
+                                    gestureDetectorList[i].TrackingId = trackingId;
 
-                                gestureDetectorList[i].IsPaused = trackingId == 0;
+                                    gestureDetectorList[i].IsPaused = trackingId == 0;
+                                }
                             }
                         }
                     }
