@@ -15,6 +15,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
         public MireaDateTime()
         {
+            NeedToCheckTime = Settings.Instance.NeedCheckTime;
             SleepTime = Settings.Instance.SleepHour;
             Settings.Instance.SettingsUpdated += () => { 
                 SleepTime = Settings.Instance.SleepHour;

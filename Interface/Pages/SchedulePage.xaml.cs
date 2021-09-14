@@ -27,6 +27,13 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
             mainGrid.Margin = new Thickness(100, 50, 100, 50);
 
+            if (lessons == null)
+            {
+                OutList.Text = "Произошла ошибка при работе сервера.";
+                OutList.Visibility = Visibility.Visible;
+                return;
+            }
+
             bool empty = true;
             foreach (Lesson lesson in lessons)
             {
@@ -49,6 +56,13 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
             InitializeComponent();
 
             mainGrid.Margin = new Thickness(100, 50, 100, 50);
+
+            if (lessons == null)
+            {
+                OutList.Text = "Произошла ошибка при работе сервера.";
+                OutList.Visibility = Visibility.Visible;
+                return;
+            }
 
             for (int i = 0; i < 12; i++)
             {

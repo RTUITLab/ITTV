@@ -22,7 +22,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
     {
         bool stopped = true;
         BodyFrameReader bodyReader;
-        Body[] bodies;
+        List<Body> bodies;
         bool engagementPeopleHaveChanged;
         List<BodyHandPair> handsToEngage;
         private int engagedPeopleAllowed;
@@ -34,7 +34,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             this.bodyReader = sensor.BodyFrameSource.OpenReader();
             this.bodyReader.FrameArrived += this.BodyReader_FrameArrived;
             sensor.Open();
-            this.bodies = new Body[this.bodyReader.BodyFrameSource.BodyCount];
+            this.bodies = new List<Body>();
             this.handsToEngage = new List<BodyHandPair>();
         }
 

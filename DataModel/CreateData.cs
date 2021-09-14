@@ -66,7 +66,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
             if (!File.Exists("Settings/news.json"))
             {
-                NewsFromSite.Instance.GetNewsFromSite();
+                NewsFromSite.Instance.SyncNewsFromSite();
             }
 
             string json = File.ReadAllText("Settings/news.json");
@@ -74,7 +74,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
             if (news_list == null)
             {
-                NewsFromSite.Instance.GetNewsFromSite();
+                NewsFromSite.Instance.SyncNewsFromSite();
 
                 json = File.ReadAllText("Settings/news.json");
                 news_list = JsonConvert.DeserializeObject<List<News>>(json);
