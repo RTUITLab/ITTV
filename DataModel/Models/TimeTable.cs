@@ -37,15 +37,15 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
 
         private async Task<FullSchedule> GetFullSchedule(string group)
         {
-            return await network.GetAllTimeTable(group);
+            return await network.GetTimeTable<FullSchedule>(group, TimeTableNetwork.TimeTableEnum.full_schedule);
         }
         private async Task<List<Lesson>> GetTodaySchedule(string group)
         {
-            return await network.GetTimeTable(group, TimeTableNetwork.TimeTableTime.today);
+            return await network.GetTimeTable<List<Lesson>>(group, TimeTableNetwork.TimeTableEnum.today);
         }
         private async Task<List<Lesson>> GetTomorrowSchedule(string group)
         {
-            return await network.GetTimeTable(group, TimeTableNetwork.TimeTableTime.tomorrow);
+            return await network.GetTimeTable<List<Lesson>>(group, TimeTableNetwork.TimeTableEnum.tomorrow);
         }
 
         public string GetImageSourceTimeTable()
