@@ -1,20 +1,14 @@
-﻿using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
-using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.Network
 {
-    class TimeTableNetwork
+    class TimeTableNetwork : IDisposable
     {
-        public enum TimeTableTime
+        public enum TimeTableEnum
         {
             today,
             tomorrow,
@@ -22,18 +16,15 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network
         }
 
 
-        HttpClient client = new HttpClient();
+        private readonly HttpClient _client = new HttpClient();
         string BaseURL = "https://schedule-rtu.rtuitlab.dev/api/schedule/";
 
         public async Task GetGroupsToFile()
         {
-            client.DefaultRequestHeaders.Add("Accept-Charset", "");
             try
             {
-                var response = await client.GetByteArrayAsync(BaseURL + "get_groups");
-                var cyrilic_response = (Encoding.ASCII.GetString(response));
-
-                File.WriteAllText("Settings/groups.json", cyrilic_response);
+                var str = await _client.GetStringAsync(BaseURL + "get_groups");
+                File.WriteAllText("Settings/groups.json", str);
             }
             catch (HttpRequestException exception)
             {
@@ -41,14 +32,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network
             }
         }
 
-        public async Task<List<Lesson>> GetTimeTable(string group, TimeTableTime time)
+        public async Task<TResponse> GetTimeTable<TResponse>(string group, TimeTableEnum time)
+            where TResponse: class
         {
-            string uri = BaseURL + group + "/" + time.ToString();
+            var uri = BaseURL + group + "/" + time;
             try
             {
-                client.Timeout = new TimeSpan(5000);
-                var response = await client.GetStringAsync(uri);
-                List<Lesson> answer = JsonConvert.DeserializeObject<List<Lesson>>(response);
+                var response = await _client.GetStringAsync(uri);
+                var answer = JsonConvert.DeserializeObject<TResponse>(response);
                 return answer;
             } catch (HttpRequestException exception)
             {
@@ -56,28 +47,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network
                 return null;
             } catch (TaskCanceledException exception)
             {
-                //throw new Exception("Test");
                 MainWindow.Instance.Log(exception.ToString());
                 return null;
             }
         }
-        public async Task<FullSchedule> GetAllTimeTable(string group)
+        
+        public void Dispose()
         {
-            string uri = BaseURL + group + "/" + TimeTableTime.full_schedule.ToString();
-            try
-            {
-                var response = await client.GetStringAsync(uri);
-                FullSchedule answer = JsonConvert.DeserializeObject<FullSchedule>(response);
-                return answer;
-            } catch (HttpRequestException exception){
-                MainWindow.Instance.Log(exception.ToString());
-                return null;
-            } catch (TaskCanceledException exception)
-            {
-                //throw new Exception("Test");
-                MainWindow.Instance.Log(exception.ToString());
-                return null;
-            }
+            _client?.Dispose();
         }
     }
 }
