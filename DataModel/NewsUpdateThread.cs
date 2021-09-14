@@ -1,30 +1,33 @@
 ﻿using Microsoft.Samples.Kinect.ControlsBasics.Network.NewsTasks;
 using Microsoft.Samples.Kinect.ControlsBasics.TVSettings;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Timers;
+using Microsoft.Samples.Kinect.ControlsBasics.Network;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 {
-    class NewsUpdateThread : Singleton<NewsUpdateThread>
+    class NewsUpdateThread : Singleton<NewsUpdateThread>, IDisposable
     {
-        private Timer timer;
+        private Timer _timer;
 
         public void StartUpdating()
         {
-            timer = new Timer((e) =>
-            {
-                NewsFromSite.Instance.GetNewsFromSite();
-            }, null, TimeSpan.Zero, TimeSpan.FromMinutes(Settings.Instance.MinForUpdate));
+            _timer = new Timer(Settings.instance.MinForUpdate * 60 * 1000);
+
+            _timer.Elapsed += (o, e) => NewsFromSite.Instance.SyncNewsFromSite();
+            _timer.Elapsed += async (o,e ) => await new TimeTableNetwork().SyncGroupsToFile();
+            
+            _timer.Start();
         }
 
         public void StopUpdating()
         {
-            timer.Dispose();
-            timer = null;
+            _timer.Stop();
+        }
+
+        public void Dispose()
+        {
+            _timer?.Dispose();
         }
     }
 }

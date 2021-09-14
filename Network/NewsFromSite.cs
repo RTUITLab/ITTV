@@ -15,7 +15,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.NewsTasks
 {
     public class NewsFromSite : Singleton<NewsFromSite>
     {
-        public void GetNewsFromSite()
+        public void SyncNewsFromSite()
         {
             MainWindow.Instance.Log("Start download news from site");
 
