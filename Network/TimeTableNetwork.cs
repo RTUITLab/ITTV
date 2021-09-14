@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.Network
 {
@@ -19,12 +20,15 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network
         private readonly HttpClient _client = new HttpClient();
         string BaseURL = "https://schedule-rtu.rtuitlab.dev/api/schedule/";
 
-        public async Task GetGroupsToFile()
+        public async Task SyncGroupsToFile()
         {
             try
             {
                 var str = await _client.GetStringAsync(BaseURL + "get_groups");
-                File.WriteAllText("Settings/groups.json", str);
+                var groups = JsonConvert.DeserializeObject<Groups>(str);
+                groups.SetUpdated();
+                var groupsJson = JsonConvert.SerializeObject(groups);
+                File.WriteAllText("Settings/groups.json", groupsJson);
             }
             catch (HttpRequestException exception)
             {
