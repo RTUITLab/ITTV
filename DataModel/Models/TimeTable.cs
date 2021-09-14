@@ -1,15 +1,11 @@
 ﻿using Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages;
 using Microsoft.Samples.Kinect.ControlsBasics.Network;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
 {
@@ -27,11 +23,23 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
 
         async void Configure()
         {
-            if (!File.Exists("Settings/groups.json") || string.IsNullOrEmpty(File.ReadAllText("Settings/groups.json"))) {
-                await network.GetGroupsToFile();
+            const string groupsInfoPath = "Settings/groups.json";
+            if (!File.Exists(groupsInfoPath) || string.IsNullOrEmpty(File.ReadAllText(groupsInfoPath)))
+            {
+                await network.SyncGroupsToFile();
+            }
+            else
+            {
+                var updateTime = TimeSpan.FromMinutes(30); 
+                var groupsJson = File.ReadAllText(groupsInfoPath);
+                var groups = JsonConvert.DeserializeObject<Groups>(groupsJson);
+                if (!groups.Updated.HasValue || groups.Updated - DateTime.Now > updateTime)
+                {
+                    await network.SyncGroupsToFile();
+                }
             }
 
-            string json = File.ReadAllText("Settings/groups.json");
+            var json = File.ReadAllText(groupsInfoPath);
             Groups = JsonConvert.DeserializeObject<Groups>(json);
         }
 
