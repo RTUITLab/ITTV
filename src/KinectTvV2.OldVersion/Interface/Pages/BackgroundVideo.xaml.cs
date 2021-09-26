@@ -38,13 +38,13 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
             TimeTable.Instance.CloseTimeTable();
 
-            MainWindow.Instance.HandHelper.OnHoverStart += () =>
+            MainWindow.Instance.handHelper.OnHoverStart += () =>
             {
                 try
                 {
                     UI(() =>
                     {
-                        MainWindow.Instance.UIInvoked();
+                        MainWindow.Instance.UiInvoked();
                         if (IsButtonInvisible())
                         {
                             SetButtonVisibility(Visibility.Visible);
@@ -53,7 +53,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
                 }
                 catch (Exception ex)
                 {
-                    MainWindow.Instance.Log(ex.Message);
+                    MainWindow.Log(ex.Message);
                     throw;
                 }
             };
@@ -61,7 +61,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
         private void Settings_SettingsUpdated()
         {
-            MainWindow.Instance.UI(() => {
+            MainWindow.Instance.Ui(() => {
                 BackgroungVideo.Volume = Settings.Instance.VideoVolume;
                 backgroundVideoPlaylist = new BackgroundVideoPlaylist();
             });
@@ -69,7 +69,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
         private void BackgroundVideo_Loaded(object sender, RoutedEventArgs e)
         {
-            MainWindow.Instance.Log("BackgroundVideo loaded");
+            MainWindow.Log("BackgroundVideo loaded");
 
             if (backgroundVideoPlaylist.currentVideo != null)
             {
@@ -82,7 +82,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
         private void BackgroundVideo_Unloaded(object sender, RoutedEventArgs e)
         {
-            MainWindow.Instance.Log("BackgroundVideo unloaded method");
+            MainWindow.Log("BackgroundVideo unloaded method");
 
             BackgroungVideo.Stop();
         }
@@ -91,7 +91,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
         {
             Uri nextVideo = backgroundVideoPlaylist.NextVideo();
 
-            MainWindow.Instance.Log("Next BackgroundVideo - " + nextVideo.ToString().Substring(nextVideo.ToString().LastIndexOf("/") + 1));
+            MainWindow.Log("Next BackgroundVideo - " + nextVideo.ToString().Substring(nextVideo.ToString().LastIndexOf("/") + 1));
             
             BackgroungVideo.Stop();
             BackgroungVideo.Source = nextVideo;
@@ -105,7 +105,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.Instance.UIInvoked();
+            MainWindow.Instance.UiInvoked();
             MainWindow.Instance.content.NavigateTo(new Menu());
         }
 

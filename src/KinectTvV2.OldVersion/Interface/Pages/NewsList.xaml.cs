@@ -34,7 +34,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
 
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            MainWindow.Instance.UIInvoked();
+            MainWindow.Instance.UiInvoked();
             var button = (Button)e.OriginalSource;
             News dataItem = button.DataContext as News;
 
@@ -46,7 +46,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            MainWindow.Instance.UIInvoked();
+            MainWindow.Instance.UiInvoked();
         }
     }
 }

@@ -44,20 +44,20 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
                 TimeTable.Instance.UnChoose();
             }
 
-            MainWindow.Instance.Log("Navigated back to " + history[history.Count - 1].GetType().ToString());
+            MainWindow.Log("Navigated back to " + history[history.Count - 1].GetType().ToString());
 
             history.RemoveAt(history.Count - 1);
             content.Content = history[history.Count - 1];
         }
         public void NavigateTo(UserControl innerContent)
         {
-            MainWindow.Instance.Log("Navigated to " + innerContent.GetType().ToString());
+            MainWindow.Log("Navigated to " + innerContent.GetType().ToString());
 
             content.Content = innerContent;
             history.Add(innerContent);
             MainWindow.Instance.backButton.Visibility = history.Count > 1 ? Visibility.Visible : Visibility.Hidden;
 
-            MainWindow.Instance.setWhiteTheme();
+            MainWindow.Instance.SetWhiteTheme();
         }
 
         public object GetContent()
@@ -67,25 +67,25 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
         public void OpenBackgroundVideo()
         {
-            MainWindow.Instance.Log("Open BackgroundVideo");
+            MainWindow.Log("Open BackgroundVideo");
 
             history.RemoveRange(0, history.Count);
 
             content.Content = new BackgroundVideo();
 
-            MainWindow.Instance.setBlackTheme();
+            MainWindow.Instance.SetBlackTheme();
             MainWindow.Instance.backButton.Visibility = Visibility.Hidden;
         }
 
         public void OpenNightPhoto()
         {
-            MainWindow.Instance.Log("Open NightPhoto");
+            MainWindow.Log("Open NightPhoto");
 
             history.RemoveRange(0, history.Count);
 
             content.Content = new NightPhoto();
 
-            MainWindow.Instance.setBlackTheme();
+            MainWindow.Instance.SetBlackTheme();
             MainWindow.Instance.backButton.Visibility = Visibility.Hidden;
         }
 

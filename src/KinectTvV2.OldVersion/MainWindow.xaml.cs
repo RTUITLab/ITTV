@@ -1,10 +1,4 @@
-﻿//------------------------------------------------------------------------------
-// <copyright file="MainWindow.xaml.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-//------------------------------------------------------------------------------
-
-using Microsoft.Samples.Kinect.ControlsBasics.Interface.Common;
+﻿using Microsoft.Samples.Kinect.ControlsBasics.Interface.Common;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics
 {
@@ -29,24 +23,24 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
     /// </summary>
     public partial class MainWindow
     {
-        private static bool adminMode = Settings.Instance.IsAdmin;
+        private static bool _adminMode = Settings.Instance.IsAdmin;
 
-        public HandOverHelper HandHelper;
+        public readonly HandOverHelper handHelper;
 
         public static MainWindow Instance;
-        private DateTime LastUIOperation = DateTime.Now;
+        private DateTime lastUiOperation = DateTime.Now;
 
-        private List<Body> bodies = null;
-        public List<GestureDetector> gestureDetectorList = new List<GestureDetector>();
+        private List<Body> bodies;
+        private readonly List<GestureDetector> gestureDetectorList = new List<GestureDetector>();
 
         public MainWindow()
         {
             Instance = this;
 
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.Activate();
-            this.Focus();
+            Activate();
+            Focus();
 
             CreateData.Instance.GetAllVideos();
             CreateData.Instance.GetNewsFromFile();
@@ -57,12 +51,12 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
             AppDomain.CurrentDomain.UnhandledException += (sender, s) =>
             {
-                Exception e = (Exception) s.ExceptionObject;
+                var e = (Exception) s.ExceptionObject;
 
                 Log(e.ToString());
             };
 
-            if (!adminMode)
+            if (!_adminMode)
             {
                 AppDomain.CurrentDomain.ProcessExit += ReOpenApp;
                 AppDomain.CurrentDomain.UnhandledException += ReOpenAppInException;
@@ -77,10 +71,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
             ((App)Application.Current).KinectRegion = kinectRegion;
             kinectRegion.KinectSensor = KinectSensor.GetDefault();
-            BodyFrameReader bodyFrameReader = this.kinectRegion.KinectSensor.BodyFrameSource.OpenReader();
-            bodyFrameReader.FrameArrived += this.Reader_BodyFrameArrived;
+            var bodyFrameReader = kinectRegion.KinectSensor.BodyFrameSource.OpenReader();
+            bodyFrameReader.FrameArrived += Reader_BodyFrameArrived;
 
-            DispatcherTimer TimeTimer = new DispatcherTimer(
+            var timeTimer = new DispatcherTimer(
                 TimeSpan.FromSeconds(1),
                 DispatcherPriority.Normal,
                 (sender, e) =>
@@ -93,27 +87,27 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                 },
                 Dispatcher);
 
-            DispatcherTimer CheckOutTimer = new DispatcherTimer(
+            var checkOutTimer = new DispatcherTimer(
                 TimeSpan.FromMilliseconds(100),
                 DispatcherPriority.Normal,
                 (sender, e) => { CheckPersonIsRemoved(); },
                 Dispatcher);
 
-            HandHelper = new HandOverHelper(kinectRegion, Dispatcher);
+            handHelper = new HandOverHelper(kinectRegion, Dispatcher);
 
-            string GesturePath = $@"{AppDomain.CurrentDomain.BaseDirectory}\GesturesDatabase\KinectGesture.gbd";
-            if (File.Exists(GesturePath))
+            var gesturePath = $@"{AppDomain.CurrentDomain.BaseDirectory}\GesturesDatabase\KinectGesture.gbd";
+            if (File.Exists(gesturePath))
             {
-                int maxBodies = this.kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
-                for (int i = 0; i < maxBodies; ++i)
+                var maxBodies = kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
+                for (var i = 0; i < maxBodies; ++i)
                 {
-                    GestureDetector detector = new GestureDetector(this.kinectRegion.KinectSensor);
+                    var detector = new GestureDetector(kinectRegion.KinectSensor);
                     detector.OnGestureFired += () => { content.NavigateTo(new EggVideo()); };
-                    this.gestureDetectorList.Add(detector);
+                    gestureDetectorList.Add(detector);
                 }
             }
 
-            ControlsBasicsWindow.Topmost = !adminMode;
+            ControlsBasicsWindow.Topmost = !_adminMode;
 
             Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
 
@@ -122,12 +116,12 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
         private void Settings_SettingsUpdated()
         {
-            adminMode = Settings.Instance.IsAdmin;
-            UI(() =>
+            _adminMode = Settings.Instance.IsAdmin;
+            Ui(() =>
             {
-                ControlsBasicsWindow.Topmost = !adminMode;
+                ControlsBasicsWindow.Topmost = !_adminMode;
 
-                if (!adminMode)
+                if (!_adminMode)
                 {
                     AppDomain.CurrentDomain.ProcessExit += ReOpenApp;
                     AppDomain.CurrentDomain.UnhandledException += ReOpenAppInException;
@@ -162,51 +156,37 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         /// <param name="e">event arguments</param>
         private void Reader_BodyFrameArrived(object sender, BodyFrameArrivedEventArgs e)
         {
-            bool dataReceived = false;
+            var dataReceived = false;
 
-            using (BodyFrame bodyFrame = e.FrameReference.AcquireFrame())
+            using (var bodyFrame = e.FrameReference.AcquireFrame())
             {
                 if (bodyFrame != null)
                 {
-                    if (bodies == null)
-                    {
-                        bodies = new List<Body>(new Body[bodyFrame.BodyCount].ToList());
-                    }
+                    bodies ??= new List<Body>(new Body[bodyFrame.BodyCount].ToList());
 
                     bodyFrame.GetAndRefreshBodyData(bodies);
                     dataReceived = true;
                 }
             }
 
-            if (dataReceived)
+            if (!dataReceived) return;
+            if (bodies == null) return;
+            var maxBodies = kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
+            for (var i = 0; i < maxBodies; ++i)
             {
-                if (bodies != null)
-                {
-                    int maxBodies = this.kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
-                    for (int i = 0; i < maxBodies; ++i)
-                    {
-                        if (i < bodies.Count) {
-                            Body body = this.bodies[i];
-                            ulong trackingId = body.TrackingId;
+                if (i >= bodies.Count)
+                    continue;
+                var body = bodies[i];
+                var trackingId = body.TrackingId;
 
-                            if (maxBodies < this.gestureDetectorList.Count)
-                            {
-                                if (trackingId != this.gestureDetectorList[i].TrackingId)
-                                {
-                                    gestureDetectorList[i].TrackingId = trackingId;
-
-                                    gestureDetectorList[i].IsPaused = trackingId == 0;
-                                }
-                            }
-                        }
-                    }
-                }
+                if (maxBodies >= gestureDetectorList.Count)
+                    continue;
+                if (trackingId == gestureDetectorList[i].TrackingId)
+                    continue;
+                gestureDetectorList[i].TrackingId = trackingId;
+                gestureDetectorList[i].IsPaused = trackingId == 0;
             }
         }
-
-
-
-
 
         /// <summary>
         /// Handle the back button click.
@@ -215,7 +195,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
         /// <param name="e">Event arguments</param>
         private void GoBack(object sender, RoutedEventArgs e)
         {
-            UIInvoked();
+            UiInvoked();
             if (content.CanGoBackFuther())
             {
                 content.GoBack();
@@ -227,37 +207,33 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             }
         }
 
-        public void UIInvoked(DateTime dateTime = default)
+        public void UiInvoked(DateTime dateTime = default)
         {
-            if (dateTime == default)
-            {
-                LastUIOperation = DateTime.Now;
-            }
-            else
-            {
-                LastUIOperation = dateTime;
-            }
+            lastUiOperation = dateTime == default ? DateTime.Now : dateTime;
         }
 
-        public void UI(Action action)
+        public void Ui(Action action)
         {
             Dispatcher.Invoke(action);
         }
 
-        public void Log(string m)
+        public static void Log(string m)
         {
             try
             {
-                File.AppendAllLines("./logs.txt", new string[] { DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + m });
+                File.AppendAllLines("./logs.txt", new[] { DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + m });
             }
-            catch (Exception e) { }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         private void CheckPersonIsRemoved()
         {
             try
             {
-                Instance?.UI(() =>
+                Instance?.Ui(() =>
                 {
                     if (!MireaDateTime.Instance.WorkTime())
                     {
@@ -268,37 +244,35 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                     }
                     else
                     {
-                        if (DateTime.Now - LastUIOperation > TimeSpan.FromMinutes(1))
+                        if (DateTime.Now - lastUiOperation > TimeSpan.FromMinutes(1))
                         {
                             if (Instance.content.ContentType() != typeof(BackgroundVideo) && Instance.content.ContentType() != typeof(EggVideo))
                             {
-                                if (HandHelper.IsHover)
+                                if (handHelper.IsHover)
                                 {
-                                    LastUIOperation += TimeSpan.FromSeconds(10);
+                                    lastUiOperation += TimeSpan.FromSeconds(10);
                                     return;
                                 }
                                 content.OpenBackgroundVideo();
                             }
                         }
-                        if (DateTime.Now - LastUIOperation > TimeSpan.FromSeconds(15))
-                        {
-                            if (Instance.content.ContentType() == typeof(BackgroundVideo))
-                            {
-                                BackgroundVideo bv = Instance.content.GetContent() as BackgroundVideo;
-                                if (!bv.IsButtonInvisible() && !adminMode)
-                                {
-                                    bv.SetButtonVisibility(Visibility.Collapsed);
-                                }
-                            }
 
+                        if (DateTime.Now - lastUiOperation <= TimeSpan.FromSeconds(15)) return;
+                        if (Instance.content.ContentType() != typeof(BackgroundVideo)) return;
+                        if (Instance.content.GetContent() is BackgroundVideo bv && !bv.IsButtonInvisible() && !_adminMode)
+                        {
+                            bv.SetButtonVisibility(Visibility.Collapsed);
                         }
                     }
                 });
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
-        public void setBlackTheme()
+        public void SetBlackTheme()
         {
             IIT.Foreground = Brushes.White;
             Lab.Foreground = Brushes.White;
@@ -314,7 +288,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
             LabLogoImage.Source = FindResource("BlackRTUITLabLogo") as ImageSource;
         }
 
-        public void setWhiteTheme()
+        public void SetWhiteTheme()
         {
             IIT.Foreground = Brushes.Black;
             Lab.Foreground = Brushes.Black;

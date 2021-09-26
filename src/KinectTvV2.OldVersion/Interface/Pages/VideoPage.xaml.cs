@@ -31,14 +31,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
             Video.Source = uri;
             Video.Volume = Settings.Instance.VideoVolume;
             Video.Play();
-            Video.MediaOpened += (s, a) => MainWindow.Instance.UIInvoked(DateTime.Now  + Video.NaturalDuration.TimeSpan);
+            Video.MediaOpened += (s, a) => MainWindow.Instance.UiInvoked(DateTime.Now  + Video.NaturalDuration.TimeSpan);
 
             Settings.Instance.SettingsUpdated += Instance_SettingsUpdated;
         }
 
         private void Instance_SettingsUpdated()
         {
-            MainWindow.Instance.UI(() => { Video.Volume = Settings.Instance.VideoVolume; });
+            MainWindow.Instance.Ui(() => { Video.Volume = Settings.Instance.VideoVolume; });
             
         }
 
@@ -49,7 +49,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.Instance.UIInvoked();
+            MainWindow.Instance.UiInvoked();
             play.Visibility = Visibility.Collapsed;
             Video.Stop();
             Video.Play();
