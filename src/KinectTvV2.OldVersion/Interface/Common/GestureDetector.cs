@@ -150,7 +150,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Common
                 currentWantedGesture++;
                 return;
             }
-            Rif (lastGesture != null && DateTime.UtcNow - lastCoolGesture > TimeSpan.FromSeconds(5))
+            if (lastGesture != null && DateTime.UtcNow - lastCoolGesture > TimeSpan.FromSeconds(5))
             {
                 currentWantedGesture = 0;
                 lastGesture = null;
