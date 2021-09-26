@@ -30,7 +30,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
         {
             InitializeComponent();
 
-            var localDataSource = DataSource.Instance.GetGroup("Menu");
+            var localDataSource = DataSource.GetGroup("Menu");
             itemsControl.ItemTemplate = (DataTemplate)FindResource(localDataSource.TypeGroup + "Template");
             itemsControl.ItemsSource = localDataSource;
 

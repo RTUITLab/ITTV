@@ -1,9 +1,5 @@
 ﻿using Microsoft.Kinect.Wpf.Controls;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
@@ -20,7 +16,8 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
         public HandOverHelper(KinectRegion kinectRegion, Dispatcher d)
         {
-            var timer = new DispatcherTimer(TimeSpan.FromMilliseconds(33), DispatcherPriority.Normal, (s, a) =>
+            var dispatcherTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(33), DispatcherPriority.Normal,
+                (s, a) =>
             {
                 var hoverNow = kinectRegion?.EngagedBodyTrackingIds?.Count > 0;
 
@@ -43,6 +40,5 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
                 OnHoverStart?.Invoke();
             });
         }
-
     }
 }

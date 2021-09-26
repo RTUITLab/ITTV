@@ -27,7 +27,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
         {
             InitializeComponent();
 
-            DataCollection<object> dataCollection = DataSource.Instance.GetGroup("News");
+            DataCollection<object> dataCollection = DataSource.GetGroup("News");
             itemsControl.ItemTemplate = (DataTemplate)FindResource(dataCollection.TypeGroup + "Template");
             itemsControl.ItemsSource = dataCollection;
         }

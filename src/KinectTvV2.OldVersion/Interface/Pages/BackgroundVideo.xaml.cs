@@ -89,7 +89,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
         private void BackgroungVideo_MediaEnded(object sender, RoutedEventArgs e)
         {
-            Uri nextVideo = backgroundVideoPlaylist.nextVideo();
+            Uri nextVideo = backgroundVideoPlaylist.NextVideo();
 
             MainWindow.Instance.Log("Next BackgroundVideo - " + nextVideo.ToString().Substring(nextVideo.ToString().LastIndexOf("/") + 1));
             

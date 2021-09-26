@@ -9,25 +9,20 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
 {
     public class DataExecuteBase : DataBase
     {
-        private static TaskType task = TaskType.Page;
-        private string[] parametrs;
+        private static TaskType _task = TaskType.Page;
 
         public DataExecuteBase(string uniqueId, string title, string[] param) : base(uniqueId, title)
         {
-            this.Parametrs = param;
+            Parameters = param;
         }
 
 
         public TaskType Task
         {
-            get { return task; }
-            set { this.SetProperty(ref task, value); }
+            get => _task;
+            set => SetProperty(ref _task, value);
         }
 
-        public string[] Parametrs
-        {
-            get { return this.parametrs; }
-            set { this.parametrs = value; }
-        }
+        public string[] Parameters { get; }
     }
 }

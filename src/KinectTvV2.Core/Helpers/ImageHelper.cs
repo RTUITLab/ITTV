@@ -7,7 +7,7 @@ namespace KinectTvV2.Core.Helpers
 {
     public static class ImageHelper
     {
-        public static BitmapImage ConvertByteToImage (byte[] array)
+        public static BitmapImage ConvertByteToImage(byte[] array)
         {
             using var ms = new MemoryStream(array);
 

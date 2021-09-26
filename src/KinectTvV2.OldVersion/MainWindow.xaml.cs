@@ -4,6 +4,8 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
+using Microsoft.Samples.Kinect.ControlsBasics.Interface.Common;
+
 namespace Microsoft.Samples.Kinect.ControlsBasics
 {
     using System;
@@ -21,7 +23,6 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
     using Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages;
     using Microsoft.Samples.Kinect.ControlsBasics.Network.Controll;
     using Microsoft.Samples.Kinect.ControlsBasics.TVSettings;
-    using Microsoft.Samples.Kinect.DiscreteGestureBasics;
 
     /// <summary>
     /// Interaction logic for MainWindow
@@ -85,10 +86,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
                 (sender, e) =>
                 {
                     DateTime dateTime = DateTime.Now; //new DateTime(DateTime.Now.Year, 2, 10, 12, 20, 00);
-                    Time.Text = MireaDateTime.Instance.GetTime(dateTime);
-                    Para.Text = MireaDateTime.Instance.GetPara(dateTime);
-                    Date.Text = MireaDateTime.Instance.GetDay(dateTime);
-                    Week.Text = MireaDateTime.Instance.GetWeek(dateTime);
+                    Time.Text = MireaDateTime.GetTime(dateTime);
+                    Para.Text = MireaDateTime.GetPara(dateTime);
+                    Date.Text = MireaDateTime.GetDay(dateTime);
+                    Week.Text = MireaDateTime.GetWeek(dateTime);
                 },
                 Dispatcher);
 

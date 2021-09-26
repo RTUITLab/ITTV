@@ -2,15 +2,9 @@
 using System.IO;
 using Microsoft.Samples.Kinect.ControlsBasics.Pages;
 using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
-using HtmlAgilityPack;
-using static Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models.DataBase;
 using static Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models.DataSource;
 using System.Collections.Generic;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
-using System.Linq;
-using System.Net;
 using Microsoft.Samples.Kinect.ControlsBasics.Network.NewsTasks;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
@@ -34,7 +28,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
 
-            string[] AllFiles = Directory.GetFiles(fullPath);
+            string[] allFiles = Directory.GetFiles(fullPath);
 
             DataCollection<object> video_group = new DataCollection<object>(
                 "Video",
@@ -42,14 +36,13 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
                 DataCollection<object>.GroupType.Video);
 
             int i = 0;
-            foreach (var video in AllFiles)
+            foreach (var video in allFiles)
             {
                 video_group.Items.Add(new Video(
                     "Video-" + i.ToString(),
                     Path.GetFileNameWithoutExtension(video),
                     typeof(VideoPage),
-                    DataSource.Instance.StringToArr(video),
-                    video));
+                    StringToArr(video)));
 
                 i++;
             }
@@ -118,7 +111,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
                 games_group.Items.Add(new Game(
                     "Game-" + i.ToString(),
                     new DirectoryInfo(Game).Name,
-                    DataSource.Instance.StringToArr(filePath)));
+                    StringToArr(filePath)));
                 i++;
             }
 
