@@ -17,7 +17,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.NewsTasks
     {
         public void SyncNewsFromSite()
         {
-            MainWindow.Instance.Log("Start download news from site");
+            MainWindow.Log("Start download news from site");
 
             try
             {
@@ -61,7 +61,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network.NewsTasks
                 string json = JsonConvert.SerializeObject(news_list);
                 File.WriteAllText("Settings/news.json", json);
             }
-            catch (Exception) { MainWindow.Instance.Log("Нет доступа к сайту"); }
+            catch (Exception) { MainWindow.Log("Нет доступа к сайту"); }
         }
     }
 }

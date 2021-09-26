@@ -32,7 +32,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network
             }
             catch (HttpRequestException exception)
             {
-                MainWindow.Instance.Log(exception.ToString());
+                MainWindow.Log(exception.ToString());
             }
         }
 
@@ -47,11 +47,11 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Network
                 return answer;
             } catch (HttpRequestException exception)
             {
-                MainWindow.Instance.Log(exception.ToString());
+                MainWindow.Log(exception.ToString());
                 return null;
             } catch (TaskCanceledException exception)
             {
-                MainWindow.Instance.Log(exception.ToString());
+                MainWindow.Log(exception.ToString());
                 return null;
             }
         }

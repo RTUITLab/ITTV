@@ -55,7 +55,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            MainWindow.Instance.UIInvoked();
+            MainWindow.Instance.UiInvoked();
         }
 
         private void allControl_Click(object sender, RoutedEventArgs e)

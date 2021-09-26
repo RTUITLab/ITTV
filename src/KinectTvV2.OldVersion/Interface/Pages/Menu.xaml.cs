@@ -39,7 +39,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
         private async void UniformGrid_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.Instance.UIInvoked();
+            MainWindow.Instance.UiInvoked();
             var button = (Button)e.OriginalSource;
             DataBase dataBase = button.DataContext as DataBase;
 

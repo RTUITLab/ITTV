@@ -46,7 +46,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
                 Process game = new Process();
                 game.StartInfo.FileName = dataExecuteBase.Parameters[0];
                 game.EnableRaisingEvents = true;
-                game.Exited += (InnerSender, InnerE) => { MainWindow.Instance.UI(() => { MainWindow.Instance.ControlsBasicsWindow.Topmost = true; }); };
+                game.Exited += (InnerSender, InnerE) => { MainWindow.Instance.Ui(() => { MainWindow.Instance.ControlsBasicsWindow.Topmost = true; }); };
                 game.Start();
 
                 ButtonAutomationPeer peer = new ButtonAutomationPeer(MainWindow.Instance.backButton);
@@ -57,7 +57,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            MainWindow.Instance.UIInvoked();
+            MainWindow.Instance.UiInvoked();
         }
     }
 }
