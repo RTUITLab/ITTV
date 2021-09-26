@@ -1,34 +1,29 @@
-﻿using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
-using Microsoft.Samples.Kinect.ControlsBasics.TVSettings;
+﻿using Microsoft.Samples.Kinect.ControlsBasics.TVSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 {
-    class BackgroundVideoPlaylist
+    public class BackgroundVideoPlaylist
     {
-        private int currentIndex = 0;
-        private List<Uri> playlist = new List<Uri>();
+        private int currentIndex;
+        private readonly List<Uri> playlist = new List<Uri>();
 
         public Uri currentVideo;
 
         public BackgroundVideoPlaylist()
         {
-            List<string> test = Settings.Instance.BackgroundVideoOrder;
-            foreach (string video in test)
+            var test = Settings.Instance.BackgroundVideoOrder;
+            foreach (var video in test)
             {
                 playlist.Add(new Uri(video));
             }
             if (playlist.Count > 0)
                 currentVideo = playlist.First();
         }
-
-
-
-        public Uri nextVideo()
+        
+        public Uri NextVideo()
         {
             if (playlist.Count > currentIndex + 1)
                 currentIndex++;

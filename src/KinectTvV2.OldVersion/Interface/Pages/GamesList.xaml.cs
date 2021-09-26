@@ -28,7 +28,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
         {
             InitializeComponent();
 
-            var group = DataSource.Instance.GetGroup("Games");
+            var group = DataSource.GetGroup("Games");
             itemsControl.ItemTemplate = (DataTemplate)FindResource(group.TypeGroup + "Template");
             itemsControl.ItemsSource = group;
         }
@@ -39,12 +39,12 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
             DataBase dataBase = button.DataContext as DataBase;
             DataExecuteBase dataExecuteBase = (DataExecuteBase)dataBase;
 
-            if (dataExecuteBase.Parametrs != null)
+            if (dataExecuteBase.Parameters != null)
             {
                 MainWindow.Instance.ControlsBasicsWindow.Topmost = false;
 
                 Process game = new Process();
-                game.StartInfo.FileName = dataExecuteBase.Parametrs[0];
+                game.StartInfo.FileName = dataExecuteBase.Parameters[0];
                 game.EnableRaisingEvents = true;
                 game.Exited += (InnerSender, InnerE) => { MainWindow.Instance.UI(() => { MainWindow.Instance.ControlsBasicsWindow.Topmost = true; }); };
                 game.Start();

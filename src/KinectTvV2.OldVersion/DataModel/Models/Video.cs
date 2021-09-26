@@ -12,19 +12,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
     [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "File is from Windows Store template")]
     public class Video : DataPageBase
     {
-        private string source;
-
-        public Video(string uniqueId, string title, Type navigationPage, string[] param, string source) : base(uniqueId, title, navigationPage, param)
-        {
-            this.source = source;
-        }
-
-        public Uri Source
-        {
-            get
-            {
-                return new Uri(source, UriKind.Relative);
-            }
-        }
+        public Video(string uniqueId, string title, Type navigationPage, string[] param)
+            : base(uniqueId, title, navigationPage, param) { }
     }
 }

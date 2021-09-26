@@ -8,26 +8,26 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 {
     class NewsUpdateThread : Singleton<NewsUpdateThread>, IDisposable
     {
-        private Timer _timer;
+        private Timer timer;
 
         public void StartUpdating()
         {
-            _timer = new Timer(Settings.instance.MinForUpdate * 60 * 1000);
+            timer = new Timer(Settings.instance.MinForUpdate * 60 * 1000);
 
-            _timer.Elapsed += (o, e) => NewsFromSite.Instance.SyncNewsFromSite();
-            _timer.Elapsed += async (o,e ) => await new TimeTableNetwork().SyncGroupsToFile();
+            timer.Elapsed += (o, e) => NewsFromSite.Instance.SyncNewsFromSite();
+            timer.Elapsed += async (o,e ) => await new TimeTableNetwork().SyncGroupsToFile();
             
-            _timer.Start();
+            timer.Start();
         }
 
         public void StopUpdating()
         {
-            _timer.Stop();
+            timer.Stop();
         }
 
         public void Dispose()
         {
-            _timer?.Dispose();
+            timer?.Dispose();
         }
     }
 }

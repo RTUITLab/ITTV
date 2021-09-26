@@ -27,9 +27,30 @@ namespace KinnectTvV2.Tests.UnitTests.Services
         }
 
         [Fact]
-        public async Task GetScheduler()
+        public async Task GetScheduleForGroup()
         {
+            const string testGroup = "ИКБО-24-20";
+            var actualSchedule = await _mireaApiClient.GetScheduleForGroup(testGroup);
             
+            Assert.NotNull(actualSchedule.Result);
+            
+            Assert.NotNull(actualSchedule.Result.Friday);
+            Assert.NotNull(actualSchedule.Result.Monday);
+            Assert.NotNull(actualSchedule.Result.Saturday);
+            Assert.NotNull(actualSchedule.Result.Thursday);
+            Assert.NotNull(actualSchedule.Result.Tuesday);
+            Assert.NotNull(actualSchedule.Result.Wednesday);
+            
+            Assert.NotNull(actualSchedule.Result.Monday.Weeks);
+        }
+
+        [Fact]
+        public async Task GetAllGroups()
+        {
+            var actualGroups = await _mireaApiClient.GetAllGroups();
+            
+            Assert.NotEmpty(actualGroups.Groups);
+            Assert.NotEqual(0, actualGroups.Count);
         }
     }
 }

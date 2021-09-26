@@ -8,33 +8,17 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
 {
     public class DataPageBase : DataBase
     {
-        private static TaskType task = TaskType.Page;
-        private Type navigationPage;
-        private string[] parametrs;
-
         public DataPageBase(string uniqueId, string title, Type navigationPage, string[] param) : base(uniqueId, title)
         {
-            this.navigationPage = navigationPage;
-            this.Parametrs = param;
+            NavigationPage = navigationPage;
+            Parameters = param;
         }
 
 
-        public TaskType Task
-        {
-            get { return task; }
-            set { this.SetProperty(ref task, value); }
-        }
+        public static TaskType Task => TaskType.Page;
 
-        public Type NavigationPage
-        {
-            get { return this.navigationPage; }
-            set { this.SetProperty(ref this.navigationPage, value); }
-        }
+        public Type NavigationPage { get; }
 
-        public string[] Parametrs
-        {
-            get { return this.parametrs; }
-            set { this.parametrs = value; }
-        }
+        public string[] Parameters { get; }
     }
 }

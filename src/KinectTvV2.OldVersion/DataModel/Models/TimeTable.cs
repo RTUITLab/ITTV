@@ -11,9 +11,9 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
 {
     class TimeTable : Singleton<TimeTable>
     {
-        private TimeTableNetwork network = new TimeTableNetwork();
-        List<string> answers;
-        Groups Groups;
+        private readonly TimeTableNetwork network = new TimeTableNetwork();
+        private readonly List<string> answers;
+        private Groups groups;
 
         public TimeTable()
         {
@@ -32,15 +32,15 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
             {
                 var updateTime = TimeSpan.FromMinutes(30); 
                 var groupsJson = File.ReadAllText(groupsInfoPath);
-                var groups = JsonConvert.DeserializeObject<Groups>(groupsJson);
-                if (!groups.Updated.HasValue || groups.Updated - DateTime.Now > updateTime)
+                var newGroups = JsonConvert.DeserializeObject<Groups>(groupsJson);
+                if (newGroups != null && (!newGroups.Updated.HasValue || groups.Updated - DateTime.Now > updateTime))
                 {
                     await network.SyncGroupsToFile();
                 }
             }
 
             var json = File.ReadAllText(groupsInfoPath);
-            Groups = JsonConvert.DeserializeObject<Groups>(json);
+            groups = JsonConvert.DeserializeObject<Groups>(json);
         }
 
         private async Task<FullSchedule> GetFullSchedule(string group)
@@ -128,16 +128,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
                     switch (answers[1])
                     {
                         case "1-ый курс":
-                            Groups.bachelor.first.ForEach(direction => { outList.Add(direction.name); });
+                            groups.bachelor.first.ForEach(direction => { outList.Add(direction.name); });
                             return new TimeTableList(outList, "Назад к выбору курса");
                         case "2-ой курс":
-                            Groups.bachelor.second.ForEach(direction => { outList.Add(direction.name); });
+                            groups.bachelor.second.ForEach(direction => { outList.Add(direction.name); });
                             return new TimeTableList(outList, "Назад к выбору курса");
                         case "3-ий курс":
-                            Groups.bachelor.third.ForEach(direction => { outList.Add(direction.name); });
+                            groups.bachelor.third.ForEach(direction => { outList.Add(direction.name); });
                             return new TimeTableList(outList, "Назад к выбору курса");
                         case "4-ый курс":
-                            Groups.bachelor.fourth.ForEach(direction => { outList.Add(direction.name); });
+                            groups.bachelor.fourth.ForEach(direction => { outList.Add(direction.name); });
                             return new TimeTableList(outList, "Назад к выбору курса");
                     }
                 } 
@@ -147,10 +147,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
                     switch (answers[1])
                     {
                         case "1-ый курс":
-                            Groups.master.first.ForEach(direction => { outList.Add(direction.name); });
+                            groups.master.first.ForEach(direction => { outList.Add(direction.name); });
                             return new TimeTableList(outList, "Назад к выбору курса");
                         case "2-ой курс":
-                            Groups.master.second.ForEach(direction => { outList.Add(direction.name); });
+                            groups.master.second.ForEach(direction => { outList.Add(direction.name); });
                             return new TimeTableList(outList, "Назад к выбору курса");
                     }
                 }
@@ -163,16 +163,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
                     switch (answers[1])
                     {
                         case "1-ый курс":
-                            Groups.bachelor.first.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
+                            groups.bachelor.first.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
                             return new TimeTableList(outList, "Назад к выбору направления");
                         case "2-ой курс":
-                            Groups.bachelor.second.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
+                            groups.bachelor.second.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
                             return new TimeTableList(outList, "Назад к выбору направления");
                         case "3-ий курс":
-                            Groups.bachelor.third.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
+                            groups.bachelor.third.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
                             return new TimeTableList(outList, "Назад к выбору направления");
                         case "4-ый курс":
-                            Groups.bachelor.fourth.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
+                            groups.bachelor.fourth.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
                             return new TimeTableList(outList, "Назад к выбору направления");
                     }
                 }
@@ -182,10 +182,10 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
                     switch (answers[1])
                     {
                         case "1-ый курс":
-                            Groups.master.first.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
+                            groups.master.first.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
                             return new TimeTableList(outList, "Назад к выбору направления");
                         case "2-ой курс":
-                            Groups.master.second.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
+                            groups.master.second.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
                             return new TimeTableList(outList, "Назад к выбору направления");
                     }
                 }

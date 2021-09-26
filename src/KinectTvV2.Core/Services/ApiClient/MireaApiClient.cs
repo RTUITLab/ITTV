@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -7,7 +6,10 @@ using System.Threading.Tasks;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
+using KinectTvV2.Core.Services.ApiClient.Requests.GetGroups;
 using KinectTvV2.Core.Services.ApiClient.Requests.GetNews;
+using KinectTvV2.Core.Services.ApiClient.Requests.GetScheduleForGroup;
+using Newtonsoft.Json;
 
 namespace KinectTvV2.Core.Services.ApiClient
 {
@@ -29,9 +31,22 @@ namespace KinectTvV2.Core.Services.ApiClient
             return result;
         }
 
-        public Task GetScheduler(string groupName = null)
+        public async Task<ApiScheduleResponse> GetScheduleForGroup(string groupName)
         {
-            throw new System.NotImplementedException();
+            var response = await _httpClient.GetAsync(MireaApiEndpoints.GetScheduleForGroup(groupName));
+            var responseMessage = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ApiScheduleResponse>(responseMessage);
+            return result;
+        }
+
+        public async Task<ApiGroups> GetAllGroups()
+        {
+            var response = await _httpClient.GetAsync(MireaApiEndpoints.GetAllGroups);
+            var responseMessage = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ApiGroups>(responseMessage);
+            return result;
         }
 
         private async Task<ApiNewsItem[]> ParseToNews(string contentHtml, int countNews)
