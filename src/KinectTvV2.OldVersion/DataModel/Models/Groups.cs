@@ -31,5 +31,12 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models
             public string name;
             public List<string> numbers;
         }
+
+        public DateTime? Updated { get; private set; }
+
+        public void SetUpdated()
+        {
+            Updated = DateTime.Now;
+        }
     }
 }
