@@ -55,45 +55,41 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.TVSettings
                 File.Create(newsFullPath);
         }
 
-        public void GetData()
+        private void GetData()
         {
             if (!configured)
             {
-                ConfigControlLogic.Instance.GetSettingsData = () =>
+                ConfigControlLogic.Instance.GetSettingsData = () => new List<ConfigControlLogic.StateControlSetting<object>>()
                 {
-                    return new List<ConfigControlLogic.StateControlSetting<object>>()
-                    {
-                        new ConfigControlLogic.StateControlSetting<object>("needCheckTime", ConfigControlLogic.StateControlSetting<object>.DataTypes.Bool, NeedCheckTime),
-                        new ConfigControlLogic.StateControlSetting<object>("sleepHour", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, sleepHour),
-                        new ConfigControlLogic.StateControlSetting<object>("isAdmin", ConfigControlLogic.StateControlSetting<object>.DataTypes.Bool, IsAdmin),
-                        new ConfigControlLogic.StateControlSetting<object>("videoVolume", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, videoVolume),
-                        new ConfigControlLogic.StateControlSetting<object>("minForUpdate", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, MinForUpdate),
-                        new ConfigControlLogic.StateControlSetting<object>("backgroundVideoOrder", ConfigControlLogic.StateControlSetting<object>.DataTypes.List, BackgroundVideoOrder),
-                    };
+                    new ConfigControlLogic.StateControlSetting<object>("needCheckTime", ConfigControlLogic.StateControlSetting<object>.DataTypes.Bool, NeedCheckTime),
+                    new ConfigControlLogic.StateControlSetting<object>("sleepHour", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, sleepHour),
+                    new ConfigControlLogic.StateControlSetting<object>("isAdmin", ConfigControlLogic.StateControlSetting<object>.DataTypes.Bool, IsAdmin),
+                    new ConfigControlLogic.StateControlSetting<object>("videoVolume", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, videoVolume),
+                    new ConfigControlLogic.StateControlSetting<object>("minForUpdate", ConfigControlLogic.StateControlSetting<object>.DataTypes.Num, MinForUpdate),
+                    new ConfigControlLogic.StateControlSetting<object>("backgroundVideoOrder", ConfigControlLogic.StateControlSetting<object>.DataTypes.List, BackgroundVideoOrder),
                 };
                 ConfigControlLogic.Instance.SettingFilePath = AppDomain.CurrentDomain.BaseDirectory + @"Settings\settings.json";
                 ConfigControlLogic.Instance.SettingsUpdated += GetData;
-                configured = !configured;
+                configured = true;
             }
 
-            string path = "Settings/settings.json";
-
+            const string path = "Settings/settings.json";
             if (File.Exists(path))
             {
-                instance.backgroundVideoOrder = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).backgroundVideoOrder;
-                instance.needCheckTime = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).needCheckTime;
-                instance.sleepHour = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).sleepHour;
-                instance.isAdmin = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).isAdmin;
-                instance.minForUpdate = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).minForUpdate;
-                instance.videoVolume = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path)).videoVolume;
+                var data = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path));
 
-                foreach (string uri in instance.backgroundVideoOrder)
-                {
-                    if (!File.Exists(uri))
+                instance.backgroundVideoOrder = data?.backgroundVideoOrder;
+                instance.needCheckTime = data?.needCheckTime;
+                instance.sleepHour = data?.sleepHour;
+                instance.isAdmin = data?.isAdmin;
+                instance.minForUpdate = data?.minForUpdate;
+                instance.videoVolume = data?.videoVolume;
+
+                if (instance.backgroundVideoOrder != null)
+                    foreach (var unused in instance.backgroundVideoOrder.Where(uri => !File.Exists(uri)))
                     {
                         instance.backgroundVideoOrder = CreateVideoData().ToList();
                     }
-                }
 
                 ConfigControlLogic.Instance.SendSettingsData();
                 SettingsUpdated?.Invoke();
