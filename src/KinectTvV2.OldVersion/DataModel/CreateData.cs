@@ -52,33 +52,22 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
         public void GetNewsFromFile()
         {
-            DataCollection<object> news_group = new DataCollection<object>(
+            DataCollection<object> newsGroup = new DataCollection<object>(
                     "News",
                     "Новости",
                     DataCollection<object>.GroupType.News);
+            
+            NewsFromSite.Instance.SyncNewsFromSite();
 
-            if (!File.Exists("Settings/news.json"))
+            var json = File.ReadAllText("Settings/news.json");
+            var newsList = JsonConvert.DeserializeObject<List<News>>(json);
+            
+            foreach (var news in newsList)
             {
-                NewsFromSite.Instance.SyncNewsFromSite();
+                newsGroup.Items.Add(news);
             }
 
-            string json = File.ReadAllText("Settings/news.json");
-            List<News> news_list = JsonConvert.DeserializeObject<List<News>>(json);
-
-            if (news_list == null)
-            {
-                NewsFromSite.Instance.SyncNewsFromSite();
-
-                json = File.ReadAllText("Settings/news.json");
-                news_list = JsonConvert.DeserializeObject<List<News>>(json);
-            }
-
-            foreach (News news in news_list)
-            {
-                news_group.Items.Add(news);
-            }
-
-            DataSource.Instance.AddToGroups(news_group);
+            DataSource.Instance.AddToGroups(newsGroup);
         }
 
         public void GetGames()
@@ -88,7 +77,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
 
-            string[] AllDir = Directory.GetDirectories(fullPath);
+            var allDir = Directory.GetDirectories(fullPath);
 
 
             DataCollection<object> games_group = new DataCollection<object>(
@@ -97,7 +86,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
                     DataCollection<object>.GroupType.Games);
 
             int i = 0;
-            foreach (var Game in AllDir)
+            foreach (var Game in allDir)
             {
                 string filePath = "";
                 foreach (var file in Directory.GetFiles(Game))

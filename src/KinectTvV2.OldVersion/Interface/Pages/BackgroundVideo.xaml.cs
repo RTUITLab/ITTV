@@ -1,6 +1,5 @@
 ﻿using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
 using Microsoft.Samples.Kinect.ControlsBasics.DataModel.Models;
-using Microsoft.Samples.Kinect.ControlsBasics.TVSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +33,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
             Loaded += BackgroundVideo_Loaded;
             this.Unloaded += BackgroundVideo_Unloaded;
-            Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
+            Settings.Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
 
             TimeTable.Instance.CloseTimeTable();
 
@@ -62,7 +61,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
         private void Settings_SettingsUpdated()
         {
             MainWindow.Instance.Ui(() => {
-                BackgroungVideo.Volume = Settings.Instance.VideoVolume;
+                BackgroungVideo.Volume = Settings.Settings.Instance.VideoVolume;
                 backgroundVideoPlaylist = new BackgroundVideoPlaylist();
             });
         }
@@ -73,7 +72,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages
 
             if (backgroundVideoPlaylist.currentVideo != null)
             {
-                BackgroungVideo.Volume = Settings.Instance.VideoVolume;
+                BackgroungVideo.Volume = Settings.Settings.Instance.VideoVolume;
                 BackgroungVideo.Source = backgroundVideoPlaylist.currentVideo;
                 BackgroungVideo.MediaEnded += BackgroungVideo_MediaEnded;
                 BackgroungVideo.Play();

@@ -1,5 +1,4 @@
-﻿using Microsoft.Samples.Kinect.ControlsBasics.TVSettings;
-using System;
+﻿using System;
 using System.Globalization;
 
 namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
@@ -11,11 +10,11 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
         public MireaDateTime()
         {
-            needToCheckTime = Settings.Instance.NeedCheckTime;
-            sleepTime = Settings.Instance.SleepHour;
-            Settings.Instance.SettingsUpdated += () => { 
-                sleepTime = Settings.Instance.SleepHour;
-                needToCheckTime = Settings.Instance.NeedCheckTime;
+            needToCheckTime = Settings.Settings.Instance.NeedCheckTime;
+            sleepTime = Settings.Settings.Instance.SleepHour;
+            Settings.Settings.Instance.SettingsUpdated += () => { 
+                sleepTime = Settings.Settings.Instance.SleepHour;
+                needToCheckTime = Settings.Settings.Instance.NeedCheckTime;
             };
         }
 
