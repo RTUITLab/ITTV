@@ -1,5 +1,4 @@
-﻿using Microsoft.Samples.Kinect.ControlsBasics.TVSettings;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;

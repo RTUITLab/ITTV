@@ -16,14 +16,13 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
     using Microsoft.Samples.Kinect.ControlsBasics.DataModel;
     using Microsoft.Samples.Kinect.ControlsBasics.Interface.Pages;
     using Microsoft.Samples.Kinect.ControlsBasics.Network.Controll;
-    using Microsoft.Samples.Kinect.ControlsBasics.TVSettings;
 
     /// <summary>
     /// Interaction logic for MainWindow
     /// </summary>
     public partial class MainWindow
     {
-        private static bool _adminMode = Settings.Instance.IsAdmin;
+        private static bool _adminMode = Settings.Settings.Instance.IsAdmin;
 
         public readonly HandOverHelper handHelper;
 
@@ -109,14 +108,14 @@ namespace Microsoft.Samples.Kinect.ControlsBasics
 
             ControlsBasicsWindow.Topmost = !_adminMode;
 
-            Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
+            Settings.Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
 
             content.OpenBackgroundVideo();
         }
 
         private void Settings_SettingsUpdated()
         {
-            _adminMode = Settings.Instance.IsAdmin;
+            _adminMode = Settings.Settings.Instance.IsAdmin;
             Ui(() =>
             {
                 ControlsBasicsWindow.Topmost = !_adminMode;

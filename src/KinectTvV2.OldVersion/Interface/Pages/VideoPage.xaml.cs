@@ -1,5 +1,4 @@
-﻿using Microsoft.Samples.Kinect.ControlsBasics.TVSettings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,16 +28,16 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.Pages
 
             Uri uri = new Uri(VideoSource, UriKind.Relative);
             Video.Source = uri;
-            Video.Volume = Settings.Instance.VideoVolume;
+            Video.Volume = Settings.Settings.Instance.VideoVolume;
             Video.Play();
             Video.MediaOpened += (s, a) => MainWindow.Instance.UiInvoked(DateTime.Now  + Video.NaturalDuration.TimeSpan);
 
-            Settings.Instance.SettingsUpdated += Instance_SettingsUpdated;
+            Settings.Settings.Instance.SettingsUpdated += Instance_SettingsUpdated;
         }
 
         private void Instance_SettingsUpdated()
         {
-            MainWindow.Instance.Ui(() => { Video.Volume = Settings.Instance.VideoVolume; });
+            MainWindow.Instance.Ui(() => { Video.Volume = Settings.Settings.Instance.VideoVolume; });
             
         }
 

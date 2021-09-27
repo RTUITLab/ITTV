@@ -1,5 +1,4 @@
-﻿using Microsoft.Samples.Kinect.ControlsBasics.TVSettings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +13,7 @@ namespace Microsoft.Samples.Kinect.ControlsBasics.DataModel
 
         public BackgroundVideoPlaylist()
         {
-            var test = Settings.Instance.BackgroundVideoOrder;
+            var test = Settings.Settings.Instance.BackgroundVideoOrder;
             foreach (var video in test)
             {
                 playlist.Add(new Uri(video));
