@@ -1,6 +1,9 @@
 using System;
+using KinectTvV2.API.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
@@ -9,9 +12,27 @@ namespace KinectTvV2.API
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+        public IConfiguration Configuration { get; }
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+                {
+                    var jwtOptions = Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
+                    
+                    options.Audience = jwtOptions.Audience;
+                    options.TokenValidationParameters.ValidateAudience = true;
+                    options.TokenValidationParameters.ValidateLifetime = true;
+                    options.RequireHttpsMetadata = false;
+                    options.Authority = jwtOptions.Authority;
+                });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "ITTV API", Version = "v1"});
