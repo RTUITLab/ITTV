@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KinectTvV2.Core", "KinectTv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinnectTvV2.Tests", "KinnectTvV2.Tests\KinnectTvV2.Tests.csproj", "{8B74321E-4B8D-42C1-BD1D-1E41992B74D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinectTvV2.API", "KinectTvV2.API\KinectTvV2.API.csproj", "{C2E5C53C-0462-486E-8573-8C27232D17D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,26 @@ Global
 		{8B74321E-4B8D-42C1-BD1D-1E41992B74D0}.Release|x64.Build.0 = Release|Any CPU
 		{8B74321E-4B8D-42C1-BD1D-1E41992B74D0}.Release|x86.ActiveCfg = Release|Any CPU
 		{8B74321E-4B8D-42C1-BD1D-1E41992B74D0}.Release|x86.Build.0 = Release|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Debug|ARM.Build.0 = Debug|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Debug|x64.Build.0 = Debug|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Debug|x86.Build.0 = Debug|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Release|ARM.Build.0 = Release|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Release|ARM64.Build.0 = Release|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Release|x64.ActiveCfg = Release|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Release|x64.Build.0 = Release|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Release|x86.ActiveCfg = Release|Any CPU
+		{C2E5C53C-0462-486E-8573-8C27232D17D2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
