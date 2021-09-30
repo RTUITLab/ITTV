@@ -1,7 +1,11 @@
 using System;
 using System.Threading.Tasks;
+using Amazon.Runtime.Internal.Util;
+using Amazon.S3;
 using KinectTvV2.API.Requests.Admin;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace KinectTvV2.API.Controllers
 {
@@ -9,9 +13,12 @@ namespace KinectTvV2.API.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        public AdminController()
+        private readonly ILogger<AdminController> _logger;
+        private readonly IAmazonS3 _amazonS3;
+        public AdminController(IAmazonS3 amazonS3, ILogger<AdminController> logger)
         {
-
+            _amazonS3 = amazonS3;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -23,7 +30,7 @@ namespace KinectTvV2.API.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, "Can't restart service!");
                 return BadRequest(e);
             }
         }
@@ -37,7 +44,7 @@ namespace KinectTvV2.API.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, "Can't set active time for TV!");
                 return BadRequest(e);
             }
         }
@@ -51,8 +58,23 @@ namespace KinectTvV2.API.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, "Can't set display message for TV!");
                 return BadRequest(e);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadNewFile([FromBody] IFormFile request)
+        {
+            try
+            {
+                var path = request.FileName;
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Can't add new file for TV!");
+                throw;
             }
         }
     }
