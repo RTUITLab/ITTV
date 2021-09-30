@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KinectTvV2.API.Controllers
 {
-    [Route("api/ittv/[controller]")]
+    [Route("api/ittv/[controller]/[action]")]
     [ApiController]
     public class AdminController : ControllerBase
     {
