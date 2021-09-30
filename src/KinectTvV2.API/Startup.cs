@@ -70,7 +70,7 @@ namespace KinectTvV2.API
 
         public void RegisterServiceS3(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            serviceCollection.AddDefaultAWSOptions(Configuration.GetAWSOptions("S3"));
             serviceCollection.AddAWSService<IAmazonS3>();
             serviceCollection.AddAWSService<IAmazonDynamoDB>();
         }
