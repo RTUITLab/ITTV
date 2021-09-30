@@ -1,4 +1,6 @@
 using System;
+using Amazon.DynamoDBv2;
+using Amazon.S3;
 using KinectTvV2.API.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -64,6 +66,13 @@ namespace KinectTvV2.API
                 };
                 c.AddSecurityRequirement(requirement);
             });
+        }
+
+        public void RegisterServiceS3(IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            serviceCollection.AddAWSService<IAmazonS3>();
+            serviceCollection.AddAWSService<IAmazonDynamoDB>();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
