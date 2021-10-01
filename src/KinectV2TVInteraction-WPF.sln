@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinnectTvV2.Tests", "Kinnec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinectTvV2.API", "KinectTvV2.API\KinectTvV2.API.csproj", "{C2E5C53C-0462-486E-8573-8C27232D17D2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{95FA637E-04AA-4504-B826-BE3FDB948851}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,5 +113,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {20C7EB89-8492-4968-9E63-35DD40994AE9}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C2E5C53C-0462-486E-8573-8C27232D17D2} = {95FA637E-04AA-4504-B826-BE3FDB948851}
 	EndGlobalSection
 EndGlobal

@@ -7,12 +7,12 @@ namespace KinectTvV2.API.Requests.Admin
         public ApiSetActiveTimeRequest()
         { }
 
-        public ApiSetActiveTimeRequest(DateTime dateFrom, DateTime dateTo)
+        public ApiSetActiveTimeRequest(TimeSpan timeFrom, TimeSpan timeTo)
         {
-            DateFrom = dateFrom;
-            DateTo = dateTo;
+            TimeFrom = timeFrom;
+            TimeTo = timeTo;
         }
-        public DateTime DateFrom { get; set; }
-        public DateTime DateTo { get; set; }
+        public TimeSpan TimeFrom { get; set; }
+        public TimeSpan TimeTo { get; set; }
     }
 }
