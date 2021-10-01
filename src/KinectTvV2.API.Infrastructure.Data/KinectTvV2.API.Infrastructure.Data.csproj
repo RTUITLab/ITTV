@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore">
+        <Version>5.0.10</Version>
+      </PackageReference>
+      <PackageReference Include="Npgsql">
+        <Version>5.0.10</Version>
+      </PackageReference>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL">
+        <Version>5.0.10</Version>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\KinectTvV2.API.Domain\KinectTvV2.API.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,10 +1,11 @@
 using System;
 using System.Threading.Tasks;
-using Amazon.Runtime.Internal.Util;
 using Amazon.S3;
+using KinectTvV2.API.Infrastructure.Data;
 using KinectTvV2.API.Requests.Admin;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace KinectTvV2.API.Controllers
@@ -15,6 +16,7 @@ namespace KinectTvV2.API.Controllers
     {
         private readonly ILogger<AdminController> _logger;
         private readonly IAmazonS3 _amazonS3;
+        private readonly ApplicationDbContext _dbContext;
         public AdminController(IAmazonS3 amazonS3, ILogger<AdminController> logger)
         {
             _amazonS3 = amazonS3;
@@ -26,7 +28,6 @@ namespace KinectTvV2.API.Controllers
         {
             try
             {
-                return Ok();
             }
             catch (Exception e)
             {
@@ -68,7 +69,7 @@ namespace KinectTvV2.API.Controllers
         {
             try
             {
-                var path = request.FileName;
+                //TODO: реализовать работу с файлами через S3
                 return Ok();
             }
             catch (Exception e)
