@@ -1,8 +1,6 @@
 using System;
-using System.IO;
-using System.Net;
 using System.Threading.Tasks;
-using KinectTvV2.API.Infrastructure.Data;
+using KinectTvV2.API.Core.Services.Admin;
 using KinectTvV2.API.Requests.Admin;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +14,12 @@ namespace KinectTvV2.API.Controllers
     public class AdminController : ControllerBase
     {
         private readonly ILogger<AdminController> _logger;
-        private readonly IAwsS3HelperService  _amazonS3;
-        private readonly ApplicationDbContext _dbContext;
-        public AdminController(IAmazonS3 amazonS3, ILogger<AdminController> logger)
+        private readonly IAdminService _adminService;
+        public AdminController(ILogger<AdminController> logger, 
+            IAdminService adminService)
         {
-            _amazonS3 = amazonS3;
             _logger = logger;
+            _adminService = adminService;
         }
 
         [HttpGet]
@@ -67,33 +65,23 @@ namespace KinectTvV2.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadNewFile([FromBody] IFormFile request)
+        public async Task<IActionResult> UploadNewFile([FromBody] IFormFile file)
         {
             try
             {
-                if (request.Length == 0)
+                if (file.Length == 0)
                 {
-                    return BadRequest("please provide valid file");
+                    return BadRequest("Please provide valid file!");
                 }
+                
                 var fileName = ContentDispositionHeaderValue
-                    .Parse(request.ContentDisposition)
+                    .Parse(file.ContentDisposition)
                     .FileName
                     .TrimStart().ToString();
-                var folderName = Request.Form.ContainsKey("folder") ? Request.Form["folder"].ToString() : null;
-                bool status;
-                using (var fileStream = request.OpenReadStream())
-                using (var ms = new MemoryStream())
-                {
-                    await fileStream.CopyToAsync(ms);
-                    status = await _amazonS3.UploadFileAsync(ms, fileName, folderName);
-                }
-                return status ? Ok("success")
-                    : StatusCode((int)HttpStatusCode.InternalServerError, $"error uploading {fileName}");
+                //TODO: добавить поддержку directory
+                await using var fileStream = file.OpenReadStream();
+                await _adminService.UploadFileAsync(fileStream, fileName);
 
-                await using var stream = request.OpenReadStream();
-                await _amazonS3.UploadObjectFromStreamAsync("bucket", "key", stream, null);
-                //TODO: добавить запись о файле
-                //TODO: сохранить файл
                 return Ok();
             }
             catch (Exception e)

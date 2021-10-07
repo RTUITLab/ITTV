@@ -1,10 +1,9 @@
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
-using KinectTvV2.API.Configuration;
+using KinectTvV2.API.Core.Configuration;
 using KinectTvV2.API.Core.Models.S3;
 using Microsoft.Extensions.Options;
 
