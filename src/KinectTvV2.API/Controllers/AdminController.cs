@@ -1,11 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using Amazon.S3;
-using KinectTvV2.API.Infrastructure.Data;
 using KinectTvV2.API.Requests.Admin;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace KinectTvV2.API.Controllers
