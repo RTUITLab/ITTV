@@ -1,5 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
+using KinectTvV2.API.Core.Models.S3;
 using KinectTvV2.API.Core.Providers.S3;
 
 namespace KinectTvV2.API.Core.Services.Admin
@@ -17,6 +18,11 @@ namespace KinectTvV2.API.Core.Services.Admin
             await _s3Provider.UploadFileAsync(fileStream, fileName, directoryName);
             //TODO: добавить запись в бд о добавлении файла
             //TODO: вызвать уведомление по SignalR
+        }
+        public async Task<S3FileInfo> ReadFileAsync(string fileName, string directoryName = null)
+        {
+            var file = await _s3Provider.ReadFileAsync(fileName, directoryName);
+            return file;
         }
     }
 }

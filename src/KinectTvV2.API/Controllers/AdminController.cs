@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
-
+using Microsoft.AspNetCore.Mvc;
 namespace KinectTvV2.API.Controllers
 {
     [Route("api/ittv/[controller]/[action]")]
@@ -87,6 +87,26 @@ namespace KinectTvV2.API.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, "Can't add new file for TV!");
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetFile([FromQuery] string baseFileName)
+        {
+            try
+            {
+                var base64EncodedBytes = Convert.FromBase64String(baseFileName);
+                var fileName = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+                //TODO: добавить поддержку directory
+                var file = await _adminService.ReadFileAsync(baseFileName);
+
+                var result = File(file.FileData, file.ContentType, fileName);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
                 throw;
             }
         }

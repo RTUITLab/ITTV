@@ -1,7 +1,7 @@
 using System;
 using Amazon.DynamoDBv2;
 using Amazon.S3;
-using KinectTvV2.API.Configuration;
+using KinectTvV2.API.Core.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
