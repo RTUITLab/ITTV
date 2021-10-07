@@ -83,7 +83,7 @@ namespace KinectTvV2.API.Controllers
                     .FileName
                     .TrimStart().ToString();
 
-                var baseFileName = Base64.Encode(fileName);
+                var baseFileName = Base64Helper.Encode(fileName);
                 
                 //TODO: добавить поддержку directory
                 await using var fileStream = file.OpenReadStream();
@@ -103,7 +103,7 @@ namespace KinectTvV2.API.Controllers
         {
             try
             {
-                var fileName = Base64.Decode(baseFileName);
+                var fileName = Base64Helper.Decode(baseFileName);
                 //TODO: добавить поддержку directory
                 var file = await _adminService.ReadFileAsync(baseFileName);
 

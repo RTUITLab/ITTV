@@ -1,6 +1,6 @@
 namespace KinectTvV2.API.Core.Helpers
 {
-    public class Base64
+    public class Base64Helper
     {
         public static string Encode(string plainText) {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
