@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Amazon.S3;
+using KinectTvV2.API.Infrastructure.Data;
 using KinectTvV2.API.Requests.Admin;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,7 @@ namespace KinectTvV2.API.Controllers
         {
             try
             {
+                return Ok();
             }
             catch (Exception e)
             {
@@ -67,7 +69,10 @@ namespace KinectTvV2.API.Controllers
         {
             try
             {
-                //TODO: реализовать работу с файлами через S3
+                await using var stream = request.OpenReadStream();
+                await _amazonS3.UploadObjectFromStreamAsync("bucket", "key", stream, null);
+                //TODO: добавить запись о файле
+                //TODO: сохранить файл
                 return Ok();
             }
             catch (Exception e)
@@ -77,4 +82,4 @@ namespace KinectTvV2.API.Controllers
             }
         }
     }
-}
+} 
