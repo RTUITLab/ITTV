@@ -1,10 +1,10 @@
 namespace KinectTvV2.API.Domain.Entities
 {
-    public class FileEntity : Entity
+    public class FileInfoEntity : Entity
     {
-        private FileEntity()
+        private FileInfoEntity()
         { }
-        public FileEntity(string name, string path)
+        public FileInfoEntity(string name, string path)
         {
             Name = name;
             Path = path;
