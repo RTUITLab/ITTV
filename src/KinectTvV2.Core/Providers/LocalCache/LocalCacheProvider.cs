@@ -15,7 +15,7 @@ namespace KinectTvV2.Core.Providers.LocalCache
         public static async Task<T> GetAsync<T>(string key, Func<Task<T>> dataProvider, TimeSpan expire = default, bool useExists = false)
         {
             var fileInfo = GetCacheInfo(key);
-            if (useExists || fileInfo.Exists && expire != default && DateTime.Now - fileInfo.LastWriteTimeUtc >= expire)
+            if (useExists || fileInfo.Exists && DateTime.Now - fileInfo.LastWriteTimeUtc >= expire)
             {
                 var cache = await GetAsync<T>(key, expire);
                 return cache;
