@@ -1,15 +1,16 @@
+using KinectTvV2.API.Core.Helpers;
+
 namespace KinectTvV2.API.Domain.Entities
 {
     public class FileInfoEntity : Entity
     {
         private FileInfoEntity()
         { }
-        public FileInfoEntity(string name, string path)
+        public FileInfoEntity(string baseName)
         {
-            Name = name;
-            Path = path;
+            BaseName = baseName;
         }
-        public string Name { get; private set; }
-        public string Path { get; private set; }
+        public string BaseName { get; private set; }
+        public string Name => Base64Helper.Decode(BaseName);
     }
 }

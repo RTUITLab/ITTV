@@ -1,9 +1,11 @@
+using KinectTvV2.API.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace KinectTvV2.API.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {
+        public DbSet<FileInfoEntity> FileInfoEntities { get; protected set; }
         public ApplicationDbContext() : base()
         { }
 
@@ -21,6 +23,12 @@ namespace KinectTvV2.API.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<FileInfoEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<FileInfoEntity>().HasIndex(x => x.BaseName)
+                .IsUnique()
+                .HasDatabaseName("IX_BASE64NAME_FILE");
+            modelBuilder.Entity<FileInfoEntity>().HasIndex(x => x.Inactive);
+            
             base.OnModelCreating(modelBuilder);
         }
     }
