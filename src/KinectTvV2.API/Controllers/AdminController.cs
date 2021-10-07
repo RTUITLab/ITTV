@@ -1,12 +1,13 @@
 using System;
 using System.Threading.Tasks;
+using KinectTvV2.API.Core.Helpers;
 using KinectTvV2.API.Core.Services.Admin;
 using KinectTvV2.API.Requests.Admin;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Mvc;
+
 namespace KinectTvV2.API.Controllers
 {
     [Route("api/ittv/[controller]/[action]")]
@@ -78,9 +79,12 @@ namespace KinectTvV2.API.Controllers
                     .Parse(file.ContentDisposition)
                     .FileName
                     .TrimStart().ToString();
+
+                var baseFileName = Base64.Encode(fileName);
+                
                 //TODO: добавить поддержку directory
                 await using var fileStream = file.OpenReadStream();
-                await _adminService.UploadFileAsync(fileStream, fileName);
+                await _adminService.UploadFileAsync(fileStream, baseFileName);
 
                 return Ok();
             }
