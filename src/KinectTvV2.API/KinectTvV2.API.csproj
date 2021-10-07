@@ -32,6 +32,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\KinectTvV2.API.Core\KinectTvV2.API.Core.csproj" />
       <ProjectReference Include="..\KinectTvV2.API.Infrastructure.Data\KinectTvV2.API.Infrastructure.Data.csproj" />
     </ItemGroup>
 
