@@ -26,7 +26,7 @@ namespace KinectTvV2.API
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
-                    var jwtOptions = Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
+                    var jwtOptions = Configuration.GetSection(nameof(JWTOptions)).Get<JWTOptions>();
                     
                     options.Audience = jwtOptions.Audience;
                     options.TokenValidationParameters.ValidateAudience = true;

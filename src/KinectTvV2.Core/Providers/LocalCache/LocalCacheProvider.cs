@@ -21,7 +21,6 @@ namespace KinectTvV2.Core.Providers.LocalCache
                 return cache;
             }
             
-            
             var data = await dataProvider();
             await PutAsync(key, data);
             return data;
