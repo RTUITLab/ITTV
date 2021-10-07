@@ -2,6 +2,7 @@ using System;
 using Amazon.DynamoDBv2;
 using Amazon.S3;
 using KinectTvV2.API.Core.Configuration;
+using KinectTvV2.API.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -66,6 +67,7 @@ namespace KinectTvV2.API
                 };
                 c.AddSecurityRequirement(requirement);
             });
+            services.AddSignalR();
         }
 
         public void RegisterServiceS3(IServiceCollection serviceCollection)
@@ -73,6 +75,13 @@ namespace KinectTvV2.API
             serviceCollection.AddDefaultAWSOptions(Configuration.GetAWSOptions("S3"));
             serviceCollection.AddAWSService<IAmazonS3>();
             serviceCollection.AddAWSService<IAmazonDynamoDB>();
+        }
+
+        public void RegisterConfiguration(IServiceCollection serviceCollection)
+        {
+            //TODO: зарегистрировать S3 используя свои секреты
+            serviceCollection.Configure<S3BucketOptions>(Configuration.GetSection(nameof(S3BucketOptions)));
+            serviceCollection.Configure<S3Configuration>(Configuration.GetSection(nameof(S3Configuration)));
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -101,6 +110,8 @@ namespace KinectTvV2.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                
+                endpoints.MapHub<KinectTvHub>("/ittvhub");
             });
         }
     }
