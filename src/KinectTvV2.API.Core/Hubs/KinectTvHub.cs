@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 
-namespace KinectTvV2.API.Hubs
+namespace KinectTvV2.API.Core.Hubs
 {
     public class KinectTvHub : Hub
     {

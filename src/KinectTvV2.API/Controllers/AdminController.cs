@@ -28,6 +28,7 @@ namespace KinectTvV2.API.Controllers
         {
             try
             {
+                await _adminService.Restart();
                 return Ok();
             }
             catch (Exception e)
@@ -42,6 +43,7 @@ namespace KinectTvV2.API.Controllers
         {
             try
             {
+                await _adminService.SetActiveTime(request.TimeFrom, request.TimeTo);
                 return Ok();
             }
             catch (Exception e)
@@ -56,6 +58,7 @@ namespace KinectTvV2.API.Controllers
         {
             try
             {
+                await _adminService.SetDisplayMessage(request.Message);
                 return Ok();
             }
             catch (Exception e)

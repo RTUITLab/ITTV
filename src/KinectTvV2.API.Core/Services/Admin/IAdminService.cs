@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using KinectTvV2.API.Core.Models.S3;
@@ -6,7 +7,33 @@ namespace KinectTvV2.API.Core.Services.Admin
 {
     public interface IAdminService
     {
-        Task UploadFileAsync(Stream fileStream, string fileName, string directoryName = null);
-        Task<S3FileInfo> ReadFileAsync(string fileName, string directoryName = null);
+        /// <summary>
+        /// Загрузка новых файлов, предполагает уведомление по SignalR об изменении
+        /// </summary>
+        /// <param name="fileStream"></param>
+        /// <param name="baseFileName">Название файла в формате base64</param>
+        /// <param name="directoryName"></param>
+        /// <returns></returns>
+        Task UploadFileAsync(Stream fileStream, string baseFileName, string directoryName = null);
+        /// <summary>
+        /// Получение файлов из хранилища
+        /// </summary>
+        /// <param name="baseFileName">Название файла в формате base64</param>
+        /// <param name="directoryName"></param>
+        /// <returns></returns>
+        Task<S3FileInfo> ReadFileAsync(string baseFileName, string directoryName = null);
+        Task SetDisplayMessage(string displayMessage);
+        /// <summary>
+        /// Задание времени активности телевизора, предполагает уведомление по SignalR об изменении
+        /// </summary>
+        /// <param name="timeFrom"></param>
+        /// <param name="timeTo"></param>
+        /// <returns></returns>
+        Task SetActiveTime(TimeSpan timeFrom, TimeSpan timeTo);
+        /// <summary>
+        /// Перезагрузка телевизора, уведомление по SignalR
+        /// </summary>
+        /// <returns></returns>
+        Task Restart();
     }
 }
