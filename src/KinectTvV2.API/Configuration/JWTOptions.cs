@@ -3,8 +3,10 @@ namespace KinectTvV2.API.Configuration
     /// <summary>
     /// Options to configure JWT
     /// </summary>
-    public class JwtOptions
+    public class JWTOptions
     {
+        public const string ConfigSectionName = "JWTConfiguration";
+
         /// <summary>
         /// Authority to use when making OpenIdConnect calls.
         /// </summary>
