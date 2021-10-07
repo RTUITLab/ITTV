@@ -7,7 +7,15 @@ namespace KinectTvV2.API.Hubs
     {
         public async Task Restart()
         {
-            
+            await Clients.All.SendAsync(nameof(Restart));
+        }
+        public async Task VideoUploaded(string baseFileName)
+        {
+            await Clients.All.SendAsync(nameof(VideoUploaded), baseFileName);
+        }        
+        public async Task SettingsUpdated()
+        {
+            await Clients.All.SendAsync(nameof(SettingsUpdated));
         }
     }
 }
