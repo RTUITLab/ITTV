@@ -3,6 +3,8 @@ using Amazon.DynamoDBv2;
 using Amazon.S3;
 using KinectTvV2.API.Core.Configuration;
 using KinectTvV2.API.Core.Hubs;
+using KinectTvV2.API.Core.Providers.S3;
+using KinectTvV2.API.Core.Services.Admin;
 using KinectTvV2.API.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -70,8 +72,13 @@ namespace KinectTvV2.API
                     }
                 };
                 c.AddSecurityRequirement(requirement);
-            });
+
+
+            });            
             services.AddSignalR();
+            RegisterServiceS3(services);
+            RegisterServices(services);
+
         }
 
         public void AddDbContext(IServiceCollection serviceCollection)
@@ -97,6 +104,13 @@ namespace KinectTvV2.API
             serviceCollection.Configure<S3BucketOptions>(Configuration.GetSection(nameof(S3BucketOptions)));
             serviceCollection.Configure<S3Configuration>(Configuration.GetSection(nameof(S3Configuration)));
         }
+
+        public void RegisterServices(IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton<KinectTvHub>();
+            serviceCollection.AddScoped<IAdminService, AdminService>();
+            serviceCollection.AddScoped<IS3Provider, S3Provider>();
+        }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -104,10 +118,11 @@ namespace KinectTvV2.API
                 app.UseDeveloperExceptionPage();
             }
             
-            app.UseCors(config =>
-                config.AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowAnyOrigin());
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+            );
             
             app.UseSwagger(c => { c.RouteTemplate = "api/ittv/{documentName}/swagger.json"; });
             app.UseSwaggerUI(c =>
