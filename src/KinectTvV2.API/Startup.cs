@@ -3,9 +3,11 @@ using Amazon.DynamoDBv2;
 using Amazon.S3;
 using KinectTvV2.API.Core.Configuration;
 using KinectTvV2.API.Core.Hubs;
+using KinectTvV2.API.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +25,8 @@ namespace KinectTvV2.API
         
         public void ConfigureServices(IServiceCollection services)
         {
+            AddDbContext(services);
+            
             services.AddControllers();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
@@ -68,6 +72,16 @@ namespace KinectTvV2.API
                 c.AddSecurityRequirement(requirement);
             });
             services.AddSignalR();
+        }
+
+        public void AddDbContext(IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddDbContext<ApplicationDbContext>(x =>
+            {
+                x.UseNpgsql(
+                    Configuration["POSTGRESQL"],
+                    npgsql => npgsql.MigrationsAssembly(nameof(KinectTvV2.API.Infrastructure.Data)));
+            });
         }
 
         public void RegisterServiceS3(IServiceCollection serviceCollection)
