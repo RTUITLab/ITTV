@@ -7,7 +7,7 @@ using KinectTvV2.API.Core.Providers.S3;
 
 namespace KinectTvV2.API.Core.Services.Admin
 {
-    public class AdminService
+    public class AdminService : IAdminService
     {
         private readonly IS3Provider _s3Provider;
         private readonly KinectTvHub _kinectTvHub;
