@@ -119,10 +119,9 @@ namespace KinectTvV2.API
             }
             
             app.UseCors(builder => builder
-                .WithOrigins("http://localhost:5500")
+                .AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod()
-                .AllowCredentials()
             );
             
             app.UseSwagger(c => { c.RouteTemplate = "api/ittv/{documentName}/swagger.json"; });
