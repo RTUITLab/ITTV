@@ -23,6 +23,7 @@ namespace KinectTvV2.API.Controllers
             _adminService = adminService;
         }
 
+        #region TV
         [HttpGet]
         public async Task<IActionResult> Restart()
         {
@@ -68,6 +69,23 @@ namespace KinectTvV2.API.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetTvConfiguration()
+        {
+            try
+            {
+                var result = await _adminService.GetTvConfiguration();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Can't take TV Configuration!");
+                throw;
+            }
+        }
+        #endregion
+        
+        #region S3
         [HttpPost]
         public async Task<IActionResult> UploadNewFile([FromBody] IFormFile file)
         {
@@ -116,5 +134,7 @@ namespace KinectTvV2.API.Controllers
                 throw;
             }
         }
+        #endregion
+        
     }
 } 

@@ -1,5 +1,3 @@
-using KinectTvV2.API.Core.Helpers;
-
 namespace KinectTvV2.API.Domain.Entities
 {
     public class FileInfoEntity : Entity
@@ -11,6 +9,11 @@ namespace KinectTvV2.API.Domain.Entities
             BaseName = baseName;
         }
         public string BaseName { get; private set; }
-        public string Name => Base64Helper.Decode(BaseName);
+        public string Name { 
+            get {
+                var base64EncodedBytes = System.Convert.FromBase64String(BaseName);
+                return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+            }
+        }
     }
 }
