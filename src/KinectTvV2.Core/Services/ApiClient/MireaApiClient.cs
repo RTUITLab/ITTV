@@ -24,19 +24,37 @@ namespace KinectTvV2.Core.Services.ApiClient
 
         public async Task<ApiNewsItem[]> GetNews(int countNews = 10)
         {
-            var response = await _httpClient.GetAsync(MireaApiEndpoints.GetNewsEndpoint);
+            var response = await _httpClient.GetAsync("https://www.mirea.ru/news/");
             var responseMessage = await response.Content.ReadAsStringAsync();
 
             var result = await ParseToNews(responseMessage, countNews);
             return result;
         }
 
-        public async Task<ApiScheduleResponse> GetScheduleForGroup(string groupName)
+        public async Task<ApiFullSheduleResponse> GetFullScheduleForGroup(string groupName)
         {
-            var response = await _httpClient.GetAsync(MireaApiEndpoints.GetScheduleForGroup(groupName));
+            var response = await _httpClient.GetAsync(MireaApiEndpoints.GetFullScheduleForGroup(groupName));
             var responseMessage = await response.Content.ReadAsStringAsync();
 
-            var result = JsonConvert.DeserializeObject<ApiScheduleResponse>(responseMessage);
+            var result = JsonConvert.DeserializeObject<ApiFullSheduleResponse>(responseMessage);
+            return result;
+        }
+
+        public async Task<ApiScheduleLesson[]> GetTodayScheduleForGroup(string groupName)
+        {
+            var response = await _httpClient.GetAsync(MireaApiEndpoints.GetTodayScheduleForGroup(groupName));
+            var responseMessage = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ApiScheduleLesson[]>(responseMessage);
+            return result;
+        }
+
+        public async Task<ApiScheduleLesson[]> GetTomorrowScheduleForGroup(string groupName)
+        {
+            var response = await _httpClient.GetAsync(MireaApiEndpoints.GetTomorrowScheduleForGroup(groupName));
+            var responseMessage = await response.Content.ReadAsStringAsync();
+    
+            var result = JsonConvert.DeserializeObject<ApiScheduleLesson[]>(responseMessage);
             return result;
         }
 
@@ -92,7 +110,7 @@ namespace KinectTvV2.Core.Services.ApiClient
             var cardTitleText = cardTitleElement?.Title;
 
             
-            var linkCard = card.Attributes["href"]?.Value;
+            var linkCard = MireaApiEndpoints.NewsBaseAddress + card.Attributes["href"]?.Value;
 
             var responseByCard = await _httpClient.GetAsync(linkCard);
             var responseByCardHtml = await responseByCard.Content.ReadAsStringAsync();
@@ -119,7 +137,7 @@ namespace KinectTvV2.Core.Services.ApiClient
 
             foreach (var cardPhotoElement in cardPhotosElements)
             {
-                var link = cardPhotoElement.Attributes["href"]?.Value;
+                var link = MireaApiEndpoints.NewsBaseAddress + cardPhotoElement.Attributes["href"]?.Value;
                
                 var name = link?.Split('/')[^1];
                 var photoData = await _httpClient.GetByteArrayAsync(link);
