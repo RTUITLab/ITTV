@@ -22,4 +22,9 @@
       </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\KinectTvV2.API.Infrastructure.Data\KinectTvV2.API.Infrastructure.Data.csproj" />
+      <ProjectReference Include="..\KinectTvV2.Core\KinectTvV2.Core.csproj" />
+    </ItemGroup>
+
 </Project>
