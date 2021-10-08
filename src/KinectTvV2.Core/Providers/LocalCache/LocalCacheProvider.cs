@@ -8,7 +8,7 @@ namespace KinectTvV2.Core.Providers.LocalCache
 {
     public class LocalCacheProvider
     {
-        private const string BaseCachePath = "cache";
+        private const string BaseCachePath = "Cache";
         public static FileInfo GetCacheInfo(string key)
             => new($"{BaseCachePath}/{key}.json");
 
