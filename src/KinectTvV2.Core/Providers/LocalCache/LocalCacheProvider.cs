@@ -41,9 +41,9 @@ namespace KinectTvV2.Core.Providers.LocalCache
         {
             var file = GetCacheInfo(key);
             
-            if (!file.Exists)
+            if (!file.Directory.Exists)
             {
-                file.Create();
+                file.Directory.Create();
             }
             await File.WriteAllTextAsync(file.FullName,JsonConvert.SerializeObject(value), Encoding.UTF8);
         }

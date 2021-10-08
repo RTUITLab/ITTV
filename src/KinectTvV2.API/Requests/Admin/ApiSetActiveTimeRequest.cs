@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json.Serialization;
 
 namespace KinectTvV2.API.Requests.Admin
 {
@@ -7,12 +8,20 @@ namespace KinectTvV2.API.Requests.Admin
         public ApiSetActiveTimeRequest()
         { }
 
-        public ApiSetActiveTimeRequest(TimeSpan timeFrom, TimeSpan timeTo)
+        public ApiSetActiveTimeRequest(TimeRequest timeFrom, TimeRequest timeTo)
         {
             TimeFrom = timeFrom;
             TimeTo = timeTo;
         }
-        public TimeSpan TimeFrom { get; set; }
-        public TimeSpan TimeTo { get; set; }
+        public TimeRequest TimeFrom { get; set; }
+        public TimeRequest TimeTo { get; set; }
+    }
+    [Serializable]
+    public class TimeRequest
+    {
+        public int Hours { get; set; }
+        public int Minutes { get; set; }
+        [JsonIgnore]
+        public TimeSpan GetTimeSpan => new(0, Hours, Minutes, 0);
     }
 }
