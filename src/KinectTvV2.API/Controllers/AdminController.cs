@@ -44,7 +44,7 @@ namespace KinectTvV2.API.Controllers
         {
             try
             {
-                await _adminService.SetActiveTime(request.TimeFrom, request.TimeTo);
+                await _adminService.SetActiveTime(request.TimeFrom.GetTimeSpan, request.TimeTo.GetTimeSpan);
                 return Ok();
             }
             catch (Exception e)
