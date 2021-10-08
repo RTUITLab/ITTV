@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace KinectTvV2.Core.Providers.LocalCache
 {
-    public class LocalCacheProvider
+    public static class LocalCacheProvider
     {
         private const string BaseCachePath = "Cache";
         public static FileInfo GetCacheInfo(string key)

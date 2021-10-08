@@ -140,7 +140,7 @@ namespace KinectTvV2.API
             {
                 endpoints.MapControllers();
                 
-                endpoints.MapHub<KinectTvHub>("/ittvhub");
+                endpoints.MapHub<KinectTvHub>("/hubs/ittv");
             });
         }
     }
