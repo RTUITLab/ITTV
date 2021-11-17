@@ -2,7 +2,7 @@ using System;
 using Amazon.DynamoDBv2;
 using Amazon.S3;
 using KinectTvV2.API.Core.Configuration;
-using KinectTvV2.API.Core.Hubs;
+using KinectTvV2.API.Core.Hubs.KinectTvHub;
 using KinectTvV2.API.Core.Providers.S3;
 using KinectTvV2.API.Core.Services.Admin;
 using KinectTvV2.API.Infrastructure.Data;

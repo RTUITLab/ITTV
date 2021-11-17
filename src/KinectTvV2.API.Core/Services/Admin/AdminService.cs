@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using KinectTvV2.API.Core.Hubs;
+using KinectTvV2.API.Core.Hubs.KinectTvHub;
 using KinectTvV2.API.Core.Models.ITTV;
 using KinectTvV2.API.Core.Models.S3;
 using KinectTvV2.API.Core.Providers.S3;
@@ -16,13 +16,13 @@ namespace KinectTvV2.API.Core.Services.Admin
         private const string ITTVConfigurationPath = "ittv-configuration";
         
         private readonly IS3Provider _s3Provider;
-        private readonly KinectTvHub _kinectTvHub;
+        private readonly KinectTvHubHandler _kinectTvHubHandler;
         private readonly ApplicationDbContext _dbContext;
         public AdminService(IS3Provider s3Provider,
-            KinectTvHub kinectTvHub, ApplicationDbContext dbContext)
+            KinectTvHubHandler kinectTvHubHandler, ApplicationDbContext dbContext)
         {
             _s3Provider = s3Provider;
-            _kinectTvHub = kinectTvHub;
+            _kinectTvHubHandler = kinectTvHubHandler;
             _dbContext = dbContext;
         }
 
@@ -35,7 +35,7 @@ namespace KinectTvV2.API.Core.Services.Admin
             await _dbContext.AddAsync(fileInfo);
             await _dbContext.SaveChangesAsync();
             
-            await _kinectTvHub.VideoUploaded(fileName);
+            await _kinectTvHubHandler.VideoUploaded(fileName);
         }
         public async Task<S3FileInfo> ReadFileAsync(string fileName, string directoryName = null)
         {
@@ -50,7 +50,7 @@ namespace KinectTvV2.API.Core.Services.Admin
             var configuration = await LocalCacheProvider.GetAsync<ITTVConfiguration>(ITTVConfigurationPath) ?? new ITTVConfiguration();
             configuration.SetDisplayMessage(displayMessage);
             await LocalCacheProvider.PutAsync(ITTVConfigurationPath, configuration);
-            await _kinectTvHub.SettingsUpdated();
+            await _kinectTvHubHandler.SettingsUpdated();
         }
 
         public async Task SetActiveTime(TimeSpan timeFrom, TimeSpan timeTo)
@@ -58,7 +58,7 @@ namespace KinectTvV2.API.Core.Services.Admin
             var configuration = await LocalCacheProvider.GetAsync<ITTVConfiguration>(ITTVConfigurationPath) ?? new ITTVConfiguration();
             configuration.SetActiveTime(timeFrom, timeTo);
             await LocalCacheProvider.PutAsync(ITTVConfigurationPath, configuration);
-            await _kinectTvHub.SettingsUpdated();
+            await _kinectTvHubHandler.SettingsUpdated();
         }
 
         public async Task<ITTVConfiguration> GetTvConfiguration()
@@ -67,7 +67,7 @@ namespace KinectTvV2.API.Core.Services.Admin
         
         public async Task Restart()
         {
-            await _kinectTvHub.Restart();
+            await _kinectTvHubHandler.Restart();
         }
     }
 }
