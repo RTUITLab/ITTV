@@ -16,10 +16,10 @@ namespace KinectTvV2.API.Core.Services.Admin
         private const string ITTVConfigurationPath = "ittv-configuration";
         
         private readonly IS3Provider _s3Provider;
-        private readonly KinectTvHubHandler _kinectTvHubHandler;
+        private readonly IKinectTvHubHandler _kinectTvHubHandler;
         private readonly ApplicationDbContext _dbContext;
         public AdminService(IS3Provider s3Provider,
-            KinectTvHubHandler kinectTvHubHandler, ApplicationDbContext dbContext)
+            IKinectTvHubHandler kinectTvHubHandler, ApplicationDbContext dbContext)
         {
             _s3Provider = s3Provider;
             _kinectTvHubHandler = kinectTvHubHandler;

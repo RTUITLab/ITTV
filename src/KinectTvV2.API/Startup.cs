@@ -107,9 +107,10 @@ namespace KinectTvV2.API
 
         public void RegisterServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton<KinectTvHub>();
             serviceCollection.AddScoped<IAdminService, AdminService>();
             serviceCollection.AddScoped<IS3Provider, S3Provider>();
+
+            serviceCollection.AddScoped<IKinectTvHubHandler, KinectTvHubHandler>();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
