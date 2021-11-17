@@ -1,9 +1,4 @@
 using System;
-using Amazon;
-using Amazon.DynamoDBv2;
-using Amazon.Extensions.NETCore.Setup;
-using Amazon.Runtime;
-using Amazon.S3;
 using KinectTvV2.API.Core.Configuration;
 using KinectTvV2.API.Core.Hubs.KinectTvHub;
 using KinectTvV2.API.Core.Providers.S3;
