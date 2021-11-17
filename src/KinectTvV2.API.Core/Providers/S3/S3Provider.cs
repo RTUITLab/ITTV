@@ -12,12 +12,20 @@ namespace KinectTvV2.API.Core.Providers.S3
     public class S3Provider : IS3Provider
     {
         private readonly IAmazonS3 _amazonS3;
-        private readonly S3BucketOptions _s3BucketOptions;
+        private readonly S3Configuration _s3Configuration;
 
-        public S3Provider(IAmazonS3 amazonS3, IOptions<S3BucketOptions> s3BucketOptions)
+        public S3Provider(IOptions<S3Configuration> s3Configuration)
         {
-            _amazonS3 = amazonS3;
-            _s3BucketOptions = s3BucketOptions.Value;
+            _s3Configuration = s3Configuration.Value;
+
+            var configAmazonS3 = new AmazonS3Config
+            {
+                UseAccelerateEndpoint = false,
+                ServiceURL = _s3Configuration.Endpoint,
+                ForcePathStyle = true
+            };
+            
+            _amazonS3 = new AmazonS3Client(_s3Configuration.AccessKey, _s3Configuration.SecretKey, configAmazonS3);
         }
         public async Task UploadFileAsync(Stream fileStream, string fileName, string directory = null)
         {
@@ -40,7 +48,7 @@ namespace KinectTvV2.API.Core.Providers.S3
             var fileTransferUtility = new TransferUtility(_amazonS3);
             
             var bucketPath = BuildBucketPath(directory);
-           
+            
             var request = new GetObjectRequest()
             {
                 BucketName = bucketPath,
@@ -54,8 +62,8 @@ namespace KinectTvV2.API.Core.Providers.S3
         private string BuildBucketPath(string directory)
         {
             var bucketPath = !string.IsNullOrWhiteSpace(directory)
-                ? _s3BucketOptions.BucketName + @"/" + directory
-                : _s3BucketOptions.BucketName;
+                ? _s3Configuration.BucketName + @"/" + directory
+                : _s3Configuration.BucketName;
             return bucketPath;
         }
     }

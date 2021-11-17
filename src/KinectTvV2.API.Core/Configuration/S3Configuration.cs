@@ -5,5 +5,8 @@ namespace KinectTvV2.API.Core.Configuration
         public string Endpoint { get; set; }
         public string AccessKey { get; set; }
         public string SecretKey { get; set; }
+        
+        public string BucketName { get; set; }
+
     }
 }

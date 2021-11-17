@@ -1,5 +1,8 @@
 using System;
+using Amazon;
 using Amazon.DynamoDBv2;
+using Amazon.Extensions.NETCore.Setup;
+using Amazon.Runtime;
 using Amazon.S3;
 using KinectTvV2.API.Core.Configuration;
 using KinectTvV2.API.Core.Hubs.KinectTvHub;
@@ -76,7 +79,7 @@ namespace KinectTvV2.API
 
             });            
             services.AddSignalR();
-            RegisterServiceS3(services);
+            RegisterConfiguration(services);
             RegisterServices(services);
 
         }
@@ -91,17 +94,9 @@ namespace KinectTvV2.API
             });
         }
 
-        public void RegisterServiceS3(IServiceCollection serviceCollection)
-        {
-            serviceCollection.AddDefaultAWSOptions(Configuration.GetAWSOptions("S3"));
-            serviceCollection.AddAWSService<IAmazonS3>();
-            serviceCollection.AddAWSService<IAmazonDynamoDB>();
-        }
-
         public void RegisterConfiguration(IServiceCollection serviceCollection)
         {
-            //TODO: зарегистрировать S3 используя свои секреты
-            serviceCollection.Configure<S3BucketOptions>(Configuration.GetSection(nameof(S3BucketOptions)));
+            //TODO: перенести регистрацию клиента S3 в DI (нужно ли это?)
             serviceCollection.Configure<S3Configuration>(Configuration.GetSection(nameof(S3Configuration)));
         }
 

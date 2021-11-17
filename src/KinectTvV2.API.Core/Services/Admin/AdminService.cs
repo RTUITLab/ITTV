@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using KinectTvV2.API.Core.Helpers;
 using KinectTvV2.API.Core.Hubs.KinectTvHub;
 using KinectTvV2.API.Core.Models.ITTV;
 using KinectTvV2.API.Core.Models.S3;
@@ -37,8 +38,9 @@ namespace KinectTvV2.API.Core.Services.Admin
             
             await _kinectTvHubHandler.VideoUploaded(fileName);
         }
-        public async Task<S3FileInfo> ReadFileAsync(string fileName, string directoryName = null)
+        public async Task<S3FileInfo> ReadFileAsync(string baseFileName, string directoryName = null)
         {
+            var fileName = Base64Helper.Decode(baseFileName);
             var file = await _s3Provider.ReadFileAsync(fileName, directoryName);
             return file;
         }
