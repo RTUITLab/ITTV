@@ -122,7 +122,6 @@ namespace KinectTvV2.API.Controllers
             try
             {
                 var fileName = Base64Helper.Decode(baseFileName);
-                //TODO: добавить поддержку directory
                 var file = await _adminService.ReadFileAsync(baseFileName);
 
                 var result = File(file.FileData, file.ContentType, fileName);
