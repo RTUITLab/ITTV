@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using KinectTvV2.API.Core.Models;
 using KinectTvV2.API.Core.Models.ITTV;
 using KinectTvV2.API.Core.Models.S3;
 
@@ -47,5 +48,11 @@ namespace KinectTvV2.API.Core.Services.Admin
         /// </summary>
         /// <returns></returns>
         Task Restart();
+        /// <summary>
+        /// Получение списка файлов, которые были загружен с определенной даты
+        /// </summary>
+        /// <param name="dateFrom"></param>
+        /// <returns></returns>
+        Task<ApiFileInfo[]> GetFileList(DateTime? dateFrom);
     }
 }
