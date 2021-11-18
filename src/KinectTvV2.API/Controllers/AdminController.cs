@@ -87,7 +87,7 @@ namespace KinectTvV2.API.Controllers
         
         #region S3
         [HttpPost]
-        public async Task<IActionResult> UploadNewFile([FromBody] IFormFile file)
+        public async Task<IActionResult> UploadNewFile([FromForm] IFormFile file)
         {
             try
             {
