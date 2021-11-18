@@ -80,7 +80,7 @@ namespace KinectTvV2.API.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, "Can't take TV Configuration!");
-                throw;
+                return BadRequest(e);
             }
         }
         #endregion
@@ -112,7 +112,7 @@ namespace KinectTvV2.API.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, "Can't add new file for TV!");
-                throw;
+                return BadRequest(e);
             }
         }
 
@@ -129,8 +129,22 @@ namespace KinectTvV2.API.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                _logger.LogError(e, "Can't get file with baseName {0}", baseFileName);
+                return BadRequest(e);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetListFiles([FromQuery] DateTime? createdFrom = null)
+        {
+            try
+            {
+                return Ok(await _adminService.GetFileList(createdFrom));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Can't get list files from {0}",createdFrom);
+                return BadRequest(e);
             }
         }
         #endregion

@@ -1,14 +1,17 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using KinectTvV2.API.Core.Helpers;
 using KinectTvV2.API.Core.Hubs.KinectTvHub;
+using KinectTvV2.API.Core.Models;
 using KinectTvV2.API.Core.Models.ITTV;
 using KinectTvV2.API.Core.Models.S3;
 using KinectTvV2.API.Core.Providers.S3;
 using KinectTvV2.API.Domain.Entities;
 using KinectTvV2.API.Infrastructure.Data;
 using KinectTvV2.Core.Providers.LocalCache;
+using Microsoft.EntityFrameworkCore;
 
 namespace KinectTvV2.API.Core.Services.Admin
 {
@@ -71,5 +74,10 @@ namespace KinectTvV2.API.Core.Services.Admin
         {
             await _kinectTvHubHandler.Restart();
         }
+
+        public async Task<ApiFileInfo[]> GetFileList(DateTime? dateFrom)
+        => await _dbContext.FileInfoEntities.Where(x => !dateFrom.HasValue || dateFrom.Value > x.Created)
+                .Select(x => new ApiFileInfo(x.Name, x.Created))
+                .ToArrayAsync();
     }
 }
