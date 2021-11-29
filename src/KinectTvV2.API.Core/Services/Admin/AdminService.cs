@@ -76,8 +76,16 @@ namespace KinectTvV2.API.Core.Services.Admin
         }
 
         public async Task<ApiFileInfo[]> GetFileList(DateTime? dateFrom)
-        => await _dbContext.FileInfoEntities.Where(x => !dateFrom.HasValue || dateFrom.Value > x.Created)
-                .Select(x => new ApiFileInfo(x.Name, x.Created))
+        {
+            var q = _dbContext.FileInfoEntities.AsQueryable();
+            if (dateFrom.HasValue)
+            {
+                q = q.Where(x => dateFrom.Value > x.Created);
+            }
+
+            var items = await q.Select(x => new ApiFileInfo(x.Name, x.Created))
                 .ToArrayAsync();
+            return items;
+        }
     }
 }
