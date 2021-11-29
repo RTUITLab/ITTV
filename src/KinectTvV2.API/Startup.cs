@@ -85,7 +85,7 @@ namespace KinectTvV2.API
             {
                 x.UseNpgsql(
                     Configuration["POSTGRESQL"],
-                    npgsql => npgsql.MigrationsAssembly(nameof(KinectTvV2.API.Infrastructure.Data)));
+                    npgsql => npgsql.MigrationsAssembly("KinectTvV2.API.Infrastructure.Data"));
             });
         }
 
