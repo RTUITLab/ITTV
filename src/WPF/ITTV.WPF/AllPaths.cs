@@ -64,6 +64,26 @@ namespace ITTV.WPF
             }
         }
 
+        private const string DirectoryGestureDatabasePath = @"Gesture\";
+        public static string GetDirectoryGestureDatabasePath
+        {
+            get
+            {
+                Directory.CreateDirectory(DirectoryGestureDatabasePath);
+                return DirectoryGestureDatabasePath;
+            }
+        }
+
+        private const string DirectoryEggPath = @"vgbtechs\";
+        public static string GetDirectoryEggPath
+        {
+            get
+            {
+                Directory.CreateDirectory(DirectoryEggPath);
+                return DirectoryEggPath;
+            }
+        }
+
         public const string FileSettingsPath = "settings.json";
         public const string FileLogsPath = "./logs.txt";
 
@@ -71,5 +91,9 @@ namespace ITTV.WPF
         public static readonly string FileNewsCachePath = GetDirectoryCachePath + "news.json";
 
         public static readonly string FileRfControlConfigurationPath = GetDirectoryRfControlPath + "configuration.json";
+
+        public static readonly string FileGestureDatabasePath = GetDirectoryGestureDatabasePath + "KinectGesture.gbd";
+
+        public static readonly string FileEggVideoPath = GetDirectoryEggPath + "kinectrequired.mp4";
     }
 }
