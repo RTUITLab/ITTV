@@ -24,7 +24,8 @@ namespace ITTV.WPF.Core.Services.ApiClient
 
         public async Task<ApiNewsItem[]> GetNews(int countNews = 10)
         {
-            var response = await _httpClient.GetAsync("https://www.mirea.ru/news/");
+            var uri = MireaApiEndpoints.GetNewsEndpoint;
+            var response = await _httpClient.GetAsync(uri);
             var responseMessage = await response.Content.ReadAsStringAsync();
 
             var result = await ParseToNews(responseMessage, countNews);
