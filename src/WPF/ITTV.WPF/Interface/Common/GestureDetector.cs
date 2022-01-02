@@ -6,8 +6,6 @@ namespace ITTV.WPF.Interface.Common
 {
     public sealed class GestureDetector : IDisposable
     {
-        private const string GestureDatabase = @"GesturesDatabase\KinectGesture.gbd";
-
         private VisualGestureBuilderFrameSource vgbFrameSource;
 
         private VisualGestureBuilderFrameReader vgbFrameReader;
@@ -31,7 +29,7 @@ namespace ITTV.WPF.Interface.Common
                 vgbFrameReader.FrameArrived += Reader_GestureFrameArrived;
             }
 
-            using var database = new VisualGestureBuilderDatabase(GestureDatabase);
+            using var database = new VisualGestureBuilderDatabase(AllPaths.FileGestureDatabasePath);
             foreach (var gesture in database.AvailableGestures)
             {
                 vgbFrameSource.AddGesture(gesture);

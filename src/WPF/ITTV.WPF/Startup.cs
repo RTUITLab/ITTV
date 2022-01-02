@@ -27,7 +27,6 @@ namespace ITTV.WPF
                     Process.Start($"{assemblyName}.exe");
 
                     NewsUpdateThread.Instance.StopUpdating();
-
                 }
             }
         }

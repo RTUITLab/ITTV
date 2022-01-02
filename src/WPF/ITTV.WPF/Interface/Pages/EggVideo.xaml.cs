@@ -14,21 +14,17 @@ namespace ITTV.WPF.Interface.Pages
         {
             InitializeComponent();
 
-            string GesturePath = $@"{AppDomain.CurrentDomain.BaseDirectory}\GesturesDatabase\KinectGesture.gbd";
-            if (File.Exists(GesturePath))
-            {
-                var eggVideoFile = $@"{AppDomain.CurrentDomain.BaseDirectory}\vgbtechs\kinectrequired.mp4";
-                if (File.Exists(eggVideoFile))
-                {
-                    EggVideoElement.Source = new Uri(eggVideoFile);
-                    EggVideoElement.Visibility = Visibility.Collapsed;
-                    EggVideoElement.MediaEnded += (s, e) =>
-                    {
-                        MainWindow.Instance.content.OpenBackgroundVideo();
-                    };
-                }
+            var gesturePath = AllPaths.FileGestureDatabasePath;
+            var eggVideoFile = AllPaths.FileEggVideoPath;
 
-                
+            if (File.Exists(gesturePath) && File.Exists(eggVideoFile))
+            {
+                EggVideoElement.Source = new Uri(eggVideoFile);
+                EggVideoElement.Visibility = Visibility.Collapsed;
+                EggVideoElement.MediaEnded += (s, e) =>
+                {
+                    MainWindow.Instance.content.OpenBackgroundVideo();
+                };
             }
         }
     }
