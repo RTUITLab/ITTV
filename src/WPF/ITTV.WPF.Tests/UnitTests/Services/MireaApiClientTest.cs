@@ -42,8 +42,6 @@ namespace ITTV.WPF.Tests.UnitTests.Services
             var actualSchedule = await _mireaApiClient.GetTodayScheduleForGroup(testGroup);
             
             Assert.NotEmpty(actualSchedule);
-            
-            Assert.NotNull(actualSchedule.First().DetailLesson);
         }
 
         [Fact]
@@ -51,8 +49,13 @@ namespace ITTV.WPF.Tests.UnitTests.Services
         {
             var actualGroups = await _mireaApiClient.GetAllGroups();
             
-            Assert.NotEmpty(actualGroups.Groups);
-            Assert.NotEqual(0, actualGroups.Count);
+            Assert.NotEmpty(actualGroups.Bachelor.First);
+            Assert.NotEmpty(actualGroups.Bachelor.Second);
+            Assert.NotEmpty(actualGroups.Bachelor.Third);
+            Assert.NotEmpty(actualGroups.Bachelor.Fourth);
+
+            Assert.NotEmpty(actualGroups.Master.First);
+            Assert.NotEmpty(actualGroups.Master.Second);
         }
     }
 }
