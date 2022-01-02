@@ -91,6 +91,7 @@ namespace ITTV.WPF
         public static readonly string FileNewsCachePath = GetDirectoryCachePath + "news.json";
 
         public static readonly string FileRfControlConfigurationPath = GetDirectoryRfControlPath + "configuration.json";
+        public static readonly string FileRfControlLogsPath = GetDirectoryRfControlPath + "logs.txt";
 
         public static readonly string FileGestureDatabasePath = GetDirectoryGestureDatabasePath + "KinectGesture.gbd";
 
