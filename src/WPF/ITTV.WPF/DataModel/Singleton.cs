@@ -4,13 +4,13 @@
         where T : Singleton<T>, new()
     {
         protected static readonly T instance = new T();
-        private static object padlock { get; } = new object();
+        private static object Padlock { get; } = new object();
 
         public static T Instance
         {
             get
             {
-                lock(padlock)
+                lock(Padlock)
                 {
                     return instance;
                 }

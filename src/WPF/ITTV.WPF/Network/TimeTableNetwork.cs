@@ -28,7 +28,7 @@ namespace ITTV.WPF.Network
                 var groups = JsonConvert.DeserializeObject<Groups>(str);
                 groups.SetUpdated();
                 var groupsJson = JsonConvert.SerializeObject(groups);
-                File.WriteAllText("Settings/groups.json", groupsJson);
+                File.WriteAllText(AllPaths.FileGroupsCachePath, groupsJson);
             }
             catch (HttpRequestException exception)
             {
