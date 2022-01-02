@@ -253,12 +253,6 @@
     <Content Include="settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="vgbtechs\AdaBoostTech.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="vgbtechs\RFRProgressTech.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -309,6 +303,10 @@
     <ProjectReference Include="..\ITTV.WPF.Core\ITTV.WPF.Core.csproj">
       <Project>{8ff442d1-2f42-4f30-b407-eb6464378da7}</Project>
       <Name>ITTV.WPF.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ITTV.WPF.Sources\ITTV.WPF.Sources.csproj">
+      <Project>{7b2f4676-e48e-4e45-9bcb-2973f1c00c1b}</Project>
+      <Name>ITTV.WPF.Sources</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
