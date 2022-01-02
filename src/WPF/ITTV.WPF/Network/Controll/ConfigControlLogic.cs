@@ -9,13 +9,13 @@ namespace ITTV.WPF.Network.Controll
     public class ConfigControlLogic
     {
         private static ConfigControlLogic instance = new ConfigControlLogic();
-        private static readonly object padlock = new object();
+        private static readonly object Padlock = new object();
 
         public static ConfigControlLogic Instance
         {
             get
             {
-                lock (padlock)
+                lock (Padlock)
                 {
                     return instance;
                 }
@@ -25,26 +25,27 @@ namespace ITTV.WPF.Network.Controll
         private ConfigControlLogic() { }
 
 
-        Func<List<StateControlSetting<object>>> getSettingsData = null;
-        string settingsFilePath;
+        private Func<List<StateControlSetting<object>>> _getSettingsData;
+        private string _settingsFilePath;
         public event Action SettingsUpdated;
-        private ConfigControlNetwork network;
-        public string SettingFilePath { set => settingsFilePath = value; }
-        public Func<List<StateControlSetting<object>>> GetSettingsData { set => this.getSettingsData = value; }
+        private ConfigControlNetwork _network;
+        public string SettingFilePath { set => _settingsFilePath = value; }
+
+        public Func<List<StateControlSetting<object>>> GetSettingsData
+        {
+            set => _getSettingsData = value;
+        }
 
         public void SendSettingsData()
         {
-            if (getSettingsData != null) {
-                List<StateControlSetting<object>> localSettings = getSettingsData.Invoke();
+            if (_getSettingsData != null) {
+                var localSettings = _getSettingsData.Invoke();
 
-                string json = JsonConvert.SerializeObject(localSettings);
+                var json = JsonConvert.SerializeObject(localSettings);
 
-                if (network == null)
-                {
-                    network = new ConfigControlNetwork();
-                }
+                _network ??= new ConfigControlNetwork();
 
-                network.SendSettingsToServer(json);
+                _network.SendSettingsToServer(json);
             } else
             {
                 Log("Не настроенно метод получение конфигурации из приложения в RFControl");
@@ -53,15 +54,15 @@ namespace ITTV.WPF.Network.Controll
 
         public void UpdateSettingsData(string response)
         {
-            List<StateControlSetting<object>> settings = JsonConvert.DeserializeObject<List<StateControlSetting<object>>>(response);
-            Dictionary<string, object> localSettings = new Dictionary<string, object>();
+            var settings = JsonConvert.DeserializeObject<List<StateControlSetting<object>>>(response);
+            var localSettings = new Dictionary<string, object>();
 
             foreach(StateControlSetting<object> setting in settings)
             {
                 if (setting.value != null && !string.IsNullOrEmpty(setting.name)) {
-                    if (setting.value.GetType() == typeof(string) && setting.type.Equals(StateControlSetting<object>.DataTypes.List.ToString()))
+                    if (setting.value is string && setting.type.Equals(StateControlSetting<object>.DataTypes.List.ToString()))
                     {
-                        List<object> temp = setting.value.ToString().Replace("[", "").Replace("]", "").Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList<object>();
+                        var temp = setting.value.ToString().Replace("[", "").Replace("]", "").Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList<object>();
                         localSettings.Add(setting.name, temp);
                     } else {
                         localSettings.Add(setting.name, setting.value);
@@ -75,10 +76,10 @@ namespace ITTV.WPF.Network.Controll
             string json = JsonConvert.SerializeObject(localSettings);
             try
             {
-                File.WriteAllText(settingsFilePath, json);
+                File.WriteAllText(_settingsFilePath, json);
             } catch (Exception)
             {
-                if (!string.IsNullOrEmpty(settingsFilePath) && File.Exists(settingsFilePath)) {
+                if (!string.IsNullOrEmpty(_settingsFilePath) && File.Exists(_settingsFilePath)) {
                     Log("Нет доступа к файлу конфигурации приложения.");
                 } else
                 {
@@ -116,9 +117,14 @@ namespace ITTV.WPF.Network.Controll
         {
             try
             {
-                File.AppendAllLines("RFControl/logs.txt", new string[] { DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + log });
+                File.AppendAllLines("RFControl/logs.txt",
+                    new[]
+                        {DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + log});
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                
+            }
         }
     }
 }

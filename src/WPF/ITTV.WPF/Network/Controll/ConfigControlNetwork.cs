@@ -1,45 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using ITTV.WPF.DataModel.Models;
+using ITTV.WPF.Network.Controll.Models;
 using Newtonsoft.Json;
 using WebSocketSharp;
 
 namespace ITTV.WPF.Network.Controll
 {
-    class ConfigControlNetwork
+    public class ConfigControlNetwork
     {
-        WebSocket socket;
-        string BaseUrl;
-
-        string AppName;
-        string DeviceName;
-        string SessionID;
-        string AuthToken;
-
-        public class WebSocketMessage
-        {
-            public string AppName;
-            public string DeviceName;
-            public string SessionID;
-            public string Configs;
-            public string AuthToken;
-
-            public WebSocketMessage() { }
-            public WebSocketMessage(string appName, string deviceName, string configs, string authToken, string sessionId = "")
-            {
-                AppName = appName;
-                DeviceName = deviceName;
-                SessionID = sessionId;
-                Configs = configs;
-                AuthToken = authToken;
-            }
-
-            override
-            public string ToString()
-            {
-                return JsonConvert.SerializeObject(this);
-            }
-        }
+        private readonly WebSocket _socket;
+        
+        private Configuration _configuration;
+        private string _sessionId;
 
         public ConfigControlNetwork()
         {
@@ -47,12 +20,15 @@ namespace ITTV.WPF.Network.Controll
 
             try
             {
-                socket = new WebSocket("ws://" + BaseUrl + "/configs");
+                _socket = new WebSocket("ws://" + _configuration.BaseUrl + "/configs");
 
-                socket.OnMessage += Socket_OnMessage;
-                socket.OnError += (sender, e) => { ConfigControlLogic.Instance.Log(e.Exception.ToString()); };
+                _socket.OnMessage += Socket_OnMessage;
+                _socket.OnError += (sender, e) =>
+                {
+                    ConfigControlLogic.Instance.Log(e.Exception.ToString());
+                };
 
-                socket.Connect();
+                _socket.Connect();
             } catch (Exception e)
             {
                 ConfigControlLogic.Instance.Log(e.Message.Replace(Environment.NewLine, " "));
@@ -62,52 +38,35 @@ namespace ITTV.WPF.Network.Controll
         private void GetConfigControlSettings()
         {
             var path = AllPaths.FileRfControlConfigurationPath;
-
-            if (File.Exists(path))
-            {
-                var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(path));
+            
+            if (!File.Exists(path))
+                CreateEmptyConfigControlSettings();
+            
+            _configuration = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(path));
                 
-                AppName = dict["AppName"];
-                DeviceName = dict["DeviceName"];
-                BaseUrl = dict["BaseURL"];
-                AuthToken = dict["AuthToken"];
-
-                if (string.IsNullOrEmpty(AppName) || string.IsNullOrEmpty(DeviceName) || string.IsNullOrEmpty(BaseUrl)) {
-                    ConfigControlLogic.Instance.Log("Некорректно задана конфигурация RFControl.");
-                }
-            }
-            else
+            if (string.IsNullOrEmpty(_configuration?.AppName) 
+                || string.IsNullOrEmpty(_configuration?.DeviceName)
+                || string.IsNullOrEmpty(_configuration.BaseUrl))
             {
-                CreateConfigControlSettings();
-                GetConfigControlSettings();
+                ConfigControlLogic.Instance.Log("Некорректно задана конфигурация RFControl.");
             }
         }
 
-        private void CreateConfigControlSettings()
+        private void CreateEmptyConfigControlSettings()
         {
-            var fullPath = AllPaths.GetDirectoryRfControlPath;
-
-            if (!Directory.Exists(fullPath))
-                Directory.CreateDirectory(fullPath);
-
-            var settingsFullPath = AllPaths.FileRfControlConfigurationPath;
-            if (File.Exists(settingsFullPath)) 
-                return;
-            
-            using var sw = File.CreateText(settingsFullPath);
-            //TODO: rewrite to json model
-            sw.WriteLine("{\n\t\"AppName\": \"\",\n\t\"DeviceName\": \"\",\n\t\"BaseURL\": \"\",\n\t\"AuthToken\": \"\"\n}");
+            var jsonConfiguration = JsonConvert.SerializeObject(new Configuration());
+            File.WriteAllText(AllPaths.FileRfControlConfigurationPath, jsonConfiguration);
         }
 
         private void Socket_OnMessage(object sender, MessageEventArgs e)
         {
             ConfigControlLogic.Instance.Log("Получение сообщения от сервера.");
 
-            WebSocketMessage socketMessage = JsonConvert.DeserializeObject<WebSocketMessage>(e.Data);
+            var socketMessage = JsonConvert.DeserializeObject<WebSocketMessage>(e.Data);
 
-            if (string.IsNullOrEmpty(SessionID))
+            if (string.IsNullOrEmpty(_sessionId))
             {
-                SessionID = socketMessage.SessionID;
+                _sessionId = socketMessage.SessionID;
             }
 
             ConfigControlLogic.Instance.UpdateSettingsData(socketMessage.Configs);
@@ -117,10 +76,17 @@ namespace ITTV.WPF.Network.Controll
         {
             ConfigControlLogic.Instance.Log("Отправка сообщения на сервер.");
 
-            WebSocketMessage data = new WebSocketMessage(AppName, DeviceName, settings, AuthToken, SessionID);
-            if (socket != null && socket.IsAlive) {
-                socket.Send(data.ToString());
-            } else
+            var data = new WebSocketMessage(_configuration.AppName, 
+                _configuration.DeviceName, 
+                settings, 
+                _configuration.AuthToken,
+                _sessionId);
+            
+            if (_socket is {IsAlive: true}) 
+            {
+                _socket.Send(data.ToJson());
+            } 
+            else
             {
                 ConfigControlLogic.Instance.Log("Отправка не возможна. Нет подключения с сервером по сокету.");
             }
