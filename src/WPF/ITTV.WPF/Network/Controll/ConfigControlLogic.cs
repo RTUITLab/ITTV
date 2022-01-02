@@ -117,9 +117,10 @@ namespace ITTV.WPF.Network.Controll
         {
             try
             {
-                File.AppendAllLines("RFControl/logs.txt",
-                    new[]
-                        {DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + log});
+                File.AppendAllLines(AllPaths.FileRfControlLogsPath, new[]
+                    {
+                        DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + log
+                    });
             }
             catch (Exception)
             {
