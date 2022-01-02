@@ -1,10 +1,4 @@
-﻿//------------------------------------------------------------------------------
-// <copyright file="SelectionDisplay.xaml.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-//------------------------------------------------------------------------------
-
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Controls;
 
 namespace ITTV.WPF.Interface.KinnectButtons
@@ -20,9 +14,9 @@ namespace ITTV.WPF.Interface.KinnectButtons
         /// <param name="itemId">ID of the item that was selected</param>
         public SelectionDisplay(string itemId)
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.messageTextBlock.Text = string.Format(CultureInfo.CurrentCulture, Properties.Resources.SelectedMessage, itemId);
+            messageTextBlock.Text = string.Format(CultureInfo.CurrentCulture, Properties.Resources.SelectedMessage, itemId);
         }
 
         /// <summary>
@@ -32,7 +26,7 @@ namespace ITTV.WPF.Interface.KinnectButtons
         /// <param name="e">Event arguments</param>
         private void OnLoadedStoryboardCompleted(object sender, System.EventArgs e)
         {
-            var parent = (Panel)this.Parent;
+            var parent = (Panel) Parent;
             parent.Children.Remove(this);
         }
     }
