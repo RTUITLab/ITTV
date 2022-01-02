@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using ITTV.WPF.DataModel;
 
 namespace ITTV.WPF

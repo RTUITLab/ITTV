@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -13,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace ITTV.WPF.Core.Services.ApiClient
 {
-    public class MireaApiClient : IMireaApiClient
+    public class MireaApiClient : IMireaApiClient, IDisposable
     {
         private readonly HttpClient _httpClient;
 
@@ -32,12 +33,12 @@ namespace ITTV.WPF.Core.Services.ApiClient
             return result;
         }
 
-        public async Task<ApiFullSheduleResponse> GetFullScheduleForGroup(string groupName)
+        public async Task<ApiFullScheduleResponse> GetFullScheduleForGroup(string groupName)
         {
             var response = await _httpClient.GetAsync(MireaApiEndpoints.GetFullScheduleForGroup(groupName));
             var responseMessage = await response.Content.ReadAsStringAsync();
 
-            var result = JsonConvert.DeserializeObject<ApiFullSheduleResponse>(responseMessage);
+            var result = JsonConvert.DeserializeObject<ApiFullScheduleResponse>(responseMessage);
             return result;
         }
 
@@ -148,6 +149,11 @@ namespace ITTV.WPF.Core.Services.ApiClient
             }
             
             return result.ToArray();
+        }
+
+        public void Dispose()
+        {
+            _httpClient?.Dispose();
         }
     }
 }

@@ -128,16 +128,16 @@ namespace ITTV.WPF.DataModel.Models
                     switch (answers[1])
                     {
                         case "1-ый курс":
-                            groups.bachelor.first.ForEach(direction => { outList.Add(direction.name); });
+                            groups.Bachelor.First.ForEach(direction => { outList.Add(direction.Name); });
                             return new TimeTableList(outList, "Назад к выбору курса");
                         case "2-ой курс":
-                            groups.bachelor.second.ForEach(direction => { outList.Add(direction.name); });
+                            groups.Bachelor.Second.ForEach(direction => { outList.Add(direction.Name); });
                             return new TimeTableList(outList, "Назад к выбору курса");
                         case "3-ий курс":
-                            groups.bachelor.third.ForEach(direction => { outList.Add(direction.name); });
+                            groups.Bachelor.Third.ForEach(direction => { outList.Add(direction.Name); });
                             return new TimeTableList(outList, "Назад к выбору курса");
                         case "4-ый курс":
-                            groups.bachelor.fourth.ForEach(direction => { outList.Add(direction.name); });
+                            groups.Bachelor.Fourth.ForEach(direction => { outList.Add(direction.Name); });
                             return new TimeTableList(outList, "Назад к выбору курса");
                     }
                 } 
@@ -147,10 +147,10 @@ namespace ITTV.WPF.DataModel.Models
                     switch (answers[1])
                     {
                         case "1-ый курс":
-                            groups.master.first.ForEach(direction => { outList.Add(direction.name); });
+                            groups.Master.First.ForEach(direction => { outList.Add(direction.Name); });
                             return new TimeTableList(outList, "Назад к выбору курса");
                         case "2-ой курс":
-                            groups.master.second.ForEach(direction => { outList.Add(direction.name); });
+                            groups.Master.Second.ForEach(direction => { outList.Add(direction.Name); });
                             return new TimeTableList(outList, "Назад к выбору курса");
                     }
                 }
@@ -163,16 +163,16 @@ namespace ITTV.WPF.DataModel.Models
                     switch (answers[1])
                     {
                         case "1-ый курс":
-                            groups.bachelor.first.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
+                            groups.Bachelor.First.ForEach(direction => { if (direction.Name.Equals(answers[2])) { outList.AddRange(direction.Numbers); } });
                             return new TimeTableList(outList, "Назад к выбору направления");
                         case "2-ой курс":
-                            groups.bachelor.second.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
+                            groups.Bachelor.Second.ForEach(direction => { if (direction.Name.Equals(answers[2])) { outList.AddRange(direction. Numbers); } });
                             return new TimeTableList(outList, "Назад к выбору направления");
                         case "3-ий курс":
-                            groups.bachelor.third.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
+                            groups.Bachelor.Third.ForEach(direction => { if (direction.Name.Equals(answers[2])) { outList.AddRange(direction.Numbers); } });
                             return new TimeTableList(outList, "Назад к выбору направления");
                         case "4-ый курс":
-                            groups.bachelor.fourth.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
+                            groups.Bachelor.Fourth.ForEach(direction => { if (direction.Name.Equals(answers[2])) { outList.AddRange(direction.Numbers); } });
                             return new TimeTableList(outList, "Назад к выбору направления");
                     }
                 }
@@ -182,10 +182,10 @@ namespace ITTV.WPF.DataModel.Models
                     switch (answers[1])
                     {
                         case "1-ый курс":
-                            groups.master.first.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
+                            groups.Master.First.ForEach(direction => { if (direction.Name.Equals(answers[2])) { outList.AddRange(direction.Numbers); } });
                             return new TimeTableList(outList, "Назад к выбору направления");
                         case "2-ой курс":
-                            groups.master.second.ForEach(direction => { if (direction.name.Equals(answers[2])) { outList.AddRange(direction.numbers); } });
+                            groups.Master.Second.ForEach(direction => { if (direction.Name.Equals(answers[2])) { outList.AddRange(direction.Numbers); } });
                             return new TimeTableList(outList, "Назад к выбору направления");
                     }
                 }
