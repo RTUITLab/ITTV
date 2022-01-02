@@ -6,7 +6,7 @@ using ITTV.WPF.DataModel;
 using ITTV.WPF.Network.Controll;
 using Newtonsoft.Json;
 
-namespace ITTV.WPF.Settings
+namespace ITTV.WPF
 {
     public class Settings : Singleton<Settings>
     {
@@ -46,51 +46,45 @@ namespace ITTV.WPF.Settings
                         new ConfigControlLogic.StateControlSetting<object>("backgroundVideoOrder",
                             ConfigControlLogic.StateControlSetting<object>.DataTypes.List, BackgroundVideoOrder),
                     };
-                ConfigControlLogic.Instance.SettingFilePath =
-                    AppDomain.CurrentDomain.BaseDirectory + @"Settings\settings.json";
+                ConfigControlLogic.Instance.SettingFilePath = AppDomain.CurrentDomain.BaseDirectory + AllPaths.FileSettingsPath;
                 ConfigControlLogic.Instance.SettingsUpdated += GetData;
                 configured = true;
             }
 
-            const string path = "Settings/settings.json";
-            if (File.Exists(path))
-            {
-                var data = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path));
+            if (!File.Exists(AllPaths.FileSettingsPath)) 
+                return;
+            
+            var data = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(AllPaths.FileSettingsPath));
 
-                instance.backgroundVideoOrder = data?.backgroundVideoOrder;
-                instance.needCheckTime = data?.needCheckTime;
-                instance.sleepHour = data?.sleepHour;
-                instance.isAdmin = data?.isAdmin;
-                instance.minForUpdate = data?.minForUpdate;
-                instance.videoVolume = data?.videoVolume;
+            instance.backgroundVideoOrder = data?.backgroundVideoOrder;
+            instance.needCheckTime = data?.needCheckTime;
+            instance.sleepHour = data?.sleepHour;
+            instance.isAdmin = data?.isAdmin;
+            instance.minForUpdate = data?.minForUpdate;
+            instance.videoVolume = data?.videoVolume;
 
-                if (instance.backgroundVideoOrder != null)
-                    foreach (var unused in instance.backgroundVideoOrder.Where(uri => !File.Exists(uri)))
-                    {
-                        instance.backgroundVideoOrder = CreateVideoData().ToList();
-                    }
+            if (instance.backgroundVideoOrder != null)
+                foreach (var unused in instance.backgroundVideoOrder.Where(uri => !File.Exists(uri)))
+                {
+                    instance.backgroundVideoOrder = CreateVideoData().ToList();
+                }
 
-                ConfigControlLogic.Instance.SendSettingsData();
-                SettingsUpdated?.Invoke();
-            }
+            ConfigControlLogic.Instance.SendSettingsData();
+            SettingsUpdated?.Invoke();
         }
 
-        private string[] CreateVideoData()
-        {
-            string backgroundVideosPath = AppDomain.CurrentDomain.BaseDirectory + @"Videos\Background\";
-
-            if (!Directory.Exists(backgroundVideosPath))
-                Directory.CreateDirectory(backgroundVideosPath);
-
-            return Directory.GetFiles(backgroundVideosPath);
-        }
+        private static IEnumerable<string> CreateVideoData()
+            => Directory.GetFiles(AllPaths.GetDirectoryBackgroundVideosPath);
 
         public bool NeedCheckTime
         {
             get
             {
-                if (Instance.needCheckTime == null) { GetData(); }
-                return (bool)Instance.needCheckTime;
+                if (Instance.needCheckTime == null)
+                {
+                    GetData();
+                }
+                return (bool) Instance.needCheckTime;
             }
         }
 
@@ -98,7 +92,10 @@ namespace ITTV.WPF.Settings
         {
             get
             {
-                if (Instance.sleepHour == null) { GetData(); }
+                if (Instance.sleepHour == null)
+                {
+                    GetData();
+                }
                 return (int)Instance.sleepHour;
             }
         }
@@ -107,7 +104,10 @@ namespace ITTV.WPF.Settings
         {
             get
             {
-                if (Instance.isAdmin == null) { GetData(); }
+                if (Instance.isAdmin == null)
+                {
+                    GetData();
+                }
                 return (bool)Instance.isAdmin;
             }
         }
@@ -116,8 +116,12 @@ namespace ITTV.WPF.Settings
         {
             get
             {
-                if (Instance.videoVolume == null) { GetData(); }
-                if (Instance.videoVolume > 100) { return 1; } else if (Instance.videoVolume < 0) { return 0; } else { return (double)Instance.videoVolume / 100; }
+                if (Instance.videoVolume == null)
+                {
+                    GetData();
+                }
+
+                return Math.Min(1, Math.Max(0, Instance.videoVolume.Value) / 100);
             }
         }
 

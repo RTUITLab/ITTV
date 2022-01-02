@@ -23,7 +23,7 @@ namespace ITTV.WPF.DataModel.Models
 
         async void Configure()
         {
-            const string groupsInfoPath = "Settings/groups.json";
+            var groupsInfoPath = AllPaths.FileGroupsCachePath;
             if (!File.Exists(groupsInfoPath) || string.IsNullOrEmpty(File.ReadAllText(groupsInfoPath)))
             {
                 await network.SyncGroupsToFile();

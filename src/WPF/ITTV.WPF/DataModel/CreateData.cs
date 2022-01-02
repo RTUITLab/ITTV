@@ -13,16 +13,15 @@ namespace ITTV.WPF.DataModel
     {
         public void GetAllTimetable()
         {
-            string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"TimeTables\";
-
-
+            var fullPath = AllPaths.GetDirectoryTimeTablesPath;
+            
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
         }
 
         public void GetAllVideos()
         {
-            string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Videos\";
+            string fullPath = AllPaths.GetDirectoryVideosPath;
 
 
             if (!Directory.Exists(fullPath))
@@ -59,7 +58,7 @@ namespace ITTV.WPF.DataModel
             
             NewsFromSite.Instance.SyncNewsFromSite();
 
-            var json = File.ReadAllText("Settings/news.json");
+            var json = File.ReadAllText(AllPaths.FileNewsCachePath);
             var newsList = JsonConvert.DeserializeObject<List<News>>(json);
             
             foreach (var news in newsList)
@@ -72,7 +71,7 @@ namespace ITTV.WPF.DataModel
 
         public void GetGames()
         {
-            string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"Games\";
+            string fullPath = AllPaths.GetDirectoryGamesPath;
 
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);

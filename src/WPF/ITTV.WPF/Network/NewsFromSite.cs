@@ -55,8 +55,9 @@ namespace ITTV.WPF.Network
                     }
 
                 }
-                string json = JsonConvert.SerializeObject(news_list);
-                File.WriteAllText("Settings/news.json", json);
+                var json = JsonConvert.SerializeObject(news_list);
+                var newsPath = AllPaths.FileNewsCachePath;
+                File.WriteAllText(AllPaths.FileNewsCachePath, json);
             }
             catch (Exception) { MainWindow.Log("Нет доступа к сайту"); }
         }

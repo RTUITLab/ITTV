@@ -43,9 +43,7 @@ namespace ITTV.WPF.Network.Controll
 
         public ConfigControlNetwork()
         {
-            if (string.IsNullOrEmpty(AppName) || string.IsNullOrEmpty(DeviceName)) {
-                GetConfigControlSettings();
-            }
+            GetConfigControlSettings();
 
             try
             {
@@ -63,7 +61,7 @@ namespace ITTV.WPF.Network.Controll
 
         private void GetConfigControlSettings()
         {
-            string path = "RFControl/configuration.json";
+            var path = AllPaths.FileRfControlConfigurationPath;
 
             if (File.Exists(path))
             {
@@ -87,19 +85,18 @@ namespace ITTV.WPF.Network.Controll
 
         private void CreateConfigControlSettings()
         {
-            string fullPath = AppDomain.CurrentDomain.BaseDirectory + @"RFControl\";
+            var fullPath = AllPaths.GetDirectoryRfControlPath;
 
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
 
-            string settingsFullPath = fullPath + "configuration.json";
-            if (!File.Exists(settingsFullPath))
-            {
-                using (StreamWriter sw = File.CreateText(settingsFullPath))
-                {
-                    sw.WriteLine("{\n\t\"AppName\": \"\",\n\t\"DeviceName\": \"\",\n\t\"BaseURL\": \"\"\n}");
-                }
-            }
+            var settingsFullPath = AllPaths.FileRfControlConfigurationPath;
+            if (File.Exists(settingsFullPath)) 
+                return;
+            
+            using var sw = File.CreateText(settingsFullPath);
+            //TODO: rewrite to json model
+            sw.WriteLine("{\n\t\"AppName\": \"\",\n\t\"DeviceName\": \"\",\n\t\"BaseURL\": \"\",\n\t\"AuthToken\": \"\"\n}");
         }
 
         private void Socket_OnMessage(object sender, MessageEventArgs e)

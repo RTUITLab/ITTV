@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using ITTV.WPF.DataModel;
 
 namespace ITTV.WPF
@@ -18,12 +19,15 @@ namespace ITTV.WPF
             } 
             catch (Exception e)
             {
-                File.AppendAllLines("./logs.txt", new[] { DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + e});
-                
-                if (!Settings.Settings.Instance.IsAdmin)
+                File.AppendAllLines(AllPaths.FileLogsPath, new[] { DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + e});
+          
+                if (!Settings.Instance.IsAdmin)
                 {
+                    var assemblyName = typeof(Startup).Assembly.GetName().Name;
+                    Process.Start($"{assemblyName}.exe");
+
                     NewsUpdateThread.Instance.StopUpdating();
-                    Process.Start("ControlsBasics-WPF.exe");
+
                 }
             }
         }

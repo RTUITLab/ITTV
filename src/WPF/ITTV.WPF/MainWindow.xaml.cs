@@ -20,7 +20,7 @@ namespace ITTV.WPF
     /// </summary>
     public partial class MainWindow
     {
-        private static bool _adminMode = Settings.Settings.Instance.IsAdmin;
+        private static bool _adminMode = Settings.Instance.IsAdmin;
 
         public readonly HandOverHelper handHelper;
 
@@ -76,7 +76,7 @@ namespace ITTV.WPF
                 DispatcherPriority.Normal,
                 (sender, e) =>
                 {
-                    DateTime dateTime = DateTime.Now; //new DateTime(DateTime.Now.Year, 2, 10, 12, 20, 00);
+                    var dateTime = DateTime.Now;
                     Time.Text = MireaDateTime.GetTime(dateTime);
                     Para.Text = MireaDateTime.GetPara(dateTime);
                     Date.Text = MireaDateTime.GetDay(dateTime);
@@ -84,7 +84,7 @@ namespace ITTV.WPF
                 },
                 Dispatcher);
 
-            var checkOutTimer = new DispatcherTimer(
+            new DispatcherTimer(
                 TimeSpan.FromMilliseconds(100),
                 DispatcherPriority.Normal,
                 (sender, e) => { CheckPersonIsRemoved(); },
@@ -106,14 +106,15 @@ namespace ITTV.WPF
 
             ControlsBasicsWindow.Topmost = !_adminMode;
 
-            Settings.Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
+            Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
 
             content.OpenBackgroundVideo();
         }
 
         private void Settings_SettingsUpdated()
         {
-            _adminMode = Settings.Settings.Instance.IsAdmin;
+            _adminMode = Settings.Instance.IsAdmin;
+            
             Ui(() =>
             {
                 ControlsBasicsWindow.Topmost = !_adminMode;
