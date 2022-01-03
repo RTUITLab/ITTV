@@ -53,16 +53,6 @@ namespace ITTV.WPF
                 return DirectoryTimeTablesPath;
             }
         }
-        
-        private const string DirectoryRfControlPath = @"RFControl\";
-        public static string GetDirectoryRfControlPath
-        {
-            get
-            {
-                Directory.CreateDirectory(DirectoryRfControlPath);
-                return DirectoryRfControlPath;
-            }
-        }
 
         private const string DirectoryGestureDatabasePath = @"Gesture\";
         public static string GetDirectoryGestureDatabasePath
@@ -89,9 +79,6 @@ namespace ITTV.WPF
 
         public static readonly string FileGroupsCachePath = GetDirectoryCachePath + "groups.json";
         public static readonly string FileNewsCachePath = GetDirectoryCachePath + "news.json";
-
-        public static readonly string FileRfControlConfigurationPath = GetDirectoryRfControlPath + "configuration.json";
-        public static readonly string FileRfControlLogsPath = GetDirectoryRfControlPath + "logs.txt";
 
         public static readonly string FileGestureDatabasePath = GetDirectoryGestureDatabasePath + "KinectGesture.gbd";
 
