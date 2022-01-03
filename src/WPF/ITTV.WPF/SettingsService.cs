@@ -111,16 +111,16 @@ namespace ITTV.WPF
             instance.minForUpdate = data?.minForUpdate;
             instance.videoVolume = data?.videoVolume;
 
-            if (instance.backgroundVideoOrder != null)
-                foreach (var unused in instance.backgroundVideoOrder.Where(uri => !File.Exists(uri)))
-                {
-                    instance.backgroundVideoOrder = CreateVideoData().ToList();
-                }
+
+            if (instance.backgroundVideoOrder != null && instance.backgroundVideoOrder.Any(uri => !File.Exists(uri)))
+            {
+                instance.backgroundVideoOrder = GetBackgroundVideos().ToList();
+            }
 
             SettingsUpdated?.Invoke();
         }
 
-        private static IEnumerable<string> CreateVideoData()
+        private static IEnumerable<string> GetBackgroundVideos()
             => Directory.GetFiles(AllPaths.GetDirectoryBackgroundVideosPath);
     }
 }
