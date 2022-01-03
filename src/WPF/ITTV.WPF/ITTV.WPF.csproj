@@ -88,9 +88,7 @@
     <Compile Include="DataModel\MireaDateTime.cs" />
     <Compile Include="DataModel\Models\Groups.cs" />
     <Compile Include="DataModel\Models\Lesson.cs" />
-    <Compile Include="DataModel\Models\Configuration.cs" />
     <Compile Include="DataModel\Models\TimeTable.cs" />
-    <Compile Include="Network\Controll\Models\WebSocketMessage.cs" />
     <Compile Include="SettingsService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Interface\Common\BindableBase.cs" />
@@ -132,8 +130,6 @@
     <Compile Include="Interface\Pages\TimeTableList.xaml.cs">
       <DependentUpon>TimeTableList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Network\Controll\ConfigControlLogic.cs" />
-    <Compile Include="Network\Controll\ConfigControlNetwork.cs" />
     <Compile Include="Network\NewsFromSite.cs" />
     <Compile Include="Interface\Pages\Courses.xaml.cs">
       <DependentUpon>Courses.xaml</DependentUpon>
