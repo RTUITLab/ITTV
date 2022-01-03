@@ -91,7 +91,7 @@
     <Compile Include="DataModel\Models\Configuration.cs" />
     <Compile Include="DataModel\Models\TimeTable.cs" />
     <Compile Include="Network\Controll\Models\WebSocketMessage.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="SettingsService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Interface\Common\BindableBase.cs" />
     <Compile Include="DataModel\CreateData.cs" />

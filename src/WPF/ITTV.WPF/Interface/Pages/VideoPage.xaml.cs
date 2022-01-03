@@ -17,16 +17,16 @@ namespace ITTV.WPF.Interface.Pages
 
             Uri uri = new Uri(VideoSource, UriKind.Relative);
             Video.Source = uri;
-            Video.Volume = Settings.Instance.VideoVolume;
+            Video.Volume = SettingsService.Instance.VideoVolume;
             Video.Play();
             Video.MediaOpened += (s, a) => MainWindow.Instance.UiInvoked(DateTime.Now  + Video.NaturalDuration.TimeSpan);
 
-            Settings.Instance.SettingsUpdated += Instance_SettingsUpdated;
+            SettingsService.Instance.SettingsUpdated += Instance_SettingsUpdated;
         }
 
         private void Instance_SettingsUpdated()
         {
-            MainWindow.Instance.Ui(() => { Video.Volume = Settings.Instance.VideoVolume; });
+            MainWindow.Instance.Ui(() => { Video.Volume = SettingsService.Instance.VideoVolume; });
             
         }
 

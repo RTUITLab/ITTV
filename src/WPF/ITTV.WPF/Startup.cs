@@ -20,7 +20,7 @@ namespace ITTV.WPF
             {
                 File.AppendAllLines(AllPaths.FileLogsPath, new[] { DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + e});
           
-                if (!Settings.Instance.IsAdmin)
+                if (!SettingsService.Instance.IsAdmin)
                 {
                     var assemblyName = typeof(Startup).Assembly.GetName().Name;
                     Process.Start($"{assemblyName}.exe");

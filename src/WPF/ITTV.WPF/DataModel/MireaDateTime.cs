@@ -10,11 +10,11 @@ namespace ITTV.WPF.DataModel
 
         public MireaDateTime()
         {
-            needToCheckTime = Settings.Instance.NeedCheckTime;
-            sleepTime = Settings.Instance.SleepHour;
-            Settings.Instance.SettingsUpdated += () => { 
-                sleepTime = Settings.Instance.SleepHour;
-                needToCheckTime = Settings.Instance.NeedCheckTime;
+            needToCheckTime = SettingsService.Instance.NeedCheckTime;
+            sleepTime = SettingsService.Instance.SleepHour;
+            SettingsService.Instance.SettingsUpdated += () => { 
+                sleepTime = SettingsService.Instance.SleepHour;
+                needToCheckTime = SettingsService.Instance.NeedCheckTime;
             };
         }
 

@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace ITTV.WPF
 {
-    public class Settings : Singleton<Settings>
+    public class SettingsService : Singleton<SettingsService>
     {
         bool configured;
 
@@ -54,7 +54,7 @@ namespace ITTV.WPF
             if (!File.Exists(AllPaths.FileSettingsPath)) 
                 return;
             
-            var data = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(AllPaths.FileSettingsPath));
+            var data = JsonConvert.DeserializeObject<SettingsService>(File.ReadAllText(AllPaths.FileSettingsPath));
 
             instance.backgroundVideoOrder = data?.backgroundVideoOrder;
             instance.needCheckTime = data?.needCheckTime;
@@ -129,7 +129,10 @@ namespace ITTV.WPF
         {
             get
             {
-                if (Instance.minForUpdate == null) { GetData(); }
+                if (Instance.minForUpdate == null)
+                {
+                    GetData();
+                }
                 return (int)Instance.minForUpdate;
             }
         }
@@ -138,7 +141,10 @@ namespace ITTV.WPF
         {
             get
             {
-                if (Instance.backgroundVideoOrder == null) { GetData(); }
+                if (Instance.backgroundVideoOrder == null)
+                {
+                    GetData();
+                }
                 return Instance.backgroundVideoOrder;
             }
         }
