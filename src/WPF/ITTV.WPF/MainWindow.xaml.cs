@@ -20,7 +20,7 @@ namespace ITTV.WPF
     /// </summary>
     public partial class MainWindow
     {
-        private static bool _adminMode = Settings.Instance.IsAdmin;
+        private static bool _adminMode = SettingsService.Instance.IsAdmin;
 
         public readonly HandOverHelper handHelper;
 
@@ -106,14 +106,14 @@ namespace ITTV.WPF
 
             ControlsBasicsWindow.Topmost = !_adminMode;
 
-            Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
+            SettingsService.Instance.SettingsUpdated += Settings_SettingsUpdated;
 
             content.OpenBackgroundVideo();
         }
 
         private void Settings_SettingsUpdated()
         {
-            _adminMode = Settings.Instance.IsAdmin;
+            _adminMode = SettingsService.Instance.IsAdmin;
             
             Ui(() =>
             {

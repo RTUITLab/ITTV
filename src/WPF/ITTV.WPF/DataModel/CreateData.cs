@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using ITTV.WPF.DataModel.Models;
 using ITTV.WPF.Interface.Pages;
 using ITTV.WPF.Network;
 using Newtonsoft.Json;
-using static ITTV.WPF.DataModel.Models.DataSource;
 
 namespace ITTV.WPF.DataModel
 {
@@ -41,7 +39,7 @@ namespace ITTV.WPF.DataModel
                     "Video-" + i.ToString(),
                     Path.GetFileNameWithoutExtension(video),
                     typeof(VideoPage),
-                    StringToArr(video)));
+                    DataSource.StringToArr(video)));
 
                 i++;
             }
@@ -99,7 +97,7 @@ namespace ITTV.WPF.DataModel
                 games_group.Items.Add(new Game(
                     "Game-" + i.ToString(),
                     new DirectoryInfo(Game).Name,
-                    StringToArr(filePath)));
+                    DataSource.StringToArr(filePath)));
                 i++;
             }
 

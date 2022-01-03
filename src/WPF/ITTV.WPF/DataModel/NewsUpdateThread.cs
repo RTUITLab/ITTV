@@ -10,7 +10,7 @@ namespace ITTV.WPF.DataModel
 
         public void StartUpdating()
         {
-            timer = new Timer(Settings.instance.MinForUpdate * 60 * 1000);
+            timer = new Timer(SettingsService.instance.MinForUpdate * 60 * 1000);
 
             timer.Elapsed += (o, e) => NewsFromSite.Instance.SyncNewsFromSite();
             timer.Elapsed += async (o,e ) => await new TimeTableNetwork().SyncGroupsToFile();
