@@ -121,6 +121,40 @@ namespace ITTV.WPF
         }
 
         private static IEnumerable<string> GetBackgroundVideos()
-            => Directory.GetFiles(AllPaths.GetDirectoryBackgroundVideosPath);
+        {
+            var supportedVideoFormats = new[]
+            {
+                "mov", 
+                "ogg",
+                "mp4"
+            };
+            
+            var fileNames = Directory.GetFiles(AllPaths.GetDirectoryBackgroundVideosPath);
+            
+            var filteredFileNames = fileNames.Where(x =>
+            {
+                var splittingFileName = x.Split('.');
+                if (splittingFileName.Length < 2)
+                {
+                    //TODO: Rewrite logger
+                    MainWindow.Log($"The format of the background video file with the name {x} is not specified!");
+                    
+                    return false;
+                }
+
+                var fileFormat = splittingFileName.Last();
+                
+                var fileSupported = supportedVideoFormats.Contains(fileFormat);
+                if (!fileSupported)
+                {
+                    //TODO: Rewrite logger
+                    MainWindow.Log($"The format of the background video file {x} is not supported");
+                }
+
+                return fileSupported;
+            });
+
+            return filteredFileNames;
+        }
     }
 }
