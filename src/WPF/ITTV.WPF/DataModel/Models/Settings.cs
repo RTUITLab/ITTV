@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ITTV.WPF.DataModel;
 using Newtonsoft.Json;
 
-namespace ITTV.WPF
-{
-    //TODO: refactoring, not right using concept 
-    public class SettingsService : Singleton<SettingsService>
+namespace ITTV.WPF.DataModel.Models
+{ 
+    public class Settings : Singleton<Settings>
     {
         public event Action SettingsUpdated;
         public bool NeedCheckTime
@@ -102,7 +100,7 @@ namespace ITTV.WPF
             if (!File.Exists(AllPaths.FileSettingsPath)) 
                 return;
             
-            var data = JsonConvert.DeserializeObject<SettingsService>(File.ReadAllText(AllPaths.FileSettingsPath));
+            var data = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(AllPaths.FileSettingsPath));
 
             instance.backgroundVideoOrder = data?.backgroundVideoOrder;
             instance.needCheckTime = data?.needCheckTime;
@@ -112,9 +110,11 @@ namespace ITTV.WPF
             instance.videoVolume = data?.videoVolume;
 
 
-            if (instance.backgroundVideoOrder != null && instance.backgroundVideoOrder.Any(uri => !File.Exists(uri)))
+            if (instance.backgroundVideoOrder != null 
+                && instance.backgroundVideoOrder.Any(uri => !File.Exists(uri)))
             {
-                instance.backgroundVideoOrder = GetBackgroundVideos().ToList();
+                instance.backgroundVideoOrder = GetBackgroundVideos()
+                    .ToList();
             }
 
             SettingsUpdated?.Invoke();

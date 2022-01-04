@@ -1,7 +1,7 @@
 {
   "needCheckTime": false,
   "sleepHour": 8,
-  "isAdmin": true,
+  "isAdmin": false,
   "videoVolume": 0,
   "minForUpdate": 5,
   "backgroundVideoOrder": []

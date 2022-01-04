@@ -88,8 +88,8 @@
     <Compile Include="DataModel\MireaDateTime.cs" />
     <Compile Include="DataModel\Models\Groups.cs" />
     <Compile Include="DataModel\Models\Lesson.cs" />
+    <Compile Include="DataModel\Models\Settings.cs" />
     <Compile Include="DataModel\Models\TimeTable.cs" />
-    <Compile Include="SettingsService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Interface\Common\BindableBase.cs" />
     <Compile Include="DataModel\CreateData.cs" />
@@ -134,7 +134,6 @@
     <Compile Include="Interface\Pages\Courses.xaml.cs">
       <DependentUpon>Courses.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interface\KinnectButtons\HandOverHeadEngagementModel.cs" />
     <Compile Include="Interface\Pages\NewsPage.xaml.cs">
       <DependentUpon>NewsPage.xaml</DependentUpon>
     </Compile>
@@ -150,9 +149,6 @@
     <Compile Include="Interface\Pages\VideoPage.xaml.cs">
       <DependentUpon>VideoPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interface\KinnectButtons\SelectionDisplay.xaml.cs">
-      <DependentUpon>SelectionDisplay.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Network\TimeTableNetwork.cs" />
     <Page Include="Interface\Common\StandardStyles.xaml">
       <SubType>Designer</SubType>
@@ -161,10 +157,6 @@
     <Page Include="Interface\Images\Logos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Interface\KinnectButtons\HandPointerStyles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Interface\Pages\BackgroundVideo.xaml">
       <SubType>Designer</SubType>
@@ -234,10 +226,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interface\KinnectButtons\SelectionDisplay.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -259,9 +247,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Interface\Images\Kinect.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Interface\KinnectButtons\HighlightRectangle.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Interface\Images\ITlogo.png" />

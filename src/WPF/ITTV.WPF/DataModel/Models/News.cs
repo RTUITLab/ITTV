@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 
@@ -27,31 +28,28 @@ namespace ITTV.WPF.DataModel.Models
         public List<byte[]> ByteImageList { get => byteImageList; set => byteImageList = value; }
 
         [JsonIgnore]
-        public List<BitmapImage> ImageList { get { if (imageList == null) { imageList = ConvertBytesToImages(byteImageList); } return imageList; } }
-
-
-        private BitmapImage ConvertByteToImage (byte[] array)
-        {
-            using (var ms = new MemoryStream(array))
+        public List<BitmapImage> ImageList {
+            get
             {
-                var image = new BitmapImage();
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.StreamSource = ms;
-                image.EndInit();
-
-                return image;
-            }
+                return imageList ??= ConvertBytesToImages(byteImageList);
+            } 
         }
 
-        private List<BitmapImage> ConvertBytesToImages(List<byte[]> arrays)
+        private static BitmapImage ConvertByteToImage (byte[] array)
         {
-            List<BitmapImage> images = new List<BitmapImage>();
-            foreach (byte[] array in arrays)
-            {
-                images.Add(ConvertByteToImage(array));
-            }
-            return images;
+            using var ms = new MemoryStream(array);
+            var image = new BitmapImage();
+            
+            image.BeginInit();
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.StreamSource = ms;
+            image.EndInit();
+
+            return image;
         }
+
+        private static List<BitmapImage> ConvertBytesToImages(IEnumerable<byte[]> arrays) 
+            => arrays.Select(ConvertByteToImage)
+                .ToList();
     }
 }
