@@ -2,10 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
+using ITTV.WPF.Core.Helpers;
 using Newtonsoft.Json;
 
 namespace ITTV.WPF.DataModel.Models
 {
+    //TODO: refactoring
     public class News
     {
         private string title;
@@ -21,7 +23,7 @@ namespace ITTV.WPF.DataModel.Models
         }
 
         [JsonIgnore]
-        public BitmapImage Source => ConvertByteToImage(byteImageList[0]);
+        public BitmapImage Source => ImageHelper.ConvertByteToImage(byteImageList[0]);
 
         public string Content { get => content; }
         public string Title { get => title; }
@@ -31,25 +33,8 @@ namespace ITTV.WPF.DataModel.Models
         public List<BitmapImage> ImageList {
             get
             {
-                return imageList ??= ConvertBytesToImages(byteImageList);
+                return imageList ??= ImageHelper.ConvertBytesToImages(byteImageList);
             } 
         }
-
-        private static BitmapImage ConvertByteToImage (byte[] array)
-        {
-            using var ms = new MemoryStream(array);
-            var image = new BitmapImage();
-            
-            image.BeginInit();
-            image.CacheOption = BitmapCacheOption.OnLoad;
-            image.StreamSource = ms;
-            image.EndInit();
-
-            return image;
-        }
-
-        private static List<BitmapImage> ConvertBytesToImages(IEnumerable<byte[]> arrays) 
-            => arrays.Select(ConvertByteToImage)
-                .ToList();
     }
 }
