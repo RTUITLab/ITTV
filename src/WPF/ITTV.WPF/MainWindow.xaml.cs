@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using ITTV.WPF.DataModel;
+using ITTV.WPF.DataModel.Models;
 using ITTV.WPF.Interface.Common;
 using ITTV.WPF.Interface.Pages;
 using Microsoft.Kinect;
@@ -20,7 +21,7 @@ namespace ITTV.WPF
     /// </summary>
     public partial class MainWindow
     {
-        private static bool _adminMode = SettingsService.Instance.IsAdmin;
+        private static bool _adminMode = Settings.Instance.IsAdmin;
 
         public readonly HandOverHelper handHelper;
 
@@ -106,14 +107,14 @@ namespace ITTV.WPF
 
             ControlsBasicsWindow.Topmost = !_adminMode;
 
-            SettingsService.Instance.SettingsUpdated += Settings_SettingsUpdated;
+            Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
 
             content.OpenBackgroundVideo();
         }
 
         private void Settings_SettingsUpdated()
         {
-            _adminMode = SettingsService.Instance.IsAdmin;
+            _adminMode = Settings.Instance.IsAdmin;
             
             Ui(() =>
             {

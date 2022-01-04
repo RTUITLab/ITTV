@@ -11,32 +11,25 @@ namespace ITTV.WPF.DataModel
     {
         public void GetAllTimetable()
         {
-            var fullPath = AllPaths.GetDirectoryTimeTablesPath;
-            
-            if (!Directory.Exists(fullPath))
-                Directory.CreateDirectory(fullPath);
+            //TODO: Cache all timetable
         }
 
         public void GetAllVideos()
         {
-            string fullPath = AllPaths.GetDirectoryVideosPath;
+            var fullPath = AllPaths.GetDirectoryVideosPath;
 
+            var allFiles = Directory.GetFiles(fullPath);
 
-            if (!Directory.Exists(fullPath))
-                Directory.CreateDirectory(fullPath);
-
-            string[] allFiles = Directory.GetFiles(fullPath);
-
-            DataCollection<object> video_group = new DataCollection<object>(
+            var videoGroup = new DataCollection<object>(
                 "Video",
                 "Видео",
                 DataCollection<object>.GroupType.Video);
 
-            int i = 0;
+            var i = 0;
             foreach (var video in allFiles)
             {
-                video_group.Items.Add(new Video(
-                    "Video-" + i.ToString(),
+                videoGroup.Items.Add(new Video(
+                    "Video-" + i,
                     Path.GetFileNameWithoutExtension(video),
                     typeof(VideoPage),
                     DataSource.StringToArr(video)));
@@ -44,12 +37,12 @@ namespace ITTV.WPF.DataModel
                 i++;
             }
 
-            DataSource.Instance.AddToGroups(video_group);
+            DataSource.Instance.AddToGroups(videoGroup);
         }        
 
         public void GetNewsFromFile()
         {
-            DataCollection<object> newsGroup = new DataCollection<object>(
+            var newsGroup = new DataCollection<object>(
                     "News",
                     "Новости",
                     DataCollection<object>.GroupType.News);
@@ -69,24 +62,20 @@ namespace ITTV.WPF.DataModel
 
         public void GetGames()
         {
-            string fullPath = AllPaths.GetDirectoryGamesPath;
-
-            if (!Directory.Exists(fullPath))
-                Directory.CreateDirectory(fullPath);
+            var fullPath = AllPaths.GetDirectoryGamesPath;
 
             var allDir = Directory.GetDirectories(fullPath);
-
-
-            DataCollection<object> games_group = new DataCollection<object>(
+            
+            var gamesGroup = new DataCollection<object>(
                     "Games",
                     "Игры",
                     DataCollection<object>.GroupType.Games);
 
-            int i = 0;
-            foreach (var Game in allDir)
+            var i = 0;
+            foreach (var game in allDir)
             {
-                string filePath = "";
-                foreach (var file in Directory.GetFiles(Game))
+                var filePath = "";
+                foreach (var file in Directory.GetFiles(game))
                 {
                     if (Path.GetExtension(file) == ".exe")
                     {
@@ -94,14 +83,14 @@ namespace ITTV.WPF.DataModel
                     }
                 }
 
-                games_group.Items.Add(new Game(
-                    "Game-" + i.ToString(),
-                    new DirectoryInfo(Game).Name,
+                gamesGroup.Items.Add(new Game(
+                    "Game-" + i,
+                    new DirectoryInfo(game).Name,
                     DataSource.StringToArr(filePath)));
                 i++;
             }
 
-            DataSource.Instance.AddToGroups(games_group);
+            DataSource.Instance.AddToGroups(gamesGroup);
         }
     }
 }

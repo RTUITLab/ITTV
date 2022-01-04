@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ITTV.WPF.DataModel.Models;
 
 namespace ITTV.WPF.DataModel
 {
@@ -13,7 +14,7 @@ namespace ITTV.WPF.DataModel
 
         public BackgroundVideoPlaylist()
         {
-            var test = SettingsService.Instance.BackgroundVideoOrder;
+            var test = Settings.Instance.BackgroundVideoOrder;
             foreach (var video in test)
             {
                 playlist.Add(new Uri(video));
@@ -24,13 +25,9 @@ namespace ITTV.WPF.DataModel
         
         public Uri NextVideo()
         {
-            if (playlist.Count > currentIndex + 1)
-                currentIndex++;
-            else
-                currentIndex = 0;
+            currentIndex = (currentIndex + 1) % playlist.Count;
 
             currentVideo = playlist[currentIndex];
-
             return currentVideo;
         }
     }

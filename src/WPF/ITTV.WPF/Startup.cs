@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using ITTV.WPF.DataModel;
+using ITTV.WPF.DataModel.Models;
 
 namespace ITTV.WPF
 {
@@ -20,7 +21,7 @@ namespace ITTV.WPF
             {
                 File.AppendAllLines(AllPaths.FileLogsPath, new[] { DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + e});
           
-                if (!SettingsService.Instance.IsAdmin)
+                if (!Settings.Instance.IsAdmin)
                 {
                     var assemblyName = typeof(Startup).Assembly.GetName().Name;
                     Process.Start(assemblyName);

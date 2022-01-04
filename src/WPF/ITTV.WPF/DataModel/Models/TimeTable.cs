@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using ITTV.WPF.Interface.Pages;
 using ITTV.WPF.Network;
@@ -9,18 +8,19 @@ using Newtonsoft.Json;
 
 namespace ITTV.WPF.DataModel.Models
 {
-    class TimeTable : Singleton<TimeTable>
+    public class TimeTable : Singleton<TimeTable>
     {
         private readonly TimeTableNetwork network = new TimeTableNetwork();
-        private readonly List<string> answers;
+        //TODO: rename field
+        private readonly List<string> answers = new List<string>();
         private Groups groups;
 
         public TimeTable()
         {
             Configure();
-            answers = new List<string>();
         }
-
+        
+        //TODO: Refactoring, not right using of async void
         async void Configure()
         {
             var groupsInfoPath = AllPaths.FileGroupsCachePath;
@@ -58,7 +58,7 @@ namespace ITTV.WPF.DataModel.Models
 
         public string GetImageSourceTimeTable()
         {
-            string[] files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"TimeTables/");
+            var files = Directory.GetFiles(AllPaths.GetDirectoryTimeTablesPath);
 
             if (files.Length > 0) {
                 if (answers[0].Equals("Бакалавриат")) {
@@ -199,17 +199,17 @@ namespace ITTV.WPF.DataModel.Models
                 switch(answers[4])
                 {
                     case "Сегодня":
-                        List<Lesson> todayLessons = await GetTodaySchedule(answers[3]);
+                        var todayLessons = await GetTodaySchedule(answers[3]);
                         MainWindow.Instance.content.NavigateTo(new SchedulePage(todayLessons));
                         UnChoose();
                         return null;
                     case "Завтра":
-                        List<Lesson> tommorowLessons = await GetTomorrowSchedule(answers[3]);
+                        var tommorowLessons = await GetTomorrowSchedule(answers[3]);
                         MainWindow.Instance.content.NavigateTo(new SchedulePage(tommorowLessons));
                         UnChoose();
                         return null;
                     case "Общее":
-                        FullSchedule allLessons = await GetFullSchedule(answers[3]);
+                        var allLessons = await GetFullSchedule(answers[3]);
                         MainWindow.Instance.content.NavigateTo(new SchedulePage(allLessons));
                         UnChoose();
                         return null;
@@ -218,9 +218,10 @@ namespace ITTV.WPF.DataModel.Models
             return null;
         }
 
+        //TODO: Edit name of method
         public bool GetAll()
         {
-            return answers.Count == 2 && Directory.Exists("TimeTables/") && Directory.GetFiles("TimeTables/").ToList().Count > 0;
+            return answers.Count == 2 && Directory.GetFiles(AllPaths.GetDirectoryTimeTablesPath).Length > 0;
         }
     }
 }

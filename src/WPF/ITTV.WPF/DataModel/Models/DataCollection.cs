@@ -9,7 +9,8 @@ namespace ITTV.WPF.DataModel.Models
     {
         public enum GroupType { Menu, News, Courses, Video, Games };
 
-        public DataCollection(string uniqueId, string title, GroupType groupType) : base(uniqueId, title)
+        public DataCollection(string uniqueId, string title, GroupType groupType) 
+            : base(uniqueId, title)
         {
             TypeGroup = groupType;
             Items.CollectionChanged += ItemsCollectionChanged;
