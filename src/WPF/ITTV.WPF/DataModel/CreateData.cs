@@ -16,12 +16,14 @@ namespace ITTV.WPF.DataModel
 
         public void GetAllVideos()
         {
+            const string uniqueId = "Video";
+            
             var fullPath = AllPaths.GetDirectoryVideosPath;
 
             var allFiles = Directory.GetFiles(fullPath);
 
             var videoGroup = new DataCollection<object>(
-                "Video",
+                uniqueId,
                 "Видео",
                 DataCollection<object>.GroupType.Video);
 
@@ -29,11 +31,10 @@ namespace ITTV.WPF.DataModel
             foreach (var video in allFiles)
             {
                 videoGroup.Items.Add(new Video(
-                    "Video-" + i,
+                    $"{uniqueId}-" + i,
                     Path.GetFileNameWithoutExtension(video),
                     typeof(VideoPage),
                     DataSource.StringToArr(video)));
-
                 i++;
             }
 
@@ -51,7 +52,7 @@ namespace ITTV.WPF.DataModel
 
             var json = File.ReadAllText(AllPaths.FileNewsCachePath);
             var newsList = JsonConvert.DeserializeObject<List<News>>(json);
-            
+            //TODO: refactoring, possible null ref exception
             foreach (var news in newsList)
             {
                 newsGroup.Items.Add(news);
