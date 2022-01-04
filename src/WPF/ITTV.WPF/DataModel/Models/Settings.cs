@@ -133,18 +133,9 @@ namespace ITTV.WPF.DataModel.Models
             
             var filteredFileNames = fileNames.Where(x =>
             {
-                var splittingFileName = x.Split('.');
-                if (splittingFileName.Length < 2)
-                {
-                    //TODO: Rewrite logger
-                    MainWindow.Log($"The format of the background video file with the name {x} is not specified!");
-                    
-                    return false;
-                }
-
-                var fileFormat = splittingFileName.Last();
+                var fileExtension = Path.GetExtension(x);
                 
-                var fileSupported = supportedVideoFormats.Contains(fileFormat);
+                var fileSupported = supportedVideoFormats.Contains(fileExtension);
                 if (!fileSupported)
                 {
                     //TODO: Rewrite logger
