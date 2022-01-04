@@ -79,9 +79,10 @@ namespace ITTV.WPF
                 {
                     var dateTime = DateTime.Now;
                     Time.Text = MireaDateTime.GetTime(dateTime);
-                    Para.Text = MireaDateTime.GetPara(dateTime);
-                    Date.Text = MireaDateTime.GetDay(dateTime);
                     Week.Text = MireaDateTime.GetWeek(dateTime);
+                    Date.Text = MireaDateTime.GetDay(dateTime);
+
+                    Para.Text = string.IsNullOrWhiteSpace(Week.Text)? string.Empty : MireaDateTime.GetPara(dateTime);
                 },
                 Dispatcher);
 
