@@ -137,13 +137,13 @@ namespace ITTV.WPF
         private void ReOpenApp(object sender, EventArgs e)
         {
             NewsUpdateThread.Instance.StopUpdating();
-            Process.Start("ControlsBasics-WPF.exe");
+            Process.Start(typeof(Startup).Assembly.GetName().Name);
         }
 
         private void ReOpenAppInException(object sender, UnhandledExceptionEventArgs e)
         { 
             NewsUpdateThread.Instance.StopUpdating();
-            Process.Start("ControlsBasics-WPF.exe");
+            Process.Start(typeof(Startup).Assembly.GetName().Name);
             Application.Current.Shutdown();
         }
 

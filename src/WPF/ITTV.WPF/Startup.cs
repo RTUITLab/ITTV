@@ -23,7 +23,7 @@ namespace ITTV.WPF
                 if (!SettingsService.Instance.IsAdmin)
                 {
                     var assemblyName = typeof(Startup).Assembly.GetName().Name;
-                    Process.Start($"{assemblyName}.exe");
+                    Process.Start(assemblyName);
 
                     NewsUpdateThread.Instance.StopUpdating();
                 }
