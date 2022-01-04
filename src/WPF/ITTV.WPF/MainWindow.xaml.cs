@@ -94,7 +94,7 @@ namespace ITTV.WPF
 
             handHelper = new HandOverHelper(kinectRegion, Dispatcher);
 
-            var gesturePath = $@"{AppDomain.CurrentDomain.BaseDirectory}\GesturesDatabase\KinectGesture.gbd";
+            var gesturePath = AllPaths.FileGestureDatabasePath;
             if (File.Exists(gesturePath))
             {
                 var maxBodies = kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
