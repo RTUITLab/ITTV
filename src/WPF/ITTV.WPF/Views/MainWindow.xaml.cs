@@ -9,43 +9,51 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using ITTV.WPF.DataModel;
 using ITTV.WPF.DataModel.Models;
+using ITTV.WPF.Helpers;
 using ITTV.WPF.Interface.Common;
 using ITTV.WPF.Interface.Pages;
+using ITTV.WPF.Services;
 using Microsoft.Kinect;
 using Microsoft.Kinect.Wpf.Controls;
 
-namespace ITTV.WPF
+namespace ITTV.WPF.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow
     /// </summary>
     public partial class MainWindow
     {
-        private static bool _adminMode = Settings.Instance.IsAdmin;
-
         public readonly HandOverHelper handHelper;
-
-        public static MainWindow Instance;
         private DateTime lastUiOperation = DateTime.Now;
 
         private List<Body> bodies;
         private readonly List<GestureDetector> gestureDetectorList = new List<GestureDetector>();
 
-        public MainWindow()
+        private readonly CreateData _createData;
+        private readonly Settings _settings;
+        private readonly NewsUpdateThread _newsUpdateThread;
+        private readonly MireaTimeManager mireaTimeManager;
+        private readonly EggVideo _eggVideo;
+
+        public MainWindow(CreateData createData, Settings settings,  NewsUpdateThread newsUpdateThread, MireaTimeManager mireaTimeManager, EggVideo eggVideo)
         {
-            Instance = this;
+            _createData = createData;
+            _settings = settings;
+            _newsUpdateThread = newsUpdateThread;
+            this.mireaTimeManager = mireaTimeManager;
+            _eggVideo = eggVideo;
 
             InitializeComponent();
-
+            ConfigureEggVideo(eggVideo);
             Activate();
             Focus();
 
-            CreateData.Instance.GetAllVideos();
-            CreateData.Instance.GetNewsFromFile();
-            CreateData.Instance.GetGames();
-            CreateData.Instance.GetAllTimetable();
+            _createData.GetAllVideos();
+            _createData.GetNewsFromFile();
+            _createData.GetGames();
+            _createData.GetAllTimetable();
 
-            NewsUpdateThread.Instance.StartUpdating();
+            _newsUpdateThread.StartUpdating();
 
             AppDomain.CurrentDomain.UnhandledException += (sender, s) =>
             {
@@ -54,7 +62,7 @@ namespace ITTV.WPF
                 Log(e.ToString());
             };
 
-            if (!_adminMode)
+            if (!_settings.IsAdmin)
             {
                 AppDomain.CurrentDomain.ProcessExit += ReOpenApp;
                 AppDomain.CurrentDomain.UnhandledException += ReOpenAppInException;
@@ -78,11 +86,12 @@ namespace ITTV.WPF
                 (sender, e) =>
                 {
                     var dateTime = DateTime.Now;
-                    Time.Text = MireaDateTime.GetTime(dateTime);
-                    Week.Text = MireaDateTime.GetWeek(dateTime);
-                    Date.Text = MireaDateTime.GetDay(dateTime);
-
-                    Para.Text = string.IsNullOrWhiteSpace(Week.Text)? string.Empty : MireaDateTime.GetPara(dateTime);
+                    
+                    Date.Text = MireaTimeHelper.GetLongDate(dateTime);
+                    Time.Text = MireaTimeHelper.GetLongTime(dateTime);
+                    Week.Text = MireaTimeHelper.GetWeekOfSemester(dateTime);
+                    
+                    Para.Text = string.IsNullOrWhiteSpace(Week.Text)? string.Empty : MireaTimeHelper.GetStageOfClasses(dateTime);
                 },
                 Dispatcher);
 
@@ -101,27 +110,41 @@ namespace ITTV.WPF
                 for (var i = 0; i < maxBodies; ++i)
                 {
                     var detector = new GestureDetector(kinectRegion.KinectSensor);
-                    detector.OnGestureFired += () => { content.NavigateTo(new EggVideo()); };
+                    detector.OnGestureFired += () => { ContentV2.NavigateTo(_eggVideo); };
                     gestureDetectorList.Add(detector);
                 }
             }
 
-            ControlsBasicsWindow.Topmost = !_adminMode;
+            ControlsBasicsWindow.Topmost = !_settings.IsAdmin;
 
-            Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
+            _settings.SettingsUpdated += Settings_SettingsUpdated;
 
-            content.OpenBackgroundVideo();
+            ContentV2.OpenBackgroundVideo();
+        }
+
+        private void ConfigureEggVideo(EggVideo eggVideo)
+        {
+            var gesturePath = AllPaths.FileGestureDatabasePath;
+            var eggVideoFile = AllPaths.FileEggVideoPath;
+
+            if (!File.Exists(gesturePath) || !File.Exists(eggVideoFile)) 
+                return;
+            
+            eggVideo.EggVideoElement.Source = new Uri(eggVideoFile);
+            eggVideo.EggVideoElement.Visibility = Visibility.Collapsed;
+            eggVideo.EggVideoElement.MediaEnded += (s, e) =>
+            {
+                ContentV2.OpenBackgroundVideo();
+            };
         }
 
         private void Settings_SettingsUpdated()
         {
-            _adminMode = Settings.Instance.IsAdmin;
-            
             Ui(() =>
             {
-                ControlsBasicsWindow.Topmost = !_adminMode;
+                ControlsBasicsWindow.Topmost = ! _settings.IsAdmin;
 
-                if (!_adminMode)
+                if (!_settings.IsAdmin)
                 {
                     AppDomain.CurrentDomain.ProcessExit += ReOpenApp;
                     AppDomain.CurrentDomain.UnhandledException += ReOpenAppInException;
@@ -138,14 +161,14 @@ namespace ITTV.WPF
 
         private void ReOpenApp(object sender, EventArgs e)
         {
-            NewsUpdateThread.Instance.StopUpdating();
-            Process.Start(typeof(Startup).Assembly.GetName().Name);
+            _newsUpdateThread.StopUpdating();
+            Process.Start(typeof(App).Assembly.GetName().Name);
         }
 
         private void ReOpenAppInException(object sender, UnhandledExceptionEventArgs e)
         { 
-            NewsUpdateThread.Instance.StopUpdating();
-            Process.Start(typeof(Startup).Assembly.GetName().Name);
+            _newsUpdateThread .StopUpdating();
+            Process.Start(typeof(App).Assembly.GetName().Name);
             Application.Current.Shutdown();
         }
 
@@ -196,13 +219,13 @@ namespace ITTV.WPF
         private void GoBack(object sender, RoutedEventArgs e)
         {
             UiInvoked();
-            if (content.CanGoBackFuther())
+            if (ContentV2.CanGoBackFuther())
             {
-                content.GoBack();
+                ContentV2.GoBack();
             }
             else
             {
-                content.GoBack();
+                ContentV2.GoBack();
                 backButton.Visibility = Visibility.Hidden;
             }
         }
@@ -233,33 +256,33 @@ namespace ITTV.WPF
         {
             try
             {
-                Instance?.Ui(() =>
+                Ui(() =>
                 {
-                    if (!MireaDateTime.Instance.WorkTime())
+                    if (!mireaTimeManager.IsWorkTimeNow())
                     {
-                        if (Instance.content.ContentType() != typeof(NightPhoto))
+                        if (ContentV2.ContentType() != typeof(NightPhoto))
                         {
-                            content.OpenNightPhoto();
+                            ContentV2.OpenNightPhoto();
                         }
                     }
                     else
                     {
                         if (DateTime.Now - lastUiOperation > TimeSpan.FromMinutes(1))
                         {
-                            if (Instance.content.ContentType() != typeof(BackgroundVideo) && Instance.content.ContentType() != typeof(EggVideo))
+                            if (ContentV2.ContentType() != typeof(BackgroundVideo) && ContentV2.ContentType() != typeof(EggVideo))
                             {
                                 if (handHelper.IsHover)
                                 {
                                     lastUiOperation += TimeSpan.FromSeconds(10);
                                     return;
                                 }
-                                content.OpenBackgroundVideo();
+                                ContentV2.OpenBackgroundVideo();
                             }
                         }
 
                         if (DateTime.Now - lastUiOperation <= TimeSpan.FromSeconds(15)) return;
-                        if (Instance.content.ContentType() != typeof(BackgroundVideo)) return;
-                        if (Instance.content.GetContent() is BackgroundVideo bv && !bv.IsButtonInvisible() && !_adminMode)
+                        if (ContentV2.ContentType() != typeof(BackgroundVideo)) return;
+                        if (ContentV2.GetContent() is BackgroundVideo bv && !bv.IsButtonInvisible() && !_settings.IsAdmin)
                         {
                             bv.SetButtonVisibility(Visibility.Collapsed);
                         }

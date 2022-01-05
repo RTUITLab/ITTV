@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using ITTV.WPF.DataModel.Models;
+using ITTV.WPF.Views;
 
 namespace ITTV.WPF.Interface.Pages
 {
@@ -10,8 +11,11 @@ namespace ITTV.WPF.Interface.Pages
     /// </summary>
     public partial class VideoList : UserControl
     {
-        public VideoList()
+        private readonly MainWindow _mainWindow;
+        public VideoList(MainWindow mainWindow)
         {
+            _mainWindow = mainWindow;
+            
             InitializeComponent();
 
             this.itemsControl.ItemTemplate = (DataTemplate)this.FindResource(DataSource.GetGroup("Video").TypeGroup + "Template");
@@ -28,14 +32,14 @@ namespace ITTV.WPF.Interface.Pages
             {
                 if (DataPageBase.Task == DataBase.TaskType.Page && sampleDataItem.NavigationPage != null)
                 {
-                    MainWindow.Instance.content.NavigateTo((UserControl) Activator.CreateInstance(sampleDataItem.NavigationPage, sampleDataItem.Parameters));
+                    _mainWindow.ContentV2.NavigateTo((UserControl) Activator.CreateInstance(sampleDataItem.NavigationPage, sampleDataItem.Parameters));
                 }
             }
         }
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            MainWindow.Instance.UiInvoked();
+            _mainWindow.UiInvoked();
         }
     }
 }

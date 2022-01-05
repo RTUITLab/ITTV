@@ -4,19 +4,24 @@ using System.IO;
 using System.Threading.Tasks;
 using ITTV.WPF.Interface.Pages;
 using ITTV.WPF.Network;
+using ITTV.WPF.Views;
 using Newtonsoft.Json;
 
 namespace ITTV.WPF.DataModel.Models
 {
-    public class TimeTable : Singleton<TimeTable>
+    public class TimeTable
     {
         private readonly TimeTableNetwork network = new TimeTableNetwork();
         //TODO: rename field
         private readonly List<string> answers = new List<string>();
         private Groups groups;
-
-        public TimeTable()
+        private readonly MainWindow _mainWindow;
+        
+        //TODO: REFACTORING!!!!! Circular reference
+        public TimeTable(MainWindow mainWindow)
         {
+            _mainWindow = mainWindow;
+
             Configure();
         }
         
@@ -109,15 +114,15 @@ namespace ITTV.WPF.DataModel.Models
         {
             if (answers.Count == 0)
             {
-                return new TimeTableList(new List<string>() { "Бакалавриат", "Магистратура" }, "");
+                return new TimeTableList(new List<string>() { "Бакалавриат", "Магистратура" }, "", this, _mainWindow);
             } 
             else if (answers.Count == 1)
             {
                 if (answers[0].Equals("Бакалавриат")) {
-                    return new TimeTableList(new List<string>() { "1-ый курс", "2-ой курс", "3-ий курс", "4-ый курс" }, "Назад к уровням подготовки"); 
+                    return new TimeTableList(new List<string>() { "1-ый курс", "2-ой курс", "3-ий курс", "4-ый курс" }, "Назад к уровням подготовки", this, _mainWindow); 
                 } 
                 else if (answers[0].Equals("Магистратура")) {
-                    return new TimeTableList(new List<string>() { "1-ый курс", "2-ой курс" }, "Назад к уровням подготовки"); 
+                    return new TimeTableList(new List<string>() { "1-ый курс", "2-ой курс" }, "Назад к уровням подготовки", this, _mainWindow); 
                 }
             }
             else if (answers.Count == 2)
@@ -129,16 +134,16 @@ namespace ITTV.WPF.DataModel.Models
                     {
                         case "1-ый курс":
                             groups.Bachelor.First.ForEach(direction => { outList.Add(direction.Name); });
-                            return new TimeTableList(outList, "Назад к выбору курса");
+                            return new TimeTableList(outList, "Назад к выбору курса", this, _mainWindow);
                         case "2-ой курс":
                             groups.Bachelor.Second.ForEach(direction => { outList.Add(direction.Name); });
-                            return new TimeTableList(outList, "Назад к выбору курса");
+                            return new TimeTableList(outList, "Назад к выбору курса", this, _mainWindow);
                         case "3-ий курс":
                             groups.Bachelor.Third.ForEach(direction => { outList.Add(direction.Name); });
-                            return new TimeTableList(outList, "Назад к выбору курса");
+                            return new TimeTableList(outList, "Назад к выбору курса", this, _mainWindow);
                         case "4-ый курс":
                             groups.Bachelor.Fourth.ForEach(direction => { outList.Add(direction.Name); });
-                            return new TimeTableList(outList, "Назад к выбору курса");
+                            return new TimeTableList(outList, "Назад к выбору курса", this, _mainWindow);
                     }
                 } 
                 else if (answers[0].Equals("Магистратура"))
@@ -148,10 +153,10 @@ namespace ITTV.WPF.DataModel.Models
                     {
                         case "1-ый курс":
                             groups.Master.First.ForEach(direction => { outList.Add(direction.Name); });
-                            return new TimeTableList(outList, "Назад к выбору курса");
+                            return new TimeTableList(outList, "Назад к выбору курса", this, _mainWindow);
                         case "2-ой курс":
                             groups.Master.Second.ForEach(direction => { outList.Add(direction.Name); });
-                            return new TimeTableList(outList, "Назад к выбору курса");
+                            return new TimeTableList(outList, "Назад к выбору курса", this, _mainWindow);
                     }
                 }
             }
@@ -164,16 +169,16 @@ namespace ITTV.WPF.DataModel.Models
                     {
                         case "1-ый курс":
                             groups.Bachelor.First.ForEach(direction => { if (direction.Name.Equals(answers[2])) { outList.AddRange(direction.Numbers); } });
-                            return new TimeTableList(outList, "Назад к выбору направления");
+                            return new TimeTableList(outList, "Назад к выбору направления", this, _mainWindow);
                         case "2-ой курс":
                             groups.Bachelor.Second.ForEach(direction => { if (direction.Name.Equals(answers[2])) { outList.AddRange(direction. Numbers); } });
-                            return new TimeTableList(outList, "Назад к выбору направления");
+                            return new TimeTableList(outList, "Назад к выбору направления", this, _mainWindow);
                         case "3-ий курс":
                             groups.Bachelor.Third.ForEach(direction => { if (direction.Name.Equals(answers[2])) { outList.AddRange(direction.Numbers); } });
-                            return new TimeTableList(outList, "Назад к выбору направления");
+                            return new TimeTableList(outList, "Назад к выбору направления", this, _mainWindow);
                         case "4-ый курс":
                             groups.Bachelor.Fourth.ForEach(direction => { if (direction.Name.Equals(answers[2])) { outList.AddRange(direction.Numbers); } });
-                            return new TimeTableList(outList, "Назад к выбору направления");
+                            return new TimeTableList(outList, "Назад к выбору направления", this, _mainWindow);
                     }
                 }
                 else if (answers[0].Equals("Магистратура"))
@@ -183,16 +188,16 @@ namespace ITTV.WPF.DataModel.Models
                     {
                         case "1-ый курс":
                             groups.Master.First.ForEach(direction => { if (direction.Name.Equals(answers[2])) { outList.AddRange(direction.Numbers); } });
-                            return new TimeTableList(outList, "Назад к выбору направления");
+                            return new TimeTableList(outList, "Назад к выбору направления", this, _mainWindow);
                         case "2-ой курс":
                             groups.Master.Second.ForEach(direction => { if (direction.Name.Equals(answers[2])) { outList.AddRange(direction.Numbers); } });
-                            return new TimeTableList(outList, "Назад к выбору направления");
+                            return new TimeTableList(outList, "Назад к выбору направления", this, _mainWindow);
                     }
                 }
             }
             else if (answers.Count == 4)
             {
-                return new TimeTableList(new List<string>() { "Сегодня", "Завтра", "Общее" }, "Назад к выбору группы");
+                return new TimeTableList(new List<string>() { "Сегодня", "Завтра", "Общее" }, "Назад к выбору группы",this, _mainWindow);
             }
             else if (answers.Count >= 5)
             {
@@ -200,17 +205,17 @@ namespace ITTV.WPF.DataModel.Models
                 {
                     case "Сегодня":
                         var todayLessons = await GetTodaySchedule(answers[3]);
-                        MainWindow.Instance.content.NavigateTo(new SchedulePage(todayLessons));
+                        _mainWindow.ContentV2.NavigateTo(new SchedulePage(todayLessons));
                         UnChoose();
                         return null;
                     case "Завтра":
                         var tommorowLessons = await GetTomorrowSchedule(answers[3]);
-                        MainWindow.Instance.content.NavigateTo(new SchedulePage(tommorowLessons));
+                        _mainWindow.ContentV2.NavigateTo(new SchedulePage(tommorowLessons));
                         UnChoose();
                         return null;
                     case "Общее":
                         var allLessons = await GetFullSchedule(answers[3]);
-                        MainWindow.Instance.content.NavigateTo(new SchedulePage(allLessons));
+                        _mainWindow.ContentV2.NavigateTo(new SchedulePage(allLessons));
                         UnChoose();
                         return null;
                 }
