@@ -86,7 +86,9 @@
 ## Deploy
 
 Для развёртывания приложения необходимо предустановить следующие компоненты:
+
 - [Microsoft Net Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
+- [Kinect for Windows SDK 2.0](https://www.microsoft.com/en-us/download/details.aspx?id=44561)
 - [Kinect for Windows Runtime 2.2](https://www.microsoft.com/en-us/download/details.aspx?id=100067)
 
 
