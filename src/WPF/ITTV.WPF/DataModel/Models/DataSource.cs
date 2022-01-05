@@ -1,44 +1,43 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using ITTV.WPF.Interface.Pages;
 
 namespace ITTV.WPF.DataModel.Models
 {
-    [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "File is from Windows Store template")]
     public sealed class DataSource : Singleton<DataSource>
     {
         private static readonly DataSource Source = new DataSource();
 
         public DataSource()
         {
+            const string uniqueId = "Menu";
             var groupMain = new DataCollection<object>(
-                "Menu",
-                "Menu",
+                uniqueId,
+                uniqueId,
                 DataCollection<object>.GroupType.Menu
                 );
             groupMain.Items.Add(
                 new DataGroupBase(
-                    "Menu-1",
+                    $"{uniqueId}-1",
                     "Расписание"
                     ));
             groupMain.Items.Add(
                 new DataPageBase(
-                    "Menu-2",
+                    $"{uniqueId}-2",
                     "Новости",
                     typeof(NewsList),
                     StringToArr()
                     ));
             groupMain.Items.Add(
                 new DataPageBase(
-                    "Menu-3",
+                    $"{uniqueId}-3",
                     "Видео",
                     typeof(VideoList),
                     StringToArr()
                     ));
             groupMain.Items.Add(
                 new DataGroupBase(
-                    "Menu-4",
+                    $"{uniqueId}-4",
                     "Игры"
                     ));
 
@@ -61,7 +60,7 @@ namespace ITTV.WPF.DataModel.Models
             var matches = Source.AllGroups.Where(x =>
                     x.UniqueId.Equals(uniqueId))
                 .ToArray();
-            return matches.Length == 1 ? matches.First() : null;
+            return matches.FirstOrDefault();
         }
 
         public static string[] StringToArr(params string[] param)

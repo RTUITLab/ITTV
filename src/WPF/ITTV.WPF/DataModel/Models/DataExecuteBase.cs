@@ -4,12 +4,12 @@
     {
         private static TaskType _task = TaskType.Page;
 
-        public DataExecuteBase(string uniqueId, string title, string[] param) : base(uniqueId, title)
+        public DataExecuteBase(string uniqueId, string title, string[] param)
+            : base(uniqueId, title)
         {
             Parameters = param;
         }
-
-
+        
         public TaskType Task
         {
             get => _task;

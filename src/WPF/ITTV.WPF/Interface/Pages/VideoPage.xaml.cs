@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using ITTV.WPF.DataModel.Models;
 
 namespace ITTV.WPF.Interface.Pages
 {
@@ -17,16 +18,16 @@ namespace ITTV.WPF.Interface.Pages
 
             Uri uri = new Uri(VideoSource, UriKind.Relative);
             Video.Source = uri;
-            Video.Volume = SettingsService.Instance.VideoVolume;
+            Video.Volume = Settings.Instance.VideoVolume;
             Video.Play();
             Video.MediaOpened += (s, a) => MainWindow.Instance.UiInvoked(DateTime.Now  + Video.NaturalDuration.TimeSpan);
 
-            SettingsService.Instance.SettingsUpdated += Instance_SettingsUpdated;
+            Settings.Instance.SettingsUpdated += Instance_SettingsUpdated;
         }
 
         private void Instance_SettingsUpdated()
         {
-            MainWindow.Instance.Ui(() => { Video.Volume = SettingsService.Instance.VideoVolume; });
+            MainWindow.Instance.Ui(() => { Video.Volume = Settings.Instance.VideoVolume; });
             
         }
 
