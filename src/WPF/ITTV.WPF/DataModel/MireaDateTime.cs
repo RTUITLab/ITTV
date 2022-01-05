@@ -29,28 +29,26 @@ namespace ITTV.WPF.DataModel
         //TODO: Extract to helper service
         public static readonly List<KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>> ScheduleTimeForDay = new List<KeyValuePair<string, (TimeSpan,TimeSpan)>>
         {
-            new KeyValuePair<string, (TimeSpan, TimeSpan) > ("Идёт 1-я пара", (new TimeSpan(9, 0, 0), new TimeSpan(10, 30, 0))),
-            new KeyValuePair<string, (TimeSpan, TimeSpan) > ("Перерыв перед 2-ой парой", (new TimeSpan(10, 30, 0), new TimeSpan(10, 40, 0))),
-            new KeyValuePair<string, (TimeSpan, TimeSpan) > ("2-я пара", (new TimeSpan(10, 40, 0), new TimeSpan(12, 10, 0))),
-            new KeyValuePair<string, (TimeSpan, TimeSpan) > ("Большой перерыв перед 3-ой парой", (new TimeSpan(12, 10, 0), new TimeSpan(12, 40, 0))),
-            new KeyValuePair<string, (TimeSpan, TimeSpan) > ("3-я пара", (new TimeSpan(12, 40, 0), new TimeSpan(14, 10, 0))),
-            new KeyValuePair<string, (TimeSpan, TimeSpan) > ("Перерыв перед 4-ой парой", (new TimeSpan(14, 10, 0), new TimeSpan(14, 20, 0))),
-            new KeyValuePair<string, (TimeSpan, TimeSpan) > ("4-я пара", (new TimeSpan(14, 20, 0), new TimeSpan(15, 50, 0))),
-            new KeyValuePair<string, (TimeSpan, TimeSpan) > ("Большой перерыв перед 5-ой парой", (new TimeSpan(15, 50, 0), new TimeSpan(16, 20, 0))),
-            new KeyValuePair<string, (TimeSpan, TimeSpan) > ("5-я пара", (new TimeSpan(16, 20, 0), new TimeSpan(17, 50, 0))),
-            new KeyValuePair<string, (TimeSpan, TimeSpan) > ("Перерыв перед 6-ой парой", (new TimeSpan(17, 50, 0), new TimeSpan(18, 0, 0))),
-            new KeyValuePair<string, (TimeSpan, TimeSpan) > ("6-я пара", (new TimeSpan(18, 0, 0), new TimeSpan(19, 30, 0)))
+            new KeyValuePair<string, (TimeSpan, TimeSpan)> ("Идёт 1-я пара", (new TimeSpan(9, 0, 0), new TimeSpan(10, 30, 0))),
+            new KeyValuePair<string, (TimeSpan, TimeSpan)> ("Перерыв перед 2-ой парой", (new TimeSpan(10, 30, 0), new TimeSpan(10, 40, 0))),
+            new KeyValuePair<string, (TimeSpan, TimeSpan)> ("2-я пара", (new TimeSpan(10, 40, 0), new TimeSpan(12, 10, 0))),
+            new KeyValuePair<string, (TimeSpan, TimeSpan)> ("Большой перерыв перед 3-ой парой", (new TimeSpan(12, 10, 0), new TimeSpan(12, 40, 0))),
+            new KeyValuePair<string, (TimeSpan, TimeSpan)> ("3-я пара", (new TimeSpan(12, 40, 0), new TimeSpan(14, 10, 0))),
+            new KeyValuePair<string, (TimeSpan, TimeSpan)> ("Перерыв перед 4-ой парой", (new TimeSpan(14, 10, 0), new TimeSpan(14, 20, 0))),
+            new KeyValuePair<string, (TimeSpan, TimeSpan)> ("4-я пара", (new TimeSpan(14, 20, 0), new TimeSpan(15, 50, 0))),
+            new KeyValuePair<string, (TimeSpan, TimeSpan)> ("Большой перерыв перед 5-ой парой", (new TimeSpan(15, 50, 0), new TimeSpan(16, 20, 0))),
+            new KeyValuePair<string, (TimeSpan, TimeSpan)> ("5-я пара", (new TimeSpan(16, 20, 0), new TimeSpan(17, 50, 0))),
+            new KeyValuePair<string, (TimeSpan, TimeSpan)> ("Перерыв перед 6-ой парой", (new TimeSpan(17, 50, 0), new TimeSpan(18, 0, 0))),
+            new KeyValuePair<string, (TimeSpan, TimeSpan)> ("6-я пара", (new TimeSpan(18, 0, 0), new TimeSpan(19, 30, 0)))
         };
 
         public static string GetPara(DateTime dateTime)
         {
-            var classesStage = string.Empty;
-            
             if (dateTime.DayOfWeek == DayOfWeek.Sunday)
-                return classesStage;
+                return string.Empty;
             
-            classesStage = ScheduleTimeForDay.FirstOrDefault(x => dateTime.TimeOfDay >= x.Value.StartTime
-                                                                  && dateTime.TimeOfDay < x.Value.EndTime).Key;
+            var classesStage = ScheduleTimeForDay.FirstOrDefault(x => dateTime.TimeOfDay >= x.Value.StartTime
+                                                                      && dateTime.TimeOfDay < x.Value.EndTime).Key;
 
             return classesStage ?? string.Empty;
         }
@@ -98,6 +96,7 @@ namespace ITTV.WPF.DataModel
 
         public bool WorkTime()
         {
+            //TODO: Add startTime value
             return !needToCheckTime || DateTime.Now.Hour < sleepTime && DateTime.Now.Hour >= 8;
         }
     }
