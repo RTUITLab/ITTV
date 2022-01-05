@@ -13,6 +13,7 @@ using ITTV.WPF.Helpers;
 using ITTV.WPF.Interface.Common;
 using ITTV.WPF.Interface.Pages;
 using ITTV.WPF.Services;
+using ITTV.WPF.Services.Kinect;
 using Microsoft.Kinect;
 using Microsoft.Kinect.Wpf.Controls;
 
@@ -23,35 +24,31 @@ namespace ITTV.WPF.Views
     /// </summary>
     public partial class MainWindow
     {
-        public readonly HandOverHelper handHelper;
+        public readonly HandOverManager handManager;
         private DateTime lastUiOperation = DateTime.Now;
 
         private List<Body> bodies;
         private readonly List<GestureDetector> gestureDetectorList = new List<GestureDetector>();
 
-        private readonly CreateData _createData;
         private readonly Settings _settings;
         private readonly NewsUpdateThread _newsUpdateThread;
-        private readonly MireaTimeManager mireaTimeManager;
-        private readonly EggVideo _eggVideo;
+        private readonly MireaTimeManager _mireaTimeManager;
 
         public MainWindow(CreateData createData, Settings settings,  NewsUpdateThread newsUpdateThread, MireaTimeManager mireaTimeManager, EggVideo eggVideo)
         {
-            _createData = createData;
             _settings = settings;
             _newsUpdateThread = newsUpdateThread;
-            this.mireaTimeManager = mireaTimeManager;
-            _eggVideo = eggVideo;
+            _mireaTimeManager = mireaTimeManager;
 
             InitializeComponent();
             ConfigureEggVideo(eggVideo);
             Activate();
             Focus();
 
-            _createData.GetAllVideos();
-            _createData.GetNewsFromFile();
-            _createData.GetGames();
-            _createData.GetAllTimetable();
+            createData.SyncVideos();
+            createData.SyncNewsFromCache();
+            createData.SyncGames();
+            createData.GetAllTimetable();
 
             _newsUpdateThread.StartUpdating();
 
@@ -101,7 +98,7 @@ namespace ITTV.WPF.Views
                 (sender, e) => { CheckPersonIsRemoved(); },
                 Dispatcher);
 
-            handHelper = new HandOverHelper(kinectRegion, Dispatcher);
+            handManager = new HandOverManager(kinectRegion, Dispatcher);
 
             var gesturePath = AllPaths.FileGestureDatabasePath;
             if (File.Exists(gesturePath))
@@ -110,7 +107,7 @@ namespace ITTV.WPF.Views
                 for (var i = 0; i < maxBodies; ++i)
                 {
                     var detector = new GestureDetector(kinectRegion.KinectSensor);
-                    detector.OnGestureFired += () => { ContentV2.NavigateTo(_eggVideo); };
+                    detector.OnGestureFired += () => { ContentV2.NavigateTo(eggVideo); };
                     gestureDetectorList.Add(detector);
                 }
             }
@@ -258,7 +255,7 @@ namespace ITTV.WPF.Views
             {
                 Ui(() =>
                 {
-                    if (!mireaTimeManager.IsWorkTimeNow())
+                    if (!_mireaTimeManager.IsWorkTimeNow())
                     {
                         if (ContentV2.ContentType() != typeof(NightPhoto))
                         {
@@ -271,7 +268,7 @@ namespace ITTV.WPF.Views
                         {
                             if (ContentV2.ContentType() != typeof(BackgroundVideo) && ContentV2.ContentType() != typeof(EggVideo))
                             {
-                                if (handHelper.IsHover)
+                                if (handManager.IsHover)
                                 {
                                     lastUiOperation += TimeSpan.FromSeconds(10);
                                     return;

@@ -40,7 +40,7 @@ namespace ITTV.WPF.Interface.Pages
 
             timeTable.CloseTimeTable();
 
-            _mainWindow.handHelper.OnHoverStart += () =>
+            _mainWindow.handManager.OnHoverStart += () =>
             {
                 try
                 {

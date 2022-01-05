@@ -22,7 +22,7 @@ namespace ITTV.WPF.DataModel
             //TODO: Cache all timetable
         }
 
-        public void GetAllVideos()
+        public void SyncVideos()
         {
             const string uniqueId = "Video";
             
@@ -49,7 +49,7 @@ namespace ITTV.WPF.DataModel
             _dataSource.AddToGroups(videoGroup);
         }        
 
-        public void GetNewsFromFile()
+        public void SyncNewsFromCache()
         {
             var newsGroup = new DataCollection<object>(
                     "News",
@@ -69,7 +69,7 @@ namespace ITTV.WPF.DataModel
             _dataSource.AddToGroups(newsGroup);
         }
 
-        public void GetGames()
+        public void SyncGames()
         {
             var fullPath = AllPaths.GetDirectoryGamesPath;
 

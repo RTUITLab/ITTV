@@ -86,7 +86,6 @@
     <Compile Include="DataModel\Models\Lesson.cs" />
     <Compile Include="DataModel\Models\TimeTable.cs" />
     <Compile Include="DataModel\Models\Settings.cs" />
-    <Compile Include="Helpers\HandOverHelper.cs" />
     <Compile Include="Helpers\MireaTimeHelper.cs" />
     <Compile Include="Interface\Common\BindableBase.cs" />
     <Compile Include="DataModel\CreateData.cs" />
@@ -149,6 +148,7 @@
       <DependentUpon>SelectionDisplay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Network\TimeTableNetwork.cs" />
+    <Compile Include="Services\Kinect\HandOverManager.cs" />
     <Compile Include="Services\MireaTimeManager.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
