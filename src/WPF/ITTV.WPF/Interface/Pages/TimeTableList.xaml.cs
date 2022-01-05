@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using ITTV.WPF.DataModel.Models;
+using ITTV.WPF.Views;
 
 namespace ITTV.WPF.Interface.Pages
 {
@@ -10,17 +11,18 @@ namespace ITTV.WPF.Interface.Pages
     /// </summary>
     public partial class TimeTableList : UserControl
     {
-        TimeTable timeTable;
         List<string> content;
-        string backContent;
+        private string backContent;
+        private readonly TimeTable _timeTable;
+        private readonly MainWindow _mainWindow;
 
-        public TimeTableList(List<string> content, string bakcPath)
+        public TimeTableList(List<string> content, string bakcPath, TimeTable timeTable, MainWindow mainWindow)
         {
-            timeTable = TimeTable.Instance;
-
             InitializeComponent();
 
             this.content = content;
+            _timeTable = timeTable;
+            _mainWindow = mainWindow;
             this.backContent = bakcPath;
 
             allControl.ItemTemplate = (DataTemplate)FindResource("AllTimeTableTemplate");
@@ -35,7 +37,7 @@ namespace ITTV.WPF.Interface.Pages
             var button = (Button)e.OriginalSource;
             string dataItem = button.DataContext as string;
 
-            TimeTableList newContent = await timeTable.Choose(dataItem);
+            var newContent = await _timeTable.Choose(dataItem);
             if (newContent != null) {
                 PutContent(newContent.content, newContent.backContent);
             }
@@ -43,23 +45,23 @@ namespace ITTV.WPF.Interface.Pages
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            MainWindow.Instance.UiInvoked();
+            _mainWindow.UiInvoked();
         }
 
         private void allControl_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.Instance.content.NavigateTo(new ScrollViewerSample(timeTable.GetImageSourceTimeTable()));
+            _mainWindow.ContentV2.NavigateTo(new ScrollViewerSample(_timeTable.GetImageSourceTimeTable(), _mainWindow));
         }
 
         private async void Back_Click(object sender, RoutedEventArgs e)
         {
-            TimeTable.Instance.UnChoose();
+            _timeTable.UnChoose();
 
-            TimeTableList tmp = await TimeTable.Instance.GetContent();
+            var tmp = await _timeTable.GetContent();
             PutContent(tmp.content, tmp.backContent);
         }
 
-        private void PutContent(List<string> content, string backMessage)
+        private void PutContent(IEnumerable<string> content, string backMessage)
         {
             itemsControl.ItemsSource = content;
             
@@ -74,7 +76,7 @@ namespace ITTV.WPF.Interface.Pages
             }
 
             allControl.ItemsSource = new List<string>() { "Расписание всего курса" };
-            AllCourseColumn.Width = new GridLength(timeTable.GetAll() ? 1 : 0, GridUnitType.Star);
+            AllCourseColumn.Width = new GridLength(_timeTable.GetAll() ? 1 : 0, GridUnitType.Star);
         }
     }
 }

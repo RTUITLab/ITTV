@@ -12,9 +12,9 @@ namespace ITTV.WPF.DataModel
 
         public Uri currentVideo;
 
-        public BackgroundVideoPlaylist()
+        public BackgroundVideoPlaylist(Settings settings)
         {
-            var test = Settings.Instance.BackgroundVideoOrder;
+            var test = settings.BackgroundVideoOrder;
             foreach (var video in test)
             {
                 playlist.Add(new Uri(video));

@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Windows;
 using HtmlAgilityPack;
 using ITTV.WPF.DataModel;
 using ITTV.WPF.DataModel.Models;
+using ITTV.WPF.Views;
 using Newtonsoft.Json;
 
 namespace ITTV.WPF.Network
 {
-    public class NewsFromSite : Singleton<NewsFromSite>
+    public class NewsFromSite
     {
         public void SyncNewsFromSite()
         {
@@ -24,7 +26,7 @@ namespace ITTV.WPF.Network
                 HtmlWeb web = new HtmlWeb();
                 var AllNewsSite = web.Load(URI);
                 var NewsList = AllNewsSite.DocumentNode.SelectNodes("//div[@class='uk-card uk-card-default']");
-
+                
                 int i = 0;
                 foreach (var news in NewsList.Take(10))
                 {

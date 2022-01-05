@@ -55,9 +55,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <LangVersion>9.0</LangVersion>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>ITTV.WPF.Startup</StartupObject>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Kinect">
       <HintPath>$(KINECTSDK20_DIR)Assemblies\Microsoft.Kinect.dll</HintPath>
@@ -85,15 +82,14 @@
     </ApplicationDefinition>
     <Compile Include="AllPaths.cs" />
     <Compile Include="DataModel\BackgroundVideoPlaylist.cs" />
-    <Compile Include="DataModel\MireaDateTime.cs" />
     <Compile Include="DataModel\Models\Groups.cs" />
     <Compile Include="DataModel\Models\Lesson.cs" />
     <Compile Include="DataModel\Models\TimeTable.cs" />
     <Compile Include="DataModel\Models\Settings.cs" />
-    <Compile Include="Startup.cs" />
+    <Compile Include="Helpers\HandOverHelper.cs" />
+    <Compile Include="Helpers\MireaTimeHelper.cs" />
     <Compile Include="Interface\Common\BindableBase.cs" />
     <Compile Include="DataModel\CreateData.cs" />
-    <Compile Include="DataModel\HandOverHelper.cs" />
     <Compile Include="DataModel\Models\DataBase.cs" />
     <Compile Include="DataModel\Models\DataCollection.cs" />
     <Compile Include="DataModel\Models\DataExecuteBase.cs" />
@@ -104,7 +100,6 @@
     <Compile Include="DataModel\Models\News.cs" />
     <Compile Include="DataModel\Models\Video.cs" />
     <Compile Include="DataModel\NewsUpdateThread.cs" />
-    <Compile Include="DataModel\Singleton.cs" />
     <Compile Include="Interface\Common\GestureDetector.cs" />
     <Compile Include="Interface\Pages\BackgroundVideo.xaml.cs">
       <DependentUpon>BackgroundVideo.xaml</DependentUpon>
@@ -154,6 +149,12 @@
       <DependentUpon>SelectionDisplay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Network\TimeTableNetwork.cs" />
+    <Compile Include="Services\MireaTimeManager.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\MainWindowViewModel.cs" />
     <Page Include="Interface\Common\StandardStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -198,16 +199,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Interface\Pages\Courses.xaml">
@@ -237,6 +230,10 @@
     <Page Include="Interface\KinnectButtons\SelectionDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +279,9 @@
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.11.31</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection">
+      <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Kinect.VisualGestureBuilder">
       <Version>2.0.1410.19000</Version>

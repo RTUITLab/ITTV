@@ -4,7 +4,7 @@ using ITTV.WPF.Interface.Pages;
 
 namespace ITTV.WPF.DataModel.Models
 {
-    public sealed class DataSource : Singleton<DataSource>
+    public sealed class DataSource
     {
         private static readonly DataSource Source = new DataSource();
 

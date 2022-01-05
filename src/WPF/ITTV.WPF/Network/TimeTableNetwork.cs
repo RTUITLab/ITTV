@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ITTV.WPF.DataModel.Models;
+using ITTV.WPF.Views;
 using Newtonsoft.Json;
 
 namespace ITTV.WPF.Network

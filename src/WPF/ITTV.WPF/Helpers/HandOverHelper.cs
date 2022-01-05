@@ -3,13 +3,12 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using Microsoft.Kinect.Wpf.Controls;
 
-namespace ITTV.WPF.DataModel
+namespace ITTV.WPF.Helpers
 {
     public class HandOverHelper
     {
         public bool IsHover { get; private set; }
-
-
+        
         public event Action OnHoverStart;
         public event Action OnHoverKeyboardCheck;
         public event Action OnHoverEnd;

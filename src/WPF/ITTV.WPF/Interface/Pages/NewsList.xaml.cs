@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using ITTV.WPF.DataModel.Models;
+using ITTV.WPF.Views;
 
 namespace ITTV.WPF.Interface.Pages
 {
@@ -9,8 +10,11 @@ namespace ITTV.WPF.Interface.Pages
     /// </summary>
     public partial class NewsList : UserControl
     {
-        public NewsList()
+        private readonly MainWindow _mainWindow;
+        public NewsList(MainWindow mainWindow)
         {
+            _mainWindow = mainWindow;
+            
             InitializeComponent();
 
             DataCollection<object> dataCollection = DataSource.GetGroup("News");
@@ -20,19 +24,19 @@ namespace ITTV.WPF.Interface.Pages
 
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            MainWindow.Instance.UiInvoked();
+            _mainWindow.UiInvoked();
             var button = (Button)e.OriginalSource;
             News dataItem = button.DataContext as News;
 
             if (dataItem != null)
             {
-                 MainWindow.Instance.content.NavigateTo(new NewsPage(dataItem));
+                _mainWindow.ContentV2.NavigateTo(new NewsPage(dataItem, _mainWindow));
             }
         }
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            MainWindow.Instance.UiInvoked();
+            _mainWindow.UiInvoked();
         }
     }
 }
