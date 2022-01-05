@@ -47,7 +47,7 @@ namespace ITTV.WPF.Interface.Pages
                         _mainWindow.ContentV2.NavigateTo(new NewsList(_mainWindow));
                         break;
                     case "Видео":
-                        _createData.GetAllVideos();
+                        _createData.SyncVideos();
                         _mainWindow.ContentV2.NavigateTo(new VideoList(_mainWindow));
                         break;
                     case "Расписание":

@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using Microsoft.Kinect.Wpf.Controls;
 
-namespace ITTV.WPF.Helpers
+namespace ITTV.WPF.Services.Kinect
 {
-    public class HandOverHelper
+    public class HandOverManager
     {
         public bool IsHover { get; private set; }
         
@@ -13,7 +13,7 @@ namespace ITTV.WPF.Helpers
         public event Action OnHoverKeyboardCheck;
         public event Action OnHoverEnd;
 
-        public HandOverHelper(KinectRegion kinectRegion, Dispatcher d)
+        public HandOverManager(KinectRegion kinectRegion, Dispatcher d)
         {
             var dispatcherTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(33), DispatcherPriority.Normal,
                 (s, a) =>
