@@ -21,7 +21,7 @@ namespace ITTV.WPF.Interface.Pages
 
             Loaded += BackgroundVideo_Loaded;
             this.Unloaded += BackgroundVideo_Unloaded;
-            SettingsService.Instance.SettingsUpdated += Settings_SettingsUpdated;
+            Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
 
             TimeTable.Instance.CloseTimeTable();
 
@@ -49,7 +49,7 @@ namespace ITTV.WPF.Interface.Pages
         private void Settings_SettingsUpdated()
         {
             MainWindow.Instance.Ui(() => {
-                BackgroungVideo.Volume = SettingsService.Instance.VideoVolume;
+                BackgroungVideo.Volume = Settings.Instance.VideoVolume;
                 backgroundVideoPlaylist = new BackgroundVideoPlaylist();
             });
         }
@@ -60,7 +60,7 @@ namespace ITTV.WPF.Interface.Pages
 
             if (backgroundVideoPlaylist.currentVideo != null)
             {
-                BackgroungVideo.Volume = SettingsService.Instance.VideoVolume;
+                BackgroungVideo.Volume = Settings.Instance.VideoVolume;
                 BackgroungVideo.Source = backgroundVideoPlaylist.currentVideo;
                 BackgroungVideo.MediaEnded += BackgroungVideo_MediaEnded;
                 BackgroungVideo.Play();

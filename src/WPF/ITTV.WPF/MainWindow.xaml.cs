@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using ITTV.WPF.DataModel;
+using ITTV.WPF.DataModel.Models;
 using ITTV.WPF.Interface.Common;
 using ITTV.WPF.Interface.Pages;
 using Microsoft.Kinect;
@@ -20,7 +21,7 @@ namespace ITTV.WPF
     /// </summary>
     public partial class MainWindow
     {
-        private static bool _adminMode = SettingsService.Instance.IsAdmin;
+        private static bool _adminMode = Settings.Instance.IsAdmin;
 
         public readonly HandOverHelper handHelper;
 
@@ -78,9 +79,10 @@ namespace ITTV.WPF
                 {
                     var dateTime = DateTime.Now;
                     Time.Text = MireaDateTime.GetTime(dateTime);
-                    Para.Text = MireaDateTime.GetPara(dateTime);
-                    Date.Text = MireaDateTime.GetDay(dateTime);
                     Week.Text = MireaDateTime.GetWeek(dateTime);
+                    Date.Text = MireaDateTime.GetDay(dateTime);
+
+                    Para.Text = string.IsNullOrWhiteSpace(Week.Text)? string.Empty : MireaDateTime.GetPara(dateTime);
                 },
                 Dispatcher);
 
@@ -92,7 +94,7 @@ namespace ITTV.WPF
 
             handHelper = new HandOverHelper(kinectRegion, Dispatcher);
 
-            var gesturePath = $@"{AppDomain.CurrentDomain.BaseDirectory}\GesturesDatabase\KinectGesture.gbd";
+            var gesturePath = AllPaths.FileGestureDatabasePath;
             if (File.Exists(gesturePath))
             {
                 var maxBodies = kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
@@ -106,14 +108,14 @@ namespace ITTV.WPF
 
             ControlsBasicsWindow.Topmost = !_adminMode;
 
-            SettingsService.Instance.SettingsUpdated += Settings_SettingsUpdated;
+            Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
 
             content.OpenBackgroundVideo();
         }
 
         private void Settings_SettingsUpdated()
         {
-            _adminMode = SettingsService.Instance.IsAdmin;
+            _adminMode = Settings.Instance.IsAdmin;
             
             Ui(() =>
             {
@@ -219,7 +221,7 @@ namespace ITTV.WPF
         {
             try
             {
-                File.AppendAllLines("./logs.txt", new[] { DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + m });
+                File.AppendAllLines(AllPaths.FileLogsPath, new[] { DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + m });
             }
             catch (Exception)
             {

@@ -53,7 +53,7 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>ITTV.WPF.Startup</StartupObject>
@@ -89,7 +89,7 @@
     <Compile Include="DataModel\Models\Groups.cs" />
     <Compile Include="DataModel\Models\Lesson.cs" />
     <Compile Include="DataModel\Models\TimeTable.cs" />
-    <Compile Include="SettingsService.cs" />
+    <Compile Include="DataModel\Models\Settings.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Interface\Common\BindableBase.cs" />
     <Compile Include="DataModel\CreateData.cs" />
