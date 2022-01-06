@@ -1,4 +1,6 @@
-﻿namespace ITTV.WPF.MVVM.Views
+﻿using ITTV.WPF.MVVM.ViewModels;
+
+namespace ITTV.WPF.MVVM.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

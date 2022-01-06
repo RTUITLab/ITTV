@@ -62,12 +62,12 @@
         </Compile>
         <Compile Include="Helpers\MireaTimeHelper.cs" />
         <Compile Include="Properties\Annotations.cs" />
+        <Compile Include="ViewModels\MainWindowViewModel.cs" />
         <Compile Include="Views\Base\BindableBase.cs" />
         <Compile Include="Views\MainWindow.xaml.cs">
           <DependentUpon>MainWindow.xaml</DependentUpon>
           <SubType>Code</SubType>
         </Compile>
-        <Compile Include="Views\MainWindowViewModel.cs" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Properties\AssemblyInfo.cs">

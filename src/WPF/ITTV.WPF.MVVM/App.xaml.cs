@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using ITTV.WPF.MVVM.ViewModels;
 using ITTV.WPF.MVVM.Views;
 using Microsoft.Extensions.DependencyInjection;
 
