@@ -66,6 +66,8 @@
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="Services\NavigationService.cs" />
         <Compile Include="Stores\NavigationStore.cs" />
+        <Compile Include="ViewModels\BackgroundVideoViewModel.cs" />
+        <Compile Include="ViewModels\FooterViewModel.cs" />
         <Compile Include="ViewModels\GamesViewModel.cs" />
         <Compile Include="ViewModels\MainViewModel.cs" />
         <Compile Include="ViewModels\MenuViewModel.cs" />
@@ -73,6 +75,12 @@
         <Compile Include="ViewModels\TimeTableViewModel.cs" />
         <Compile Include="ViewModels\VideosViewModel.cs" />
         <Compile Include="ViewModels\ViewModelBase.cs" />
+        <Compile Include="Views\BackgroundVideoView.xaml.cs">
+          <DependentUpon>BackgroundVideoView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\FooterView.xaml.cs">
+          <DependentUpon>FooterView.xaml</DependentUpon>
+        </Compile>
         <Compile Include="Views\GamesView.xaml.cs">
           <DependentUpon>GamesView.xaml</DependentUpon>
         </Compile>
@@ -136,10 +144,12 @@
         <SubType>Designer</SubType>
         <Generator>MSBuild:Compile</Generator>
       </Page>
+      <Page Include="Views\BackgroundVideoView.xaml" />
       <Page Include="Views\Base\StandardStyles.xaml">
         <SubType>Designer</SubType>
         <Generator>MSBuild:Compile</Generator>
       </Page>
+      <Page Include="Views\FooterView.xaml" />
       <Page Include="Views\GamesView.xaml" />
       <Page Include="Views\KinnectButtons\HandPointerStyles.xaml">
         <Generator>MSBuild:Compile</Generator>

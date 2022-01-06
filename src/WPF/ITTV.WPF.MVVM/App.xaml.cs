@@ -32,6 +32,9 @@ namespace ITTV.WPF.MVVM
         {
             serviceCollection.AddTransient<MainWindow>();
             
+            serviceCollection.AddSingleton<BackgroundVideoViewModel>();
+            serviceCollection.AddSingleton<NavigationService<BackgroundVideoViewModel>>();
+            
             serviceCollection.AddSingleton<MainViewModel>();
             serviceCollection.AddSingleton<NavigationService<MainViewModel>>();
             
@@ -46,6 +49,12 @@ namespace ITTV.WPF.MVVM
             
             serviceCollection.AddSingleton<NewsViewModel>();
             serviceCollection.AddSingleton<NavigationService<NewsViewModel>>();
+            
+            serviceCollection.AddSingleton<TimeTableViewModel>();
+            serviceCollection.AddSingleton<NavigationService<TimeTableViewModel>>();
+
+            serviceCollection.AddSingleton<FooterViewModel>();
+            serviceCollection.AddSingleton<NavigationService<FooterViewModel>>();
             
             serviceCollection.AddSingleton<NavigationStore>();
         }
