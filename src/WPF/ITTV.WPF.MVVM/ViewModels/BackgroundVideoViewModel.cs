@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows.Input;
+using ITTV.WPF.MVVM.Commands.BackgroundVideos;
 using ITTV.WPF.MVVM.Models;
 using ITTV.WPF.MVVM.Services;
 using Microsoft.Extensions.Options;
@@ -9,11 +11,15 @@ namespace ITTV.WPF.MVVM.ViewModels
     {
         private readonly BackgroundVideoPlaylistService _backgroundVideoPlaylistService;
         private readonly Settings _settings;
-        public BackgroundVideoViewModel(BackgroundVideoPlaylistService backgroundVideoPlaylistService, IOptions<Settings> settings)
+
+        public ICommand BackgroundVideoEndedEndedCommand { get; }
+        public BackgroundVideoViewModel(BackgroundVideoPlaylistService backgroundVideoPlaylistService,
+            IOptions<Settings> settings)
         {
             _backgroundVideoPlaylistService = backgroundVideoPlaylistService;
             _settings = settings.Value;
-            
+
+            BackgroundVideoEndedEndedCommand = new BackgroundVideoEndedCommand(this);
             Setup();
         }
 
@@ -25,16 +31,12 @@ namespace ITTV.WPF.MVVM.ViewModels
             CurrentVideo = _backgroundVideoPlaylistService.NextVideo();
             Volume = _settings.VideoVolume;
         }
-        
         private Uri _currentVideo;
         public Uri CurrentVideo
         {
             get => _currentVideo;
             set
             {
-                if (Equals(_currentVideo, value))
-                    return;
-
                 _currentVideo = value;
                 OnPropertyChanged(nameof(CurrentVideo));
             }
@@ -54,6 +56,9 @@ namespace ITTV.WPF.MVVM.ViewModels
                 OnPropertyChanged(nameof(Volume));
             }
         }
-
+        public void SetNextVideo()
+        {
+            CurrentVideo = _backgroundVideoPlaylistService.NextVideo();
+        }
     }
 }

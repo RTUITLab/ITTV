@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using ITTV.WPF.MVVM.Commands.BackgroundVideos;
 using ITTV.WPF.MVVM.Models;
 using ITTV.WPF.MVVM.Services;
 using ITTV.WPF.MVVM.Stores;
@@ -14,6 +15,7 @@ namespace ITTV.WPF.MVVM
     {
         private readonly IServiceProvider _serviceProvider;
         
+        
         public App()
         {
             const string configurationFile = "configuration.json";
@@ -26,7 +28,6 @@ namespace ITTV.WPF.MVVM
             serviceCollection.Configure<Settings>(configuration.GetSection(nameof(Settings)));
 
             ConfigureServices(serviceCollection);
-            
             
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }
@@ -70,7 +71,7 @@ namespace ITTV.WPF.MVVM
             
             serviceCollection.AddSingleton<NavigationStore>();
             serviceCollection.AddScoped<BackgroundVideoPlaylistService>();
-
+            serviceCollection.AddScoped<BackgroundVideoEndedCommand>();
         }
     }
 }

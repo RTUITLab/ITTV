@@ -4,18 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance viewModels:BackgroundVideoViewModel,
                                     IsDesignTimeCreatable=True}">
     
-    <Grid Background="White">
-        <MediaElement x:Name="BackgroungVideo" 
-                      LoadedBehavior="Play"
-                      UnloadedBehavior="Manual" 
-                      Source="{Binding CurrentVideo}"
-                      Volume="{Binding Volume}"
-                      HorizontalAlignment="Center"
-                      Visibility="Visible"/>
+    <Grid>
+        <MediaElement x:Name="BackgroundVideo" 
+            Source="{Binding CurrentVideo, UpdateSourceTrigger=PropertyChanged}"
+            Volume="{Binding Volume}"
+            LoadedBehavior="Manual" 
+            UnloadedBehavior="Manual" 
+            
+            HorizontalAlignment="Center"
+            Visibility="Visible"
+            MediaEnded="BackgroundVideo_OnMediaEnded">
+            
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="MediaEnded">
+                    <b:InvokeCommandAction Command="{Binding BackgroundVideoEndedEndedCommand}"/>
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
+        </MediaElement>
 
         <Button 
             Panel.ZIndex="1" 
