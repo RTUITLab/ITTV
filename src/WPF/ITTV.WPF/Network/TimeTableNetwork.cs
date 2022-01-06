@@ -33,7 +33,7 @@ namespace ITTV.WPF.Network
             }
             catch (HttpRequestException exception)
             {
-                MainWindow.Log(exception.ToString());
+                //MainWindow.Log(exception.ToString());
             }
         }
 
@@ -48,11 +48,11 @@ namespace ITTV.WPF.Network
                 return answer;
             } catch (HttpRequestException exception)
             {
-                MainWindow.Log(exception.ToString());
+                //MainWindow.Log(exception.ToString());
                 return null;
             } catch (TaskCanceledException exception)
             {
-                MainWindow.Log(exception.ToString());
+                //MainWindow.Log(exception.ToString());
                 return null;
             }
         }

@@ -55,7 +55,7 @@ namespace ITTV.WPF.Interface.Pages
                 }
                 catch (Exception ex)
                 {
-                    MainWindow.Log(ex.Message);
+                    //MainWindow.Log(ex.Message);
                     throw;
                 }
             };
@@ -71,7 +71,7 @@ namespace ITTV.WPF.Interface.Pages
 
         private void BackgroundVideo_Loaded(object sender, RoutedEventArgs e)
         {
-            MainWindow.Log("BackgroundVideo loaded");
+            //MainWindow.Log("BackgroundVideo loaded");
 
             if (backgroundVideoPlaylist.currentVideo != null)
             {
@@ -84,7 +84,7 @@ namespace ITTV.WPF.Interface.Pages
 
         private void BackgroundVideo_Unloaded(object sender, RoutedEventArgs e)
         {
-            MainWindow.Log("BackgroundVideo unloaded method");
+            //MainWindow.Log("BackgroundVideo unloaded method");
 
             BackgroungVideo.Stop();
         }
@@ -93,7 +93,7 @@ namespace ITTV.WPF.Interface.Pages
         {
             Uri nextVideo = backgroundVideoPlaylist.NextVideo();
 
-            MainWindow.Log("Next BackgroundVideo - " + nextVideo.ToString().Substring(nextVideo.ToString().LastIndexOf("/") + 1));
+            //MainWindow.Log("Next BackgroundVideo - " + nextVideo.ToString().Substring(nextVideo.ToString().LastIndexOf("/") + 1));
             
             BackgroungVideo.Stop();
             BackgroungVideo.Source = nextVideo;
