@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Windows;
+using ITTV.WPF.MVVM.Services;
+using ITTV.WPF.MVVM.Stores;
 using ITTV.WPF.MVVM.ViewModels;
 using ITTV.WPF.MVVM.Views;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ITTV.WPF.MVVM
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App
     {
         private readonly IServiceProvider _serviceProvider;
@@ -32,7 +31,11 @@ namespace ITTV.WPF.MVVM
         private void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<MainWindow>();
-            serviceCollection.AddTransient<MainWindowViewModel>();
+            
+            serviceCollection.AddSingleton<MainWindowViewModel>();
+            serviceCollection.AddSingleton<NavigationStore>();
+            serviceCollection.AddSingleton<NavigationService<MainWindowViewModel>>();
+
         }
     }
 }
