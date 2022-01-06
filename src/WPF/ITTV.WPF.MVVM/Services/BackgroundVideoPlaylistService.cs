@@ -35,5 +35,8 @@ namespace ITTV.WPF.MVVM.Services
             currentVideo = _playlist[currentIndex];
             return currentVideo;
         }
+
+        public bool ContainsAnyVideos()
+            => _playlist.Count > 0;
     }
 }
