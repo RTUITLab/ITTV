@@ -12,7 +12,6 @@
         FontFamily="Segoe UI"
         WindowState="Maximized"
         WindowStyle="None" 
-        Cursor="None"
         d:DataContext="{d:DesignInstance viewModels:MainViewModel,
                                     IsDesignTimeCreatable=True}">
     <Window.Resources>
