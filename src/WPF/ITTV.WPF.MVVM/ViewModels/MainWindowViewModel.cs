@@ -3,7 +3,7 @@ using System.Windows.Threading;
 using ITTV.WPF.MVVM.Helpers;
 using ITTV.WPF.MVVM.Views.Base;
 
-namespace ITTV.WPF.MVVM.Views
+namespace ITTV.WPF.MVVM.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
