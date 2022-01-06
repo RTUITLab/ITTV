@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Windows;
+using ITTV.WPF.MVVM.Models;
 using ITTV.WPF.MVVM.Services;
 using ITTV.WPF.MVVM.Stores;
 using ITTV.WPF.MVVM.ViewModels;
 using ITTV.WPF.MVVM.Views;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ITTV.WPF.MVVM
@@ -14,8 +16,17 @@ namespace ITTV.WPF.MVVM
         
         public App()
         {
+            const string configurationFile = "configuration.json";
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile(configurationFile)
+                .Build();
+            
+            
             var serviceCollection = new ServiceCollection();
+            serviceCollection.Configure<Settings>(configuration.GetSection(nameof(Settings)));
+
             ConfigureServices(serviceCollection);
+            
             
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }
@@ -30,6 +41,7 @@ namespace ITTV.WPF.MVVM
 
         private void ConfigureServices(IServiceCollection serviceCollection)
         {
+            
             serviceCollection.AddTransient<MainWindow>();
             
             serviceCollection.AddSingleton<BackgroundVideoViewModel>();
@@ -57,6 +69,7 @@ namespace ITTV.WPF.MVVM
             serviceCollection.AddSingleton<NavigationService<FooterViewModel>>();
             
             serviceCollection.AddSingleton<NavigationStore>();
+            
         }
     }
 }
