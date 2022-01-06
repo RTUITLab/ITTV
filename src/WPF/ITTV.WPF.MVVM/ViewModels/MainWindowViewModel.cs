@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Windows.Threading;
 using ITTV.WPF.MVVM.Helpers;
-using ITTV.WPF.MVVM.Views.Base;
 
 namespace ITTV.WPF.MVVM.ViewModels
 {
-    public class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : ViewModelBase
     {
         public MainWindowViewModel()
         {
