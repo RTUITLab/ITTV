@@ -77,7 +77,7 @@ namespace ITTV.WPF.MVVM.Views
 
         private void Recalc()
         {
-            var dateTime = DateTime.Now - TimeSpan.FromDays(58);
+            var dateTime = DateTime.Now;
             
             DayLongFormat = MireaTimeHelper.GetLongDate(dateTime);
             TimeLongFormat = MireaTimeHelper.GetLongTime(dateTime);
