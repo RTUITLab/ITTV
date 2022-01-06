@@ -11,8 +11,9 @@
     
     <Grid Background="Black">
         <MediaElement x:Name="BackgroungVideo" 
-                      LoadedBehavior="Manual" 
+                      LoadedBehavior="Manual"
                       UnloadedBehavior="Manual" 
+                      Source="{Binding CurrentVideo}"
                       HorizontalAlignment="Center"/>
 
         <Button 

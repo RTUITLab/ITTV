@@ -69,7 +69,8 @@ namespace ITTV.WPF.MVVM
             serviceCollection.AddSingleton<NavigationService<FooterViewModel>>();
             
             serviceCollection.AddSingleton<NavigationStore>();
-            
+            serviceCollection.AddScoped<BackgroundVideoPlaylistService>();
+
         }
     }
 }
