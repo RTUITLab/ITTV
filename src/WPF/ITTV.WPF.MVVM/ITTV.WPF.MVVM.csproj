@@ -60,15 +60,37 @@
             <DependentUpon>App.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+        <Compile Include="Commands\CommandBase.cs" />
+        <Compile Include="Commands\NavigateCommand.cs" />
         <Compile Include="Helpers\MireaTimeHelper.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="Services\NavigationService.cs" />
         <Compile Include="Stores\NavigationStore.cs" />
-        <Compile Include="ViewModels\MainWindowViewModel.cs" />
+        <Compile Include="ViewModels\GamesViewModel.cs" />
+        <Compile Include="ViewModels\MainViewModel.cs" />
+        <Compile Include="ViewModels\MenuViewModel.cs" />
+        <Compile Include="ViewModels\NewsViewModel.cs" />
+        <Compile Include="ViewModels\TimeTableViewModel.cs" />
+        <Compile Include="ViewModels\VideosViewModel.cs" />
         <Compile Include="ViewModels\ViewModelBase.cs" />
+        <Compile Include="Views\GamesView.xaml.cs">
+          <DependentUpon>GamesView.xaml</DependentUpon>
+        </Compile>
         <Compile Include="Views\MainWindow.xaml.cs">
           <DependentUpon>MainWindow.xaml</DependentUpon>
           <SubType>Code</SubType>
+        </Compile>
+        <Compile Include="Views\MenuView.xaml.cs">
+          <DependentUpon>MenuView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\NewsView.xaml.cs">
+          <DependentUpon>NewsView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\TimeTableView.xaml.cs">
+          <DependentUpon>TimeTableView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\VideosView.xaml.cs">
+          <DependentUpon>VideosView.xaml</DependentUpon>
         </Compile>
     </ItemGroup>
     <ItemGroup>
@@ -118,6 +140,7 @@
         <SubType>Designer</SubType>
         <Generator>MSBuild:Compile</Generator>
       </Page>
+      <Page Include="Views\GamesView.xaml" />
       <Page Include="Views\KinnectButtons\HandPointerStyles.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -125,6 +148,10 @@
         <Generator>MSBuild:Compile</Generator>
         <SubType>Designer</SubType>
       </Page>
+      <Page Include="Views\MenuView.xaml" />
+      <Page Include="Views\NewsView.xaml" />
+      <Page Include="Views\TimeTableView.xaml" />
+      <Page Include="Views\VideosView.xaml" />
     </ItemGroup>
     <ItemGroup>
       <Resource Include="Images\Gerb.png" />

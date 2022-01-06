@@ -7,10 +7,10 @@ namespace ITTV.WPF.MVVM.Views
     /// </summary>
     public partial class MainWindow
     {
-        public MainWindow(MainWindowViewModel mainWindowViewModel)
+        public MainWindow(MainViewModel mainViewModel)
         {
             InitializeComponent();
-            DataContext = mainWindowViewModel;
+            DataContext = mainViewModel;
         }
     }
 }
