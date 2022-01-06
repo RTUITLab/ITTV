@@ -6,8 +6,7 @@
     "endWorkTime": "22:00:00",
     "videoVolume": 50,
     "backgroundVideoOrder": [
-      "first.mov",
-      "second.mov"
+      "1.mp4"
     ]
   }
 }
