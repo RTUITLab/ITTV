@@ -1,15 +1,26 @@
 ﻿using System;
 using System.Windows.Threading;
 using ITTV.WPF.MVVM.Helpers;
+using ITTV.WPF.MVVM.Stores;
 
 namespace ITTV.WPF.MVVM.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
-        public MainWindowViewModel()
+        private readonly NavigationStore _navigationStore;
+        public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
+
+        public MainViewModel(NavigationStore navigationStore)
         {
+            _navigationStore = navigationStore;
+            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
+            
             Recalc();
             StartTimer();
+        }
+        private void OnCurrentViewModelChanged()
+        {
+            OnPropertyChanged(nameof(CurrentViewModel));
         }
 
         public string StageOfClasses

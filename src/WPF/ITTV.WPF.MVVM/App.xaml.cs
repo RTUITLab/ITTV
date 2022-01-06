@@ -32,10 +32,22 @@ namespace ITTV.WPF.MVVM
         {
             serviceCollection.AddTransient<MainWindow>();
             
-            serviceCollection.AddSingleton<MainWindowViewModel>();
+            serviceCollection.AddSingleton<MainViewModel>();
+            serviceCollection.AddSingleton<NavigationService<MainViewModel>>();
+            
+            serviceCollection.AddSingleton<MenuViewModel>();
+            serviceCollection.AddSingleton<NavigationService<MenuViewModel>>();
+            
+            serviceCollection.AddSingleton<GamesViewModel>();
+            serviceCollection.AddSingleton<NavigationService<GamesViewModel>>();
+            
+            serviceCollection.AddSingleton<VideosViewModel>();
+            serviceCollection.AddSingleton<NavigationService<VideosViewModel>>();
+            
+            serviceCollection.AddSingleton<NewsViewModel>();
+            serviceCollection.AddSingleton<NavigationService<NewsViewModel>>();
+            
             serviceCollection.AddSingleton<NavigationStore>();
-            serviceCollection.AddSingleton<NavigationService<MainWindowViewModel>>();
-
         }
     }
 }

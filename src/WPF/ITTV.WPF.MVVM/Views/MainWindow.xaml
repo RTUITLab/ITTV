@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525"
-        d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel,
+        Title="Controls Basics"
+        d:DesignWidth="1920"
+        d:DesignHeight="1080"
+        FontFamily="Segoe UI"
+        WindowState="Maximized"
+        WindowStyle="None" 
+        Cursor="None"
+        d:DataContext="{d:DesignInstance viewModels:MainViewModel,
                                     IsDesignTimeCreatable=True}">
     <Grid>
         <Grid.RowDefinitions>
@@ -135,7 +141,7 @@
                                Foreground="{StaticResource BlackBrush}"
                                FontSize="20"
                                Margin="7.5, 0, 0, 0"
-                               Text="{Binding CurrentWeekOfSemester}"/>
+                               Text="{Binding CurrentWeekOfSemester}" Cursor="None"/>
                 </Grid>
         </Grid>
     </Grid>
