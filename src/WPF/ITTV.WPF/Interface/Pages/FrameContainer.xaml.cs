@@ -45,14 +45,14 @@ namespace ITTV.WPF.Interface.Pages
                 _timeTable.UnChoose();
             }
 
-            MainWindow.Log("Navigated back to " + History[History.Count - 1].GetType());
+            //MainWindow.Log("Navigated back to " + History[History.Count - 1].GetType());
 
             History.RemoveAt(History.Count - 1);
             content.Content = History[History.Count - 1];
         }
         public void NavigateTo(UserControl innerContent)
         {
-            MainWindow.Log("Navigated to " + innerContent.GetType());
+            //MainWindow.Log("Navigated to " + innerContent.GetType());
 
             content.Content = innerContent;
             History.Add(innerContent);
@@ -68,7 +68,7 @@ namespace ITTV.WPF.Interface.Pages
 
         public void OpenBackgroundVideo()
         {
-            MainWindow.Log("Open BackgroundVideo");
+            //MainWindow.Log("Open BackgroundVideo");
 
             History.RemoveRange(0, History.Count);
 
@@ -80,7 +80,7 @@ namespace ITTV.WPF.Interface.Pages
 
         public void OpenNightPhoto()
         {
-            MainWindow.Log("Open NightPhoto");
+            //MainWindow.Log("Open NightPhoto");
 
             History.RemoveRange(0, History.Count);
 

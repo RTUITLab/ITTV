@@ -140,7 +140,7 @@ namespace ITTV.WPF.DataModel.Models
                 if (!fileSupported)
                 {
                     //TODO: Rewrite logger
-                    MainWindow.Log($"The format of the background video file {x} is not supported");
+                    //MainWindow.Log($"The format of the background video file {x} is not supported");
                 }
 
                 return fileSupported;

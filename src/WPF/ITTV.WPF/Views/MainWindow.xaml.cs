@@ -34,6 +34,12 @@ namespace ITTV.WPF.Views
         private readonly NewsUpdateThread _newsUpdateThread;
         private readonly MireaTimeManager _mireaTimeManager;
 
+        public MainWindow(MainWindowViewModel mainWindowViewModel)
+        {
+            InitializeComponent();
+            DataContext = mainWindowViewModel;
+        }
+
         public MainWindow(CreateData createData, Settings settings,  NewsUpdateThread newsUpdateThread, MireaTimeManager mireaTimeManager, EggVideo eggVideo)
         {
             _settings = settings;
@@ -56,7 +62,7 @@ namespace ITTV.WPF.Views
             {
                 var e = (Exception) s.ExceptionObject;
 
-                Log(e.ToString());
+                //Log(e.ToString());
             };
 
             if (!_settings.IsAdmin)
@@ -95,7 +101,10 @@ namespace ITTV.WPF.Views
             new DispatcherTimer(
                 TimeSpan.FromMilliseconds(100),
                 DispatcherPriority.Normal,
-                (sender, e) => { CheckPersonIsRemoved(); },
+                (sender, e) =>
+                {
+                    CheckPersonIsRemoved();
+                },
                 Dispatcher);
 
             handManager = new HandOverManager(kinectRegion, Dispatcher);
@@ -137,8 +146,6 @@ namespace ITTV.WPF.Views
 
         private void Settings_SettingsUpdated()
         {
-            Ui(() =>
-            {
                 ControlsBasicsWindow.Topmost = ! _settings.IsAdmin;
 
                 if (!_settings.IsAdmin)
@@ -153,7 +160,6 @@ namespace ITTV.WPF.Views
                     AppDomain.CurrentDomain.UnhandledException -= ReOpenAppInException;
                     Cursor = Cursors.Arrow;
                 }
-            });
         }
 
         private void ReOpenApp(object sender, EventArgs e)
@@ -164,7 +170,7 @@ namespace ITTV.WPF.Views
 
         private void ReOpenAppInException(object sender, UnhandledExceptionEventArgs e)
         { 
-            _newsUpdateThread .StopUpdating();
+            _newsUpdateThread.StopUpdating();
             Process.Start(typeof(App).Assembly.GetName().Name);
             Application.Current.Shutdown();
         }
@@ -191,6 +197,7 @@ namespace ITTV.WPF.Views
 
             if (!dataReceived) return;
             if (bodies == null) return;
+            
             var maxBodies = kinectRegion.KinectSensor.BodyFrameSource.BodyCount;
             for (var i = 0; i < maxBodies; ++i)
             {
@@ -235,18 +242,6 @@ namespace ITTV.WPF.Views
         public void Ui(Action action)
         {
             Dispatcher.Invoke(action);
-        }
-
-        public static void Log(string m)
-        {
-            try
-            {
-                File.AppendAllLines(AllPaths.FileLogsPath, new[] { DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString() + "\t\t" + m });
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
         }
 
         private void CheckPersonIsRemoved()
