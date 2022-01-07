@@ -75,6 +75,7 @@
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="Services\BackgroundVideoPlaylistService.cs" />
         <Compile Include="Services\NavigationService.cs" />
+        <Compile Include="Services\UserInterfaceManager.cs" />
         <Compile Include="Stores\NavigationStore.cs" />
         <Compile Include="ViewModels\BackgroundVideoViewModel.cs" />
         <Compile Include="ViewModels\FooterViewModel.cs" />
@@ -88,6 +89,9 @@
         <Compile Include="Views\BackgroundVideoView.xaml.cs">
           <DependentUpon>BackgroundVideoView.xaml</DependentUpon>
         </Compile>
+        <Compile Include="Views\Converters\CustomBooleanToColorForDarkThemeConverter.cs" />
+        <Compile Include="Views\Converters\CustomBooleanToColorForDarkThemeTextConverter.cs" />
+        <Compile Include="Views\Converters\CustomBooleanToVisibilityConverter.cs" />
         <Compile Include="Views\FooterView.xaml.cs">
           <DependentUpon>FooterView.xaml</DependentUpon>
         </Compile>
@@ -199,7 +203,6 @@
     </ItemGroup>
     <ItemGroup>
       <Resource Include="Images\Gerb.png" />
-      <Resource Include="Images\ITlogo.png" />
       <Resource Include="Images\Kinect.ico" />
       <Resource Include="Images\Play.png" />
       <Resource Include="Views\KinnectButtons\HighlightRectangle.png" />

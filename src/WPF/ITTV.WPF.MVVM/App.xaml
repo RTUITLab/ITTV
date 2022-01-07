@@ -1,9 +1,12 @@
 ﻿<Application x:Class="ITTV.WPF.MVVM.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:ITTV.WPF.MVVM.Views.Converters">
     <Application.Resources>
         <ResourceDictionary>
-            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+            <converters:CustomBooleanToVisibilityConverter x:Key="BoolToVis" />
+            <converters:CustomBooleanToColorForDarkThemeConverter x:Key="DarkThemeConverter" />
+            <converters:CustomBooleanToColorForDarkThemeTextConverter x:Key="DarkThemeTextConverter" />
 
             <SolidColorBrush x:Key="BlueBrush" Color="#FF00BCF2" />
             <SolidColorBrush x:Key="MediumGreyBrush" Color="#ff6e6e6e"/>

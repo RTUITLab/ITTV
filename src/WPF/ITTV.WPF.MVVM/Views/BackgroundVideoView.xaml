@@ -9,7 +9,7 @@
              d:DataContext="{d:DesignInstance viewModels:BackgroundVideoViewModel,
                                     IsDesignTimeCreatable=True}">
     
-    <Grid>
+    <Grid Background="Black">
         <MediaElement x:Name="BackgroundVideo" 
             Source="{Binding CurrentVideo, UpdateSourceTrigger=PropertyChanged}"
             Volume="{Binding Volume}"
