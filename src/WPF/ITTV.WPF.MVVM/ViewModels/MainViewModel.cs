@@ -1,11 +1,9 @@
-﻿using ITTV.WPF.MVVM.Commands;
-using ITTV.WPF.MVVM.Stores;
+﻿using ITTV.WPF.MVVM.Stores;
 
 namespace ITTV.WPF.MVVM.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-
         private readonly NavigationStore _navigationStore;
 
         public ViewModelBase CurrentViewModel

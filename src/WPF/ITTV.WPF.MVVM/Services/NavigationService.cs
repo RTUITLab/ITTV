@@ -1,5 +1,4 @@
-﻿using System;
-using ITTV.WPF.MVVM.Stores;
+﻿using ITTV.WPF.MVVM.Stores;
 using ITTV.WPF.MVVM.ViewModels;
 
 namespace ITTV.WPF.MVVM.Services

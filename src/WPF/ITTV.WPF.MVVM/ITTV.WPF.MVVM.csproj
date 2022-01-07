@@ -69,13 +69,17 @@
         <Compile Include="Commands\CommandBase.cs" />
         <Compile Include="Commands\NavigateBackCommand.cs" />
         <Compile Include="Commands\NavigateCommand.cs" />
+        <Compile Include="Commands\Videos\SelectVideoCommand.cs" />
+        <Compile Include="Commands\Videos\VideoStageChangedCommand.cs" />
         <Compile Include="Helpers\BackgroundVideosHelper.cs" />
         <Compile Include="Helpers\MireaTimeHelper.cs" />
         <Compile Include="Models\Settings.cs" />
+        <Compile Include="Models\Video.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="Services\BackgroundVideoPlaylistService.cs" />
         <Compile Include="Services\NavigationService.cs" />
         <Compile Include="Services\UserInterfaceManager.cs" />
+        <Compile Include="Services\VideosManager.cs" />
         <Compile Include="Stores\NavigationStore.cs" />
         <Compile Include="ViewModels\BackgroundVideoViewModel.cs" />
         <Compile Include="ViewModels\FooterViewModel.cs" />
@@ -84,6 +88,7 @@
         <Compile Include="ViewModels\MenuViewModel.cs" />
         <Compile Include="ViewModels\NewsViewModel.cs" />
         <Compile Include="ViewModels\TimeTableViewModel.cs" />
+        <Compile Include="ViewModels\VideoViewModel.cs" />
         <Compile Include="ViewModels\VideosViewModel.cs" />
         <Compile Include="ViewModels\ViewModelBase.cs" />
         <Compile Include="Views\BackgroundVideoView.xaml.cs">
@@ -110,6 +115,9 @@
         </Compile>
         <Compile Include="Views\TimeTableView.xaml.cs">
           <DependentUpon>TimeTableView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\VideoView.xaml.cs">
+          <DependentUpon>VideoView.xaml</DependentUpon>
         </Compile>
         <Compile Include="Views\VideosView.xaml.cs">
           <DependentUpon>VideosView.xaml</DependentUpon>
@@ -199,6 +207,7 @@
       <Page Include="Views\MenuView.xaml" />
       <Page Include="Views\NewsView.xaml" />
       <Page Include="Views\TimeTableView.xaml" />
+      <Page Include="Views\VideoView.xaml" />
       <Page Include="Views\VideosView.xaml" />
     </ItemGroup>
     <ItemGroup>
