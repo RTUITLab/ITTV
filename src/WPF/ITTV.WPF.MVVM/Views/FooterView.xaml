@@ -22,6 +22,8 @@
                         Margin="30, 0, 30, 0"
                         Height="60"
                         Width="60" 
+                        Visibility="{Binding CanNavigateBack, Converter={StaticResource BoolToVis}}"
+                        Command="{Binding NavigateBackCommand}"
                         Grid.Column="0" 
                         Style="{StaticResource BackButtonStyle}" 
                         FocusVisualStyle="{x:Null}"/>

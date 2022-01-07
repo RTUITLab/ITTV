@@ -3,8 +3,73 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
+             d:DataContext="{d:DesignInstance viewModels:MenuViewModel,
+                                    IsDesignTimeCreatable=True}"
              mc:Ignorable="d">
     <Grid>
+        <Grid.Resources >
+            <Style TargetType="Border" >
+                <Setter Property="Margin" Value="15"/>
+            </Style>
+        </Grid.Resources>
         
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Row="0" Grid.Column="0">
+            <Button
+                x:Name="News" 
+                Command="{Binding ShowNewsCommand}"
+                Style="{StaticResource KinectTileButton}">
+                <Grid Background="{StaticResource LightGrayBrush}">
+                    <TextBlock Text="Новости" 
+                               HorizontalAlignment="Center" 
+                               Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
+                </Grid>
+            </Button>
+        </Border>
+        <Border Grid.Row="0" Grid.Column="1">
+            <Button 
+                x:Name="TimeTable" 
+                Command="{Binding ShowTimeTableCommand}"
+                Style="{StaticResource KinectTileButton}">
+                <Grid Background="{StaticResource LightGrayBrush}">
+                    <TextBlock Text="Расписание" 
+                               HorizontalAlignment="Center" 
+                               Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
+                </Grid>
+            </Button>
+        </Border>
+        
+        <Border Grid.Row="1" Grid.Column="0">
+            <Button 
+                x:Name="Videos" 
+                Command="{Binding ShowVideosCommand}"
+                Style="{StaticResource KinectTileButton}">
+                <Grid Background="{StaticResource LightGrayBrush}">
+                    <TextBlock Text="Видео" 
+                               HorizontalAlignment="Center" 
+                               Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
+                </Grid>
+            </Button> 
+        </Border>
+        <Border Grid.Row="1" Grid.Column="1">
+            <Button 
+                x:Name="Games" 
+                Command="{Binding ShowGamesCommand}"
+                Style="{StaticResource KinectTileButton}">
+                <Grid Background="{StaticResource LightGrayBrush}">
+                    <TextBlock Text="Игры" 
+                               HorizontalAlignment="Center" 
+                               Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
+                </Grid>
+            </Button>   
+        </Border>
     </Grid>
 </UserControl>
