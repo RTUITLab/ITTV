@@ -60,20 +60,25 @@ namespace ITTV.WPF.MVVM
             
             serviceCollection.AddSingleton<GamesViewModel>();
             serviceCollection.AddSingleton<NavigationService<GamesViewModel>>();
+            serviceCollection.AddScoped<NavigateCommand<GamesViewModel>>();
+
             
             serviceCollection.AddSingleton<VideosViewModel>();
             serviceCollection.AddSingleton<NavigationService<VideosViewModel>>();
-            
+            serviceCollection.AddScoped<NavigateCommand<VideosViewModel>>();
+
             serviceCollection.AddSingleton<NewsViewModel>();
             serviceCollection.AddSingleton<NavigationService<NewsViewModel>>();
-            
+            serviceCollection.AddScoped<NavigateCommand<NewsViewModel>>();
+
             serviceCollection.AddSingleton<TimeTableViewModel>();
             serviceCollection.AddSingleton<NavigationService<TimeTableViewModel>>();
+            serviceCollection.AddScoped<NavigateCommand<TimeTableViewModel>>();
 
             serviceCollection.AddSingleton<FooterViewModel>();
-            serviceCollection.AddSingleton<NavigationService<FooterViewModel>>();
             
             serviceCollection.AddSingleton<NavigationStore>();
+            
             serviceCollection.AddScoped<BackgroundVideoPlaylistService>();
             serviceCollection.AddScoped<BackgroundVideoEndedCommand>();
         }

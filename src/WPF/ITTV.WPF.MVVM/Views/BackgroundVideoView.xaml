@@ -15,7 +15,9 @@
             Volume="{Binding Volume}"
             UnloadedBehavior="Play" 
             HorizontalAlignment="Center"
-            Visibility="Visible">
+            Visibility="Visible"
+            Width="1920"
+            Height="1080">
             
             <b:Interaction.Triggers>
                 <b:EventTrigger EventName="MediaEnded">
@@ -37,12 +39,6 @@
                            HorizontalAlignment="Center" 
                            Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
             </Grid>
-            
-            <b:Interaction.Triggers>
-                <b:EventTrigger EventName="Submit">
-                    <b:InvokeCommandAction Command="{Binding ShowMenuCommand}"/>
-                </b:EventTrigger>
-            </b:Interaction.Triggers>
         </Button>
     </Grid>
 </UserControl>

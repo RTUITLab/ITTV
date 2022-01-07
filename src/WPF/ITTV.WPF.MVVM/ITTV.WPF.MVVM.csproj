@@ -67,6 +67,7 @@
         </Compile>
         <Compile Include="Commands\BackgroundVideos\BackgroundVideoEndedCommand.cs" />
         <Compile Include="Commands\CommandBase.cs" />
+        <Compile Include="Commands\NavigateBackCommand.cs" />
         <Compile Include="Commands\NavigateCommand.cs" />
         <Compile Include="Helpers\BackgroundVideosHelper.cs" />
         <Compile Include="Helpers\MireaTimeHelper.cs" />

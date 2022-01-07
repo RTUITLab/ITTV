@@ -1,15 +1,39 @@
 ﻿using System;
+using System.Windows.Input;
 using System.Windows.Threading;
+using ITTV.WPF.MVVM.Commands;
 using ITTV.WPF.MVVM.Helpers;
+using ITTV.WPF.MVVM.Stores;
 
 namespace ITTV.WPF.MVVM.ViewModels
 {
     public class FooterViewModel : ViewModelBase
     {
-        public FooterViewModel()
+        private readonly NavigationStore _navigationStore;
+
+        public FooterViewModel(NavigationStore navigationStore)
         {
+            _navigationStore = navigationStore;
+            _navigationStore.HistoryViewModelsUpdated += OnHistoryViewModelsUpdated;
+            
+            NavigateBackCommand = new NavigateBackCommand(_navigationStore);
+            
             Recalc();
             StartTimer();
+        }
+        public ICommand NavigateBackCommand { get; }
+        private bool _canNavigateBack;
+        public bool CanNavigateBack
+        {
+            get => _canNavigateBack;
+            set
+            {
+                if (Equals(_canNavigateBack, value))
+                    return;
+                
+                _canNavigateBack = value;
+                OnPropertyChanged(nameof(CanNavigateBack));
+            }
         }
         public string StageOfClasses
         {
@@ -95,6 +119,11 @@ namespace ITTV.WPF.MVVM.ViewModels
             {
                 Recalc();
             };
+        }
+
+        private void OnHistoryViewModelsUpdated()
+        {
+            CanNavigateBack = _navigationStore.CanNavigateBack();
         }
     }
 }

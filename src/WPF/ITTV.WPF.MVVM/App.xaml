@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+
             <SolidColorBrush x:Key="BlueBrush" Color="#FF00BCF2" />
             <SolidColorBrush x:Key="MediumGreyBrush" Color="#ff6e6e6e"/>
             <Style TargetType="Button">
