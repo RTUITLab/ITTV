@@ -3,18 +3,26 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using ITTV.WPF.MVVM.Commands;
 using ITTV.WPF.MVVM.Helpers;
+using ITTV.WPF.MVVM.Services;
 using ITTV.WPF.MVVM.Stores;
 
 namespace ITTV.WPF.MVVM.ViewModels
 {
     public class FooterViewModel : ViewModelBase
     {
+        private readonly UserInterfaceManager _userInterfaceManager;
         private readonly NavigationStore _navigationStore;
 
-        public FooterViewModel(NavigationStore navigationStore)
+        public bool IsDarkTheme => _userInterfaceManager.IsDarkTheme;
+
+        public FooterViewModel(NavigationStore navigationStore,
+            UserInterfaceManager userInterfaceManager)
         {
             _navigationStore = navigationStore;
             _navigationStore.HistoryViewModelsUpdated += OnHistoryViewModelsUpdated;
+            
+            _userInterfaceManager = userInterfaceManager;
+            _userInterfaceManager.ThemeUpdated += OnThemeUpdated;
             
             NavigateBackCommand = new NavigateBackCommand(_navigationStore);
             
@@ -124,6 +132,11 @@ namespace ITTV.WPF.MVVM.ViewModels
         private void OnHistoryViewModelsUpdated()
         {
             CanNavigateBack = _navigationStore.CanNavigateBack();
+        }
+
+        private void OnThemeUpdated()
+        {
+            OnPropertyChanged(nameof(IsDarkTheme));
         }
     }
 }
