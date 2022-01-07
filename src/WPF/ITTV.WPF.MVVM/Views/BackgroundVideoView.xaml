@@ -13,12 +13,9 @@
         <MediaElement x:Name="BackgroundVideo" 
             Source="{Binding CurrentVideo, UpdateSourceTrigger=PropertyChanged}"
             Volume="{Binding Volume}"
-            LoadedBehavior="Manual" 
-            UnloadedBehavior="Manual" 
-            
+            UnloadedBehavior="Play" 
             HorizontalAlignment="Center"
-            Visibility="Visible"
-            MediaEnded="BackgroundVideo_OnMediaEnded">
+            Visibility="Visible">
             
             <b:Interaction.Triggers>
                 <b:EventTrigger EventName="MediaEnded">
