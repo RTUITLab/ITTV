@@ -10,12 +10,13 @@ namespace ITTV.WPF.MVVM.Helpers
         {
             var supportedVideoFormats = new[]
             {
-                "mov", 
-                "ogg",
-                "mp4"
+                ".mov", 
+                ".ogg",
+                ".mp4"
             };
             
-            var fileNames = Directory.GetFiles(AllPaths.GetDirectoryBackgroundVideosPath);
+            var fileNames = Directory.GetFiles(AllPaths.GetDirectoryBackgroundVideosPath)
+                .Select(Path.GetFileName);
             
             var filteredFileNames = fileNames.Where(x =>
             {
@@ -32,6 +33,15 @@ namespace ITTV.WPF.MVVM.Helpers
             });
 
             return filteredFileNames;
+        }
+
+        public static IEnumerable<string> FilteringByExistBackgroundVideos(IEnumerable<string> backgroundVideos)
+        {
+            if (backgroundVideos == null)
+                return null;
+            
+            var existVideos = GetBackgroundVideos();
+            return backgroundVideos.Where(x => existVideos.Contains(x));
         }
     }
 }
