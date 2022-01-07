@@ -5,7 +5,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:k="http://schemas.microsoft.com/kinect/2014">
+    xmlns:k="http://schemas.microsoft.com/kinect/2014"
+    xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels">
 
     <!-- Standard Colors and Brushes -->
 
@@ -89,7 +90,7 @@
         </Setter>
     </Style>
 
-    <DataTemplate x:Key="Kinect250x250ItemTemplate">
+    <DataTemplate x:Key="Kinect250X250ItemTemplate">
         <Button Margin="5" Style="{StaticResource KinectTileButton}">
             <Grid HorizontalAlignment="Left" Width="500" Height="250">
                 <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
@@ -201,13 +202,20 @@
         </Button>
     </DataTemplate>
 
-    <DataTemplate x:Key="VideoTemplate">
-        <Button Margin="50" Width="740" HorizontalAlignment="Stretch" Style="{StaticResource KinectTileButton}">
+    <DataTemplate x:Key="VideoTemplate"
+                  DataType="{x:Type viewModels:VideoViewModel}">
+        <Button Margin="50" 
+                Width="740"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource KinectTileButton}"
+                Command="{Binding SelectVideoCommand}">
             <Border>
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
                         <MediaElement Source="{Binding Source}" 
                                       Height="400"
+                                      UnloadedBehavior="Play" 
+                                      LoadedBehavior="Play" 
                                       Volume="0" 
                                       Margin="15 15 15 0"/>
                         <TextBlock Text="{Binding Title}" 
