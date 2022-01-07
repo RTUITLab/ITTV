@@ -25,11 +25,10 @@
         </MediaElement>
 
         <Button 
-            Panel.ZIndex="1" 
             x:Name="MenuButton" 
-            Grid.RowSpan="2" 
             Width="400" 
             Height="150" 
+            Command="{Binding ShowMenuCommand}"
             Style="{StaticResource KinectTileButton}">
             <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}" 
                   Width="400" 
@@ -38,6 +37,12 @@
                            HorizontalAlignment="Center" 
                            Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
             </Grid>
+            
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="Submit">
+                    <b:InvokeCommandAction Command="{Binding ShowMenuCommand}"/>
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
         </Button>
     </Grid>
 </UserControl>

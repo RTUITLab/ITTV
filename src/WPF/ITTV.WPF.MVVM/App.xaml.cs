@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using ITTV.WPF.MVVM.Commands;
 using ITTV.WPF.MVVM.Commands.BackgroundVideos;
 using ITTV.WPF.MVVM.Models;
 using ITTV.WPF.MVVM.Services;
@@ -35,6 +36,9 @@ namespace ITTV.WPF.MVVM
         {
             base.OnStartup(e);
 
+            var navigationCommand = _serviceProvider.GetRequiredService<NavigationService<BackgroundVideoViewModel>>();
+            navigationCommand.Navigate();
+            
             var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
         }
@@ -52,6 +56,7 @@ namespace ITTV.WPF.MVVM
             
             serviceCollection.AddSingleton<MenuViewModel>();
             serviceCollection.AddSingleton<NavigationService<MenuViewModel>>();
+            serviceCollection.AddScoped<NavigateCommand<MenuViewModel>>();
             
             serviceCollection.AddSingleton<GamesViewModel>();
             serviceCollection.AddSingleton<NavigationService<GamesViewModel>>();
