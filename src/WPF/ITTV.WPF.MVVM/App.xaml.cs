@@ -81,8 +81,6 @@ namespace ITTV.WPF.MVVM
             
             serviceCollection.AddScoped<BackgroundVideoPlaylistService>();
             serviceCollection.AddScoped<BackgroundVideoEndedCommand>();
-
-            serviceCollection.AddSingleton<UserInterfaceManager>();
         }
     }
 }
