@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
+﻿using System.Windows.Controls;
 
 namespace ITTV.WPF.MVVM.Views
 {
@@ -9,19 +7,6 @@ namespace ITTV.WPF.MVVM.Views
         public BackgroundVideoView()
         {
             InitializeComponent();
-            BackgroundVideo.Play();
-        }
-
-        private void BackgroundVideo_OnSourceUpdated(object sender, DataTransferEventArgs e)
-        {
-
-        }
-
-        private void BackgroundVideo_OnMediaEnded(object sender, RoutedEventArgs e)
-        {
-            BackgroundVideo.Stop();
-            
-            BackgroundVideo.Play();
         }
     }
 }

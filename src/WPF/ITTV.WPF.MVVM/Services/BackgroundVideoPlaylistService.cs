@@ -9,7 +9,7 @@ namespace ITTV.WPF.MVVM.Services
 {
     public class BackgroundVideoPlaylistService
     {
-        private int currentIndex;
+        private int currentIndex = -1;
         private readonly List<Uri> _playlist = new();
 
         private Uri currentVideo;
@@ -32,7 +32,7 @@ namespace ITTV.WPF.MVVM.Services
         {
             currentIndex = (currentIndex + 1) % _playlist.Count;
 
-            currentVideo = _playlist[currentIndex];
+            currentVideo = new Uri(_playlist[currentIndex].AbsoluteUri);
             return currentVideo;
         }
 

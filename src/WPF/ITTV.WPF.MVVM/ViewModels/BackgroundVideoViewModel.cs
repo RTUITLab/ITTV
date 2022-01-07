@@ -16,10 +16,11 @@ namespace ITTV.WPF.MVVM.ViewModels
         public BackgroundVideoViewModel(BackgroundVideoPlaylistService backgroundVideoPlaylistService,
             IOptions<Settings> settings)
         {
+            BackgroundVideoEndedEndedCommand = new BackgroundVideoEndedCommand(this);
+
             _backgroundVideoPlaylistService = backgroundVideoPlaylistService;
             _settings = settings.Value;
 
-            BackgroundVideoEndedEndedCommand = new BackgroundVideoEndedCommand(this);
             Setup();
         }
 

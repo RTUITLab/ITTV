@@ -14,8 +14,7 @@ namespace ITTV.WPF.MVVM
     public partial class App
     {
         private readonly IServiceProvider _serviceProvider;
-        
-        
+
         public App()
         {
             const string configurationFile = "configuration.json";
