@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ITTV.WPF.MVVM.Helpers;
 using ITTV.WPF.MVVM.Models;
 using Microsoft.Extensions.Options;
 
@@ -18,7 +19,8 @@ namespace ITTV.WPF.MVVM.Services
         {
             var backgroundVideoDirectory = Path.Combine(Directory.GetCurrentDirectory(), AllPaths.GetDirectoryBackgroundVideosPath);
 
-            var playlistFromSettings = settings.Value.BackgroundVideoOrder;
+            var playlistFromSettings =
+                BackgroundVideosHelper.FilteringByExistBackgroundVideos(settings.Value.BackgroundVideoOrder);
             foreach (var video in playlistFromSettings)
             {
                 var uri = new Uri(Path.Combine(backgroundVideoDirectory, video));
