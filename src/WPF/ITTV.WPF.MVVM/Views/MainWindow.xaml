@@ -15,12 +15,16 @@
         d:DataContext="{d:DesignInstance viewModels:MainViewModel,
                                     IsDesignTimeCreatable=True}">
     <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModels:MenuViewModel}">
+            <views:MenuView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:BackgroundVideoViewModel}">
             <views:BackgroundVideoView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:FooterViewModel}">
             <views:FooterView/>
         </DataTemplate>
+
     </Window.Resources>
     
     <Grid>
@@ -29,12 +33,8 @@
             <RowDefinition Height="90" />
         </Grid.RowDefinitions>
         
-        <ContentControl Grid.Row="0" Name="BackgroundVideo" Content="{Binding BackgroundVideoViewModel}" />
+        <ContentControl Grid.Row="0" Name="CurrentView" Content="{Binding CurrentViewModel}" />
         <ContentControl Grid.Row="1" Name="Footer" Content="{Binding FooterViewModel}" />
-
-        <views:BackgroundVideoView Grid.Row="0"/>
-
-        <views:FooterView Grid.Row="1"/>
         
     </Grid>
 </Window>
