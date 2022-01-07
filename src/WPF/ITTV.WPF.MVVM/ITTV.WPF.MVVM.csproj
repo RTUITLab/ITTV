@@ -67,6 +67,7 @@
         </Compile>
         <Compile Include="Commands\BackgroundVideos\BackgroundVideoEndedCommand.cs" />
         <Compile Include="Commands\CommandBase.cs" />
+        <Compile Include="Commands\InteractUserInterfaceCommand.cs" />
         <Compile Include="Commands\NavigateBackCommand.cs" />
         <Compile Include="Commands\NavigateCommand.cs" />
         <Compile Include="Helpers\BackgroundVideosHelper.cs" />
@@ -74,6 +75,7 @@
         <Compile Include="Models\Settings.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="Services\BackgroundVideoPlaylistService.cs" />
+        <Compile Include="Services\UserInterfaceManager.cs" />
         <Compile Include="Services\NavigationService.cs" />
         <Compile Include="Stores\NavigationStore.cs" />
         <Compile Include="ViewModels\BackgroundVideoViewModel.cs" />

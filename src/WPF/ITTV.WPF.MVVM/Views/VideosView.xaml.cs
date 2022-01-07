@@ -5,10 +5,9 @@ namespace ITTV.WPF.MVVM.Views
 {
     public partial class VideosView : UserControl
     {
-        public VideosView(VideosViewModel videosViewModel)
+        public VideosView()
         {
             InitializeComponent();
-            DataContext = videosViewModel;
         }
     }
 }

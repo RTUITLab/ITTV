@@ -24,7 +24,18 @@
         <DataTemplate DataType="{x:Type viewModels:FooterViewModel}">
             <views:FooterView/>
         </DataTemplate>
-
+        <DataTemplate DataType="{x:Type viewModels:GamesViewModel}">
+            <views:GamesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:VideosViewModel}">
+            <views:VideosView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:TimeTableViewModel}">
+            <views:TimeTableView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:NewsViewModel}">
+            <views:NewsView/>
+        </DataTemplate>
     </Window.Resources>
     
     <Grid>
