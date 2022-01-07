@@ -5,10 +5,9 @@ namespace ITTV.WPF.MVVM.Views
 {
     public partial class GamesView : UserControl
     {
-        public GamesView(GamesViewModel gamesViewModel)
+        public GamesView()
         {
             InitializeComponent();
-            DataContext = gamesViewModel;
         }
     }
 }

@@ -5,10 +5,9 @@ namespace ITTV.WPF.MVVM.Views
 {
     public partial class NewsView : UserControl
     {
-        public NewsView(NewsViewModel newsViewModel)
+        public NewsView()
         {
             InitializeComponent();
-            DataContext = newsViewModel;
         }
     }
 }

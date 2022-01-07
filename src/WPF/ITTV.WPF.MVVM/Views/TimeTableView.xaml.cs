@@ -5,10 +5,9 @@ namespace ITTV.WPF.MVVM.Views
 {
     public partial class TimeTableView : UserControl
     {
-        public TimeTableView(TimeTableViewModel timeTableViewModel)
+        public TimeTableView()
         {
             InitializeComponent();
-            DataContext = timeTableViewModel;
         }
     }
 }
