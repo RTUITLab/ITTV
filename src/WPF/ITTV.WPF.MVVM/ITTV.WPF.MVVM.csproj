@@ -75,7 +75,6 @@
         <Compile Include="Helpers\BackgroundVideosHelper.cs" />
         <Compile Include="Helpers\MireaTimeHelper.cs" />
         <Compile Include="Models\Settings.cs" />
-        <Compile Include="Models\Video.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="Services\BackgroundVideoPlaylistService.cs" />
         <Compile Include="Services\NavigationService.cs" />
