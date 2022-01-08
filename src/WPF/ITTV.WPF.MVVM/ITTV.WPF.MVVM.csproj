@@ -216,7 +216,6 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Commands\News" />
-      <Folder Include="Helpers" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
