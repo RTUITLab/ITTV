@@ -17,19 +17,19 @@
             
             <b:Interaction.Triggers>
                 <b:EventTrigger EventName="MediaEnded">
-                    <b:InvokeCommandAction Command="{Binding VideoStageChangedCommand}"/>
+                    <b:InvokeCommandAction Command="{Binding VideoEndedCommand}"/>
                 </b:EventTrigger>
             </b:Interaction.Triggers>
         </MediaElement>
+        
         <Button x:Name="Play"
                 Width="auto"
                 Height="auto"
-                Style="{StaticResource PlayButton}"
                 Visibility="{Binding CanDoAction, Converter={StaticResource BoolToVis}}">
             <Image Source="/Images/Play.png" Width="100"/>
             <b:Interaction.Triggers>
                 <b:EventTrigger EventName="Click">
-                    <b:InvokeCommandAction Command="{Binding VideoStageChangedCommand}"/>
+                    <b:InvokeCommandAction Command="{Binding VideoRestartedCommand}"/>
                 </b:EventTrigger>
             </b:Interaction.Triggers>
         </Button>
