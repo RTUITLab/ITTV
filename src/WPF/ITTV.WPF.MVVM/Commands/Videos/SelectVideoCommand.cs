@@ -1,5 +1,6 @@
-﻿using ITTV.WPF.MVVM.Services;
-using ITTV.WPF.MVVM.Stores;
+﻿using ITTV.WPF.Abstractions.Base.Command;
+using ITTV.WPF.Core.Services;
+using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.ViewModels;
 
 namespace ITTV.WPF.MVVM.Commands.Videos

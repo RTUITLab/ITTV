@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.MVVM.Commands;
 
 namespace ITTV.WPF.MVVM.ViewModels

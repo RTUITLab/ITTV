@@ -1,8 +1,8 @@
 ﻿using System.IO;
 
-namespace ITTV.WPF.MVVM
+namespace ITTV.WPF.Core.Helpers
 {
-    public static class AllPaths
+    public static class PathHelper
     {
         private static readonly string DirectoryVideosPath = Path.Combine(Directory.GetCurrentDirectory(), @"Videos\");
         public static string GetDirectoryVideosPath

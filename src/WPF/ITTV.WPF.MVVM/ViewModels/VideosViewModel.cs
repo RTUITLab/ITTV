@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using ITTV.WPF.MVVM.Services;
-using ITTV.WPF.MVVM.Stores;
+using ITTV.WPF.Abstractions.Base.ViewModel;
+using ITTV.WPF.Core.Services;
+using ITTV.WPF.Core.Stores;
 
 namespace ITTV.WPF.MVVM.ViewModels
 {

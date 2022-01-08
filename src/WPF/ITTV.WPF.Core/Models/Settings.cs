@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace ITTV.WPF.MVVM.Models
+namespace ITTV.WPF.Core.Models
 { 
     public sealed class Settings
     {

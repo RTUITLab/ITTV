@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace ITTV.WPF.MVVM.Commands
+namespace ITTV.WPF.Abstractions.Base.Command
 {
     public abstract class CommandBase : ICommand
     {

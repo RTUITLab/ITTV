@@ -1,4 +1,5 @@
-﻿using ITTV.WPF.MVVM.Stores;
+﻿using ITTV.WPF.Abstractions.Base.ViewModel;
+using ITTV.WPF.Core.Stores;
 
 namespace ITTV.WPF.MVVM.ViewModels
 {

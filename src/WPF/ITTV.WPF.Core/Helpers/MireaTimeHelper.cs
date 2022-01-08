@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace ITTV.WPF.MVVM.Helpers
+namespace ITTV.WPF.Core.Helpers
 {
     public static class MireaTimeHelper
     {

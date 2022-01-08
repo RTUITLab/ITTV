@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ITTV.WPF.Core.Helpers;
 
-namespace ITTV.WPF.MVVM.Services
+namespace ITTV.WPF.Core.Services
 {
     public class VideosManager
     {
@@ -12,7 +13,7 @@ namespace ITTV.WPF.MVVM.Services
 
         public IEnumerable<Uri> GetVideos()
         {
-            var path = AllPaths.GetDirectoryVideosPath;
+            var path = PathHelper.GetDirectoryVideosPath;
             var files = Directory.GetFiles(path);
 
             var supportedVideoFormats = new[]

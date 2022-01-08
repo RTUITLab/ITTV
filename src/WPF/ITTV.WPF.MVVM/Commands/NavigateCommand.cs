@@ -1,5 +1,6 @@
-﻿using ITTV.WPF.MVVM.Services;
-using ITTV.WPF.MVVM.ViewModels;
+﻿using ITTV.WPF.Abstractions.Base.Command;
+using ITTV.WPF.Abstractions.Base.ViewModel;
+using ITTV.WPF.Core.Services;
 
 namespace ITTV.WPF.MVVM.Commands
 {
