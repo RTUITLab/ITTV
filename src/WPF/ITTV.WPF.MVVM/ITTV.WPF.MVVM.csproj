@@ -78,6 +78,7 @@
         <Compile Include="ViewModels\GamesViewModel.cs" />
         <Compile Include="ViewModels\MainViewModel.cs" />
         <Compile Include="ViewModels\MenuViewModel.cs" />
+        <Compile Include="ViewModels\NewsElementViewModel.cs" />
         <Compile Include="ViewModels\NewsViewModel.cs" />
         <Compile Include="ViewModels\TimeTableViewModel.cs" />
         <Compile Include="ViewModels\VideoViewModel.cs" />
