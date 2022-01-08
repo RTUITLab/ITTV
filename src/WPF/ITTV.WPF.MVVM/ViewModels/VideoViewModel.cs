@@ -8,7 +8,8 @@ namespace ITTV.WPF.MVVM.ViewModels
     public class VideoViewModel : ViewModelBase
     {
         public ICommand SelectVideoCommand { get; }
-        public ICommand VideoStageChangedCommand { get; }
+        public ICommand VideoEndedCommand { get; }
+        public ICommand VideoRestartedCommand { get; }
 
         private string _title;
         public string Title
@@ -56,20 +57,20 @@ namespace ITTV.WPF.MVVM.ViewModels
             NavigationStore navigationStore)
         {
             SelectVideoCommand = new SelectVideoCommand(this, navigationStore);
-            VideoStageChangedCommand = new VideoStageChangedCommand(this);
+            VideoEndedCommand = new VideoEndedCommand(this);
+            VideoRestartedCommand = new VideoRestartedCommand(this);
             
             Title = title;
             Source = source;
         }
 
-        public void StartVideoAction()
-        {
-            CanDoAction = !_canDoAction;
-            StartVideo();
+        public void EnableAction()
+            => CanDoAction = true;
 
-        }
-
-        private void StartVideo()
+        public void DisableAction()
+            => CanDoAction = false;
+        
+        public void RestartVideo()
         {
             var source = Source;
             

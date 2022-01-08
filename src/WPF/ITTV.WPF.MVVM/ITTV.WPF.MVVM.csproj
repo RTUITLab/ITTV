@@ -70,7 +70,8 @@
         <Compile Include="Commands\NavigateBackCommand.cs" />
         <Compile Include="Commands\NavigateCommand.cs" />
         <Compile Include="Commands\Videos\SelectVideoCommand.cs" />
-        <Compile Include="Commands\Videos\VideoStageChangedCommand.cs" />
+        <Compile Include="Commands\Videos\VideoEndedCommand.cs" />
+        <Compile Include="Commands\Videos\VideoRestartedCommand.cs" />
         <Compile Include="Helpers\BackgroundVideosHelper.cs" />
         <Compile Include="Helpers\MireaTimeHelper.cs" />
         <Compile Include="Models\Settings.cs" />
@@ -220,6 +221,9 @@
       <Content Include="configuration.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Commands\News" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

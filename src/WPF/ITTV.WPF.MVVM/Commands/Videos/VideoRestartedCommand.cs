@@ -2,18 +2,19 @@
 
 namespace ITTV.WPF.MVVM.Commands.Videos
 {
-    public class VideoStageChangedCommand : CommandBase
+    public class VideoRestartedCommand : CommandBase
     {
         private readonly VideoViewModel _videoViewModel;
 
-        public VideoStageChangedCommand(VideoViewModel videoViewModel)
+        public VideoRestartedCommand(VideoViewModel videoViewModel)
         {
             _videoViewModel = videoViewModel;
         }
 
         public override void Execute(object parameter)
         {
-            _videoViewModel.StartVideoAction();
+            _videoViewModel.DisableAction();
+            _videoViewModel.RestartVideo();
         }
     }
 }
