@@ -3,11 +3,13 @@ using System.Windows.Input;
 using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.MVVM.Commands.Games;
 
-namespace ITTV.WPF.MVVM.Models
+namespace ITTV.WPF.MVVM.DTOs
 {
-    public class Game
+    public sealed class GameDto
     {
-        public Game(string title)
+        public GameDto()
+        { }
+        public GameDto(string title)
         {
             Title = title;
 

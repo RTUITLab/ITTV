@@ -68,10 +68,14 @@
         <Compile Include="Commands\Games\SelectGameCommand.cs" />
         <Compile Include="Commands\NavigateBackCommand.cs" />
         <Compile Include="Commands\NavigateCommand.cs" />
+        <Compile Include="Commands\News\SelectBackNewsImageCommand.cs" />
+        <Compile Include="Commands\News\SelectNewsCommand.cs" />
+        <Compile Include="Commands\News\SelectNextNewsImageCommand.cs" />
         <Compile Include="Commands\Videos\SelectVideoCommand.cs" />
         <Compile Include="Commands\Videos\VideoEndedCommand.cs" />
         <Compile Include="Commands\Videos\VideoRestartedCommand.cs" />
-        <Compile Include="Models\Game.cs" />
+        <Compile Include="DTOs\GameDto.cs" />
+        <Compile Include="DTOs\NewsDto.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="ViewModels\BackgroundVideoViewModel.cs" />
         <Compile Include="ViewModels\FooterViewModel.cs" />
@@ -101,6 +105,9 @@
         </Compile>
         <Compile Include="Views\MenuView.xaml.cs">
           <DependentUpon>MenuView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\NewsElementView.xaml.cs">
+          <DependentUpon>NewsElementView.xaml</DependentUpon>
         </Compile>
         <Compile Include="Views\NewsView.xaml.cs">
           <DependentUpon>NewsView.xaml</DependentUpon>
@@ -201,6 +208,7 @@
         <SubType>Designer</SubType>
       </Page>
       <Page Include="Views\MenuView.xaml" />
+      <Page Include="Views\NewsElementView.xaml" />
       <Page Include="Views\NewsView.xaml" />
       <Page Include="Views\TimeTableView.xaml" />
       <Page Include="Views\VideoView.xaml" />
@@ -216,9 +224,6 @@
       <Content Include="configuration.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Commands\News" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
