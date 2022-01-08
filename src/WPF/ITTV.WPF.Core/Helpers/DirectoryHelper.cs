@@ -16,6 +16,7 @@ namespace ITTV.WPF.Core.Helpers
 
             if (executeFile == null)
                 throw new ArgumentException("Execution file was not found or there were several of them.");
+            //TODO: Add handle exception 
 
             return new Uri(Path.Combine(directoryPath, executeFile));
         }
