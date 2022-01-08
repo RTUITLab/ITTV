@@ -18,7 +18,5 @@ namespace ITTV.WPF.Core.Services.ApiClient.Requests.GetNews
         public string Source { get; set; }
         public string Name { get; set; }
         public byte[] Data { get; set; }
-
-        public BitmapImage Image => ImageHelper.ConvertByteToImage(Data);
     }
 }
