@@ -1,4 +1,5 @@
-﻿using ITTV.WPF.MVVM.ViewModels;
+﻿using ITTV.WPF.Abstractions.Base.Command;
+using ITTV.WPF.MVVM.ViewModels;
 
 namespace ITTV.WPF.MVVM.Commands.BackgroundVideos
 {

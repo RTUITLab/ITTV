@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
+using ITTV.WPF.Core.Models;
+using ITTV.WPF.Core.Services;
+using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.Commands;
 using ITTV.WPF.MVVM.Commands.BackgroundVideos;
-using ITTV.WPF.MVVM.Models;
-using ITTV.WPF.MVVM.Services;
-using ITTV.WPF.MVVM.Stores;
 using ITTV.WPF.MVVM.ViewModels;
 using ITTV.WPF.MVVM.Views;
 using Microsoft.Extensions.Configuration;

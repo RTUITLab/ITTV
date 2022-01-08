@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ITTV.WPF.MVVM.Helpers;
-using ITTV.WPF.MVVM.Models;
+using ITTV.WPF.Core.Helpers;
+using ITTV.WPF.Core.Models;
 using Microsoft.Extensions.Options;
 
-namespace ITTV.WPF.MVVM.Services
+namespace ITTV.WPF.Core.Services
 {
     public class BackgroundVideoPlaylistService
     {
@@ -17,7 +17,7 @@ namespace ITTV.WPF.MVVM.Services
 
         public BackgroundVideoPlaylistService(IOptions<Settings> settings)
         {
-            var backgroundVideoDirectory = AllPaths.GetDirectoryBackgroundVideosPath;
+            var backgroundVideoDirectory = PathHelper.GetDirectoryBackgroundVideosPath;
 
             var playlistFromSettings =
                 BackgroundVideosHelper.FilteringByExistBackgroundVideos(settings.Value.BackgroundVideoOrder);

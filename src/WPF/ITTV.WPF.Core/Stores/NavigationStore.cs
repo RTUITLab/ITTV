@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ITTV.WPF.MVVM.ViewModels;
+using ITTV.WPF.Abstractions.Base.ViewModel;
 
-namespace ITTV.WPF.MVVM.Stores
+namespace ITTV.WPF.Core.Stores
 {
     public sealed class NavigationStore
     {

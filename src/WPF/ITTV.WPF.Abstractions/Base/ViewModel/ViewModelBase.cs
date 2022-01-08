@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ITTV.WPF.MVVM.ViewModels
+namespace ITTV.WPF.Abstractions.Base.ViewModel
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {

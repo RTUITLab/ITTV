@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
 using System.Windows.Threading;
+using ITTV.WPF.Abstractions.Base.ViewModel;
+using ITTV.WPF.Core.Helpers;
+using ITTV.WPF.Core.Services;
+using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.Commands;
-using ITTV.WPF.MVVM.Helpers;
-using ITTV.WPF.MVVM.Services;
-using ITTV.WPF.MVVM.Stores;
 
 namespace ITTV.WPF.MVVM.ViewModels
 {

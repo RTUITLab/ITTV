@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ITTV.WPF.MVVM.Services
+namespace ITTV.WPF.Core.Services
 {
     public class UserInterfaceManager
     {

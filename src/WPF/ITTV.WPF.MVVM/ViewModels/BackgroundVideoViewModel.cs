@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Windows.Input;
+using ITTV.WPF.Abstractions.Base.ViewModel;
+using ITTV.WPF.Core.Models;
+using ITTV.WPF.Core.Services;
 using ITTV.WPF.MVVM.Commands;
 using ITTV.WPF.MVVM.Commands.BackgroundVideos;
-using ITTV.WPF.MVVM.Models;
-using ITTV.WPF.MVVM.Services;
 using Microsoft.Extensions.Options;
 
 namespace ITTV.WPF.MVVM.ViewModels

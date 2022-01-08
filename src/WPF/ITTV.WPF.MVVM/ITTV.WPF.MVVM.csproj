@@ -60,27 +60,17 @@
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
         </ApplicationDefinition>
-        <Compile Include="AllPaths.cs" />
         <Compile Include="App.xaml.cs">
             <DependentUpon>App.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
         <Compile Include="Commands\BackgroundVideos\BackgroundVideoEndedCommand.cs" />
-        <Compile Include="Commands\CommandBase.cs" />
         <Compile Include="Commands\NavigateBackCommand.cs" />
         <Compile Include="Commands\NavigateCommand.cs" />
         <Compile Include="Commands\Videos\SelectVideoCommand.cs" />
         <Compile Include="Commands\Videos\VideoEndedCommand.cs" />
         <Compile Include="Commands\Videos\VideoRestartedCommand.cs" />
-        <Compile Include="Helpers\BackgroundVideosHelper.cs" />
-        <Compile Include="Helpers\MireaTimeHelper.cs" />
-        <Compile Include="Models\Settings.cs" />
         <Compile Include="Properties\Annotations.cs" />
-        <Compile Include="Services\BackgroundVideoPlaylistService.cs" />
-        <Compile Include="Services\NavigationService.cs" />
-        <Compile Include="Services\UserInterfaceManager.cs" />
-        <Compile Include="Services\VideosManager.cs" />
-        <Compile Include="Stores\NavigationStore.cs" />
         <Compile Include="ViewModels\BackgroundVideoViewModel.cs" />
         <Compile Include="ViewModels\FooterViewModel.cs" />
         <Compile Include="ViewModels\GamesViewModel.cs" />
@@ -90,7 +80,6 @@
         <Compile Include="ViewModels\TimeTableViewModel.cs" />
         <Compile Include="ViewModels\VideoViewModel.cs" />
         <Compile Include="ViewModels\VideosViewModel.cs" />
-        <Compile Include="ViewModels\ViewModelBase.cs" />
         <Compile Include="Views\BackgroundVideoView.xaml.cs">
           <DependentUpon>BackgroundVideoView.xaml</DependentUpon>
         </Compile>
@@ -138,6 +127,10 @@
         </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\ITTV.WPF.Abstractions\ITTV.WPF.Abstractions.csproj">
+        <Project>{5b0feb43-3af6-4af4-8a95-29dd3e326995}</Project>
+        <Name>ITTV.WPF.Abstractions</Name>
+      </ProjectReference>
       <ProjectReference Include="..\ITTV.WPF.Core\ITTV.WPF.Core.csproj">
         <Project>{8ff442d1-2f42-4f30-b407-eb6464378da7}</Project>
         <Name>ITTV.WPF.Core</Name>
@@ -223,6 +216,7 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Commands\News" />
+      <Folder Include="Helpers" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

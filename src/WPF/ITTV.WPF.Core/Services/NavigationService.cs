@@ -1,7 +1,7 @@
-﻿using ITTV.WPF.MVVM.Stores;
-using ITTV.WPF.MVVM.ViewModels;
+﻿using ITTV.WPF.Abstractions.Base.ViewModel;
+using ITTV.WPF.Core.Stores;
 
-namespace ITTV.WPF.MVVM.Services
+namespace ITTV.WPF.Core.Services
 {
     public class NavigationService<TViewModel> where TViewModel : ViewModelBase
     {

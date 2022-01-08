@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace ITTV.WPF.MVVM.Helpers
+namespace ITTV.WPF.Core.Helpers
 {
     public static class BackgroundVideosHelper
     {
@@ -15,7 +15,7 @@ namespace ITTV.WPF.MVVM.Helpers
                 ".mp4"
             };
             
-            var fileNames = Directory.GetFiles(AllPaths.GetDirectoryBackgroundVideosPath)
+            var fileNames = Directory.GetFiles(PathHelper.GetDirectoryBackgroundVideosPath)
                 .Select(Path.GetFileName);
             
             var filteredFileNames = fileNames.Where(x =>
