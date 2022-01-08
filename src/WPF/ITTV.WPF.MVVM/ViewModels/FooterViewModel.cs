@@ -13,6 +13,8 @@ namespace ITTV.WPF.MVVM.ViewModels
         private readonly UserInterfaceManager _userInterfaceManager;
         private readonly NavigationStore _navigationStore;
 
+        private DispatcherTimer _timer;
+
         public bool IsDarkTheme => _userInterfaceManager.IsDarkTheme;
 
         public FooterViewModel(NavigationStore navigationStore,
@@ -117,13 +119,13 @@ namespace ITTV.WPF.MVVM.ViewModels
 
         private void StartTimer()
         {
-            var timer = new DispatcherTimer(DispatcherPriority.Background)
+            _timer = new DispatcherTimer(DispatcherPriority.Background)
             {
                 Interval = TimeSpan.FromSeconds(1),
                 IsEnabled = true
             };
             
-            timer.Tick += (_, _) =>
+            _timer.Tick += (_, _) =>
             {
                 Recalc();
             };
@@ -137,6 +139,13 @@ namespace ITTV.WPF.MVVM.ViewModels
         private void OnThemeUpdated()
         {
             OnPropertyChanged(nameof(IsDarkTheme));
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            
+            _timer.Stop();
         }
     }
 }
