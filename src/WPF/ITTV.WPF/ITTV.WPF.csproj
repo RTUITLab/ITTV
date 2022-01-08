@@ -131,9 +131,6 @@
       <DependentUpon>TimeTableList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Network\NewsFromSite.cs" />
-    <Compile Include="Interface\Pages\Courses.xaml.cs">
-      <DependentUpon>Courses.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Interface\KinnectButtons\HandOverHeadEngagementModel.cs" />
     <Compile Include="Interface\Pages\NewsPage.xaml.cs">
       <DependentUpon>NewsPage.xaml</DependentUpon>
@@ -149,9 +146,6 @@
     </Compile>
     <Compile Include="Interface\Pages\VideoPage.xaml.cs">
       <DependentUpon>VideoPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interface\KinnectButtons\SelectionDisplay.xaml.cs">
-      <DependentUpon>SelectionDisplay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Network\TimeTableNetwork.cs" />
     <Page Include="Interface\Common\StandardStyles.xaml">
@@ -210,10 +204,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Interface\Pages\Courses.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Interface\Pages\NewsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -231,10 +221,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Interface\Pages\VideoPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Interface\KinnectButtons\SelectionDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
