@@ -65,11 +65,13 @@
             <SubType>Code</SubType>
         </Compile>
         <Compile Include="Commands\BackgroundVideos\BackgroundVideoEndedCommand.cs" />
+        <Compile Include="Commands\Games\SelectGameCommand.cs" />
         <Compile Include="Commands\NavigateBackCommand.cs" />
         <Compile Include="Commands\NavigateCommand.cs" />
         <Compile Include="Commands\Videos\SelectVideoCommand.cs" />
         <Compile Include="Commands\Videos\VideoEndedCommand.cs" />
         <Compile Include="Commands\Videos\VideoRestartedCommand.cs" />
+        <Compile Include="Models\Game.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="ViewModels\BackgroundVideoViewModel.cs" />
         <Compile Include="ViewModels\FooterViewModel.cs" />
@@ -216,7 +218,6 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Commands\News" />
-      <Folder Include="Helpers" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,7 +6,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:k="http://schemas.microsoft.com/kinect/2014"
-    xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels">
+    xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
+    xmlns:models="clr-namespace:ITTV.WPF.MVVM.Models">
 
     <!-- Standard Colors and Brushes -->
 
@@ -230,8 +231,13 @@
         </Button>
     </DataTemplate>
 
-    <DataTemplate x:Key="GamesTemplate">
-        <Button Margin="50" Width="740" HorizontalAlignment="Stretch" Style="{StaticResource KinectTileButton}">
+    <DataTemplate x:Key="GamesTemplate"
+                DataType="{x:Type models:Game}">
+        <Button Margin="50" 
+                Width="740" 
+                HorizontalAlignment="Stretch" 
+                Style="{StaticResource KinectTileButton}"
+                Command="{Binding SelectGameCommand}">
             <Border>
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
