@@ -29,7 +29,7 @@ namespace ITTV.WPF.MVVM.ViewModels
         private void SyncVideos()
         {
             var videos = _videosManager.GetVideos()
-                .Select(x => new VideoViewModel(Path.GetFileName(x.AbsoluteUri), 
+                .Select(x => new VideoViewModel(Path.GetFileNameWithoutExtension(x.OriginalString), 
                     x,
                     _navigationStore));
             
