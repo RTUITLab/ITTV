@@ -106,9 +106,8 @@ namespace ITTV.WPF.MVVM.Models
                     return;
                 
                 if (_backgroundVideoOrder != null 
-                    && value != null 
-                    && _backgroundVideoOrder.Count == value.Count 
-                    && _backgroundVideoOrder.All(value.Contains))
+                    && value != null &&
+                    _backgroundVideoOrder.SequenceEqual(value))
                     return;
                 
                 _backgroundVideoOrder = value;
