@@ -12,7 +12,7 @@ namespace ITTV.WPF.MVVM.Services
 
         public IEnumerable<Uri> GetVideos()
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), AllPaths.GetDirectoryVideosPath);
+            var path = AllPaths.GetDirectoryVideosPath;
             var files = Directory.GetFiles(path);
 
             var supportedVideoFormats = new[]

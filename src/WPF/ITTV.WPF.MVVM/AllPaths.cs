@@ -4,7 +4,7 @@ namespace ITTV.WPF.MVVM
 {
     public static class AllPaths
     {
-        private const string DirectoryVideosPath = @"Videos\";
+        private static readonly string DirectoryVideosPath = Path.Combine(Directory.GetCurrentDirectory(), @"Videos\");
         public static string GetDirectoryVideosPath
         {
             get
@@ -14,7 +14,7 @@ namespace ITTV.WPF.MVVM
             }
         }
         
-        private const string DirectoryBackgroundVideosPath = @"Videos\Background\";
+        private static readonly string DirectoryBackgroundVideosPath = Path.Combine(Directory.GetCurrentDirectory(),@"Videos\Background\");
         public static string GetDirectoryBackgroundVideosPath
         {
             get
@@ -24,7 +24,7 @@ namespace ITTV.WPF.MVVM
             }
         }
         
-        private const string DirectoryGamesPath = @"Games\";
+        private static readonly string DirectoryGamesPath = Path.Combine(Directory.GetCurrentDirectory(), @"Games\");
         public static string GetDirectoryGamesPath
         {
             get
@@ -34,7 +34,7 @@ namespace ITTV.WPF.MVVM
             }
         }
         
-        private const string DirectoryCachePath = @"Cache\";
+        private static readonly string DirectoryCachePath = Path.Combine(Directory.GetCurrentDirectory(), @"Cache\");
         public static string GetDirectoryCachePath
         {
             get
@@ -44,7 +44,7 @@ namespace ITTV.WPF.MVVM
             }
         }
         
-        private const string DirectoryTimeTablesPath = @"TimeTables\";
+        private static readonly string DirectoryTimeTablesPath = Path.Combine(Directory.GetCurrentDirectory(), @"TimeTables\");
         public static string GetDirectoryTimeTablesPath
         {
             get
@@ -54,7 +54,7 @@ namespace ITTV.WPF.MVVM
             }
         }
 
-        private const string DirectoryGestureDatabasePath = @"Gesture\";
+        private static readonly string DirectoryGestureDatabasePath = Path.Combine(Directory.GetCurrentDirectory(), @"Gesture\");
         public static string GetDirectoryGestureDatabasePath
         {
             get
@@ -64,7 +64,7 @@ namespace ITTV.WPF.MVVM
             }
         }
 
-        private const string DirectoryEggPath = @"vgbtechs\";
+        private static readonly string DirectoryEggPath = Path.Combine(Directory.GetCurrentDirectory(), @"vgbtechs\");
         public static string GetDirectoryEggPath
         {
             get
@@ -75,7 +75,7 @@ namespace ITTV.WPF.MVVM
         }
 
         public const string FileSettingsPath = "settings.json";
-        public const string FileLogsPath = "./logs.txt";
+        public const string FileLogsPath = "logs.txt";
 
         public static readonly string FileGroupsCachePath = GetDirectoryCachePath + "groups.json";
         public static readonly string FileNewsCachePath = GetDirectoryCachePath + "news.json";

@@ -17,7 +17,7 @@ namespace ITTV.WPF.MVVM.Services
 
         public BackgroundVideoPlaylistService(IOptions<Settings> settings)
         {
-            var backgroundVideoDirectory = Path.Combine(Directory.GetCurrentDirectory(), AllPaths.GetDirectoryBackgroundVideosPath);
+            var backgroundVideoDirectory = AllPaths.GetDirectoryBackgroundVideosPath;
 
             var playlistFromSettings =
                 BackgroundVideosHelper.FilteringByExistBackgroundVideos(settings.Value.BackgroundVideoOrder);
