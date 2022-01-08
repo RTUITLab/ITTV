@@ -4,14 +4,14 @@ using System.IO;
 using System.Linq;
 using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Core.Helpers;
-using ITTV.WPF.MVVM.Models;
+using ITTV.WPF.MVVM.DTOs;
 
 namespace ITTV.WPF.MVVM.ViewModels
 {
     public class GamesViewModel : ViewModelBase
     {
-        private readonly ObservableCollection<Game> _games = new();
-        public IReadOnlyCollection<Game> Games => _games;
+        private readonly ObservableCollection<GameDto> _games = new();
+        public IReadOnlyCollection<GameDto> Games => _games;
 
         public GamesViewModel()
         {
@@ -21,7 +21,7 @@ namespace ITTV.WPF.MVVM.ViewModels
         private void SyncGames()
         {
             var games = Directory.GetDirectories(PathHelper.GetDirectoryGamesPath)
-                .Select(x => new Game(Path.GetFileName(x)));
+                .Select(x => new GameDto(Path.GetFileName(x)));
             foreach (var game in games)
             {
                 _games.Add(game);

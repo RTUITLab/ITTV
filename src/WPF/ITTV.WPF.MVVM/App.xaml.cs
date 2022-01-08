@@ -71,6 +71,10 @@ namespace ITTV.WPF.MVVM
             serviceCollection.AddSingleton<NewsViewModel>();
             serviceCollection.AddSingleton<NavigationService<NewsViewModel>>();
             serviceCollection.AddScoped<NavigateCommand<NewsViewModel>>();
+            
+            serviceCollection.AddSingleton<NewsElementViewModel>();
+            serviceCollection.AddSingleton<NavigationService<NewsElementViewModel>>();
+            serviceCollection.AddScoped<NavigateCommand<NewsElementViewModel>>();
 
             serviceCollection.AddSingleton<TimeTableViewModel>();
             serviceCollection.AddSingleton<NavigationService<TimeTableViewModel>>();
@@ -87,6 +91,7 @@ namespace ITTV.WPF.MVVM
 
             serviceCollection.AddSingleton<IMireaApiClient, MireaApiClient>();
             serviceCollection.AddScoped<MireaApiProvider>();
+            
         }
     }
 }

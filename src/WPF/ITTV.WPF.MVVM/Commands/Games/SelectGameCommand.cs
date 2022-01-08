@@ -1,15 +1,15 @@
 ﻿using System.Diagnostics;
 using ITTV.WPF.Abstractions.Base.Command;
-using ITTV.WPF.MVVM.Models;
+using ITTV.WPF.MVVM.DTOs;
 
 namespace ITTV.WPF.MVVM.Commands.Games
 {
     public class SelectGameCommand : CommandBase
     {
-        private readonly Game _game;
-        public SelectGameCommand(Game game)
+        private readonly GameDto gameDto;
+        public SelectGameCommand(GameDto gameDto)
         {
-            _game = game;
+            this.gameDto = gameDto;
         }
         public override void Execute(object parameter)
         {
@@ -17,7 +17,7 @@ namespace ITTV.WPF.MVVM.Commands.Games
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = _game.ExecuteFileUri.AbsoluteUri
+                    FileName = gameDto.ExecuteFileUri.AbsoluteUri
                 }
             };
 

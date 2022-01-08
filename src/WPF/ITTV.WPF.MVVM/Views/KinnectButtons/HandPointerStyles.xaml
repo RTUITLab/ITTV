@@ -7,7 +7,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:k="http://schemas.microsoft.com/kinect/2014"
     xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
-    xmlns:models="clr-namespace:ITTV.WPF.MVVM.Models">
+    xmlns:models="clr-namespace:ITTV.WPF.MVVM.DTOs">
 
     <!-- Standard Colors and Brushes -->
 
@@ -185,12 +185,16 @@
         </Button>
     </DataTemplate>
 
-    <DataTemplate x:Key="NewsTemplate">
-        <Button Margin="50" Width="740" Style="{StaticResource KinectTileButton}">
+    <DataTemplate x:Key="NewsTemplate"
+                  DataType="{x:Type viewModels:NewsElementViewModel}">
+        <Button Margin="50" 
+                Width="740" 
+                Style="{StaticResource KinectTileButton}"
+                Command="{Binding SelectNewsCommand}">
             <Border>
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <StackPanel Margin="15" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                        <Image x:Name="NewsImage" Source="{Binding Source}" Height="400" Stretch="Uniform"  Margin="15" HorizontalAlignment="Center"/>
+                        <Image x:Name="NewsImage" Source="{Binding CurrentImage}" Height="400" Stretch="Uniform"  Margin="15" HorizontalAlignment="Center"/>
                         <TextBlock Text="{Binding Title}" 
                                    Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" 
                                    Style="{StaticResource TitleTextStyle}" 
@@ -230,9 +234,11 @@
             </Border>
         </Button>
     </DataTemplate>
+    
+    
 
     <DataTemplate x:Key="GamesTemplate"
-                DataType="{x:Type models:Game}">
+                DataType="{x:Type models:GameDto}">
         <Button Margin="50" 
                 Width="740" 
                 HorizontalAlignment="Stretch" 
