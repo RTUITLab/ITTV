@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{566BB0F6-0055-40B9-82C9-FE5E071B85B1}</ProjectGuid>
+        <OutputType>WinExe</OutputType>
+        <RootNamespace>ITTV.WPF.MVVM</RootNamespace>
+        <AssemblyName>ITTV.WPF.MVVM</AssemblyName>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+        <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <WarningLevel>4</WarningLevel>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <UserSecretsId>df078d84-c155-4c70-9f15-8e6e16091b9e</UserSecretsId>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <LangVersion>9.0</LangVersion>
+        <UserSecretsId>df078d84-c155-4c70-9f15-8e6e16091b9e</UserSecretsId>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <LangVersion>9.0</LangVersion>
+        <UserSecretsId>df078d84-c155-4c70-9f15-8e6e16091b9e</UserSecretsId>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Microsoft.Extensions.Configuration" />
+        <Reference Include="Microsoft.Kinect.Wpf.Controls, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+          <HintPath>..\..\..\..\..\.nuget\packages\microsoft.kinect.wpf.controls\2.0.1410.19000\lib\net4.5\Microsoft.Kinect.Wpf.Controls.dll</HintPath>
+        </Reference>
+        <Reference Include="mscorlib" />
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Xml" />
+        <Reference Include="System.Xaml">
+            <RequiredTargetFramework>4.0</RequiredTargetFramework>
+        </Reference>
+        <Reference Include="WindowsBase" />
+        <Reference Include="PresentationCore" />
+        <Reference Include="PresentationFramework" />
+    </ItemGroup>
+    <ItemGroup>
+        <ApplicationDefinition Include="App.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <SubType>Designer</SubType>
+        </ApplicationDefinition>
+        <Compile Include="AllPaths.cs" />
+        <Compile Include="App.xaml.cs">
+            <DependentUpon>App.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Include="Commands\BackgroundVideos\BackgroundVideoEndedCommand.cs" />
+        <Compile Include="Commands\CommandBase.cs" />
+        <Compile Include="Commands\NavigateBackCommand.cs" />
+        <Compile Include="Commands\NavigateCommand.cs" />
+        <Compile Include="Commands\Videos\SelectVideoCommand.cs" />
+        <Compile Include="Commands\Videos\VideoEndedCommand.cs" />
+        <Compile Include="Commands\Videos\VideoRestartedCommand.cs" />
+        <Compile Include="Helpers\BackgroundVideosHelper.cs" />
+        <Compile Include="Helpers\MireaTimeHelper.cs" />
+        <Compile Include="Models\Settings.cs" />
+        <Compile Include="Models\Video.cs" />
+        <Compile Include="Properties\Annotations.cs" />
+        <Compile Include="Services\BackgroundVideoPlaylistService.cs" />
+        <Compile Include="Services\NavigationService.cs" />
+        <Compile Include="Services\UserInterfaceManager.cs" />
+        <Compile Include="Services\VideosManager.cs" />
+        <Compile Include="Stores\NavigationStore.cs" />
+        <Compile Include="ViewModels\BackgroundVideoViewModel.cs" />
+        <Compile Include="ViewModels\FooterViewModel.cs" />
+        <Compile Include="ViewModels\GamesViewModel.cs" />
+        <Compile Include="ViewModels\MainViewModel.cs" />
+        <Compile Include="ViewModels\MenuViewModel.cs" />
+        <Compile Include="ViewModels\NewsViewModel.cs" />
+        <Compile Include="ViewModels\TimeTableViewModel.cs" />
+        <Compile Include="ViewModels\VideoViewModel.cs" />
+        <Compile Include="ViewModels\VideosViewModel.cs" />
+        <Compile Include="ViewModels\ViewModelBase.cs" />
+        <Compile Include="Views\BackgroundVideoView.xaml.cs">
+          <DependentUpon>BackgroundVideoView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Converters\CustomBooleanToColorForDarkThemeConverter.cs" />
+        <Compile Include="Views\Converters\CustomBooleanToColorForDarkThemeTextConverter.cs" />
+        <Compile Include="Views\Converters\CustomBooleanToVisibilityConverter.cs" />
+        <Compile Include="Views\FooterView.xaml.cs">
+          <DependentUpon>FooterView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\GamesView.xaml.cs">
+          <DependentUpon>GamesView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\MainWindow.xaml.cs">
+          <DependentUpon>MainWindow.xaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
+        <Compile Include="Views\MenuView.xaml.cs">
+          <DependentUpon>MenuView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\NewsView.xaml.cs">
+          <DependentUpon>NewsView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\TimeTableView.xaml.cs">
+          <DependentUpon>TimeTableView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\VideoView.xaml.cs">
+          <DependentUpon>VideoView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\VideosView.xaml.cs">
+          <DependentUpon>VideosView.xaml</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Properties\AssemblyInfo.cs">
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Include="Properties\Resources.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Include="Properties\Resources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\ITTV.WPF.Core\ITTV.WPF.Core.csproj">
+        <Project>{8ff442d1-2f42-4f30-b407-eb6464378da7}</Project>
+        <Name>ITTV.WPF.Core</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\ITTV.WPF.Sources\ITTV.WPF.Sources.csproj">
+        <Project>{7b2f4676-e48e-4e45-9bcb-2973f1c00c1b}</Project>
+        <Name>ITTV.WPF.Sources</Name>
+      </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="App.config" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Configuration">
+        <Version>6.0.0</Version>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions">
+        <Version>6.0.0</Version>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Configuration.Binder">
+        <Version>6.0.0</Version>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables">
+        <Version>6.0.0</Version>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json">
+        <Version>6.0.0</Version>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets">
+        <Version>6.0.0</Version>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection">
+        <Version>6.0.0</Version>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+        <Version>6.0.0</Version>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions">
+        <Version>6.0.0</Version>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Kinect.Wpf.Controls">
+        <Version>2.0.1410.19000</Version>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
+        <Version>1.1.39</Version>
+      </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Include="Images\Logos.xaml">
+        <SubType>Designer</SubType>
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Include="Views\BackgroundVideoView.xaml" />
+      <Page Include="Views\Base\StandardStyles.xaml">
+        <SubType>Designer</SubType>
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Include="Views\FooterView.xaml" />
+      <Page Include="Views\GamesView.xaml" />
+      <Page Include="Views\KinnectButtons\HandPointerStyles.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Include="Views\MainWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Include="Views\MenuView.xaml" />
+      <Page Include="Views\NewsView.xaml" />
+      <Page Include="Views\TimeTableView.xaml" />
+      <Page Include="Views\VideoView.xaml" />
+      <Page Include="Views\VideosView.xaml" />
+    </ItemGroup>
+    <ItemGroup>
+      <Resource Include="Images\Gerb.png" />
+      <Resource Include="Images\Kinect.ico" />
+      <Resource Include="Images\Play.png" />
+      <Resource Include="Views\KinnectButtons\HighlightRectangle.png" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="configuration.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Commands\News" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
