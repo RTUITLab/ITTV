@@ -7,6 +7,7 @@
 using System;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using ITTV.WPF.Views;
 
 namespace ITTV.WPF.Interface.Pages
 {
@@ -15,11 +16,13 @@ namespace ITTV.WPF.Interface.Pages
     /// </summary>
     public partial class ScrollViewerSample : UserControl
     {
+        private readonly MainWindow _mainWindow;
         /// <summary>
         /// Initializes a new instance of the <see cref="ScrollViewerSample"/> class.
         /// </summary>
-        public ScrollViewerSample(string ImageSource)
+        public ScrollViewerSample(string ImageSource, MainWindow mainWindow)
         {
+            _mainWindow = mainWindow;
             this.InitializeComponent();
 
             BitmapImage bi3 = new BitmapImage();
@@ -33,7 +36,7 @@ namespace ITTV.WPF.Interface.Pages
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            MainWindow.Instance.UiInvoked();
+            _mainWindow.UiInvoked();
         }
     }
 }

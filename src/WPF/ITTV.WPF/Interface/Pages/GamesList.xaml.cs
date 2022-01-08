@@ -4,6 +4,7 @@ using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using ITTV.WPF.DataModel.Models;
+using ITTV.WPF.Views;
 
 namespace ITTV.WPF.Interface.Pages
 {
@@ -12,8 +13,11 @@ namespace ITTV.WPF.Interface.Pages
     /// </summary>
     public partial class GamesList : UserControl
     {
-        public GamesList()
+        private readonly MainWindow _mainWindow;
+        public GamesList(MainWindow mainWindow)
         {
+            _mainWindow = mainWindow;
+            
             InitializeComponent();
 
             var group = DataSource.GetGroup("Games");
@@ -29,15 +33,15 @@ namespace ITTV.WPF.Interface.Pages
 
             if (dataExecuteBase.Parameters != null)
             {
-                MainWindow.Instance.ControlsBasicsWindow.Topmost = false;
+                _mainWindow.ControlsBasicsWindow.Topmost = false;
 
                 Process game = new Process();
                 game.StartInfo.FileName = dataExecuteBase.Parameters[0];
                 game.EnableRaisingEvents = true;
-                game.Exited += (InnerSender, InnerE) => { MainWindow.Instance.Ui(() => { MainWindow.Instance.ControlsBasicsWindow.Topmost = true; }); };
+                game.Exited += (InnerSender, InnerE) => { _mainWindow.Ui(() => { _mainWindow.ControlsBasicsWindow.Topmost = true; }); };
                 game.Start();
 
-                ButtonAutomationPeer peer = new ButtonAutomationPeer(MainWindow.Instance.backButton);
+                ButtonAutomationPeer peer = new ButtonAutomationPeer(_mainWindow.backButton);
                 IInvokeProvider invokeProv = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
                 invokeProv.Invoke();
             }
@@ -45,7 +49,7 @@ namespace ITTV.WPF.Interface.Pages
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            MainWindow.Instance.UiInvoked();
+            _mainWindow.UiInvoked();
         }
     }
 }

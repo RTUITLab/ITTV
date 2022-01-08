@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ITTV.WPF.Views;
 using Newtonsoft.Json;
 
 namespace ITTV.WPF.DataModel.Models
 { 
-    public class Settings : Singleton<Settings>
+    public class Settings
     {
         public event Action SettingsUpdated;
         public bool NeedCheckTime
         {
             get
             {
-                if (Instance.needCheckTime == null)
+                if (needCheckTime == null)
                 {
                     UpdateSettings();
                 }
-                return (bool) Instance.needCheckTime;
+                return (bool) needCheckTime;
             }
         }
 
@@ -25,11 +26,11 @@ namespace ITTV.WPF.DataModel.Models
         {
             get
             {
-                if (Instance.sleepHour == null)
+                if (sleepHour == null)
                 {
                     UpdateSettings();
                 }
-                return (int)Instance.sleepHour;
+                return (int) sleepHour;
             }
         }
 
@@ -37,11 +38,11 @@ namespace ITTV.WPF.DataModel.Models
         {
             get
             {
-                if (Instance.isAdmin == null)
+                if (isAdmin == null)
                 {
                     UpdateSettings();
                 }
-                return Instance.isAdmin != null && (bool)Instance.isAdmin;
+                return (bool) isAdmin;
             }
         }
 
@@ -49,12 +50,12 @@ namespace ITTV.WPF.DataModel.Models
         {
             get
             {
-                if (Instance.videoVolume == null)
+                if (videoVolume == null)
                 {
                     UpdateSettings();
                 }
 
-                return Math.Min(1, Math.Max(0, Instance.videoVolume.Value) / 100);
+                return Math.Min(1, Math.Max(0, videoVolume.Value) / 100);
             }
         }
 
@@ -62,11 +63,11 @@ namespace ITTV.WPF.DataModel.Models
         {
             get
             {
-                if (Instance.minForUpdate == null)
+                if (minForUpdate == null)
                 {
                     UpdateSettings();
                 }
-                return (int)Instance.minForUpdate;
+                return (int) minForUpdate;
             }
         }
 
@@ -74,11 +75,11 @@ namespace ITTV.WPF.DataModel.Models
         {
             get
             {
-                if (Instance.backgroundVideoOrder == null)
+                if (backgroundVideoOrder == null)
                 {
                     UpdateSettings();
                 }
-                return Instance.backgroundVideoOrder;
+                return backgroundVideoOrder;
             }
         }
         
@@ -102,18 +103,18 @@ namespace ITTV.WPF.DataModel.Models
             
             var data = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(AllPaths.FileSettingsPath));
 
-            instance.backgroundVideoOrder = data?.backgroundVideoOrder;
-            instance.needCheckTime = data?.needCheckTime;
-            instance.sleepHour = data?.sleepHour;
-            instance.isAdmin = data?.isAdmin;
-            instance.minForUpdate = data?.minForUpdate;
-            instance.videoVolume = data?.videoVolume;
+            backgroundVideoOrder = data?.backgroundVideoOrder;
+            needCheckTime = data?.needCheckTime;
+            sleepHour = data?.sleepHour;
+            isAdmin = data?.isAdmin;
+            minForUpdate = data?.minForUpdate;
+            videoVolume = data?.videoVolume;
 
 
-            if (instance.backgroundVideoOrder != null 
-                && instance.backgroundVideoOrder.Any(uri => !File.Exists(uri)))
+            if (backgroundVideoOrder != null 
+                && backgroundVideoOrder.Any(uri => !File.Exists(uri)))
             {
-                instance.backgroundVideoOrder = GetBackgroundVideos()
+                backgroundVideoOrder = GetBackgroundVideos()
                     .ToList();
             }
 
@@ -139,7 +140,7 @@ namespace ITTV.WPF.DataModel.Models
                 if (!fileSupported)
                 {
                     //TODO: Rewrite logger
-                    MainWindow.Log($"The format of the background video file {x} is not supported");
+                    //MainWindow.Log($"The format of the background video file {x} is not supported");
                 }
 
                 return fileSupported;

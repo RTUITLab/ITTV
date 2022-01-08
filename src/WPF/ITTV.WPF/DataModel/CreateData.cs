@@ -7,14 +7,22 @@ using Newtonsoft.Json;
 
 namespace ITTV.WPF.DataModel
 {
-    public class CreateData : Singleton<CreateData>
+    public class CreateData
     {
+        private readonly DataSource _dataSource;
+        private readonly NewsFromSite _newsFromSite;
+        public CreateData(DataSource dataSource,
+            NewsFromSite newsFromSite)
+        {
+            _dataSource = dataSource;
+            _newsFromSite = newsFromSite;
+        }
         public void GetAllTimetable()
         {
             //TODO: Cache all timetable
         }
 
-        public void GetAllVideos()
+        public void SyncVideos()
         {
             const string uniqueId = "Video";
             
@@ -38,17 +46,17 @@ namespace ITTV.WPF.DataModel
                 i++;
             }
 
-            DataSource.Instance.AddToGroups(videoGroup);
+            _dataSource.AddToGroups(videoGroup);
         }        
 
-        public void GetNewsFromFile()
+        public void SyncNewsFromCache()
         {
             var newsGroup = new DataCollection<object>(
                     "News",
                     "Новости",
                     DataCollection<object>.GroupType.News);
             
-            NewsFromSite.Instance.SyncNewsFromSite();
+            _newsFromSite.SyncNewsFromSite();
 
             var json = File.ReadAllText(AllPaths.FileNewsCachePath);
             var newsList = JsonConvert.DeserializeObject<List<News>>(json);
@@ -58,10 +66,10 @@ namespace ITTV.WPF.DataModel
                 newsGroup.Items.Add(news);
             }
 
-            DataSource.Instance.AddToGroups(newsGroup);
+            _dataSource.AddToGroups(newsGroup);
         }
 
-        public void GetGames()
+        public void SyncGames()
         {
             var fullPath = AllPaths.GetDirectoryGamesPath;
 
@@ -91,7 +99,7 @@ namespace ITTV.WPF.DataModel
                 i++;
             }
 
-            DataSource.Instance.AddToGroups(gamesGroup);
+            _dataSource.AddToGroups(gamesGroup);
         }
     }
 }

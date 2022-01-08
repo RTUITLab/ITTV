@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ITTV.WPF.DataModel.Models;
+using ITTV.WPF.Views;
 using Newtonsoft.Json;
 
 namespace ITTV.WPF.Network
@@ -32,7 +33,7 @@ namespace ITTV.WPF.Network
             }
             catch (HttpRequestException exception)
             {
-                MainWindow.Log(exception.ToString());
+                //MainWindow.Log(exception.ToString());
             }
         }
 
@@ -47,11 +48,11 @@ namespace ITTV.WPF.Network
                 return answer;
             } catch (HttpRequestException exception)
             {
-                MainWindow.Log(exception.ToString());
+                //MainWindow.Log(exception.ToString());
                 return null;
             } catch (TaskCanceledException exception)
             {
-                MainWindow.Log(exception.ToString());
+                //MainWindow.Log(exception.ToString());
                 return null;
             }
         }

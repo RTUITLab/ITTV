@@ -1,0 +1,13 @@
+﻿{
+  "Settings": {
+    "isAdminMode": true,
+    "needCheckTime": true,
+    "startWorkTime": "08:00:00",
+    "endWorkTime": "22:00:00",
+    "videoVolume": 0.6,
+    "backgroundVideoOrder": [
+      "1.mp4",
+      "ASFASFSAFsa.mp4"
+    ]
+  }
+}

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ITTV.WPF.DataModel;
 using ITTV.WPF.DataModel.Models;
+using ITTV.WPF.Views;
 
 namespace ITTV.WPF.Interface.Pages
 {
@@ -11,27 +12,41 @@ namespace ITTV.WPF.Interface.Pages
     /// </summary>
     public partial class BackgroundVideo : UserControl
     {
+        private readonly MainWindow _mainWindow;
+        private readonly Menu _menu;
+        
         private BackgroundVideoPlaylist backgroundVideoPlaylist;
 
-        public BackgroundVideo()
+        private readonly Settings _settings;
+        private readonly TimeTable _timeTable;
+
+        public BackgroundVideo(Settings settings,
+            TimeTable timeTable, 
+            MainWindow mainWindow, 
+            Menu menu)
         {
+            _settings = settings;
+            _timeTable = timeTable;
+            _mainWindow = mainWindow;
+            _menu = menu;
+
             InitializeComponent();
 
-            backgroundVideoPlaylist = new BackgroundVideoPlaylist();
+            backgroundVideoPlaylist = new BackgroundVideoPlaylist(settings);
 
             Loaded += BackgroundVideo_Loaded;
             this.Unloaded += BackgroundVideo_Unloaded;
-            Settings.Instance.SettingsUpdated += Settings_SettingsUpdated;
+            settings.SettingsUpdated += Settings_SettingsUpdated;
 
-            TimeTable.Instance.CloseTimeTable();
+            timeTable.CloseTimeTable();
 
-            MainWindow.Instance.handHelper.OnHoverStart += () =>
+            _mainWindow.handManager.OnHoverStart += () =>
             {
                 try
                 {
                     UI(() =>
                     {
-                        MainWindow.Instance.UiInvoked();
+                        _mainWindow.UiInvoked();
                         if (IsButtonInvisible())
                         {
                             SetButtonVisibility(Visibility.Visible);
@@ -40,7 +55,7 @@ namespace ITTV.WPF.Interface.Pages
                 }
                 catch (Exception ex)
                 {
-                    MainWindow.Log(ex.Message);
+                    //MainWindow.Log(ex.Message);
                     throw;
                 }
             };
@@ -48,19 +63,19 @@ namespace ITTV.WPF.Interface.Pages
 
         private void Settings_SettingsUpdated()
         {
-            MainWindow.Instance.Ui(() => {
-                BackgroungVideo.Volume = Settings.Instance.VideoVolume;
-                backgroundVideoPlaylist = new BackgroundVideoPlaylist();
+            _mainWindow.Ui(() => {
+                BackgroungVideo.Volume = _settings.VideoVolume;
+                backgroundVideoPlaylist = new BackgroundVideoPlaylist(_settings);
             });
         }
 
         private void BackgroundVideo_Loaded(object sender, RoutedEventArgs e)
         {
-            MainWindow.Log("BackgroundVideo loaded");
+            //MainWindow.Log("BackgroundVideo loaded");
 
             if (backgroundVideoPlaylist.currentVideo != null)
             {
-                BackgroungVideo.Volume = Settings.Instance.VideoVolume;
+                BackgroungVideo.Volume = _settings.VideoVolume;
                 BackgroungVideo.Source = backgroundVideoPlaylist.currentVideo;
                 BackgroungVideo.MediaEnded += BackgroungVideo_MediaEnded;
                 BackgroungVideo.Play();
@@ -69,7 +84,7 @@ namespace ITTV.WPF.Interface.Pages
 
         private void BackgroundVideo_Unloaded(object sender, RoutedEventArgs e)
         {
-            MainWindow.Log("BackgroundVideo unloaded method");
+            //MainWindow.Log("BackgroundVideo unloaded method");
 
             BackgroungVideo.Stop();
         }
@@ -78,7 +93,7 @@ namespace ITTV.WPF.Interface.Pages
         {
             Uri nextVideo = backgroundVideoPlaylist.NextVideo();
 
-            MainWindow.Log("Next BackgroundVideo - " + nextVideo.ToString().Substring(nextVideo.ToString().LastIndexOf("/") + 1));
+            //MainWindow.Log("Next BackgroundVideo - " + nextVideo.ToString().Substring(nextVideo.ToString().LastIndexOf("/") + 1));
             
             BackgroungVideo.Stop();
             BackgroungVideo.Source = nextVideo;
@@ -92,8 +107,8 @@ namespace ITTV.WPF.Interface.Pages
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.Instance.UiInvoked();
-            MainWindow.Instance.content.NavigateTo(new Menu());
+            _mainWindow.UiInvoked();
+            _mainWindow.ContentV2.NavigateTo(_menu);
         }
 
         public bool IsButtonInvisible()
