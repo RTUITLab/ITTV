@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows;
 using ITTV.WPF.Core.Models;
+using ITTV.WPF.Core.Providers.MireaApi;
 using ITTV.WPF.Core.Services;
+using ITTV.WPF.Core.Services.ApiClient;
 using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.Commands;
 using ITTV.WPF.MVVM.Commands.BackgroundVideos;
@@ -61,7 +63,6 @@ namespace ITTV.WPF.MVVM
             serviceCollection.AddSingleton<GamesViewModel>();
             serviceCollection.AddSingleton<NavigationService<GamesViewModel>>();
             serviceCollection.AddScoped<NavigateCommand<GamesViewModel>>();
-
             
             serviceCollection.AddSingleton<VideosViewModel>();
             serviceCollection.AddSingleton<NavigationService<VideosViewModel>>();
@@ -83,6 +84,9 @@ namespace ITTV.WPF.MVVM
             serviceCollection.AddScoped<BackgroundVideoEndedCommand>();
             serviceCollection.AddSingleton<UserInterfaceManager>();
             serviceCollection.AddSingleton<VideosManager>();
+
+            serviceCollection.AddSingleton<IMireaApiClient, MireaApiClient>();
+            serviceCollection.AddScoped<MireaApiProvider>();
         }
     }
 }
