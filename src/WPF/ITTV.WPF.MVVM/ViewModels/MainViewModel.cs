@@ -42,8 +42,11 @@ namespace ITTV.WPF.MVVM.ViewModels
             if (_navigationStore.IsInactiveMode)
                 return;
             
-            _navigationStore.NavigateToInactiveMode();
-            _userInterfaceManager.ChangeTheme();
+            var navigated = _navigationStore.NavigateToInactiveMode();
+            if (navigated)
+            {
+                _userInterfaceManager.ChangeTheme();
+            }
         }
         private void OnCurrentViewModelChanged()
         {
