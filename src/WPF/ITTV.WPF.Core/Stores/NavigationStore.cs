@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using ITTV.WPF.Abstractions.Base.ViewModel;
+using ITTV.WPF.Core.Services;
 
 namespace ITTV.WPF.Core.Stores
 {
     public sealed class NavigationStore
     {
+        public bool IsInactiveMode => _historyViewModels.Count == 1;
+        
         private ViewModelBase _currentViewModel;
         public ViewModelBase CurrentViewModel
         {
@@ -57,6 +60,18 @@ namespace ITTV.WPF.Core.Stores
             CurrentViewModel = _historyViewModels.Last();
                 
             _historyViewModels.Remove(_historyViewModels.Last());
+            OnHistoryViewModelsUpdated();
+        }
+
+        public void NavigateToInactiveMode()
+        {
+            if (_historyViewModels.Count == 0)
+                return;
+            
+            CurrentViewModel.Dispose();
+            CurrentViewModel = _historyViewModels.First();
+            
+            _historyViewModels.RemoveRange(1, _historyViewModels.Count - 1);
             OnHistoryViewModelsUpdated();
         }
     }

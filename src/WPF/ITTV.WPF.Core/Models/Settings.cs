@@ -115,5 +115,21 @@ namespace ITTV.WPF.Core.Models
             }
         }
 
+        [JsonProperty("inactiveModeTime")] 
+        private TimeSpan _inactiveModeTime;
+
+        public TimeSpan InactiveModeTime
+        {
+            get => _inactiveModeTime;
+            set
+            {
+                if (Equals(_inactiveModeTime, value))
+                    return;
+
+                _inactiveModeTime = value;
+                OnSettingsUpdated();
+            }
+        }
+
     }
 }

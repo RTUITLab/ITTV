@@ -91,7 +91,6 @@ namespace ITTV.WPF.MVVM
 
             serviceCollection.AddSingleton<IMireaApiClient, MireaApiClient>();
             serviceCollection.AddScoped<MireaApiProvider>();
-            
         }
     }
 }

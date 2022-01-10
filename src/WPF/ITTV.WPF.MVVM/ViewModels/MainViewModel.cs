@@ -1,4 +1,5 @@
 ﻿using ITTV.WPF.Abstractions.Base.ViewModel;
+using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
 
 namespace ITTV.WPF.MVVM.ViewModels
@@ -6,6 +7,7 @@ namespace ITTV.WPF.MVVM.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private readonly NavigationStore _navigationStore;
+        private readonly UserInterfaceManager _userInterfaceManager;
 
         public ViewModelBase CurrentViewModel
         {
@@ -22,16 +24,26 @@ namespace ITTV.WPF.MVVM.ViewModels
         }
         public FooterViewModel FooterViewModel { get; }
         
-
-
         public MainViewModel(NavigationStore navigationStore,
+            UserInterfaceManager userInterfaceManager,
             FooterViewModel footerViewModel)
         {
             _navigationStore = navigationStore;
+            _userInterfaceManager = userInterfaceManager;
+
+            _userInterfaceManager.OnStateChangedToInactive += NavigateToInactiveMode;
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
             
             FooterViewModel = footerViewModel;
+        }
 
+        private void NavigateToInactiveMode()
+        {
+            if (_navigationStore.IsInactiveMode)
+                return;
+            
+            _navigationStore.NavigateToInactiveMode();
+            _userInterfaceManager.ChangeTheme();
         }
         private void OnCurrentViewModelChanged()
         {
