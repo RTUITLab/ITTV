@@ -16,13 +16,16 @@ namespace ITTV.WPF.MVVM.ViewModels
 
         public ICommand BackgroundVideoEndedEndedCommand { get; }
         public ICommand ShowMenuCommand { get; }
+        public ICommand ChangeThemeCommand { get; }
 
         public BackgroundVideoViewModel(BackgroundVideoPlaylistService backgroundVideoPlaylistService,
             IOptions<Settings> settings,
+            UserInterfaceManager userInterfaceManager,
             NavigateCommand<MenuViewModel> showMenuCommand)
         {
             BackgroundVideoEndedEndedCommand = new BackgroundVideoEndedCommand(this);
             ShowMenuCommand = showMenuCommand;
+            ChangeThemeCommand = new ChangeThemeCommand(userInterfaceManager);
 
             _backgroundVideoPlaylistService = backgroundVideoPlaylistService;
             _settings = settings.Value;

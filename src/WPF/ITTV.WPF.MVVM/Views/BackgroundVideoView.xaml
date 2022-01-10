@@ -30,7 +30,6 @@
             x:Name="MenuButton" 
             Width="400" 
             Height="150" 
-            Command="{Binding ShowMenuCommand}"
             Style="{StaticResource KinectTileButton}">
             <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}" 
                   Width="400" 
@@ -39,6 +38,13 @@
                            HorizontalAlignment="Center" 
                            Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
             </Grid>
+            
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="Click">
+                    <b:InvokeCommandAction Command="{Binding ShowMenuCommand}"/>
+                    <b:InvokeCommandAction Command="{Binding ChangeThemeCommand}"/>
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
         </Button>
     </Grid>
 </UserControl>

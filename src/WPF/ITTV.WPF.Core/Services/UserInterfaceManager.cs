@@ -4,7 +4,7 @@ namespace ITTV.WPF.Core.Services
 {
     public class UserInterfaceManager
     {
-        public bool IsDarkTheme { get; private set; }
+        public bool IsDarkTheme { get; private set; } = true;
 
         public event Action ThemeUpdated;
 
