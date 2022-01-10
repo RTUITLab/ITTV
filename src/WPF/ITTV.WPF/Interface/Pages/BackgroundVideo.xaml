@@ -12,7 +12,6 @@
                       HorizontalAlignment="Center"/>
 
         <Button 
-            Panel.ZIndex="1" 
             x:Name="MenuButton" 
             Grid.RowSpan="2" 
             Width="400" 
