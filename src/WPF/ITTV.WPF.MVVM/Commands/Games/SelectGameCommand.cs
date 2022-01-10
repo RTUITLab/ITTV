@@ -17,7 +17,7 @@ namespace ITTV.WPF.MVVM.Commands.Games
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = gameDto.ExecuteFileUri.AbsoluteUri
+                    FileName = gameDto.ExecuteFileUri.OriginalString
                 }
             };
 
