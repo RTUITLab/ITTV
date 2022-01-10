@@ -8,7 +8,7 @@ namespace ITTV.WPF.Core.Stores
 {
     public sealed class NavigationStore
     {
-        public bool IsInactiveMode => _historyViewModels.Count == 1;
+        public bool IsInactiveMode => _historyViewModels.Count == 0;
         
         private ViewModelBase _currentViewModel;
         public ViewModelBase CurrentViewModel
@@ -32,7 +32,7 @@ namespace ITTV.WPF.Core.Stores
             }
         }
 
-        private readonly List<ViewModelBase> _historyViewModels = new();
+        private List<ViewModelBase> _historyViewModels = new();
         public IReadOnlyCollection<ViewModelBase> HistoryViewModels => _historyViewModels;
         public event Action HistoryViewModelsUpdated;
 
@@ -63,16 +63,17 @@ namespace ITTV.WPF.Core.Stores
             OnHistoryViewModelsUpdated();
         }
 
-        public void NavigateToInactiveMode()
+        public bool NavigateToInactiveMode()
         {
             if (_historyViewModels.Count == 0)
-                return;
+                return false;
             
             CurrentViewModel.Dispose();
             CurrentViewModel = _historyViewModels.First();
-            
-            _historyViewModels.RemoveRange(1, _historyViewModels.Count - 1);
+
+            _historyViewModels = new List<ViewModelBase>();
             OnHistoryViewModelsUpdated();
+            return true;
         }
     }
 }

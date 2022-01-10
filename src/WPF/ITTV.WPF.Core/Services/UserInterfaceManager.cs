@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Timers;
 using System.Windows.Input;
+using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Models;
 using Microsoft.Extensions.Options;
 
@@ -10,7 +11,6 @@ namespace ITTV.WPF.Core.Services
     {
         private readonly Timer _timer;
         private readonly Settings _settings;
-        private DateTime _lastActivity = DateTime.Now;
         public event Action OnStateChangedToInactive;
 
         public UserInterfaceManager(IOptions<Settings> settings)
@@ -29,7 +29,7 @@ namespace ITTV.WPF.Core.Services
 
         private void TimerOnElapsed(object sender, ElapsedEventArgs e)
         {
-            if (DateTime.Now - _lastActivity > _settings.InactiveModeTime)
+            if (DateTime.Now - IdleTimeDetector.GetIdleTimeInfo().LastInputTime > _settings.InactiveModeTime)
             {
                 OnStateChangedToInactive?.Invoke();
             }
@@ -37,7 +37,6 @@ namespace ITTV.WPF.Core.Services
 
         private void CurrentOnPreProcessInput(object sender, PreProcessInputEventArgs e)
         {
-            _lastActivity = DateTime.Now;
         }
 
         public bool IsDarkTheme { get; private set; } = true;
