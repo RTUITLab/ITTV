@@ -43,9 +43,8 @@
                         </Grid.ColumnDefinitions>
 
                         <Image x:Name="UniversityLogo"
-                           Source="{StaticResource ITLogo}"
+                           Source="{Binding IsDarkTheme, Converter={StaticResource BoolToResourceUniversityLogo}}"
                            VerticalAlignment="Center"
-                           
                            Stretch="UniformToFill" 
                            Margin="0 0 30 0" 
                            Width="50" 
@@ -71,7 +70,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Image x:Name="LaboratoryLogo"
-                           Source="{StaticResource RTUITLabLogo}"
+                           Source="{Binding IsDarkTheme, Converter={StaticResource BoolToResourceLaboratoryLogo}}"
                            VerticalAlignment="Center"
                            Stretch="UniformToFill" 
                            Margin="0 0 30 0" 
