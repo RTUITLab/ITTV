@@ -5,6 +5,7 @@ using ITTV.WPF.Core.Providers.LocalCache;
 using ITTV.WPF.Core.Services.ApiClient;
 using ITTV.WPF.Core.Services.ApiClient.Requests.GetGroups;
 using ITTV.WPF.Core.Services.ApiClient.Requests.GetNews;
+using ITTV.WPF.Core.Services.ApiClient.Requests.GetScheduleForGroup;
 
 namespace ITTV.WPF.Core.Providers.MireaApi
 {
@@ -34,6 +35,15 @@ namespace ITTV.WPF.Core.Providers.MireaApi
 
             var groups = await LocalCacheProvider.GetAsync(LocalCacheHelper.GroupsCacheKey, dataSource, timeUpdated);
             return groups;
+        }
+        public async Task<ApiFullScheduleResponse> GetFullSchedule(string group)
+        {
+            var timeUpdated = TimeSpan.FromMinutes(5);
+
+            var dataSource = _mireaApiClient.GetFullScheduleForGroup(group);
+
+            var schedule = await LocalCacheProvider.GetAsync(LocalCacheHelper.GroupScheduleCacheKey(group), dataSource, timeUpdated);
+            return schedule;
         }
     }
 }

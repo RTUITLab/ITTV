@@ -43,6 +43,15 @@
         <DataTemplate DataType="{x:Type viewModels:VideoViewModel}">
             <views:VideoView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:CoursesViewModel}">
+            <views:CoursesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:GroupsViewModel}">
+            <views:GroupsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:GroupTypesViewModel}">
+            <views:GroupTypesView/>
+        </DataTemplate>
     </Window.Resources>
 <controls:KinectRegion x:Name="KinectRegion">    
     <Grid>

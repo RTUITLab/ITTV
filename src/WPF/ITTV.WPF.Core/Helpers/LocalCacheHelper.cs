@@ -4,8 +4,7 @@
     {
         public const string NewsCacheKey = "news-cache";
         public const string GroupsCacheKey = "groups-cache";
-
-        public static string GroupCacheKey(string groupName)
+        public static string GroupScheduleCacheKey(string groupName)
             => $"group-{groupName}-schedule-cache";
     }
 }

@@ -19,7 +19,7 @@
                       k:KinectRegion.IsHorizontalRailEnabled="true" k:KinectRegion.IsVerticalRailEnabled="true"
                       k:KinectRegion.ZoomMode="Enabled"
                       ScrollChanged="ScrollViewer_ScrollChanged">
-            <Image x:Name="ImageField" Stretch="None" Grid.Column="0" Grid.Row="0"/>
+            <Image x:Name="ImageField" Stretch="None" />
         </ScrollViewer>
     </Grid>
 </UserControl>
