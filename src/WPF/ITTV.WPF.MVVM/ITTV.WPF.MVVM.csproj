@@ -72,15 +72,24 @@
         <Compile Include="Commands\News\SelectBackNewsImageCommand.cs" />
         <Compile Include="Commands\News\SelectNewsCommand.cs" />
         <Compile Include="Commands\News\SelectNextNewsImageCommand.cs" />
+        <Compile Include="Commands\Schedule\SelectCourseCommand.cs" />
+        <Compile Include="Commands\Schedule\SelectDegreeCommand.cs" />
+        <Compile Include="Commands\Schedule\SelectGroupCommand.cs" />
+        <Compile Include="Commands\Schedule\SelectGroupTypesCommand.cs" />
         <Compile Include="Commands\Videos\SelectVideoCommand.cs" />
         <Compile Include="Commands\Videos\VideoEndedCommand.cs" />
         <Compile Include="Commands\Videos\VideoRestartedCommand.cs" />
         <Compile Include="DTOs\GameDto.cs" />
         <Compile Include="DTOs\NewsDto.cs" />
+        <Compile Include="DTOs\TimeTableQuestionDto.cs" />
+        <Compile Include="DTOs\TimeTableDto.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="ViewModels\BackgroundVideoViewModel.cs" />
+        <Compile Include="ViewModels\CoursesViewModel.cs" />
         <Compile Include="ViewModels\FooterViewModel.cs" />
         <Compile Include="ViewModels\GamesViewModel.cs" />
+        <Compile Include="ViewModels\GroupsViewModel.cs" />
+        <Compile Include="ViewModels\GroupTypesViewModel.cs" />
         <Compile Include="ViewModels\MainViewModel.cs" />
         <Compile Include="ViewModels\MenuViewModel.cs" />
         <Compile Include="ViewModels\NewsElementViewModel.cs" />
@@ -96,11 +105,20 @@
         <Compile Include="Views\Converters\CustomBooleanToLaboratoryLogoSourceForDarkThemeConverter.cs" />
         <Compile Include="Views\Converters\CustomBooleanToUniversitySourceForDarkThemeConverter.cs" />
         <Compile Include="Views\Converters\CustomBooleanToVisibilityConverter.cs" />
+        <Compile Include="Views\CoursesView.xaml.cs">
+          <DependentUpon>CoursesView.xaml</DependentUpon>
+        </Compile>
         <Compile Include="Views\FooterView.xaml.cs">
           <DependentUpon>FooterView.xaml</DependentUpon>
         </Compile>
         <Compile Include="Views\GamesView.xaml.cs">
           <DependentUpon>GamesView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\GroupsView.xaml.cs">
+          <DependentUpon>GroupsView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\GroupTypesView.xaml.cs">
+          <DependentUpon>GroupTypesView.xaml</DependentUpon>
         </Compile>
         <Compile Include="Views\MainWindow.xaml.cs">
           <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -201,8 +219,11 @@
         <SubType>Designer</SubType>
         <Generator>MSBuild:Compile</Generator>
       </Page>
+      <Page Include="Views\CoursesView.xaml" />
       <Page Include="Views\FooterView.xaml" />
       <Page Include="Views\GamesView.xaml" />
+      <Page Include="Views\GroupsView.xaml" />
+      <Page Include="Views\GroupTypesView.xaml" />
       <Page Include="Views\KinnectButtons\HandPointerStyles.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

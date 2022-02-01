@@ -51,7 +51,7 @@ namespace ITTV.WPF.Core.Helpers
             return numberOfWeek == default ? string.Empty : $"Идёт {numberOfWeek}-я неделя";
         }
         //TODO: покрыть тестами
-        private static int CalculateNumberOfWeek(DateTime dateTime)
+        public static int? CalculateNumberOfWeek(DateTime dateTime)
         {
             var startFirstSemesterDate = new DateTime(dateTime.Year, 9, 1).DayOfWeek == DayOfWeek.Sunday ? 
                 new DateTime(dateTime.Year, 9, 2) : new DateTime(dateTime.Year, 9, 1);
@@ -66,7 +66,7 @@ namespace ITTV.WPF.Core.Helpers
             if (dateTime >= startSecondSemesterDate && dateTime <= endSecondSemesterDate)
                 return CalculateWeekForSemester(startSecondSemesterDate, dateTime);
 
-            return default;
+            return null;
         }
 
         private static int CalculateWeekForSemester(DateTime startSemesterDate, DateTime dateTime)

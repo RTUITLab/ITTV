@@ -121,22 +121,6 @@
         </Button>
     </DataTemplate>
 
-    <DataTemplate x:Key="CoursesTemplate">
-        <Button Margin="50" Width="480" Height="270" Style="{StaticResource KinectTileButton}">
-            <Border>
-                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
-                    <TextBlock x:Name="Title"
-                               Text="{Binding}" 
-                               Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" 
-                               Style="{StaticResource TitleTextStyle}" 
-                               FontSize="45" 
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-                </Grid>
-            </Border>
-        </Button>
-    </DataTemplate>
-
     <DataTemplate x:Key="BackTemplate">
         <Button Margin="50" Height="125" Style="{StaticResource KinectTileButton}">
             <Border>
@@ -152,7 +136,27 @@
             </Border>
         </Button>
     </DataTemplate>
-
+    <DataTemplate x:Key="TimeTableTemplate"
+                  DataType="{x:Type models:TimeTableQuestionDto}">
+        <Button Margin="50" 
+                Width="480" 
+                Height="270" 
+                Style="{StaticResource KinectTileButton}"
+                Command="{Binding NavigateCommand}">
+            <Border>
+                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                    <TextBlock x:Name="Title"
+                               Text="{Binding Title}" 
+                               Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" 
+                               Style="{StaticResource TitleTextStyle}" 
+                               FontSize="45" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+        </Button>
+    </DataTemplate>
+    
     <DataTemplate x:Key="AllTimeTableTemplate">
         <Button Margin="50" Height="125" Style="{StaticResource KinectTileButton}">
             <Border>
