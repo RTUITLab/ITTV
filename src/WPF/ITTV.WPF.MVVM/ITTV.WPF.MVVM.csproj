@@ -74,8 +74,11 @@
         <Compile Include="Commands\News\SelectNextNewsImageCommand.cs" />
         <Compile Include="Commands\Schedule\SelectCourseCommand.cs" />
         <Compile Include="Commands\Schedule\SelectDegreeCommand.cs" />
+        <Compile Include="Commands\Schedule\SelectFullScheduleCommand.cs" />
         <Compile Include="Commands\Schedule\SelectGroupCommand.cs" />
         <Compile Include="Commands\Schedule\SelectGroupTypesCommand.cs" />
+        <Compile Include="Commands\Schedule\SelectTodayCommand.cs" />
+        <Compile Include="Commands\Schedule\SelectTomorrowCommand.cs" />
         <Compile Include="Commands\Videos\SelectVideoCommand.cs" />
         <Compile Include="Commands\Videos\VideoEndedCommand.cs" />
         <Compile Include="Commands\Videos\VideoRestartedCommand.cs" />
@@ -94,6 +97,8 @@
         <Compile Include="ViewModels\MenuViewModel.cs" />
         <Compile Include="ViewModels\NewsElementViewModel.cs" />
         <Compile Include="ViewModels\NewsViewModel.cs" />
+        <Compile Include="ViewModels\ScheduleTypeViewModel.cs" />
+        <Compile Include="ViewModels\ScheduleViewModel.cs" />
         <Compile Include="ViewModels\TimeTableViewModel.cs" />
         <Compile Include="ViewModels\VideoViewModel.cs" />
         <Compile Include="ViewModels\VideosViewModel.cs" />
@@ -132,6 +137,12 @@
         </Compile>
         <Compile Include="Views\NewsView.xaml.cs">
           <DependentUpon>NewsView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\ScheduleTypeViewModel.xaml.cs">
+          <DependentUpon>ScheduleTypeViewModel.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\ScheduleView.xaml.cs">
+          <DependentUpon>ScheduleView.xaml</DependentUpon>
         </Compile>
         <Compile Include="Views\TimeTableView.xaml.cs">
           <DependentUpon>TimeTableView.xaml</DependentUpon>
@@ -234,6 +245,8 @@
       <Page Include="Views\MenuView.xaml" />
       <Page Include="Views\NewsElementView.xaml" />
       <Page Include="Views\NewsView.xaml" />
+      <Page Include="Views\ScheduleTypeViewModel.xaml" />
+      <Page Include="Views\ScheduleView.xaml" />
       <Page Include="Views\TimeTableView.xaml" />
       <Page Include="Views\VideoView.xaml" />
       <Page Include="Views\VideosView.xaml" />

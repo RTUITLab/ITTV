@@ -1,4 +1,5 @@
-﻿using ITTV.WPF.Abstractions.Enums;
+﻿using System;
+using ITTV.WPF.Abstractions.Enums;
 
 namespace ITTV.WPF.MVVM.DTOs
 {
@@ -10,7 +11,8 @@ namespace ITTV.WPF.MVVM.DTOs
         public TimeTableDto(DegreeEnum? degree,
             int? courseNumber, 
             string groupType,
-            string groupName)
+            string groupName,
+            SelectedScheduleEnum? scheduleEnum)
         {
             Degree = degree;
             CourseNumber = courseNumber;
@@ -21,6 +23,7 @@ namespace ITTV.WPF.MVVM.DTOs
         public int? CourseNumber { get; private set; }
         public string GroupType { get; private set; }
         public string GroupName { get; private set; }
+        public SelectedScheduleEnum SelectedScheduleEnum { get; private set; }
 
         public void SetDegree(DegreeEnum degree)
         {
@@ -37,6 +40,11 @@ namespace ITTV.WPF.MVVM.DTOs
         public void SetGroupName(string groupName)
         {
             GroupName = groupName;
+        }
+
+        public void SetSelectedScheduleEnum(SelectedScheduleEnum selectedScheduleEnum)
+        {
+            SelectedScheduleEnum = selectedScheduleEnum;
         }
 
         public void Merge(TimeTableDto timeTableDto)
