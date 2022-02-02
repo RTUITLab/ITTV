@@ -124,7 +124,7 @@ namespace ITTV.WPF.Interface.Pages
         {
             for (int i = 0; i < 9; i++)
             {
-                ColumnDefinition columnDefinition = new ColumnDefinition();
+                var columnDefinition = new ColumnDefinition();
                 if (i % 2 == 0) {
                     switch (i)
                     {

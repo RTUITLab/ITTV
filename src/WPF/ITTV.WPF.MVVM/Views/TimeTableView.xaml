@@ -17,7 +17,7 @@
         <ScrollViewer Grid.Row="0"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl Name="Questions" 
+            <ItemsControl Name="Degrees" 
                           Margin="40 0"
                           ItemsSource="{Binding SupportedDegrees}"
                           ItemTemplate="{StaticResource TimeTableTemplate}">
