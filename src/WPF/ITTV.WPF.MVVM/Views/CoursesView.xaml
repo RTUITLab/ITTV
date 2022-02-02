@@ -18,7 +18,7 @@
         <ScrollViewer Grid.Row="0"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl Name="Questions" 
+            <ItemsControl Name="Courses" 
                           Margin="40 0"
                           ItemsSource="{Binding  SupportedCourses}"
                           ItemTemplate="{StaticResource TimeTableTemplate}">
