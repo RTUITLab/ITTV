@@ -8,23 +8,25 @@ namespace ITTV.WPF.MVVM.Commands.Schedule
 {
     public class SelectCourseCommand : CommandBase
     {
-        private readonly GroupsViewModel _viewModel;
-        private readonly NavigationService<GroupsViewModel> _navigationService;
+        private readonly GroupTypesViewModel _groupsTypesViewModel;
+        private readonly NavigationService<GroupTypesViewModel> _navigationService;
 
         public SelectCourseCommand(NavigationStore navigationStore, ScheduleManager scheduleManager,
             TimeTableDto timeTableData)
         {
-            var groupsViewModel = new GroupsViewModel(scheduleManager, navigationStore);
+            var groupTypesViewModel = new GroupTypesViewModel(scheduleManager, navigationStore);
 
-            groupsViewModel.SetTimeTableData(timeTableData);
+            groupTypesViewModel.SetTimeTableData(timeTableData);
 
-            _navigationService = new NavigationService<GroupsViewModel>(navigationStore, groupsViewModel);
-            _viewModel = groupsViewModel;
+            _navigationService = new NavigationService<GroupTypesViewModel>(navigationStore, groupTypesViewModel);
+            _groupsTypesViewModel = groupTypesViewModel;
         }
         
         public override void Execute(object parameter)
         {
              _navigationService.Navigate();
+             _groupsTypesViewModel.Recalculate()
+                 .ConfigureAwait(false);
         }
     }
 }

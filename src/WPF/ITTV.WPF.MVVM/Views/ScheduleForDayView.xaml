@@ -9,25 +9,49 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid x:Name="mainGridmainGrid" VerticalAlignment="Center"
               Margin="100 50 100 50">
-            <TextBlock
-                Text="1">
-            </TextBlock>
-            <Rectangle
-                Width="2">
-            </Rectangle>
-            <TextBlock
-                Text="Some name of class">
-                </TextBlock>
-            <Rectangle
-                Width="2">
-            </Rectangle>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             
-            <TextBlock x:Name="OutList"
-                       Visibility="Collapsed"
-                       Text="Пар в этот день нет"
-                       HorizontalAlignment="Center"
-                       FontWeight="Medium"
-                       FontSize="40"/>
+            <TextBlock Grid.Row="0" Text="1"></TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="2"></TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="3"></TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="4"></TextBlock>
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="5"></TextBlock>
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="6"></TextBlock>
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="7"></TextBlock>
+
+            <ItemsControl Name="Elements"
+                          ItemsSource="{Binding News}"
+                          ItemTemplate="{StaticResource NewsTemplate}">
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="Grid.Row" Value="{Binding GridRow}" />
+                        <Setter Property="Grid.Column" Value="{Binding GridColumn}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel  Orientation="Horizontal" 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </Grid>
     </ScrollViewer>
 </UserControl>

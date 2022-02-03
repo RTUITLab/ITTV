@@ -11,8 +11,8 @@ namespace ITTV.WPF.MVVM.DTOs
             string name, 
             string teacher, 
             string type, 
-            TimeSpan startTime, 
-            TimeSpan endTime)
+            string startTime, 
+            string endTime)
         {
             ClassRoom = classRoom;
             Name = name;
@@ -26,7 +26,7 @@ namespace ITTV.WPF.MVVM.DTOs
         public string Teacher { get; set; }
         public string Type { get; set; }
         
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
     }
 }

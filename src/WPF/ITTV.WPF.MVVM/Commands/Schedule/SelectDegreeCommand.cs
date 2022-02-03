@@ -8,7 +8,7 @@ namespace ITTV.WPF.MVVM.Commands.Schedule
 {
     public class SelectDegreeCommand : CommandBase
     {
-        private readonly CoursesViewModel _viewModel;
+        private readonly CoursesViewModel _courseViewModel;
         private readonly NavigationService<CoursesViewModel> _navigationService;
 
         public SelectDegreeCommand(NavigationStore navigationStore, ScheduleManager scheduleManager,
@@ -18,13 +18,13 @@ namespace ITTV.WPF.MVVM.Commands.Schedule
             courseViewModel.SetTimeTableData(timeTableData);
             
             _navigationService = new NavigationService<CoursesViewModel>(navigationStore, courseViewModel);
-            _viewModel = courseViewModel;
+            _courseViewModel = courseViewModel;
         }
         
         public override void Execute(object parameter)
         {
             _navigationService.Navigate();
-            _viewModel.Recalculate();
+            _courseViewModel.Recalculate();
         }
     }
 }

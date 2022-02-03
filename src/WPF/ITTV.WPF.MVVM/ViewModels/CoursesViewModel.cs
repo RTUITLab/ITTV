@@ -54,7 +54,7 @@ namespace ITTV.WPF.MVVM.ViewModels
                 timeTableDto.Merge(_timeTableData);
                 timeTableDto.SetCourseNumber(x);
 
-                var command = new SelectGroupTypesCommand(_navigationStore, _scheduleManager, timeTableDto);
+                var command = new SelectCourseCommand(_navigationStore, _scheduleManager, timeTableDto);
 
                 return new TimeTableQuestionDto(title, command);
             });

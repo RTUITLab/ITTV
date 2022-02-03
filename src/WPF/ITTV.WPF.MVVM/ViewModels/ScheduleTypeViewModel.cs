@@ -30,8 +30,8 @@ namespace ITTV.WPF.MVVM.ViewModels
         private TimeTableDto _timeTableData;
         private readonly ScheduleManager _scheduleManager;
         private readonly NavigationStore _navigationStore;
-        public ScheduleTypeViewModel(NavigationStore navigationStore,
-            ScheduleManager scheduleManager)
+        public ScheduleTypeViewModel(ScheduleManager scheduleManager,
+            NavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
             _scheduleManager = scheduleManager;
@@ -59,7 +59,9 @@ namespace ITTV.WPF.MVVM.ViewModels
                     timeTable.Merge(_timeTableData);
                     timeTable.SetSelectedScheduleEnum(x);
 
-                    var command = new SelectScheduleTypeCommand(_navigationStore, timeTable);
+                    var command = new SelectScheduleTypeCommand(_navigationStore, 
+                        _scheduleManager, 
+                        timeTable);
                     return new TimeTableQuestionDto(displayName, command);
                 });
 

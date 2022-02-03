@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Enums;
+using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Providers.MireaApi;
 using ITTV.WPF.Core.Services.ApiClient.Requests.GetGroups;
 using ITTV.WPF.Core.Services.ApiClient.Requests.GetScheduleForGroup;
@@ -74,11 +75,43 @@ namespace ITTV.WPF.Core.Services
             return enums;
         }
 
-        public async Task<ApiScheduleLesson> GetLessonsForDay()
+        public async Task<ApiScheduleLesson[]> GetLessonsForDay(string groupName, SelectedScheduleTypeEnum scheduleType)
         {
-            return null;
-        }
+            var calculatingDay = scheduleType switch
+            {
+                SelectedScheduleTypeEnum.Today => DateTime.Today,
+                SelectedScheduleTypeEnum.Tomorrow => DateTime.Today.AddDays(1),
+                _ => throw new ArgumentException($"Unsupported schedule type {scheduleType}")
+            };
 
+            var weekNumber = MireaTimeHelper.CalculateNumberOfWeek(calculatingDay);
+
+            if (weekNumber is null)
+                return Array.Empty<ApiScheduleLesson>();
+            
+            var schedule = await _mireaApiProvider.GetFullSchedule(groupName);
+
+            var selectedWeek = weekNumber switch
+            {
+                1 => schedule.FirstWeek,
+                2 => schedule.SecondWeek,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            var lessons = calculatingDay.DayOfWeek switch
+            {
+                DayOfWeek.Monday => selectedWeek.Monday,
+                DayOfWeek.Tuesday => selectedWeek.Tuesday,
+                DayOfWeek.Wednesday => selectedWeek.Wednesday,
+                DayOfWeek.Thursday => selectedWeek.Thursday,
+                DayOfWeek.Friday => selectedWeek.Friday,
+                DayOfWeek.Saturday => selectedWeek.Saturday,
+                DayOfWeek.Sunday => Array.Empty<ApiScheduleLesson>(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            return lessons;
+        }
+        
         public IEnumerable<int> GetSupportedCoursesForDegree(DegreeEnum degree)
             => degree switch
             {
