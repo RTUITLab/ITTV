@@ -18,11 +18,14 @@ namespace ITTV.WPF.MVVM.ViewModels
                     return;
                 _lessonsForSelectedDay = value;
                 
+                OnPropertyChanged(nameof(HasClasses));
                 OnPropertyChanged(nameof(LessonsForSelectedDay));
             }
         }
         
-        private LinkedList<ScheduleLessonDto> _lessonsForSelectedDay;
+        private LinkedList<ScheduleLessonDto> _lessonsForSelectedDay = new();
+
+        public bool HasClasses => _lessonsForSelectedDay.Count > 0;
 
         private readonly ScheduleManager _scheduleManager;
         private TimeTableDto _timeTableData;
@@ -39,7 +42,8 @@ namespace ITTV.WPF.MVVM.ViewModels
         public async Task Recalculate()
         {
             var lessons = await _scheduleManager.GetLessonsForDay(_timeTableData.GroupName, _timeTableData.SelectedScheduleTypeEnum);
-            var lessonsDto = lessons.Select(x => new ScheduleLessonDto(x.DetailLesson.ClassRoom,
+            var lessonsDto = lessons.Where(x => x.DetailLesson != null)
+                .Select(x => new ScheduleLessonDto(x.DetailLesson.ClassRoom,
                 x.DetailLesson.Name,
                 x.DetailLesson.Teacher,
                 x.DetailLesson.Type,

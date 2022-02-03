@@ -53,6 +53,7 @@ namespace ITTV.WPF.Core.Helpers
         //TODO: покрыть тестами
         public static int? CalculateNumberOfWeek(DateTime dateTime)
         {
+            return 1;
             var startFirstSemesterDate = new DateTime(dateTime.Year, 9, 1).DayOfWeek == DayOfWeek.Sunday ? 
                 new DateTime(dateTime.Year, 9, 2) : new DateTime(dateTime.Year, 9, 1);
             var endFirstSemesterDate = new DateTime(dateTime.Year, 12, 29);
