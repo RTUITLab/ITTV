@@ -136,6 +136,10 @@
             </Border>
         </Button>
     </DataTemplate>
+    <DataTemplate x:Key="ScheduleForDayTemplate"
+                  DataType="{x:Type models:DayScheduleDto}">
+                    
+    </DataTemplate>
     <DataTemplate x:Key="TimeTableTemplate"
                   DataType="{x:Type models:TimeTableQuestionDto}">
         <Button Margin="50" 

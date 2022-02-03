@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Enums;
 using ITTV.WPF.Core.Providers.MireaApi;
 using ITTV.WPF.Core.Services.ApiClient.Requests.GetGroups;
+using ITTV.WPF.Core.Services.ApiClient.Requests.GetScheduleForGroup;
 
 namespace ITTV.WPF.Core.Services
 {
@@ -65,6 +66,11 @@ namespace ITTV.WPF.Core.Services
             }
 
             return groups;
+        }
+
+        public async Task<ApiScheduleLesson> GetLessonsForDay()
+        {
+            return null;
         }
 
         public IEnumerable<int> GetSupportedCoursesForDegree(DegreeEnum degree)
