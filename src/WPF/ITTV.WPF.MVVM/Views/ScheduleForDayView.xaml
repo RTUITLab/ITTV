@@ -60,25 +60,6 @@
             </Grid>
             <Grid x:Name="EmptyData" VerticalAlignment="Center"
                   Visibility="{Binding !HasClasses, Converter={StaticResource BoolToVis}}">
-                
-                <Ellipse x:Name="ellipse"
-                         Margin="55,49,54,38" 
-                         StrokeThickness="20"
-                         RenderTransformOrigin="0.5,0.5">
-                    <Ellipse.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>                    
-                            <SkewTransform/>                    
-                            <RotateTransform/>
-                        </TransformGroup>
-                    </Ellipse.RenderTransform>            
-                    <Ellipse.Stroke>
-                        <LinearGradientBrush EndPoint="0.445,0.997" StartPoint="0.555,0.003">
-                            <GradientStop Color="White" Offset="0"/>                    
-                            <GradientStop Color="#FF0052FF" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Ellipse.Stroke>
-                </Ellipse>        
                 <TextBlock Text="Пар в этот день нет"
                            HorizontalAlignment="Center"
                            FontWeight="Medium"

@@ -16,7 +16,6 @@
                 <Setter Property="Height" Value="208" />
                 <Setter Property="Width" Value="208" />
             </Style>
-            <Storyboard x:Key="Storyboard1" RepeatBehavior="Forever"></Storyboard>
 
             <ResourceDictionary.MergedDictionaries>
                 
