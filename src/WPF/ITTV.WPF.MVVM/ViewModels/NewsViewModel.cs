@@ -13,8 +13,23 @@ namespace ITTV.WPF.MVVM.ViewModels
         private readonly MireaApiProvider _mireaApiProvider;
         private readonly NavigationStore _navigationStore;
         
-        private readonly ObservableCollection<NewsElementViewModel> _news = new();
-        public ObservableCollection<NewsElementViewModel> News => _news;
+        private ObservableCollection<NewsElementViewModel> _news = new();
+        public ObservableCollection<NewsElementViewModel> News
+        {
+            get => _news;
+            set
+            {
+                if (_news.SequenceEqual(value))
+                    return;
+
+                _news = value;
+                
+                OnPropertyChanged(nameof(News));
+                OnPropertyChanged(nameof(HasNews));
+            }
+        }
+
+        public bool HasNews => _news.Count > 0;
         
         public NewsViewModel(MireaApiProvider mireaApiProvider, 
             NavigationStore navigationStore)
@@ -35,10 +50,7 @@ namespace ITTV.WPF.MVVM.ViewModels
             var newsElements = newsDto.Select(x => 
                 new NewsElementViewModel(x, _navigationStore));
 
-            foreach (var newsElement in newsElements)
-            {
-                _news.Add(newsElement);
-            }
+            News = new ObservableCollection<NewsElementViewModel>(newsElements);
         }
     }
 }
