@@ -54,7 +54,7 @@ namespace ITTV.WPF.MVVM.ViewModels
                 timeTableDto.Merge(_timeTableData);
                 timeTableDto.SetGroupType(x.Name);
 
-                var command = new SelectGroupCommand(_navigationStore, _scheduleManager, timeTableDto);
+                var command = new SelectGroupTypesCommand(_navigationStore, _scheduleManager, timeTableDto);
 
                 return new TimeTableQuestionDto(x.Name, command);
             });

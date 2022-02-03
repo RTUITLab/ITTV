@@ -10,12 +10,15 @@ namespace ITTV.WPF.MVVM.Commands.Schedule
     public class SelectScheduleTypeCommand : CommandBase
     {
         private readonly NavigationStore _navigationStore;
+        private readonly ScheduleManager _scheduleManager;
         private readonly TimeTableDto _timeTableData;
 
         public SelectScheduleTypeCommand(NavigationStore navigationStore, 
+            ScheduleManager scheduleManager,
             TimeTableDto timeTableData)
         {
             _navigationStore = navigationStore;
+            _scheduleManager = scheduleManager;
             _timeTableData = timeTableData;
         }
         public override void Execute(object parameter)
@@ -28,9 +31,14 @@ namespace ITTV.WPF.MVVM.Commands.Schedule
             }
             else
             {
-                var scheduleViewModel = new ScheduleForDayViewModel(_timeTableData);
+                var scheduleViewModel = new ScheduleForDayViewModel(_scheduleManager);
+                scheduleViewModel.SetTimeTableData(_timeTableData);
+                
                 var navigationService = new NavigationService<ScheduleForDayViewModel>(_navigationStore, scheduleViewModel);
                 navigationService.Navigate();
+
+                scheduleViewModel.Recalculate()
+                    .ConfigureAwait(false);
             }
         }
     }
