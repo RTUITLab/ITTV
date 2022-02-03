@@ -1,6 +1,6 @@
 ﻿namespace ITTV.WPF.Abstractions.Enums
 {
-    public enum SelectedScheduleEnum
+    public enum SelectedScheduleTypeEnum
     {
         Today = 0,
         Tomorrow = 64,

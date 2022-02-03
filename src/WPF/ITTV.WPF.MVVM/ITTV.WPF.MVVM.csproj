@@ -74,11 +74,9 @@
         <Compile Include="Commands\News\SelectNextNewsImageCommand.cs" />
         <Compile Include="Commands\Schedule\SelectCourseCommand.cs" />
         <Compile Include="Commands\Schedule\SelectDegreeCommand.cs" />
-        <Compile Include="Commands\Schedule\SelectFullScheduleCommand.cs" />
         <Compile Include="Commands\Schedule\SelectGroupCommand.cs" />
         <Compile Include="Commands\Schedule\SelectGroupTypesCommand.cs" />
-        <Compile Include="Commands\Schedule\SelectTodayCommand.cs" />
-        <Compile Include="Commands\Schedule\SelectTomorrowCommand.cs" />
+        <Compile Include="Commands\Schedule\SelectScheduleTypeCommand.cs" />
         <Compile Include="Commands\Videos\SelectVideoCommand.cs" />
         <Compile Include="Commands\Videos\VideoEndedCommand.cs" />
         <Compile Include="Commands\Videos\VideoRestartedCommand.cs" />
@@ -145,8 +143,8 @@
         <Compile Include="Views\ScheduleForDayView.xaml.cs">
           <DependentUpon>ScheduleForDayView.xaml</DependentUpon>
         </Compile>
-        <Compile Include="Views\ScheduleTypeViewModel.xaml.cs">
-          <DependentUpon>ScheduleTypeViewModel.xaml</DependentUpon>
+        <Compile Include="Views\ScheduleTypeView.xaml.cs">
+          <DependentUpon>ScheduleTypeView.xaml</DependentUpon>
         </Compile>
         <Compile Include="Views\ScheduleView.xaml.cs">
           <DependentUpon>ScheduleView.xaml</DependentUpon>
@@ -253,7 +251,7 @@
       <Page Include="Views\NewsElementView.xaml" />
       <Page Include="Views\NewsView.xaml" />
       <Page Include="Views\ScheduleForDayView.xaml" />
-      <Page Include="Views\ScheduleTypeViewModel.xaml" />
+      <Page Include="Views\ScheduleTypeView.xaml" />
       <Page Include="Views\ScheduleView.xaml" />
       <Page Include="Views\TimeTableView.xaml" />
       <Page Include="Views\VideoView.xaml" />

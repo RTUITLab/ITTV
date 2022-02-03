@@ -2,9 +2,9 @@
 
 namespace ITTV.WPF.MVVM.Views
 {
-    public partial class ScheduleTypeViewModel : UserControl
+    public partial class ScheduleTypeView : UserControl
     {
-        public ScheduleTypeViewModel()
+        public ScheduleTypeView()
         {
             InitializeComponent();
         }

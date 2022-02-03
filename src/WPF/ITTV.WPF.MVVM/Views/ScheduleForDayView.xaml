@@ -9,6 +9,19 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid x:Name="mainGridmainGrid" VerticalAlignment="Center"
               Margin="100 50 100 50">
+            <TextBlock
+                Text="1">
+            </TextBlock>
+            <Rectangle
+                Width="2">
+            </Rectangle>
+            <TextBlock
+                Text="Some name of class">
+                </TextBlock>
+            <Rectangle
+                Width="2">
+            </Rectangle>
+            
             <TextBlock x:Name="OutList"
                        Visibility="Collapsed"
                        Text="Пар в этот день нет"
