@@ -52,6 +52,15 @@
         <DataTemplate DataType="{x:Type viewModels:GroupTypesViewModel}">
             <views:GroupTypesView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ScheduleTypeViewModel}">
+            <views:ScheduleTypeView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ScheduleForDayViewModel}">
+            <views:ScheduleForDayView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ScheduleViewModel}">
+            <views:ScheduleView/>
+        </DataTemplate>
     </Window.Resources>
 <controls:KinectRegion x:Name="KinectRegion">    
     <Grid>

@@ -12,7 +12,7 @@ namespace ITTV.WPF.MVVM.DTOs
             int? courseNumber, 
             string groupType,
             string groupName,
-            SelectedScheduleEnum? scheduleEnum)
+            SelectedScheduleTypeEnum? scheduleEnum)
         {
             Degree = degree;
             CourseNumber = courseNumber;
@@ -23,7 +23,7 @@ namespace ITTV.WPF.MVVM.DTOs
         public int? CourseNumber { get; private set; }
         public string GroupType { get; private set; }
         public string GroupName { get; private set; }
-        public SelectedScheduleEnum SelectedScheduleEnum { get; private set; }
+        public SelectedScheduleTypeEnum SelectedScheduleTypeEnum { get; private set; }
 
         public void SetDegree(DegreeEnum degree)
         {
@@ -42,9 +42,9 @@ namespace ITTV.WPF.MVVM.DTOs
             GroupName = groupName;
         }
 
-        public void SetSelectedScheduleEnum(SelectedScheduleEnum selectedScheduleEnum)
+        public void SetSelectedScheduleEnum(SelectedScheduleTypeEnum selectedScheduleTypeEnum)
         {
-            SelectedScheduleEnum = selectedScheduleEnum;
+            SelectedScheduleTypeEnum = selectedScheduleTypeEnum;
         }
 
         public void Merge(TimeTableDto timeTableDto)
