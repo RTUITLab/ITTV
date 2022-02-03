@@ -9,6 +9,12 @@
              d:DataContext="{d:DesignInstance viewModels:NewsViewModel,
                                             IsDesignTimeCreatable=True}">
     <Grid>
+        <Grid Visibility="{Binding HasNews, Converter={StaticResource InverseBoolToVis}}">
+            <TextBlock Text="Новости не были найдены"
+                       HorizontalAlignment="Center"
+                       FontWeight="Medium"
+                       FontSize="40"/>
+        </Grid>
         <Grid Visibility="{Binding HasNews, Converter={StaticResource BoolToVis}}">
             <ScrollViewer VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">
@@ -25,12 +31,5 @@
                 </ItemsControl>
             </ScrollViewer> 
         </Grid>
-        <Grid Visibility="{Binding !HasNews, Converter={StaticResource BoolToVis}}">
-            <TextBlock Text="Новости не были найдены"
-                       HorizontalAlignment="Center"
-                       FontWeight="Medium"
-                       FontSize="40"/>
-        </Grid>
-            
     </Grid>
 </UserControl>

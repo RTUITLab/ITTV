@@ -11,9 +11,19 @@
                                             IsDesignTimeCreatable=True}">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
-            <Grid x:Name="Content" VerticalAlignment="Center"
-              Margin="100 50 100 50"
-              Visibility="{Binding HasClasses, Converter={StaticResource BoolToVis}}">
+            <Grid x:Name="EmptyData"
+                  VerticalAlignment="Center"
+                  Visibility="{Binding HasClasses, Converter={StaticResource InverseBoolToVis}}">
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                           Text="Пар в этот день нет"
+                           HorizontalAlignment="Center"
+                           FontWeight="Medium"
+                           FontSize="40"/>
+            </Grid>
+            <Grid x:Name="Content" 
+                  VerticalAlignment="Center"
+                  Margin="100 50 100 50"
+                  Visibility="{Binding HasClasses, Converter={StaticResource BoolToVis}}">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -57,13 +67,6 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
-            </Grid>
-            <Grid x:Name="EmptyData" VerticalAlignment="Center"
-                  Visibility="{Binding !HasClasses, Converter={StaticResource BoolToVis}}">
-                <TextBlock Text="Пар в этот день нет"
-                           HorizontalAlignment="Center"
-                           FontWeight="Medium"
-                           FontSize="40"/>
             </Grid>
         </Grid>
     </ScrollViewer>
