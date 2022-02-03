@@ -5,11 +5,11 @@
     <Application.Resources>
         <ResourceDictionary>
             <converters:CustomBooleanToVisibilityConverter x:Key="BoolToVis" />
+            <converters:CustomInverseBooleanToVisibilityConverter x:Key="InverseBoolToVis" />
             <converters:CustomBooleanToColorForDarkThemeConverter x:Key="DarkThemeConverter" />
             <converters:CustomBooleanToColorForDarkThemeTextConverter x:Key="DarkThemeTextConverter" />
             <converters:CustomBooleanToUniversitySourceForDarkThemeConverter x:Key="BoolToResourceUniversityLogo" />
             <converters:CustomBooleanToLaboratoryLogoSourceForDarkThemeConverter x:Key="BoolToResourceLaboratoryLogo" />
-
             <SolidColorBrush x:Key="BlueBrush" Color="#FF00BCF2" />
             <SolidColorBrush x:Key="MediumGreyBrush" Color="#ff6e6e6e"/>
             <Style TargetType="Button">
