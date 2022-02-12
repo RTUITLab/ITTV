@@ -214,6 +214,30 @@
             </Border>
         </Button>
     </DataTemplate>
+    
+    <DataTemplate x:Key="LessonTemplate"
+                  DataType="{x:Type models:ScheduleLessonDto}">
+       <Grid>
+           <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="50"/>
+               <ColumnDefinition Width="200"/>
+               <ColumnDefinition/>
+               <ColumnDefinition/>
+               <ColumnDefinition/>
+           </Grid.ColumnDefinitions>
+           
+           <TextBlock Grid.Column="0"
+                      Text="{Binding NumberLesson}"/>
+           <TextBlock Grid.Column="1"
+                      Text="{Binding Name}"/>
+           <TextBlock Grid.Column="2"
+                      Text="{Binding Type}"/>
+           <TextBlock Grid.Column="3"
+                      Text="{Binding Teacher}"/>
+           <TextBlock Grid.Column="4"
+                      Text="{Binding ClassRoom}"/>
+       </Grid>
+    </DataTemplate>
 
     <DataTemplate x:Key="VideoTemplate"
                   DataType="{x:Type viewModels:VideoViewModel}">

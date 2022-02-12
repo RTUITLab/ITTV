@@ -16,7 +16,7 @@ namespace ITTV.WPF.Interface.Pages
         {
             InitializeComponent();
 
-            mainGrid.Margin = new Thickness(100, 50, 100, 50);
+           // mainGrid.Margin = new Thickness(100, 50, 100, 50);
 
             if (lessons == null)
             {
@@ -36,7 +36,7 @@ namespace ITTV.WPF.Interface.Pages
             }
 
             if (!empty) {
-                createDayLessons(lessons, mainGrid);
+              //  createDayLessons(lessons, mainGrid);
             } else {
                 OutList.Visibility = Visibility.Visible;
             }
@@ -46,7 +46,7 @@ namespace ITTV.WPF.Interface.Pages
         {
             InitializeComponent();
 
-            mainGrid.Margin = new Thickness(100, 50, 100, 50);
+            //mainGrid.Margin = new Thickness(100, 50, 100, 50);
 
             if (lessons == null)
             {
@@ -59,7 +59,7 @@ namespace ITTV.WPF.Interface.Pages
             {
                 RowDefinition lessonsRow = new RowDefinition();
                 lessonsRow.Height = new GridLength(1, GridUnitType.Star);
-                mainGrid.RowDefinitions.Add(lessonsRow);
+               // mainGrid.RowDefinitions.Add(lessonsRow);
 
 
                 TextBlock dayText = new TextBlock();
@@ -68,13 +68,13 @@ namespace ITTV.WPF.Interface.Pages
                 dayText.FontWeight = FontWeights.Bold;
                 Grid.SetRow(dayText, i);
                 dayText.Margin = new Thickness(0, 100, 0, 0);
-                if (i % 2 == 0) mainGrid.Children.Add(dayText);
+              //  if (i % 2 == 0) mainGrid.Children.Add(dayText);
 
 
                 Grid lessonsGrid = new Grid();
                 lessonsGrid.Margin = new Thickness(15);
                 Grid.SetRow(lessonsGrid, i);
-                if (i % 2 == 1) mainGrid.Children.Add(lessonsGrid);
+               // if (i % 2 == 1) mainGrid.Children.Add(lessonsGrid);
 
 
                 switch (i)
