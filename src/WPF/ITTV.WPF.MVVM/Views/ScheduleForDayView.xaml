@@ -32,7 +32,8 @@
                     AutoGenerateColumns="False"
                     HeadersVisibility="None"
                     RowHeight="100"
-                    ItemsSource="{Binding LessonsForSelectedDay}">
+                    ItemsSource="{Binding LessonsForSelectedDay}"
+                    ItemTemplate="">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding NumberLesson}"
                                             FontSize="20"
@@ -40,7 +41,7 @@
                                             ElementStyle="{StaticResource Centering}"/>
                         <DataGridTextColumn Binding="{Binding Name}"
                                             FontSize="20"
-                                            Width="500"
+                                            Width="700"
                                             ElementStyle="{StaticResource Centering}"/>
                         <DataGridTextColumn Binding="{Binding Type}"
                                             FontSize="20"
@@ -52,7 +53,7 @@
                                             ElementStyle="{StaticResource Centering}"/>
                         <DataGridTextColumn Binding="{Binding ClassRoom}"
                                             FontSize="20"
-                                            Width="100"
+                                            Width="150"
                                             ElementStyle="{StaticResource Centering}"/>
 
                     </DataGrid.Columns>
