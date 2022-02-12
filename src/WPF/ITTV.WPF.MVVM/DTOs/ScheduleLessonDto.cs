@@ -7,13 +7,15 @@ namespace ITTV.WPF.MVVM.DTOs
         public ScheduleLessonDto()
         { }
 
-        public ScheduleLessonDto(string classRoom,
+        public ScheduleLessonDto(int numberLesson,
+            string classRoom,
             string name, 
             string teacher, 
             string type, 
             string startTime, 
             string endTime)
         {
+            NumberLesson = numberLesson;
             ClassRoom = classRoom;
             Name = name;
             Teacher = teacher;
@@ -21,6 +23,7 @@ namespace ITTV.WPF.MVVM.DTOs
             StartTime = startTime;
             EndTime = endTime;
         }
+        public int NumberLesson { get; set; }
         public string ClassRoom { get; set; }
         public string Name { get; set; }
         public string Teacher { get; set; }

@@ -12,6 +12,8 @@ namespace ITTV.WPF.Core.Services
 {
     public class ScheduleManager
     {
+        private const int CountOfClasses = 7;
+
         private readonly List<string> _supportedDegrees = new()
         {
             "Бакалавриат",

@@ -8,19 +8,19 @@ namespace ITTV.WPF.Core.Helpers
     public static class MireaTimeHelper
     {
         private static readonly List<KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>> ScheduleOfClassesForDay = 
-            new List<KeyValuePair<string, (TimeSpan,TimeSpan)>>
+            new()
             {
-                new("Идёт 1-я пара", (new TimeSpan(9, 0, 0), new TimeSpan(10, 30, 0))),
-                new("Перерыв перед 2-ой парой", (new TimeSpan(10, 30, 0), new TimeSpan(10, 40, 0))),
-                new("2-я пара", (new TimeSpan(10, 40, 0), new TimeSpan(12, 10, 0))),
-                new("Большой перерыв перед 3-ой парой", (new TimeSpan(12, 10, 0), new TimeSpan(12, 40, 0))),
-                new("3-я пара", (new TimeSpan(12, 40, 0), new TimeSpan(14, 10, 0))),
-                new("Перерыв перед 4-ой парой", (new TimeSpan(14, 10, 0), new TimeSpan(14, 20, 0))),
-                new("4-я пара", (new TimeSpan(14, 20, 0), new TimeSpan(15, 50, 0))),
-                new("Большой перерыв перед 5-ой парой", (new TimeSpan(15, 50, 0), new TimeSpan(16, 20, 0))),
-                new("5-я пара", (new TimeSpan(16, 20, 0), new TimeSpan(17, 50, 0))),
-                new("Перерыв перед 6-ой парой", (new TimeSpan(17, 50, 0), new TimeSpan(18, 0, 0))),
-                new("6-я пара", (new TimeSpan(18, 0, 0), new TimeSpan(19, 30, 0)))
+                new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("Идёт 1-я пара", (new TimeSpan(9, 0, 0), new TimeSpan(10, 30, 0))),
+                new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("Перерыв перед 2-ой парой", (new TimeSpan(10, 30, 0), new TimeSpan(10, 40, 0))),
+                new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("2-я пара", (new TimeSpan(10, 40, 0), new TimeSpan(12, 10, 0))),
+                new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("Большой перерыв перед 3-ой парой", (new TimeSpan(12, 10, 0), new TimeSpan(12, 40, 0))),
+                new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("3-я пара", (new TimeSpan(12, 40, 0), new TimeSpan(14, 10, 0))),
+                new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("Перерыв перед 4-ой парой", (new TimeSpan(14, 10, 0), new TimeSpan(14, 20, 0))),
+                new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("4-я пара", (new TimeSpan(14, 20, 0), new TimeSpan(15, 50, 0))),
+                new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("Большой перерыв перед 5-ой парой", (new TimeSpan(15, 50, 0), new TimeSpan(16, 20, 0))),
+                new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("5-я пара", (new TimeSpan(16, 20, 0), new TimeSpan(17, 50, 0))),
+                new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("Перерыв перед 6-ой парой", (new TimeSpan(17, 50, 0), new TimeSpan(18, 0, 0))),
+                new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("6-я пара", (new TimeSpan(18, 0, 0), new TimeSpan(19, 30, 0)))
             };
         
         public static string GetLongTime(DateTime dateTime)

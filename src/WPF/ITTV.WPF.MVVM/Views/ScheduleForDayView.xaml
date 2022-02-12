@@ -21,52 +21,43 @@
                            FontSize="40"/>
             </Grid>
             <Grid x:Name="Content" 
+                  ShowGridLines="True"
                   VerticalAlignment="Center"
                   Margin="100 50 100 50"
                   Visibility="{Binding HasClasses, Converter={StaticResource BoolToVis}}">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50"/>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
                 
-                <TextBlock Grid.Row="0" Text="1"></TextBlock>
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="2"></TextBlock>
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="3"></TextBlock>
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="4"></TextBlock>
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="5"></TextBlock>
-                <TextBlock Grid.Row="5" Grid.Column="0" Text="6"></TextBlock>
-                <TextBlock Grid.Row="6" Grid.Column="0" Text="7"></TextBlock>
+                <DataGrid 
+                    BorderThickness="0"
+                    IsEnabled="False"
+                    AutoGenerateColumns="False"
+                    HeadersVisibility="None"
+                    RowHeight="100"
+                    ItemsSource="{Binding LessonsForSelectedDay}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding NumberLesson}"
+                                            FontSize="20"
+                                            Width="100"
+                                            ElementStyle="{StaticResource Centering}"/>
+                        <DataGridTextColumn Binding="{Binding Name}"
+                                            FontSize="20"
+                                            Width="500"
+                                            ElementStyle="{StaticResource Centering}"/>
+                        <DataGridTextColumn Binding="{Binding Type}"
+                                            FontSize="20"
+                                            Width="400"
+                                            ElementStyle="{StaticResource Centering}"/>
+                        <DataGridTextColumn Binding="{Binding Teacher}"
+                                            FontSize="20"
+                                            Width="300"
+                                            ElementStyle="{StaticResource Centering}"/>
+                        <DataGridTextColumn Binding="{Binding ClassRoom}"
+                                            FontSize="20"
+                                            Width="100"
+                                            ElementStyle="{StaticResource Centering}"/>
 
-                <ItemsControl Name="Elements"
-                              ItemsSource="{Binding News}"
-                              ItemTemplate="{StaticResource NewsTemplate}">
-                    <ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter Property="Grid.Row" Value="{Binding GridRow}" />
-                            <Setter Property="Grid.Column" Value="{Binding GridColumn}" />
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                    
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel  Orientation="Horizontal" 
-                                        HorizontalAlignment="Center" 
-                                        VerticalAlignment="Center" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
+                    </DataGrid.Columns>
+                </DataGrid>
+                
             </Grid>
         </Grid>
     </ScrollViewer>
