@@ -51,6 +51,7 @@ namespace ITTV.WPF.MVVM.ViewModels
                 new NewsElementViewModel(x, _navigationStore));
 
             News = new ObservableCollection<NewsElementViewModel>(newsElements);
+            SetLoaded();
         }
     }
 }

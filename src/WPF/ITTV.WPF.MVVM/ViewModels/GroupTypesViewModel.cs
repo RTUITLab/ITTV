@@ -60,6 +60,7 @@ namespace ITTV.WPF.MVVM.ViewModels
             });
 
             SupportedGroupTypes = new LinkedList<TimeTableQuestionDto>(supportedGroupTypes);
+            SetLoaded();
         }
     }
 }
