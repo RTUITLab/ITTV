@@ -214,7 +214,7 @@
             </Border>
         </Button>
     </DataTemplate>
-
+    
     <DataTemplate x:Key="VideoTemplate"
                   DataType="{x:Type viewModels:VideoViewModel}">
         <Button Margin="50" 

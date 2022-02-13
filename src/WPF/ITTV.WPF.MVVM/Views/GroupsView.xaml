@@ -10,26 +10,38 @@
              d:DataContext="{d:DesignInstance viewModels:GroupsViewModel,
                                             IsDesignTimeCreatable=False}">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid x:Name="Loading"
+                  VerticalAlignment="Center"
+                  Visibility="{Binding IsLoaded, Converter={StaticResource InverseBoolToVis}}">
+                
+                <Control Template="{StaticResource LoadingAnimation}" Visibility="Visible" />
+            </Grid>
+        </Grid>
+        <Grid
+            Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVis}}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
         
-        <ScrollViewer Grid.Row="0"
-                      VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl Name="Groups" 
-                          Margin="40 0"
-                          ItemsSource="{Binding GroupsForCourse}"
-                          ItemTemplate="{StaticResource TimeTableTemplate}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal"
-                                   HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </ScrollViewer>
+            <ScrollViewer Grid.Row="0"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl Name="Groups" 
+                              Margin="40 0"
+                              ItemsSource="{Binding GroupsForCourse}"
+                              ItemTemplate="{StaticResource TimeTableTemplate}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>

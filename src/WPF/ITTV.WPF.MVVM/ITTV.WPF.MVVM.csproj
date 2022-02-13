@@ -241,7 +241,7 @@
       <Page Include="Views\GamesView.xaml" />
       <Page Include="Views\GroupsView.xaml" />
       <Page Include="Views\GroupTypesView.xaml" />
-      <Page Include="Views\KinnectButtons\HandPointerStyles.xaml">
+      <Page Include="Views\Styles\HandPointerStyles.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Include="Views\MainWindow.xaml">
@@ -262,7 +262,7 @@
       <Resource Include="Images\Gerb.png" />
       <Resource Include="Images\Kinect.ico" />
       <Resource Include="Images\Play.png" />
-      <Resource Include="Views\KinnectButtons\HighlightRectangle.png" />
+      <Resource Include="Views\Styles\HighlightRectangle.png" />
     </ItemGroup>
     <ItemGroup>
       <Content Include="configuration.json">

@@ -9,27 +9,38 @@
              d:DataContext="{d:DesignInstance viewModels:NewsViewModel,
                                             IsDesignTimeCreatable=True}">
     <Grid>
-        <Grid Visibility="{Binding HasNews, Converter={StaticResource InverseBoolToVis}}">
-            <TextBlock Text="Новости не были найдены"
-                       HorizontalAlignment="Center"
-                       FontWeight="Medium"
-                       FontSize="40"/>
+        <Grid>
+            <Grid x:Name="Loading"
+                  VerticalAlignment="Center"
+                  Visibility="{Binding IsLoaded, Converter={StaticResource InverseBoolToVis}}">
+                
+                <Control Template="{StaticResource LoadingAnimation}" Visibility="Visible" />
+            </Grid>
         </Grid>
-        <Grid Visibility="{Binding HasNews, Converter={StaticResource BoolToVis}}">
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled">
-                <ItemsControl Name="Elements"
-                              ItemsSource="{Binding News}"
-                              ItemTemplate="{StaticResource NewsTemplate}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel  Orientation="Horizontal" 
-                                        HorizontalAlignment="Center" 
-                                        VerticalAlignment="Center" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </ScrollViewer> 
+        <Grid
+            Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVis}}">
+            <Grid Visibility="{Binding HasNews, Converter={StaticResource InverseBoolToVis}}">
+                <TextBlock Text="Новости не были найдены"
+                           HorizontalAlignment="Center"
+                           FontWeight="Medium"
+                           FontSize="40"/>
+            </Grid>
+            <Grid Visibility="{Binding HasNews, Converter={StaticResource BoolToVis}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl Name="Elements"
+                                  ItemsSource="{Binding News}"
+                                  ItemTemplate="{StaticResource NewsTemplate}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel  Orientation="Horizontal" 
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer> 
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

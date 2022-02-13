@@ -11,54 +11,65 @@
                                             IsDesignTimeCreatable=True}">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
-            <Grid x:Name="EmptyData"
+            <Grid x:Name="Loading"
                   VerticalAlignment="Center"
-                  Visibility="{Binding HasClasses, Converter={StaticResource InverseBoolToVis}}">
-                <TextBlock Grid.Row="0" Grid.Column="0"
-                           Text="Пар в этот день нет"
-                           HorizontalAlignment="Center"
-                           FontWeight="Medium"
-                           FontSize="40"/>
+                  Visibility="{Binding IsLoaded, Converter={StaticResource InverseBoolToVis}}">
+                
+                <Control Template="{StaticResource LoadingAnimation}" Visibility="Visible" />
             </Grid>
-            <Grid x:Name="Content" 
-                  ShowGridLines="True"
-                  VerticalAlignment="Center"
-                  Margin="100 50 100 50"
-                  Visibility="{Binding HasClasses, Converter={StaticResource BoolToVis}}">
-                
-                <DataGrid 
-                    BorderThickness="0"
-                    IsEnabled="False"
-                    AutoGenerateColumns="False"
-                    HeadersVisibility="None"
-                    RowHeight="100"
-                    ItemsSource="{Binding LessonsForSelectedDay}"
-                    ItemTemplate="">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding NumberLesson}"
-                                            FontSize="20"
-                                            Width="100"
-                                            ElementStyle="{StaticResource Centering}"/>
-                        <DataGridTextColumn Binding="{Binding Name}"
-                                            FontSize="20"
-                                            Width="700"
-                                            ElementStyle="{StaticResource Centering}"/>
-                        <DataGridTextColumn Binding="{Binding Type}"
-                                            FontSize="20"
-                                            Width="400"
-                                            ElementStyle="{StaticResource Centering}"/>
-                        <DataGridTextColumn Binding="{Binding Teacher}"
-                                            FontSize="20"
-                                            Width="300"
-                                            ElementStyle="{StaticResource Centering}"/>
-                        <DataGridTextColumn Binding="{Binding ClassRoom}"
-                                            FontSize="20"
-                                            Width="150"
-                                            ElementStyle="{StaticResource Centering}"/>
-
-                    </DataGrid.Columns>
-                </DataGrid>
-                
+            <Grid
+                Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVis}}">
+                <Grid x:Name="EmptyData"
+                      VerticalAlignment="Center"
+                      Visibility="{Binding HasClasses, Converter={StaticResource InverseBoolToVis}}">
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="Пар в этот день нет"
+                               HorizontalAlignment="Center"
+                               FontWeight="Medium"
+                               FontSize="40"/>
+                </Grid>
+                <Grid x:Name="Content" 
+                      ShowGridLines="True"
+                      VerticalAlignment="Center"
+                      Margin="100 50 100 50"
+                      Visibility="{Binding HasClasses, Converter={StaticResource BoolToVis}}">
+                    <DataGrid
+                        BorderThickness="0"
+                        IsEnabled="False"
+                        AutoGenerateColumns="False"
+                        HeadersVisibility="None"
+                        RowHeight="100"
+                        ItemsSource="{Binding LessonsForSelectedDay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding NumberLesson}"
+                                                FontSize="20"
+                                                Width="Auto"
+                                                MinWidth="50"
+                                                ElementStyle="{StaticResource Centering}"/>
+                            <DataGridTextColumn Binding="{Binding Name}"
+                                                FontSize="20"
+                                                Width="Auto"
+                                                MaxWidth="600"
+                                                MinWidth="500"
+                                                ElementStyle="{StaticResource Centering}"/>
+                            <DataGridTextColumn Binding="{Binding Type}"
+                                                FontSize="20"
+                                                Width="Auto"
+                                                MinWidth="200"
+                                                ElementStyle="{StaticResource Centering}"/>
+                            <DataGridTextColumn Binding="{Binding Teacher}"
+                                                FontSize="20"
+                                                Width="Auto"
+                                                MaxWidth="200"
+                                                MinWidth="100"
+                                                ElementStyle="{StaticResource Centering}"/>
+                            <DataGridTextColumn Binding="{Binding ClassRoom}"
+                                                FontSize="20"
+                                                MinWidth="50"
+                                                ElementStyle="{StaticResource Centering}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             </Grid>
         </Grid>
     </ScrollViewer>

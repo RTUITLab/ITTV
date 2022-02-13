@@ -52,6 +52,7 @@ namespace ITTV.WPF.MVVM.ViewModels
                 x.Time.End));
             
             LessonsForSelectedDay = new LinkedList<ScheduleLessonDto>(lessonsDto);
+            SetLoaded();
         }
     }
 }

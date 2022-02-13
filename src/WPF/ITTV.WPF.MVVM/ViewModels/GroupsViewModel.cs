@@ -61,6 +61,7 @@ namespace ITTV.WPF.MVVM.ViewModels
             });
 
             GroupsForCourse = new LinkedList<TimeTableQuestionDto>(groupsQuestions);
+            SetLoaded();
         }
     }
 }
