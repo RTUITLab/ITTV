@@ -133,7 +133,7 @@
                             IsEnabled="False"
                             AutoGenerateColumns="False"
                             HeadersVisibility="None"
-                            RowHeight="100"
+                            RowHeight="130"
                             ItemsSource="{Binding ScheduleForLessons}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn
@@ -167,7 +167,8 @@
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn
                             Width="Auto"
-                            MinWidth="700">
+                            MinWidth="700"
+                            MaxWidth="800">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate >
                                     <Grid>
@@ -178,7 +179,7 @@
                                         </Grid.RowDefinitions>
                                         <TextBlock Grid.Row="0" Text="{Binding FirstWeekLesson.Name}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
                                         <Line Grid.Row="1" Stroke="Black" Stretch="Fill" X2="1" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Row="2" Text="{Binding SecondWeekLesson.Name}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        <TextBlock Grid.Row="2" Text="{Binding SecondWeekLesson.Name}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
                                     </Grid>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
