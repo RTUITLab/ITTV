@@ -5,7 +5,7 @@ using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.MVVM.DTOs;
 
-namespace ITTV.WPF.MVVM.ViewModels
+namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
     public class ScheduleForDayViewModel : ViewModelBase
     {

@@ -8,7 +8,7 @@ using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.Commands.Schedule;
 using ITTV.WPF.MVVM.DTOs;
 
-namespace ITTV.WPF.MVVM.ViewModels
+namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
     public class TimeTableViewModel : ViewModelBase
     {

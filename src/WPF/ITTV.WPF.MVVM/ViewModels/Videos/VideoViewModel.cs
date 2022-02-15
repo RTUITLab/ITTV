@@ -4,7 +4,7 @@ using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.Commands.Videos;
 
-namespace ITTV.WPF.MVVM.ViewModels
+namespace ITTV.WPF.MVVM.ViewModels.Videos
 {
     public class VideoViewModel : ViewModelBase
     {

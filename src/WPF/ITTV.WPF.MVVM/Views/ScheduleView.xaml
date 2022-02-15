@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ITTV.WPF.MVVM.Views"
              xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
+             xmlns:schedule="clr-namespace:ITTV.WPF.MVVM.ViewModels.Schedule"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance viewModels:ScheduleViewModel,
+             d:DataContext="{d:DesignInstance schedule:ScheduleViewModel,
                                             IsDesignTimeCreatable=True}">
     <Grid>
         <Grid x:Name="Loading"

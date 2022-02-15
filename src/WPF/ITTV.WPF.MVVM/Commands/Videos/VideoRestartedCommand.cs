@@ -1,5 +1,6 @@
 ﻿using ITTV.WPF.Abstractions.Base.Command;
 using ITTV.WPF.MVVM.ViewModels;
+using ITTV.WPF.MVVM.ViewModels.Videos;
 
 namespace ITTV.WPF.MVVM.Commands.Videos
 {

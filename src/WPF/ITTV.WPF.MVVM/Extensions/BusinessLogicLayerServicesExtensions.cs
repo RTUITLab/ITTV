@@ -5,6 +5,10 @@ using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.Commands;
 using ITTV.WPF.MVVM.Commands.BackgroundVideos;
 using ITTV.WPF.MVVM.ViewModels;
+using ITTV.WPF.MVVM.ViewModels.Games;
+using ITTV.WPF.MVVM.ViewModels.News;
+using ITTV.WPF.MVVM.ViewModels.Schedule;
+using ITTV.WPF.MVVM.ViewModels.Videos;
 using ITTV.WPF.MVVM.Views;
 using Microsoft.Extensions.DependencyInjection;
 

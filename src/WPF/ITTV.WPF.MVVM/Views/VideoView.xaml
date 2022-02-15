@@ -5,10 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:videos="clr-namespace:ITTV.WPF.MVVM.ViewModels.Videos"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance viewModels:VideoViewModel}">
+             d:DataContext="{d:DesignInstance videos:VideoViewModel}">
     <Grid>
         <MediaElement x:Name="Video"
                       LoadedBehavior="Play"

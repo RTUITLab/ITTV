@@ -6,7 +6,7 @@ using ITTV.WPF.Core.Providers.MireaApi;
 using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.DTOs;
 
-namespace ITTV.WPF.MVVM.ViewModels
+namespace ITTV.WPF.MVVM.ViewModels.News
 {
     public class NewsViewModel : ViewModelBase
     {

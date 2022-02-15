@@ -7,7 +7,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:k="http://schemas.microsoft.com/kinect/2014"
     xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
-    xmlns:models="clr-namespace:ITTV.WPF.MVVM.DTOs">
+    xmlns:models="clr-namespace:ITTV.WPF.MVVM.DTOs"
+    xmlns:news="clr-namespace:ITTV.WPF.MVVM.ViewModels.News"
+    xmlns:videos="clr-namespace:ITTV.WPF.MVVM.ViewModels.Videos">
 
     <!-- Standard Colors and Brushes -->
 
@@ -334,7 +336,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="NewsTemplate"
-                  DataType="{x:Type viewModels:NewsElementViewModel}">
+                  DataType="{x:Type news:NewsElementViewModel}">
         <Button Margin="50" 
                 Width="740" 
                 Style="{StaticResource KinectTileButton}"
@@ -356,7 +358,7 @@
     </DataTemplate>
     
     <DataTemplate x:Key="VideoTemplate"
-                  DataType="{x:Type viewModels:VideoViewModel}">
+                  DataType="{x:Type videos:VideoViewModel}">
         <Button Margin="50" 
                 Width="740"
                 HorizontalAlignment="Stretch"
