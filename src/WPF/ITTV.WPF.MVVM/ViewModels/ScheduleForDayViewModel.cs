@@ -39,8 +39,10 @@ namespace ITTV.WPF.MVVM.ViewModels
             _timeTableData = timeTableDto;
         }
 
-        public async Task Recalculate()
+        public override async Task Recalculate()
         {
+            SetUnloaded();
+            
             var lessons = await _scheduleManager.GetLessonsForDay(_timeTableData.GroupName, _timeTableData.SelectedScheduleTypeEnum);
             var lessonsDto = lessons
                 .Select((x, i) => new ScheduleLessonDto(i + 1,

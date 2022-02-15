@@ -8,7 +8,6 @@ namespace ITTV.WPF.MVVM.Commands.Schedule
 {
     public class SelectGroupTypesCommand : CommandBase
     {
-        private readonly GroupsViewModel _groupViewModel;
         private readonly NavigationService<GroupsViewModel> _navigationService;
 
         public SelectGroupTypesCommand(NavigationStore navigationStore, ScheduleManager scheduleManager,
@@ -18,14 +17,11 @@ namespace ITTV.WPF.MVVM.Commands.Schedule
             groupViewModel.SetTimeTableData(timeTableData);
             
             _navigationService = new NavigationService<GroupsViewModel>(navigationStore, groupViewModel);
-            _groupViewModel = groupViewModel;
         }
         
         public override void Execute(object parameter)
         {
             _navigationService.Navigate();
-            _groupViewModel.Recalculate()
-                .ConfigureAwait(false);
         }
     }
 }

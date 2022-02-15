@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.MVVM.DTOs;
@@ -10,22 +10,35 @@ namespace ITTV.WPF.MVVM.ViewModels
 {
     public class GamesViewModel : ViewModelBase
     {
-        private readonly ObservableCollection<GameDto> _games = new();
-        public IReadOnlyCollection<GameDto> Games => _games;
+        private ObservableCollection<GameDto> _games = new();
 
-        public GamesViewModel()
+        public ObservableCollection<GameDto> Games
         {
-            SyncGames();
+            get => _games;
+            set
+            {
+                if (_games.SequenceEqual(value))
+                    return;
+
+                _games = value;
+                OnPropertyChanged(nameof(Games));
+            }
         }
 
-        private void SyncGames()
+        public GamesViewModel()
+        { }
+
+        public override Task Recalculate()
         {
+            SetUnloaded();
+            
             var games = Directory.GetDirectories(PathHelper.GetDirectoryGamesPath)
                 .Select(x => new GameDto(Path.GetFileName(x)));
-            foreach (var game in games)
-            {
-                _games.Add(game);
-            }
+
+            Games = new ObservableCollection<GameDto>(games);
+            SetLoaded();
+            
+            return Task.CompletedTask;
         }
     }
 }

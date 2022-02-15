@@ -36,12 +36,12 @@ namespace ITTV.WPF.MVVM.ViewModels
         {
             _mireaApiProvider = mireaApiProvider;
             _navigationStore = navigationStore;
-
-            SyncNews().ConfigureAwait(false);
         }
 
-        private async Task SyncNews()
+        public override async Task Recalculate()
         {
+            SetUnloaded();
+            
             var data = await _mireaApiProvider.GetNews();
             
             var newsDto = data.Select(x => 

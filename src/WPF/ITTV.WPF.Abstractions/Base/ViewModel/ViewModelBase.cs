@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace ITTV.WPF.Abstractions.Base.ViewModel
 {
@@ -21,6 +22,17 @@ namespace ITTV.WPF.Abstractions.Base.ViewModel
         {
             IsLoaded = true;
         }
+        
+        protected void SetUnloaded()
+        {
+            IsLoaded = false;
+        }
+
+        public virtual Task Recalculate()
+        {
+            return Task.CompletedTask;
+        }
+
         
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
@@ -11,8 +12,19 @@ namespace ITTV.WPF.MVVM.ViewModels
     {
         private readonly VideosManager _videosManager;
         
-        private readonly ObservableCollection<VideoViewModel> _videos = new();
-        public ObservableCollection<VideoViewModel> Videos => _videos;
+        private ObservableCollection<VideoViewModel> _videos = new();
+        public ObservableCollection<VideoViewModel> Videos
+        {
+            get => _videos;
+            set
+            {
+                if (_videos.SequenceEqual(value))
+                    return;
+
+                _videos = value;
+                OnPropertyChanged(nameof(Videos));
+            }
+        }
 
 
         private readonly NavigationStore _navigationStore;
@@ -22,21 +34,22 @@ namespace ITTV.WPF.MVVM.ViewModels
         {
             _videosManager = videosManager;
             _navigationStore = navigationStore;
-
-            SyncVideos();
         }
 
-        private void SyncVideos()
+        public override Task Recalculate()
         {
+            SetUnloaded();
+            
             var videos = _videosManager.GetVideos()
                 .Select(x => new VideoViewModel(Path.GetFileNameWithoutExtension(x.OriginalString), 
                     x,
                     _navigationStore));
+
+            Videos = new ObservableCollection<VideoViewModel>(videos);
+
+            SetLoaded();
             
-            foreach (var video in videos)
-            {
-                _videos.Add(video);
-            }
+            return Task.CompletedTask;
         }
     }
 }

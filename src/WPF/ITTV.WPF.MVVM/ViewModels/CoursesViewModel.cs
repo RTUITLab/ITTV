@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
@@ -40,10 +41,12 @@ namespace ITTV.WPF.MVVM.ViewModels
             _timeTableData = tableDto;
         }
 
-        public void Recalculate()
+        public override Task Recalculate()
         {
             if (!_timeTableData.Degree.HasValue)
-                return;
+                return Task.CompletedTask;
+            
+            SetUnloaded();
             
             var supportedCourses = _scheduleManager.GetSupportedCoursesForDegree(_timeTableData.Degree.Value);
             var supportedCoursesQuestions = supportedCourses.Select(x =>
@@ -60,6 +63,10 @@ namespace ITTV.WPF.MVVM.ViewModels
             });
 
             SupportedCourses = new LinkedList<TimeTableQuestionDto>(supportedCoursesQuestions);
+            
+            SetLoaded();
+            
+            return Task.CompletedTask;
         }
     }
 }

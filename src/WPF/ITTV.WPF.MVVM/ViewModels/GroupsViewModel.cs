@@ -40,12 +40,13 @@ namespace ITTV.WPF.MVVM.ViewModels
             _timeTableData = tableDto;
         }
 
-        public async Task Recalculate()
+        public override async Task Recalculate()
         {
             if (!_timeTableData.Degree.HasValue ||
                 !_timeTableData.CourseNumber.HasValue || 
                 _timeTableData.GroupType is null)
                 return;
+            SetUnloaded();
             
             var groups = await _scheduleManager.GetGroups(_timeTableData.Degree.Value, _timeTableData.CourseNumber.Value, _timeTableData.GroupType);
             var groupsQuestions = groups.Select(x =>
