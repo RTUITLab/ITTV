@@ -25,9 +25,14 @@ namespace ITTV.WPF.MVVM.Commands.Schedule
         {
             if (_timeTableData.SelectedScheduleTypeEnum == SelectedScheduleTypeEnum.FullSchedule)
             {
-                var scheduleViewModel = new ScheduleViewModel(_timeTableData);
+                var scheduleViewModel = new ScheduleViewModel(_scheduleManager);
+                scheduleViewModel.SetTimeTable(_timeTableData);
+                
                 var navigationService = new NavigationService<ScheduleViewModel>(_navigationStore, scheduleViewModel);
                 navigationService.Navigate();
+
+                scheduleViewModel.Recalculate()
+                    .ConfigureAwait(false);
             }
             else
             {

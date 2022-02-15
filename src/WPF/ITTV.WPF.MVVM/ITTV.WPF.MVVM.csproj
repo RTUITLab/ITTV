@@ -83,6 +83,7 @@
         <Compile Include="DTOs\DayScheduleDto.cs" />
         <Compile Include="DTOs\GameDto.cs" />
         <Compile Include="DTOs\NewsDto.cs" />
+        <Compile Include="DTOs\OverviewScheduleForDay.cs" />
         <Compile Include="DTOs\ScheduleLessonDto.cs" />
         <Compile Include="DTOs\TimeTableDto.cs" />
         <Compile Include="DTOs\TimeTableQuestionDto.cs" />

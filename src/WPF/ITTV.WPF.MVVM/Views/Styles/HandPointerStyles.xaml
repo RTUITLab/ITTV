@@ -104,6 +104,146 @@
             </Grid>
         </Button>
     </DataTemplate>
+    
+    <DataTemplate x:Key="OverviewScheduleTemplate"
+                  DataType="{x:Type models:OverviewScheduleForDay}">
+        <Grid>
+
+        
+        <Grid x:Name="Content" 
+              VerticalAlignment="Center"
+              Margin="100 50 100 50">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            
+            <TextBlock
+                Text="{Binding DayOfWeekName}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="0 0 0 50">
+            </TextBlock>
+            
+            <DataGrid Grid.Row="1"
+                            BorderThickness="0"
+                            IsEnabled="False"
+                            AutoGenerateColumns="False"
+                            HeadersVisibility="None"
+                            RowHeight="100"
+                            ItemsSource="{Binding ScheduleForLessons}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            MinWidth="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate >
+                                    <Grid>
+                                        <TextBlock Text="{Binding NumberLesson}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            MinWidth="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50*"/>
+                                            <RowDefinition />
+                                            <RowDefinition Height="50*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="I" TextWrapping="Wrap"   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        <Line Grid.Row="1" Stroke="Black" Stretch="Fill" X2="1" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="2" Text="II" TextWrapping="Wrap"   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            MinWidth="700">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50*"/>
+                                            <RowDefinition />
+                                            <RowDefinition Height="50*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding FirstWeekLesson.Name}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        <Line Grid.Row="1" Stroke="Black" Stretch="Fill" X2="1" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="2" Text="{Binding SecondWeekLesson.Name}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            MinWidth="250">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50*"/>
+                                            <RowDefinition />
+                                            <RowDefinition Height="50*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding FirstWeekLesson.Type}" TextWrapping="Wrap"   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        <Line Grid.Row="1" Stroke="Black" Stretch="Fill" X2="1" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="2" Text="{Binding SecondWeekLesson.Type}" TextWrapping="Wrap"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            MinWidth="250">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50*"/>
+                                            <RowDefinition />
+                                            <RowDefinition Height="50*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding FirstWeekLesson.Teacher}" TextWrapping="Wrap"   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        <Line Grid.Row="1" Stroke="Black" Stretch="Fill" X2="1" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="2" Text="{Binding SecondWeekLesson.Teacher}" TextWrapping="Wrap"   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            MinWidth="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50*"/>
+                                            <RowDefinition />
+                                            <RowDefinition Height="50*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding FirstWeekLesson.ClassRoom}" TextWrapping="Wrap"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        <Line Grid.Row="1" Stroke="Black" Stretch="Fill" X2="1" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="2" Text="{Binding SecondWeekLesson.ClassRoom}" TextWrapping="Wrap"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Grid>
+    </DataTemplate>
 
     <DataTemplate x:Key="MenuTemplate">
         <Button Margin="50" HorizontalAlignment="Stretch" Style="{StaticResource KinectTileButton}">
