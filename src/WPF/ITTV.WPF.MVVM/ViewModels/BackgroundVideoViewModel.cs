@@ -101,7 +101,11 @@ namespace ITTV.WPF.MVVM.ViewModels
             set
             {
                 if (Equals(_isInactiveMode, value))
-                    return;
+                {
+                    if (!(_isInactiveMode && CurrentVideo == default))
+                        return;
+                }
+                
                 _isInactiveMode = value;
 
                 if (_isInactiveMode)
