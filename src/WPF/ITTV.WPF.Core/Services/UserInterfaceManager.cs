@@ -11,6 +11,7 @@ namespace ITTV.WPF.Core.Services
     {
         private readonly Timer _timer;
         private readonly Settings _settings;
+        
         public event Action OnStateChangedToInactive;
 
         public UserInterfaceManager(IOptions<Settings> settings)

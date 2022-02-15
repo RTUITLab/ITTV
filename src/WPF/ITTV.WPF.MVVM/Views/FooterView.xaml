@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
+             xmlns:controls="http://schemas.microsoft.com/kinect/2014"
              mc:Ignorable="d"
              d:DesignWidth="1920"
              d:DesignHeight="1080"
@@ -135,6 +136,10 @@
                                Margin="7.5, 0, 0, 0"
                                Text="{Binding CurrentWeekOfSemester}" Cursor="None"/>
                 </Grid>
+                
+                <controls:KinectUserViewer Grid.Row="0" 
+                                    Grid.Column="3" 
+                                    VerticalAlignment="Stretch"/>
         </Grid>
     </Grid>
 </UserControl>
