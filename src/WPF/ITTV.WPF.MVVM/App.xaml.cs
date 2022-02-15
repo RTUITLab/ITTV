@@ -1,27 +1,25 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Input;
 using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Models;
-using ITTV.WPF.Core.Providers.MireaApi;
 using ITTV.WPF.Core.Services;
-using ITTV.WPF.Core.Services.ApiClient;
-using ITTV.WPF.Core.Stores;
-using ITTV.WPF.MVVM.Commands;
-using ITTV.WPF.MVVM.Commands.BackgroundVideos;
 using ITTV.WPF.MVVM.Extensions;
 using ITTV.WPF.MVVM.ViewModels;
 using ITTV.WPF.MVVM.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Serilog;
-using Serilog.Core;
 
 namespace ITTV.WPF.MVVM
 {
     public partial class App
     {
         private readonly IServiceProvider _serviceProvider;
-
+        private Settings _settings => _serviceProvider.GetRequiredService<IOptions<Settings>>().Value;
+        
         public App()
         {
             const string configurationFile = "configuration.json";
@@ -48,6 +46,7 @@ namespace ITTV.WPF.MVVM
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            ConfigureReOpenApp();
 
             var navigationCommand = _serviceProvider.GetRequiredService<NavigationService<BackgroundVideoViewModel>>();
             navigationCommand.Navigate();
@@ -59,6 +58,21 @@ namespace ITTV.WPF.MVVM
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             Log.Logger.Error(e.Exception, "Not handled exception");
+        }
+
+        private void ReOpenApp()
+        {
+            var assemblyName = typeof(App).Assembly.GetName().Name;
+            Process.Start($"{assemblyName}.exe");
+        }
+
+        private void ConfigureReOpenApp()
+        {
+            if (!_settings.IsAdminMode)
+            {
+                AppDomain.CurrentDomain.ProcessExit += (_,_) => ReOpenApp();
+                AppDomain.CurrentDomain.UnhandledException += (_,_) => ReOpenApp();
+            }
         }
     }
 }
