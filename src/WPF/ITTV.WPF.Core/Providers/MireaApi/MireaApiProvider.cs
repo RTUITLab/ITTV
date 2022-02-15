@@ -20,7 +20,7 @@ namespace ITTV.WPF.Core.Providers.MireaApi
 
         public async Task<ApiNewsItem[]> GetNews()
         {
-            var timeUpdated = TimeSpan.FromSeconds(5);
+            var timeUpdated = TimeSpan.FromMinutes(5);
 
             var dataSource = new Func<Task<ApiNewsItem[]>>(() => _mireaApiClient.GetNews());
 

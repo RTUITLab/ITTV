@@ -6,7 +6,7 @@
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
         <ProjectGuid>{566BB0F6-0055-40B9-82C9-FE5E071B85B1}</ProjectGuid>
         <OutputType>WinExe</OutputType>
-        <RootNamespace>ITTV.WPF</RootNamespace>
+        <RootNamespace>ITTV.WPF.MVVM</RootNamespace>
         <AssemblyName>ITTV</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
@@ -14,6 +14,7 @@
         <WarningLevel>4</WarningLevel>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <UserSecretsId>df078d84-c155-4c70-9f15-8e6e16091b9e</UserSecretsId>
+        <ApplicationIcon>Images\Kinect.ico</ApplicationIcon>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
