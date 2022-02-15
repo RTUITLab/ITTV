@@ -92,21 +92,21 @@
         <Compile Include="Extensions\BusinessLogicLayerServicesExtensions.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="ViewModels\BackgroundVideoViewModel.cs" />
-        <Compile Include="ViewModels\CoursesViewModel.cs" />
         <Compile Include="ViewModels\FooterViewModel.cs" />
-        <Compile Include="ViewModels\GamesViewModel.cs" />
-        <Compile Include="ViewModels\GroupsViewModel.cs" />
-        <Compile Include="ViewModels\GroupTypesViewModel.cs" />
+        <Compile Include="ViewModels\Games\GamesViewModel.cs" />
         <Compile Include="ViewModels\MainViewModel.cs" />
         <Compile Include="ViewModels\MenuViewModel.cs" />
-        <Compile Include="ViewModels\NewsElementViewModel.cs" />
-        <Compile Include="ViewModels\NewsViewModel.cs" />
-        <Compile Include="ViewModels\ScheduleForDayViewModel.cs" />
-        <Compile Include="ViewModels\ScheduleTypeViewModel.cs" />
-        <Compile Include="ViewModels\ScheduleViewModel.cs" />
-        <Compile Include="ViewModels\TimeTableViewModel.cs" />
-        <Compile Include="ViewModels\VideoViewModel.cs" />
-        <Compile Include="ViewModels\VideosViewModel.cs" />
+        <Compile Include="ViewModels\News\NewsElementViewModel.cs" />
+        <Compile Include="ViewModels\News\NewsViewModel.cs" />
+        <Compile Include="ViewModels\Schedule\CoursesViewModel.cs" />
+        <Compile Include="ViewModels\Schedule\GroupsViewModel.cs" />
+        <Compile Include="ViewModels\Schedule\GroupTypesViewModel.cs" />
+        <Compile Include="ViewModels\Schedule\ScheduleForDayViewModel.cs" />
+        <Compile Include="ViewModels\Schedule\ScheduleTypeViewModel.cs" />
+        <Compile Include="ViewModels\Schedule\ScheduleViewModel.cs" />
+        <Compile Include="ViewModels\Schedule\TimeTableViewModel.cs" />
+        <Compile Include="ViewModels\Videos\VideosViewModel.cs" />
+        <Compile Include="ViewModels\Videos\VideoViewModel.cs" />
         <Compile Include="Views\BackgroundVideoView.xaml.cs">
           <DependentUpon>BackgroundVideoView.xaml</DependentUpon>
         </Compile>

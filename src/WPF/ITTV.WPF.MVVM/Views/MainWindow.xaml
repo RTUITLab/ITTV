@@ -6,6 +6,10 @@
         xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
         xmlns:views="clr-namespace:ITTV.WPF.MVVM.Views"
         xmlns:controls="http://schemas.microsoft.com/kinect/2014"
+        xmlns:schedule="clr-namespace:ITTV.WPF.MVVM.ViewModels.Schedule"
+        xmlns:news="clr-namespace:ITTV.WPF.MVVM.ViewModels.News"
+        xmlns:videos="clr-namespace:ITTV.WPF.MVVM.ViewModels.Videos"
+        xmlns:games="clr-namespace:ITTV.WPF.MVVM.ViewModels.Games"
         mc:Ignorable="d"
         Title="ITTV"
         d:DesignWidth="1920"
@@ -25,40 +29,40 @@
         <DataTemplate DataType="{x:Type viewModels:FooterViewModel}">
             <views:FooterView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:GamesViewModel}">
+        <DataTemplate DataType="{x:Type games:GamesViewModel}">
             <views:GamesView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:VideosViewModel}">
+        <DataTemplate DataType="{x:Type videos:VideosViewModel}">
             <views:VideosView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:TimeTableViewModel}">
+        <DataTemplate DataType="{x:Type schedule:TimeTableViewModel}">
             <views:TimeTableView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:NewsViewModel}">
+        <DataTemplate DataType="{x:Type news:NewsViewModel}">
             <views:NewsView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:NewsElementViewModel}">
+        <DataTemplate DataType="{x:Type news:NewsElementViewModel}">
             <views:NewsElementView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:VideoViewModel}">
+        <DataTemplate DataType="{x:Type videos:VideoViewModel}">
             <views:VideoView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:CoursesViewModel}">
+        <DataTemplate DataType="{x:Type schedule:CoursesViewModel}">
             <views:CoursesView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:GroupsViewModel}">
+        <DataTemplate DataType="{x:Type schedule:GroupsViewModel}">
             <views:GroupsView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:GroupTypesViewModel}">
+        <DataTemplate DataType="{x:Type schedule:GroupTypesViewModel}">
             <views:GroupTypesView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:ScheduleTypeViewModel}">
+        <DataTemplate DataType="{x:Type schedule:ScheduleTypeViewModel}">
             <views:ScheduleTypeView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:ScheduleForDayViewModel}">
+        <DataTemplate DataType="{x:Type schedule:ScheduleForDayViewModel}">
             <views:ScheduleForDayView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:ScheduleViewModel}">
+        <DataTemplate DataType="{x:Type schedule:ScheduleViewModel}">
             <views:ScheduleView/>
         </DataTemplate>
     </Window.Resources>

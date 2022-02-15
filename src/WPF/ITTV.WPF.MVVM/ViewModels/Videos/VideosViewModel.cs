@@ -6,7 +6,7 @@ using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
 
-namespace ITTV.WPF.MVVM.ViewModels
+namespace ITTV.WPF.MVVM.ViewModels.Videos
 {
     public class VideosViewModel : ViewModelBase
     {

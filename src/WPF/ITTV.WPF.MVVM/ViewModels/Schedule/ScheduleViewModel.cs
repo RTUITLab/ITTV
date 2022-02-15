@@ -7,7 +7,7 @@ using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Services.ApiClient.Requests.GetScheduleForGroup;
 using ITTV.WPF.MVVM.DTOs;
 
-namespace ITTV.WPF.MVVM.ViewModels
+namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
     public class ScheduleViewModel : ViewModelBase
     {

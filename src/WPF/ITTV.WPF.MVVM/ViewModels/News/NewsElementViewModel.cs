@@ -5,7 +5,7 @@ using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.Commands.News;
 using ITTV.WPF.MVVM.DTOs;
 
-namespace ITTV.WPF.MVVM.ViewModels
+namespace ITTV.WPF.MVVM.ViewModels.News
 {
     public class NewsElementViewModel : ViewModelBase
     {

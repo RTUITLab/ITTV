@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
+             xmlns:news="clr-namespace:ITTV.WPF.MVVM.ViewModels.News"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance viewModels:NewsViewModel,
+             d:DataContext="{d:DesignInstance news:NewsViewModel,
                                             IsDesignTimeCreatable=True}">
     <Grid>
         <Grid>

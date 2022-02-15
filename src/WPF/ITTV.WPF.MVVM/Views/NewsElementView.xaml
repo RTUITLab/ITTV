@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
              xmlns:controls="http://schemas.microsoft.com/kinect/2014"
+             xmlns:news="clr-namespace:ITTV.WPF.MVVM.ViewModels.News"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance viewModels:NewsElementViewModel,
+             d:DataContext="{d:DesignInstance news:NewsElementViewModel,
                                                     IsDesignTimeCreatable=True}">
     <Grid>
         <Grid.ColumnDefinitions>

@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
+             xmlns:videos="clr-namespace:ITTV.WPF.MVVM.ViewModels.Videos"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance viewModels:VideosViewModel, 
+             d:DataContext="{d:DesignInstance videos:VideosViewModel, 
                                                      IsDesignTimeCreatable=True}">
     <Grid>
         <Grid>

@@ -2,6 +2,7 @@
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.ViewModels;
+using ITTV.WPF.MVVM.ViewModels.News;
 
 namespace ITTV.WPF.MVVM.Commands.News
 {
