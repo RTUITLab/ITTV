@@ -113,6 +113,12 @@ namespace ITTV.WPF.Core.Services
             };
             return lessons;
         }
+
+        public async Task<ApiFullScheduleResponse> GetFullSchedule(string groupName)
+        {
+            var schedule = await _mireaApiProvider.GetFullSchedule(groupName);
+            return schedule;
+        }
         
         public IEnumerable<int> GetSupportedCoursesForDegree(DegreeEnum degree)
             => degree switch

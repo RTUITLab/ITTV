@@ -41,32 +41,65 @@
                         RowHeight="100"
                         ItemsSource="{Binding LessonsForSelectedDay}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding NumberLesson}"
-                                                FontSize="20"
-                                                Width="Auto"
-                                                MinWidth="50"
-                                                ElementStyle="{StaticResource Centering}"/>
-                            <DataGridTextColumn Binding="{Binding Name}"
-                                                FontSize="20"
-                                                Width="Auto"
-                                                MaxWidth="600"
-                                                MinWidth="500"
-                                                ElementStyle="{StaticResource Centering}"/>
-                            <DataGridTextColumn Binding="{Binding Type}"
-                                                FontSize="20"
-                                                Width="Auto"
-                                                MinWidth="200"
-                                                ElementStyle="{StaticResource Centering}"/>
-                            <DataGridTextColumn Binding="{Binding Teacher}"
-                                                FontSize="20"
-                                                Width="Auto"
-                                                MaxWidth="200"
-                                                MinWidth="100"
-                                                ElementStyle="{StaticResource Centering}"/>
-                            <DataGridTextColumn Binding="{Binding ClassRoom}"
-                                                FontSize="20"
-                                                MinWidth="50"
-                                                ElementStyle="{StaticResource Centering}"/>
+                            
+                            <DataGridTemplateColumn
+                                Width="Auto"
+                                MinWidth="50">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate >
+                                        <Grid>
+                                            <TextBlock Text="{Binding NumberLesson}"  TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTemplateColumn
+                                Width="700">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate >
+                                        <Grid>
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTemplateColumn
+                                Width="Auto"
+                                MinWidth="200">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate >
+                                        <Grid>
+                                            <TextBlock Text="{Binding Type}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTemplateColumn
+                                Width="Auto"
+                                MinWidth="200">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate >
+                                        <Grid>
+                                            <TextBlock Text="{Binding Teacher}" TextWrapping="Wrap"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTemplateColumn
+                                Width="Auto"
+                                MinWidth="200">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate >
+                                        <Grid>
+                                            <TextBlock Text="{Binding ClassRoom}" TextWrapping="Wrap"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

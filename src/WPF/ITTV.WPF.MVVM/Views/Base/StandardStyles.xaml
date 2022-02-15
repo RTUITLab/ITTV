@@ -34,9 +34,6 @@
 
                 <RotateTransform x:Name="angle" Angle="0" CenterX="0.5" CenterY="0.5"/>
 
-                <!-- Ideally remove the translation and scale from here
-                     and let the container apply them instead -->
-
                 <TranslateTransform X="-0.5" Y="-0.5"/>
                 <ScaleTransform ScaleX="100" ScaleY="100"/>
 
@@ -60,22 +57,11 @@
 
             <Canvas Name="content" Opacity="0">
 
-            <Path Width="1" Height="1" Stretch="Fill" Stroke="Black" StrokeThickness="0.1" StrokeStartLineCap="Round">
+            <Path Width="1" Height="1" Stretch="Fill" Stroke="Black" StrokeThickness="0.1" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
                 <Path.Data>
                     <PathGeometry>
                         <PathFigure StartPoint="1,0">
                             <ArcSegment Point="0,-1" RotationAngle="90" SweepDirection="Clockwise" IsLargeArc="True" Size="1,1"/>
-                        </PathFigure>
-                    </PathGeometry>
-                </Path.Data>
-            </Path>
-
-            <Path Canvas.Left="0.49" Canvas.Top="-0.05" Width="0.2" Height="0.2" Stretch="Fill" Fill="Black">
-                <Path.Data>
-                    <PathGeometry>
-                        <PathFigure StartPoint="0,-1.1">
-                            <LineSegment Point="0.1,-1" />
-                            <LineSegment Point="0,-0.9" />
                         </PathFigure>
                     </PathGeometry>
                 </Path.Data>
