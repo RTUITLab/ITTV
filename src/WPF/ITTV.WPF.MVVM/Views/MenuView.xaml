@@ -25,9 +25,12 @@
         <Border Grid.Row="0" Grid.Column="0">
             <Button
                 x:Name="News" 
+                Margin="50" 
+                Width="700" 
+                Height="350"
                 Command="{Binding ShowNewsCommand}"
                 Style="{StaticResource KinectTileButton}">
-                <Grid Background="{StaticResource LightGrayBrush}">
+                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <TextBlock Text="Новости" 
                                HorizontalAlignment="Center" 
                                Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
@@ -37,9 +40,12 @@
         <Border Grid.Row="0" Grid.Column="1">
             <Button 
                 x:Name="TimeTable" 
+                Margin="50" 
+                Width="700" 
+                Height="350"
                 Command="{Binding ShowTimeTableCommand}"
                 Style="{StaticResource KinectTileButton}">
-                <Grid Background="{StaticResource LightGrayBrush}">
+                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <TextBlock Text="Расписание" 
                                HorizontalAlignment="Center" 
                                Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
@@ -50,9 +56,12 @@
         <Border Grid.Row="1" Grid.Column="0">
             <Button 
                 x:Name="Videos" 
+                Margin="50" 
+                Width="700" 
+                Height="350"
                 Command="{Binding ShowVideosCommand}"
                 Style="{StaticResource KinectTileButton}">
-                <Grid Background="{StaticResource LightGrayBrush}">
+                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <TextBlock Text="Видео" 
                                HorizontalAlignment="Center" 
                                Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
@@ -62,9 +71,12 @@
         <Border Grid.Row="1" Grid.Column="1">
             <Button 
                 x:Name="Games" 
+                Margin="50" 
+                Width="700" 
+                Height="350"
                 Command="{Binding ShowGamesCommand}"
                 Style="{StaticResource KinectTileButton}">
-                <Grid Background="{StaticResource LightGrayBrush}">
+                <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <TextBlock Text="Игры" 
                                HorizontalAlignment="Center" 
                                Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
