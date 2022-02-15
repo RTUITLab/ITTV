@@ -33,6 +33,7 @@
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <TextBlock Text="Новости" 
                                HorizontalAlignment="Center" 
+                               FontSize="42"
                                Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
                 </Grid>
             </Button>
@@ -48,6 +49,7 @@
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <TextBlock Text="Расписание" 
                                HorizontalAlignment="Center" 
+                               FontSize="42"
                                Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
                 </Grid>
             </Button>
@@ -64,6 +66,7 @@
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <TextBlock Text="Видео" 
                                HorizontalAlignment="Center" 
+                               FontSize="42"
                                Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
                 </Grid>
             </Button> 
@@ -79,6 +82,7 @@
                 <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <TextBlock Text="Игры" 
                                HorizontalAlignment="Center" 
+                               FontSize="42"
                                Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
                 </Grid>
             </Button>   
