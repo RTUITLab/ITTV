@@ -18,7 +18,9 @@ namespace ITTV.WPF.Core.Providers.LocalCache
             if (useExists || fileInfo.Exists && DateTime.Now - fileInfo.LastWriteTime <= expire)
             {
                 var cache = Get<T>(key);
-                return cache;
+                
+                if (cache != null)
+                    return cache;
             }
             
             var data = await dataProvider();
