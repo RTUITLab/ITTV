@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Input;
+using System.Windows.Threading;
 using ITTV.WPF.Abstractions.Base.ViewModel;
+using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Models;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.MVVM.Commands;
@@ -13,8 +16,11 @@ namespace ITTV.WPF.MVVM.ViewModels
     {
         private readonly BackgroundVideoPlaylistService _backgroundVideoPlaylistService;
         private readonly Settings _settings;
+        
+        private DispatcherTimer _timer;
 
-        public ICommand BackgroundVideoEndedEndedCommand { get; }
+
+        public ICommand BackgroundVideoEndedCommand { get; }
         public ICommand ShowMenuCommand { get; }
         public ICommand ChangeThemeCommand { get; }
 
@@ -23,14 +29,14 @@ namespace ITTV.WPF.MVVM.ViewModels
             UserInterfaceManager userInterfaceManager,
             NavigateCommand<MenuViewModel> showMenuCommand)
         {
-            BackgroundVideoEndedEndedCommand = new BackgroundVideoEndedCommand(this);
+            BackgroundVideoEndedCommand = new BackgroundVideoEndedCommand(this);
             ShowMenuCommand = showMenuCommand;
             ChangeThemeCommand = new ChangeThemeCommand(userInterfaceManager);
 
             _backgroundVideoPlaylistService = backgroundVideoPlaylistService;
             _settings = settings.Value;
-
-            Setup();
+            
+            StartTimer();
         }
 
         private void Setup()
@@ -70,5 +76,47 @@ namespace ITTV.WPF.MVVM.ViewModels
         {
             CurrentVideo = _backgroundVideoPlaylistService.NextVideo();
         }
+        
+        private void StartTimer()
+        {
+            _timer = new DispatcherTimer(DispatcherPriority.Background)
+            {
+                Interval = TimeSpan.FromSeconds(1),
+                IsEnabled = true
+            };
+            
+            _timer.Tick += (_, _) =>
+            {
+                var isInactiveMode = _settings.NeedCheckTime 
+                                     && (_settings.StartWorkTime > DateTime.Now.TimeOfDay
+                                         || _settings.EndWorkTime < DateTime.Now.TimeOfDay);
+                IsInactiveMode = isInactiveMode;
+
+            };
+        }
+
+        public bool IsInactiveMode
+        {
+            get => _isInactiveMode;
+            set
+            {
+                if (Equals(_isInactiveMode, value))
+                    return;
+                _isInactiveMode = value;
+
+                if (_isInactiveMode)
+                {
+                    CurrentVideo = new Uri(PathHelper.FileInactiveImageGerb);
+                }
+                else
+                {
+                    Setup();
+                }
+                
+                OnPropertyChanged(nameof(IsInactiveMode));
+            }
+        }
+    
+        private bool _isInactiveMode = true;
     }
 }

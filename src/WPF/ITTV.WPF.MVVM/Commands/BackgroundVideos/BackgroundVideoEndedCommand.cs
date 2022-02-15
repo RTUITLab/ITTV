@@ -14,7 +14,10 @@ namespace ITTV.WPF.MVVM.Commands.BackgroundVideos
 
         public override void Execute(object parameter)
         {
-            _backgroundVideoViewModel.SetNextVideo();
+            if (!_backgroundVideoViewModel.IsInactiveMode)
+            {
+                _backgroundVideoViewModel.SetNextVideo();
+            }
         }
     }
 }

@@ -260,7 +260,9 @@
       <Page Include="Views\VideosView.xaml" />
     </ItemGroup>
     <ItemGroup>
-      <Resource Include="Images\Gerb.png" />
+      <Content Include="Images\Gerb.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
       <Resource Include="Images\Kinect.ico" />
       <Resource Include="Images\Play.png" />
       <Resource Include="Views\Styles\HighlightRectangle.png" />

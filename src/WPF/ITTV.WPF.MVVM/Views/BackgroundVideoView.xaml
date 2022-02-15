@@ -20,7 +20,7 @@
             Height="1080">
             <b:Interaction.Triggers>
                 <b:EventTrigger EventName="MediaEnded">
-                    <b:InvokeCommandAction Command="{Binding BackgroundVideoEndedEndedCommand}"/>
+                    <b:InvokeCommandAction Command="{Binding BackgroundVideoEndedCommand}"/>
                 </b:EventTrigger>
             </b:Interaction.Triggers>
         </MediaElement>
@@ -30,7 +30,8 @@
             x:Name="MenuButton" 
             Width="400" 
             Height="150" 
-            Style="{StaticResource KinectTileButton}">
+            Style="{StaticResource KinectTileButton}"
+            Visibility="{Binding IsInactiveMode, Converter={StaticResource InverseBoolToVis}}">
             <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}" 
                   Width="400" 
                   Height="150">
