@@ -37,8 +37,10 @@ namespace ITTV.WPF.MVVM.ViewModels
         {
             _timeTableData = timeTableDto;
         }
-        public async Task Recalculate()
+        public override async Task Recalculate()
         {
+            SetUnloaded();
+            
             var schedule = await _scheduleManager.GetFullSchedule(_timeTableData.GroupName);
 
             var days = new[]

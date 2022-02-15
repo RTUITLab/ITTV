@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Abstractions.Enums;
 using ITTV.WPF.Core.Services;
@@ -42,8 +43,10 @@ namespace ITTV.WPF.MVVM.ViewModels
             _timeTableData = timeTableDto;
         }
 
-        public void Recalculate()
+        public override Task Recalculate()
         {
+            SetUnloaded();
+            
             var questions = _scheduleManager.GetSupportedScheduleTypes()
                 .Select(x =>
                 {
@@ -66,6 +69,9 @@ namespace ITTV.WPF.MVVM.ViewModels
                 });
 
             SupportedScheduleTypes = new LinkedList<TimeTableQuestionDto>(questions);
+            SetLoaded();
+            
+            return Task.CompletedTask;
         }
     }
 }

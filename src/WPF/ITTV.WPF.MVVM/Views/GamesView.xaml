@@ -9,19 +9,28 @@
              d:DataContext="{d:DesignInstance viewModels:GamesViewModel,
                                     IsDesignTimeCreatable=True}">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl Name="Elements"
-                          ItemsSource="{Binding Games}"
-                          ItemTemplate="{StaticResource GamesTemplate}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel  Orientation="Horizontal" 
-                                    HorizontalAlignment="Center" 
-                                    VerticalAlignment="Center" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </ScrollViewer> 
+        <Grid x:Name="Loading"
+              VerticalAlignment="Center"
+              Visibility="{Binding IsLoaded, Converter={StaticResource InverseBoolToVis}}">
+                
+            <Control Template="{StaticResource LoadingAnimation}" Visibility="Visible" />
+        </Grid>
+        <Grid
+            Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVis}}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl Name="Elements"
+                              ItemsSource="{Binding Games}"
+                              ItemTemplate="{StaticResource GamesTemplate}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel  Orientation="Horizontal" 
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer> 
+        </Grid>
     </Grid>
 </UserControl>

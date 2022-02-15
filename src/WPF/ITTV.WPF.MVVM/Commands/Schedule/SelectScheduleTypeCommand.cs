@@ -30,9 +30,6 @@ namespace ITTV.WPF.MVVM.Commands.Schedule
                 
                 var navigationService = new NavigationService<ScheduleViewModel>(_navigationStore, scheduleViewModel);
                 navigationService.Navigate();
-
-                scheduleViewModel.Recalculate()
-                    .ConfigureAwait(false);
             }
             else
             {
@@ -41,9 +38,6 @@ namespace ITTV.WPF.MVVM.Commands.Schedule
                 
                 var navigationService = new NavigationService<ScheduleForDayViewModel>(_navigationStore, scheduleViewModel);
                 navigationService.Navigate();
-                
-                scheduleViewModel.Recalculate()
-                    .ConfigureAwait(false);
             }
         }
     }
