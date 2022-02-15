@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Models;
 using ITTV.WPF.Core.Providers.MireaApi;
 using ITTV.WPF.Core.Services;
@@ -7,10 +8,13 @@ using ITTV.WPF.Core.Services.ApiClient;
 using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.Commands;
 using ITTV.WPF.MVVM.Commands.BackgroundVideos;
+using ITTV.WPF.MVVM.Extensions;
 using ITTV.WPF.MVVM.ViewModels;
 using ITTV.WPF.MVVM.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using Serilog.Core;
 
 namespace ITTV.WPF.MVVM
 {
@@ -29,7 +33,14 @@ namespace ITTV.WPF.MVVM
             var serviceCollection = new ServiceCollection();
             serviceCollection.Configure<Settings>(configuration.GetSection(nameof(Settings)));
 
-            ConfigureServices(serviceCollection);
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.WithProperty("APP","ITTV")
+                .WriteTo.File(PathHelper.FileLogsPath)
+                .CreateLogger();
+
+            serviceCollection.AddLogging(l => l.AddSerilog());
+            
+            serviceCollection.AddBusinessLogicLayerServicesExtensions();
             
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }
@@ -45,54 +56,9 @@ namespace ITTV.WPF.MVVM
             mainWindow.Show();
         }
 
-        private void ConfigureServices(IServiceCollection serviceCollection)
+        private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            
-            serviceCollection.AddTransient<MainWindow>();
-            
-            serviceCollection.AddSingleton<BackgroundVideoViewModel>();
-            serviceCollection.AddSingleton<NavigationService<BackgroundVideoViewModel>>();
-            
-            serviceCollection.AddSingleton<MainViewModel>();
-            serviceCollection.AddSingleton<NavigationService<MainViewModel>>();
-            
-            serviceCollection.AddSingleton<MenuViewModel>();
-            serviceCollection.AddSingleton<NavigationService<MenuViewModel>>();
-            serviceCollection.AddScoped<NavigateCommand<MenuViewModel>>();
-            
-            serviceCollection.AddSingleton<GamesViewModel>();
-            serviceCollection.AddSingleton<NavigationService<GamesViewModel>>();
-            serviceCollection.AddScoped<NavigateCommand<GamesViewModel>>();
-            
-            serviceCollection.AddSingleton<VideosViewModel>();
-            serviceCollection.AddSingleton<NavigationService<VideosViewModel>>();
-            serviceCollection.AddScoped<NavigateCommand<VideosViewModel>>();
-
-            serviceCollection.AddSingleton<NewsViewModel>();
-            serviceCollection.AddSingleton<NavigationService<NewsViewModel>>();
-            serviceCollection.AddScoped<NavigateCommand<NewsViewModel>>();
-            
-            serviceCollection.AddSingleton<NewsElementViewModel>();
-            serviceCollection.AddSingleton<NavigationService<NewsElementViewModel>>();
-            serviceCollection.AddScoped<NavigateCommand<NewsElementViewModel>>();
-
-            serviceCollection.AddSingleton<TimeTableViewModel>();
-            serviceCollection.AddSingleton<NavigationService<TimeTableViewModel>>();
-            serviceCollection.AddScoped<NavigateCommand<TimeTableViewModel>>();
-
-            serviceCollection.AddSingleton<FooterViewModel>();
-            
-            serviceCollection.AddSingleton<NavigationStore>();
-            
-            serviceCollection.AddScoped<BackgroundVideoPlaylistService>();
-            serviceCollection.AddScoped<BackgroundVideoEndedCommand>();
-            serviceCollection.AddSingleton<UserInterfaceManager>();
-            serviceCollection.AddSingleton<VideosManager>();
-
-            serviceCollection.AddSingleton<IMireaApiClient, MireaApiClient>();
-            serviceCollection.AddScoped<MireaApiProvider>();
-            serviceCollection.AddScoped<ScheduleManager>();
-
+            Log.Logger.Error(e.Exception, "Not handled exception");
         }
     }
 }
