@@ -74,6 +74,8 @@ namespace ITTV.WPF.Core.Helpers
             }
         }
 
+        public static readonly string FileInactiveImageGerb = Path.Combine(Directory.GetCurrentDirectory(), "Images/Gerb.png");
+        
         public const string FileSettingsPath = "settings.json";
         public const string FileLogsPath = "logs.txt";
 
