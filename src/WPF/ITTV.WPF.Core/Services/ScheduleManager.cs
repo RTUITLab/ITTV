@@ -74,7 +74,7 @@ namespace ITTV.WPF.Core.Services
         public IEnumerable<SelectedScheduleTypeEnum> GetSupportedScheduleTypes()
         { 
             var enums = (SelectedScheduleTypeEnum[]) Enum.GetValues(typeof(SelectedScheduleTypeEnum));
-            return enums;
+            return enums.Skip(1);
         }
 
         public async Task<ApiScheduleLesson[]> GetLessonsForDay(string groupName, SelectedScheduleTypeEnum scheduleType)
