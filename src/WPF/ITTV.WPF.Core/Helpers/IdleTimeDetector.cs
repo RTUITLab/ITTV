@@ -5,6 +5,11 @@ namespace ITTV.WPF.Core.Helpers
 {
     public static class IdleTimeDetector
     {
+        /// <summary>
+        /// Details https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getlastinputinfo
+        /// </summary>
+        /// <param name="plii"></param>
+        /// <returns></returns>
         [DllImport("user32.dll")]
         static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
 
@@ -42,7 +47,7 @@ namespace ITTV.WPF.Core.Helpers
         public int SystemUptimeMilliseconds { get; internal set; }
     }
 
-    internal struct LASTINPUTINFO
+    public struct LASTINPUTINFO
     {
         public uint cbSize;
         public uint dwTime;

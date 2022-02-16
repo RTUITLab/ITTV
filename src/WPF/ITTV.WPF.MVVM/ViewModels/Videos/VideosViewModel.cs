@@ -18,8 +18,14 @@ namespace ITTV.WPF.MVVM.ViewModels.Videos
             get => _videos;
             set
             {
-                if (_videos.SequenceEqual(value))
+                if (_videos.Equals(value))
                     return;
+
+                if (_videos != null && value != null)
+                {
+                    if (_videos.SequenceEqual(value))
+                        return;
+                }
 
                 _videos = value;
                 OnPropertyChanged(nameof(Videos));

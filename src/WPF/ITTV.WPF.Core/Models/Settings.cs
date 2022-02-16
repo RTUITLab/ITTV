@@ -102,13 +102,14 @@ namespace ITTV.WPF.Core.Models
             get => _backgroundVideoOrder;
             set
             {
-                if (Equals(_backgroundVideoOrder, value))
+                if (_backgroundVideoOrder.Equals(value))
                     return;
-                
-                if (_backgroundVideoOrder != null 
-                    && value != null &&
-                    _backgroundVideoOrder.SequenceEqual(value))
-                    return;
+
+                if (_backgroundVideoOrder != null && value != null)
+                {
+                    if (_backgroundVideoOrder.SequenceEqual(value))
+                        return;
+                }
                 
                 _backgroundVideoOrder = value;
                 OnSettingsUpdated();

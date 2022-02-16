@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Serilog;
 
 namespace ITTV.WPF.Core.Helpers
 {
@@ -25,8 +26,7 @@ namespace ITTV.WPF.Core.Helpers
                 var fileSupported = supportedVideoFormats.Contains(fileExtension);
                 if (!fileSupported)
                 {
-                    //TODO: Rewrite logger
-                    //MainWindow.Log($"The format of the background video file {x} is not supported");
+                    Log.Logger.Warning($"The format of the background video file {x} is not supported");
                 }
 
                 return fileSupported;

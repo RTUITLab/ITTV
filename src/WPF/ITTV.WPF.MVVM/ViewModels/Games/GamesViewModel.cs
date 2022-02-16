@@ -17,8 +17,14 @@ namespace ITTV.WPF.MVVM.ViewModels.Games
             get => _games;
             set
             {
-                if (_games.SequenceEqual(value))
+                if (_games.Equals(value))
                     return;
+
+                if (_games != null && value != null)
+                {
+                    if (_games.SequenceEqual(value))
+                        return;
+                }
 
                 _games = value;
                 OnPropertyChanged(nameof(Games));

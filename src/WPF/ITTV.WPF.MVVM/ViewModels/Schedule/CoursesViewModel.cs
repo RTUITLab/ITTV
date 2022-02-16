@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Base.ViewModel;
@@ -11,20 +11,26 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
     public class CoursesViewModel : ViewModelBase
     {
-        public LinkedList<TimeTableQuestionDto> SupportedCourses
+        public ObservableCollection<TimeTableQuestionDto> SupportedCourses
         {
             get => _supportedCourses;
             set
             {
                 if (Equals(value, _supportedCourses))
                     return;
+
+                if (_supportedCourses != null && value != null)
+                {
+                    if(_supportedCourses.SequenceEqual(value))
+                        return;
+                }
                 _supportedCourses = value;
                 
                 OnPropertyChanged(nameof(SupportedCourses));
             }
         }
         
-        private LinkedList<TimeTableQuestionDto> _supportedCourses;
+        private ObservableCollection<TimeTableQuestionDto> _supportedCourses;
         
         private readonly ScheduleManager _scheduleManager;
         private readonly NavigationStore _navigationStore;
@@ -62,7 +68,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
                 return new TimeTableQuestionDto(title, command);
             });
 
-            SupportedCourses = new LinkedList<TimeTableQuestionDto>(supportedCoursesQuestions);
+            SupportedCourses = new ObservableCollection<TimeTableQuestionDto>(supportedCoursesQuestions);
             
             SetLoaded();
             

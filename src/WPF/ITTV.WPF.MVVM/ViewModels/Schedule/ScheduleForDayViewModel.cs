@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Base.ViewModel;
@@ -9,7 +9,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
     public class ScheduleForDayViewModel : ViewModelBase
     {
-        public LinkedList<ScheduleLessonDto> LessonsForSelectedDay
+        public ObservableCollection<ScheduleLessonDto> LessonsForSelectedDay
         {
             get => _lessonsForSelectedDay;
             set
@@ -23,7 +23,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
             }
         }
         
-        private LinkedList<ScheduleLessonDto> _lessonsForSelectedDay = new();
+        private ObservableCollection<ScheduleLessonDto> _lessonsForSelectedDay = new();
 
         public bool HasClasses => _lessonsForSelectedDay.Any(x => x.Name != null);
 
@@ -53,7 +53,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
                 x.Time.Start, 
                 x.Time.End));
             
-            LessonsForSelectedDay = new LinkedList<ScheduleLessonDto>(lessonsDto);
+            LessonsForSelectedDay = new ObservableCollection<ScheduleLessonDto>(lessonsDto);
             SetLoaded();
         }
     }

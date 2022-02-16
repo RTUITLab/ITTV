@@ -19,8 +19,14 @@ namespace ITTV.WPF.MVVM.ViewModels.News
             get => _news;
             set
             {
-                if (_news.SequenceEqual(value))
+                if (_news.Equals(value))
                     return;
+                
+                if (_news != null && value != null)
+                {
+                    if (_news.SequenceEqual(value))
+                        return;
+                }
 
                 _news = value;
                 

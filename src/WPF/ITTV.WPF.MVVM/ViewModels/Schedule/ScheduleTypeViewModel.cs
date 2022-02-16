@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Base.ViewModel;
@@ -13,7 +13,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
     public class ScheduleTypeViewModel : ViewModelBase
     {
-        public LinkedList<TimeTableQuestionDto> SupportedScheduleTypes
+        public ObservableCollection<TimeTableQuestionDto> SupportedScheduleTypes
         {
             get => _supportedScheduleTypes;
             set
@@ -26,7 +26,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
             }
         }
         
-        private LinkedList<TimeTableQuestionDto> _supportedScheduleTypes;
+        private ObservableCollection<TimeTableQuestionDto> _supportedScheduleTypes;
 
         private TimeTableDto _timeTableData;
         private readonly ScheduleManager _scheduleManager;
@@ -68,7 +68,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
                     return new TimeTableQuestionDto(displayName, command);
                 });
 
-            SupportedScheduleTypes = new LinkedList<TimeTableQuestionDto>(questions);
+            SupportedScheduleTypes = new ObservableCollection<TimeTableQuestionDto>(questions);
             SetLoaded();
             
             return Task.CompletedTask;
