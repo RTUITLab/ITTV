@@ -2,7 +2,8 @@
 {
     public enum DegreeEnum
     {
-        Bachelor = 0,
-        Master = 1
+        None = 0,
+        Bachelor = 1,
+        Master = 2
     }
 }

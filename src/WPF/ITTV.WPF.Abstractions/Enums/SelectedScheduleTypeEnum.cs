@@ -2,8 +2,9 @@
 {
     public enum SelectedScheduleTypeEnum
     {
-        Today = 0,
-        Tomorrow = 64,
-        FullSchedule = 128
+        None = 0,
+        Today = 1,
+        Tomorrow = 2,
+        FullSchedule = 3
     }
 }

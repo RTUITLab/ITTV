@@ -71,10 +71,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="90" />
+            <RowDefinition Height="90" />
         </Grid.RowDefinitions>
         
         <ContentControl Grid.Row="0" Name="CurrentView" Content="{Binding CurrentViewModel}" />
         <ContentControl Grid.Row="1" Name="Footer" Content="{Binding FooterViewModel}" />
     </Grid>
+    
 </controls:KinectRegion>    
 </Window>
