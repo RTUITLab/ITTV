@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("ITTV.WPF.MVVM")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("RTUITLAB")]
 [assembly: AssemblyProduct("ITTV.WPF.MVVM")]
 [assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
