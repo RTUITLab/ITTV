@@ -18,8 +18,7 @@ namespace ITTV.WPF.Core.Services
         {
             _navigationStore.CurrentViewModel = _createdViewModel;
 
-            _createdViewModel.Recalculate()
-                .ConfigureAwait(false);
+            _createdViewModel.Recalculate();
         }
     }
 }

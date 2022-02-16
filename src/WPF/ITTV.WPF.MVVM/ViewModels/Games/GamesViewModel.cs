@@ -34,7 +34,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Games
         public GamesViewModel()
         { }
 
-        public override Task Recalculate()
+        public override void Recalculate()
         {
             SetUnloaded();
             
@@ -43,8 +43,6 @@ namespace ITTV.WPF.MVVM.ViewModels.Games
 
             Games = new ObservableCollection<GameDto>(games);
             SetLoaded();
-            
-            return Task.CompletedTask;
         }
     }
 }

@@ -37,7 +37,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
         {
             _timeTableData = timeTableDto;
         }
-        public override async Task Recalculate()
+        public override async void Recalculate()
         {
             SetUnloaded();
             

@@ -28,10 +28,8 @@ namespace ITTV.WPF.Abstractions.Base.ViewModel
             IsLoaded = false;
         }
 
-        public virtual Task Recalculate()
-        {
-            return Task.CompletedTask;
-        }
+        public virtual void Recalculate()
+        { }
 
         
         public event PropertyChangedEventHandler PropertyChanged;
