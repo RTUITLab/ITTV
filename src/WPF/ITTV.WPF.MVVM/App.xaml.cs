@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Input;
 using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Models;
 using ITTV.WPF.Core.Services;
@@ -26,8 +25,7 @@ namespace ITTV.WPF.MVVM
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(configurationFile)
                 .Build();
-            
-            
+
             var serviceCollection = new ServiceCollection();
             serviceCollection.Configure<Settings>(configuration.GetSection(nameof(Settings)));
 
