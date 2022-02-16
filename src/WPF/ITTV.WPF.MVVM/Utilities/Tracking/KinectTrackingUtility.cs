@@ -44,7 +44,7 @@ namespace ITTV.WPF.MVVM.Utilities.Tracking
                     OnHoverStart?.Invoke();
                 }
             }
-            else if (IsHoverNow && !hoverNow)
+            else if (IsHoverNow)
             {
                 Log.Logger.Warning("Body status changed");
                 OnHoverEnd?.Invoke();
