@@ -44,7 +44,7 @@ namespace ITTV.WPF.MVVM.ViewModels.News
             _navigationStore = navigationStore;
         }
 
-        public override async Task Recalculate()
+        public override async void Recalculate()
         {
             SetUnloaded();
             

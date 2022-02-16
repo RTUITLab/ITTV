@@ -43,7 +43,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
             _timeTableData = timeTableDto;
         }
 
-        public override Task Recalculate()
+        public override void Recalculate()
         {
             SetUnloaded();
             
@@ -70,8 +70,6 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
 
             SupportedScheduleTypes = new ObservableCollection<TimeTableQuestionDto>(questions);
             SetLoaded();
-            
-            return Task.CompletedTask;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Videos
             _navigationStore = navigationStore;
         }
 
-        public override Task Recalculate()
+        public override void Recalculate()
         {
             SetUnloaded();
             
@@ -54,8 +54,6 @@ namespace ITTV.WPF.MVVM.ViewModels.Videos
             Videos = new ObservableCollection<VideoViewModel>(videos);
 
             SetLoaded();
-            
-            return Task.CompletedTask;
         }
     }
 }

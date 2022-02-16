@@ -47,10 +47,10 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
             _timeTableData = tableDto;
         }
 
-        public override Task Recalculate()
+        public override void Recalculate()
         {
             if (!_timeTableData.Degree.HasValue)
-                return Task.CompletedTask;
+                return;
             
             SetUnloaded();
             
@@ -71,8 +71,6 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
             SupportedCourses = new ObservableCollection<TimeTableQuestionDto>(supportedCoursesQuestions);
             
             SetLoaded();
-            
-            return Task.CompletedTask;
         }
     }
 }
