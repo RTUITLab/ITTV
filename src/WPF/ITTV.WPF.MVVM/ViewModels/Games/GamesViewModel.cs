@@ -17,7 +17,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Games
             get => _games;
             set
             {
-                if (_games.Equals(value))
+                if (Equals(_games, value))
                     return;
 
                 if (_games != null && value != null)

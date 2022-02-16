@@ -18,7 +18,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Videos
             get => _videos;
             set
             {
-                if (_videos.Equals(value))
+                if (Equals(_videos, value))
                     return;
 
                 if (_videos != null && value != null)

@@ -102,7 +102,7 @@ namespace ITTV.WPF.Core.Models
             get => _backgroundVideoOrder;
             set
             {
-                if (_backgroundVideoOrder.Equals(value))
+                if (Equals(_backgroundVideoOrder, value))
                     return;
 
                 if (_backgroundVideoOrder != null && value != null)
