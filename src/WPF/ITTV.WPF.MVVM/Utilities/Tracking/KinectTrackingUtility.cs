@@ -37,12 +37,12 @@ namespace ITTV.WPF.MVVM.Utilities.Tracking
                 var dateTimeNow = DateTime.Now;
 
                 _userInterfaceManager.TryUpdateLastActivityTime(dateTimeNow);
-            }
                 
-            if (hoverNow && !IsHoverNow)
-            {
-                Log.Logger.Warning("Body status changed");
-                OnHoverStart?.Invoke();
+                if (!IsHoverNow)
+                {
+                    Log.Logger.Warning("Body status changed");
+                    OnHoverStart?.Invoke();
+                }
             }
             else if (IsHoverNow && !hoverNow)
             {
