@@ -17,8 +17,6 @@ namespace ITTV.WPF.MVVM
     public partial class App
     {
         private readonly IServiceProvider _serviceProvider;
-        private Settings _settings => _serviceProvider.GetRequiredService<IOptions<Settings>>().Value;
-        
         public App()
         {
             const string configurationFile = "configuration.json";
@@ -60,13 +58,15 @@ namespace ITTV.WPF.MVVM
 
         private void ReOpenApp()
         {
-            var assemblyName = typeof(App).Assembly.GetName().Name;
-            Process.Start($"{assemblyName}.exe");
+            var exeFilePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            Process.Start(exeFilePath);
         }
 
         private void ConfigureReOpenApp()
         {
-            if (!_settings.IsAdminMode)
+            var settings = _serviceProvider.GetRequiredService<IOptions<Settings>>().Value;
+            
+            if (!settings.IsAdminMode)
             {
                 AppDomain.CurrentDomain.ProcessExit += (_,_) => ReOpenApp();
                 AppDomain.CurrentDomain.UnhandledException += (_,_) => ReOpenApp();

@@ -9,12 +9,12 @@ namespace ITTV.WPF.Core.Providers.LocalCache
 {
     public static class LocalCacheProvider
     { 
-        public static FileInfo GetCacheInfo(string key)
+        public static FileInfo GetCacheFileInfo(string key)
             => new($"{PathHelper.GetDirectoryCachePath}/{key}.json");
 
         public static async Task<T> GetAsync<T>(string key, Func<Task<T>> dataProvider, TimeSpan expire = default, bool useExists = false)
         {
-            var fileInfo = GetCacheInfo(key);
+            var fileInfo = GetCacheFileInfo(key);
             if (useExists || fileInfo.Exists && DateTime.Now - fileInfo.LastWriteTime <= expire)
             {
                 var cache = Get<T>(key);
@@ -30,14 +30,14 @@ namespace ITTV.WPF.Core.Providers.LocalCache
 
         public static T Get<T>(string key)
         {
-            var file = GetCacheInfo(key);
+            var file = GetCacheFileInfo(key);
             
             var fileData =  File.ReadAllText(file.FullName);
             return JsonConvert.DeserializeObject<T>(fileData);
         }
         public static void Put<T>(string key, T value)
         {
-            var file = GetCacheInfo(key);
+            var file = GetCacheFileInfo(key);
             
             if (file.Directory is {Exists: false})
             {

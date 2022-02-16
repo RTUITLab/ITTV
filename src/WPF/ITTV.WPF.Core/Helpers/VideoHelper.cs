@@ -1,13 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Serilog;
 
 namespace ITTV.WPF.Core.Helpers
 {
-    public static class BackgroundVideosHelper
+    public static class VideoHelper
     {
-        public static IEnumerable<string> GetBackgroundVideos()
+        public static IEnumerable<Uri> GetSupportedVideoUris(string path)
+        {
+            var videos = GetSupportedVideos(path);
+            return videos.Select(x => new Uri(Path.Combine(path, x)));
+        }
+        public static IEnumerable<string> GetSupportedVideos(string path)
         {
             var supportedVideoFormats = new[]
             {
@@ -16,7 +22,7 @@ namespace ITTV.WPF.Core.Helpers
                 ".mp4"
             };
             
-            var fileNames = Directory.GetFiles(PathHelper.GetDirectoryBackgroundVideosPath)
+            var fileNames = Directory.GetFiles(path)
                 .Select(Path.GetFileName);
             
             var filteredFileNames = fileNames.Where(x =>
@@ -35,12 +41,12 @@ namespace ITTV.WPF.Core.Helpers
             return filteredFileNames;
         }
 
-        public static IEnumerable<string> FilteringByExistBackgroundVideos(IEnumerable<string> backgroundVideos)
+        public static IEnumerable<string> FilteringByExistVideos(IEnumerable<string> backgroundVideos, string path)
         {
             if (backgroundVideos == null)
                 return null;
             
-            var existVideos = GetBackgroundVideos();
+            var existVideos = GetSupportedVideos(path);
             return backgroundVideos.Where(x => existVideos.Contains(x));
         }
     }
