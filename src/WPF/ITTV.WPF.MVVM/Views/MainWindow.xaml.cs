@@ -1,4 +1,5 @@
 ﻿using ITTV.WPF.MVVM.ViewModels;
+using Microsoft.Kinect.Wpf.Controls;
 
 namespace ITTV.WPF.MVVM.Views
 {
@@ -10,6 +11,7 @@ namespace ITTV.WPF.MVVM.Views
         public MainWindow(MainViewModel mainViewModel)
         {
             InitializeComponent();
+
             DataContext = mainViewModel;
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Timers;
-using System.Windows.Input;
 using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Models;
 using Microsoft.Extensions.Options;
@@ -9,6 +8,8 @@ namespace ITTV.WPF.Core.Services
 {
     public class UserInterfaceManager : IDisposable
     {
+        public DateTime LastActivityTime { get; private set; }
+        
         private readonly Timer _inactiveTimer;
         private readonly Settings _settings;
         
@@ -17,8 +18,6 @@ namespace ITTV.WPF.Core.Services
         public UserInterfaceManager(IOptions<Settings> settings)
         {
             _settings = settings.Value;
-            
-            InputManager.Current.PreProcessInput += CurrentOnPreProcessInput;
             
             _inactiveTimer = new Timer
             {
@@ -30,14 +29,13 @@ namespace ITTV.WPF.Core.Services
 
         private void InactiveTimerOnElapsed(object sender, ElapsedEventArgs e)
         {
-            if (DateTime.Now - IdleTimeDetector.GetIdleTimeInfo().LastInputTime > _settings.InactiveModeTime)
+            var idleLastInputTime = IdleTimeDetector.GetIdleTimeInfo().LastInputTime;
+            TryUpdateLastActivityTime(idleLastInputTime);
+            
+            if (DateTime.Now - LastActivityTime > _settings.InactiveModeTime)
             {
                 OnStateChangedToInactive?.Invoke();
             }
-        }
-
-        private void CurrentOnPreProcessInput(object sender, PreProcessInputEventArgs e)
-        {
         }
 
         public bool IsDarkTheme { get; private set; } = true;
@@ -48,6 +46,15 @@ namespace ITTV.WPF.Core.Services
         {
             IsDarkTheme = !IsDarkTheme;
             OnThemeUpdated();
+        }
+
+        public bool TryUpdateLastActivityTime(DateTime newLastActivityTime)
+        {
+            if (LastActivityTime > newLastActivityTime)
+                return false;
+
+            LastActivityTime = newLastActivityTime;
+            return true;
         }
 
         protected virtual void OnThemeUpdated()

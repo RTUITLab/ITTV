@@ -29,29 +29,35 @@ namespace ITTV.WPF.Core.Helpers
                 idleTicks = systemUptime - lastInputTicks;
             }
 
-            var idleTime = TimeSpan.FromTicks(idleTicks);
-            
-            return new IdleTimeInfo
-            {
-                LastInputTime = DateTime.Now - idleTime,
-                IdleTime = idleTime,
-                SystemUptimeMilliseconds = systemUptime,
-            };
-        }
-        
-        private struct LASTINPUTINFO
-        {
-            public uint cbSize;
-            public uint dwTime;
+            var idleTime = TimeSpan.FromMilliseconds(idleTicks);
+
+            return new IdleTimeInfo(DateTime.Now - idleTime,
+                idleTime,
+                systemUptime);
         }
     }
 
     public class IdleTimeInfo
     {
-        public DateTime LastInputTime { get; internal set; }
+        public IdleTimeInfo()
+        { }
 
-        public TimeSpan IdleTime { get; internal set; }
+        public IdleTimeInfo(DateTime lastInputTime, TimeSpan idleTime, int systemUptimeMilliseconds)
+        {
+            LastInputTime = lastInputTime;
+            IdleTime = idleTime;
+            SystemUptimeMilliseconds = systemUptimeMilliseconds;
+        }
+        public DateTime LastInputTime { get; }
 
-        public int SystemUptimeMilliseconds { get; internal set; }
+        public TimeSpan IdleTime { get; }
+
+        public int SystemUptimeMilliseconds { get; }
+    }
+
+    public struct LASTINPUTINFO
+    {
+        public uint cbSize;
+        public uint dwTime;
     }
 }

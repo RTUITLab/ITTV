@@ -4,7 +4,9 @@ using System.Windows;
 using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Models;
 using ITTV.WPF.Core.Services;
+using ITTV.WPF.MVVM.BackgroundServices.Tracking;
 using ITTV.WPF.MVVM.Extensions;
+using ITTV.WPF.MVVM.Utilities.Tracking;
 using ITTV.WPF.MVVM.ViewModels;
 using ITTV.WPF.MVVM.Views;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +32,7 @@ namespace ITTV.WPF.MVVM
             Log.Logger = new LoggerConfiguration()
                 .Enrich.WithProperty("APP","ITTV")
                 .WriteTo.File(PathHelper.FileLogsPath)
+                .WriteTo.Console()
                 .CreateLogger();
 
             serviceCollection.AddLogging(l => l.AddSerilog());
@@ -37,6 +40,13 @@ namespace ITTV.WPF.MVVM
             serviceCollection.AddBusinessLogicLayerServicesExtensions();
             
             _serviceProvider = serviceCollection.BuildServiceProvider();
+            ConfigureServices();
+        }
+
+        private void ConfigureServices()
+        {
+            var kinectHostedService = _serviceProvider.GetRequiredService<KinectTrackingHostedService>();
+            kinectHostedService.StartAsync(default);
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -49,6 +59,9 @@ namespace ITTV.WPF.MVVM
             
             var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
+
+            var kinectUtility = _serviceProvider.GetRequiredService<KinectTrackingUtility>();
+            kinectUtility.SetKinectRegion(mainWindow.KinectRegion);
         }
 
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
@@ -65,7 +78,6 @@ namespace ITTV.WPF.MVVM
         private void ConfigureReOpenApp()
         {
             var settings = _serviceProvider.GetRequiredService<IOptions<Settings>>().Value;
-            
             if (!settings.IsAdminMode)
             {
                 AppDomain.CurrentDomain.ProcessExit += (_,_) => ReOpenApp();
