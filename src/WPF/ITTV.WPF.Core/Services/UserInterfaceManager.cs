@@ -9,7 +9,7 @@ namespace ITTV.WPF.Core.Services
 {
     public class UserInterfaceManager : IDisposable
     {
-        private readonly Timer _timer;
+        private readonly Timer _inactiveTimer;
         private readonly Settings _settings;
         
         public event Action OnStateChangedToInactive;
@@ -20,15 +20,15 @@ namespace ITTV.WPF.Core.Services
             
             InputManager.Current.PreProcessInput += CurrentOnPreProcessInput;
             
-            _timer = new Timer
+            _inactiveTimer = new Timer
             {
                 Interval = TimeSpan.FromSeconds(1).Seconds * 1000,
                 Enabled = true
             };
-            _timer.Elapsed += TimerOnElapsed;
+            _inactiveTimer.Elapsed += InactiveTimerOnElapsed;
         }
 
-        private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+        private void InactiveTimerOnElapsed(object sender, ElapsedEventArgs e)
         {
             if (DateTime.Now - IdleTimeDetector.GetIdleTimeInfo().LastInputTime > _settings.InactiveModeTime)
             {
@@ -57,7 +57,7 @@ namespace ITTV.WPF.Core.Services
 
         public void Dispose()
         {
-            _timer?.Dispose();
+            _inactiveTimer?.Dispose();
         }
     }
 }

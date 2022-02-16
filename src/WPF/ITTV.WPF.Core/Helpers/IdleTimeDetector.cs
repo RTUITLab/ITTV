@@ -29,12 +29,20 @@ namespace ITTV.WPF.Core.Helpers
                 idleTicks = systemUptime - lastInputTicks;
             }
 
+            var idleTime = TimeSpan.FromTicks(idleTicks);
+            
             return new IdleTimeInfo
             {
-                LastInputTime = DateTime.Now.AddMilliseconds(-1 * idleTicks),
-                IdleTime = new TimeSpan(0, 0, 0, 0, idleTicks),
+                LastInputTime = DateTime.Now - idleTime,
+                IdleTime = idleTime,
                 SystemUptimeMilliseconds = systemUptime,
             };
+        }
+        
+        private struct LASTINPUTINFO
+        {
+            public uint cbSize;
+            public uint dwTime;
         }
     }
 
@@ -45,11 +53,5 @@ namespace ITTV.WPF.Core.Helpers
         public TimeSpan IdleTime { get; internal set; }
 
         public int SystemUptimeMilliseconds { get; internal set; }
-    }
-
-    public struct LASTINPUTINFO
-    {
-        public uint cbSize;
-        public uint dwTime;
     }
 }

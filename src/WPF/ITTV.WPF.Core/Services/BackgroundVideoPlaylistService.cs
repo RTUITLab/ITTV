@@ -19,8 +19,10 @@ namespace ITTV.WPF.Core.Services
         {
             var backgroundVideoDirectory = PathHelper.GetDirectoryBackgroundVideosPath;
 
+            var path = PathHelper.GetDirectoryBackgroundVideosPath;
+            
             var playlistFromSettings =
-                BackgroundVideosHelper.FilteringByExistBackgroundVideos(settings.Value.BackgroundVideoOrder);
+                VideoHelper.FilteringByExistVideos(settings.Value.BackgroundVideoOrder, path);
             foreach (var video in playlistFromSettings)
             {
                 var uri = new Uri(Path.Combine(backgroundVideoDirectory, video));
