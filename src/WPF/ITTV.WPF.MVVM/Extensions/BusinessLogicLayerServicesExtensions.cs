@@ -2,8 +2,10 @@
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Services.ApiClient;
 using ITTV.WPF.Core.Stores;
+using ITTV.WPF.MVVM.BackgroundServices.Tracking;
 using ITTV.WPF.MVVM.Commands;
 using ITTV.WPF.MVVM.Commands.BackgroundVideos;
+using ITTV.WPF.MVVM.Utilities.Tracking;
 using ITTV.WPF.MVVM.ViewModels;
 using ITTV.WPF.MVVM.ViewModels.Games;
 using ITTV.WPF.MVVM.ViewModels.News;
@@ -11,6 +13,7 @@ using ITTV.WPF.MVVM.ViewModels.Schedule;
 using ITTV.WPF.MVVM.ViewModels.Videos;
 using ITTV.WPF.MVVM.Views;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Kinect.Wpf.Controls;
 
 namespace ITTV.WPF.MVVM.Extensions
 {
@@ -24,6 +27,7 @@ namespace ITTV.WPF.MVVM.Extensions
             AddStores(serviceCollection);
             AddCommands(serviceCollection);
             AddServices(serviceCollection);
+            AddKinectServices(serviceCollection);
         }
 
         private static void AddStores(IServiceCollection serviceCollection)
@@ -73,6 +77,16 @@ namespace ITTV.WPF.MVVM.Extensions
             serviceCollection.AddSingleton<NewsElementViewModel>();
             serviceCollection.AddSingleton<TimeTableViewModel>();
             serviceCollection.AddSingleton<FooterViewModel>();
+        }
+
+        private static void AddKinectServices(IServiceCollection serviceCollection)
+        {
+            var kinectRegion = new KinectRegion();
+
+            serviceCollection.AddSingleton<KinectTrackingUtility>();
+
+            serviceCollection.AddSingleton<KinectTrackingHostedService>();
+            serviceCollection.AddHostedService(x => x.GetRequiredService<KinectTrackingHostedService>());
         }
     }
 }
