@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Base.ViewModel;
@@ -18,7 +18,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
             _scheduleManager = scheduleManager;
         }
 
-        public LinkedList<OverviewScheduleForDay> OverviewScheduleForDays
+        public ObservableCollection<OverviewScheduleForDay> OverviewScheduleForDays
         {
             get => _overviewScheduleForDays;
             set
@@ -31,7 +31,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
             }
         }
 
-        private LinkedList<OverviewScheduleForDay> _overviewScheduleForDays = new();
+        private ObservableCollection<OverviewScheduleForDay> _overviewScheduleForDays = new();
 
         public void SetTimeTable(TimeTableDto timeTableDto)
         {
@@ -55,7 +55,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
 
             var lessons = days.Select(x => GetOverviewScheduleForDay(schedule, x));
 
-            OverviewScheduleForDays = new LinkedList<OverviewScheduleForDay>(lessons);
+            OverviewScheduleForDays = new ObservableCollection<OverviewScheduleForDay>(lessons);
             SetLoaded();
         }
 

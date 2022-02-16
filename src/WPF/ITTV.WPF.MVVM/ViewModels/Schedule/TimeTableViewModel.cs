@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Abstractions.Enums;
@@ -12,7 +12,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
     public class TimeTableViewModel : ViewModelBase
     {
-        public LinkedList<TimeTableQuestionDto> SupportedDegrees
+        public ObservableCollection<TimeTableQuestionDto> SupportedDegrees
         {
             get => _supportedDegrees;
             set
@@ -25,7 +25,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
             }
         }
         
-        private LinkedList<TimeTableQuestionDto> _supportedDegrees;
+        private ObservableCollection<TimeTableQuestionDto> _supportedDegrees;
 
         public TimeTableViewModel(ScheduleManager scheduleManager,
             NavigationStore navigationStore)
@@ -48,7 +48,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
                     return new TimeTableQuestionDto(x, command);
                 });
 
-            SupportedDegrees = new LinkedList<TimeTableQuestionDto>(activeQuestions);
+            SupportedDegrees = new ObservableCollection<TimeTableQuestionDto>(activeQuestions);
         }
     }
 }

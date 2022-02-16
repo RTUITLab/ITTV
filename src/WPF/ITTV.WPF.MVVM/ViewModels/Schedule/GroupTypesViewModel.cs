@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Base.ViewModel;
@@ -11,7 +11,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
     public class GroupTypesViewModel : ViewModelBase
     {
-        public LinkedList<TimeTableQuestionDto> SupportedGroupTypes
+        public ObservableCollection<TimeTableQuestionDto> SupportedGroupTypes
         {
             get => _supportedGroupTypes;
             set
@@ -23,7 +23,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
                 OnPropertyChanged(nameof(SupportedGroupTypes));
             }
         }
-        private LinkedList<TimeTableQuestionDto> _supportedGroupTypes;
+        private ObservableCollection<TimeTableQuestionDto> _supportedGroupTypes;
         
         private readonly ScheduleManager _scheduleManager;
         private readonly NavigationStore _navigationStore;
@@ -61,7 +61,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
                 return new TimeTableQuestionDto(x.Name, command);
             });
 
-            SupportedGroupTypes = new LinkedList<TimeTableQuestionDto>(supportedGroupTypes);
+            SupportedGroupTypes = new ObservableCollection<TimeTableQuestionDto>(supportedGroupTypes);
             SetLoaded();
         }
     }
