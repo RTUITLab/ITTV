@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Base.ViewModel;
@@ -6,6 +7,7 @@ using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.Commands.Schedule;
 using ITTV.WPF.MVVM.DTOs;
+using Serilog;
 
 namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
@@ -27,13 +29,17 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
         
         private readonly ScheduleManager _scheduleManager;
         private readonly NavigationStore _navigationStore;
+        private readonly NotificationStore _notificationStore;
+        
         private TimeTableDto _timeTableData;
 
         public GroupTypesViewModel(ScheduleManager scheduleManager, 
-            NavigationStore navigationStore)
+            NavigationStore navigationStore,
+            NotificationStore notificationStore)
         {
             _scheduleManager = scheduleManager;
             _navigationStore = navigationStore;
+            _notificationStore = notificationStore;
         }
 
         public void SetTimeTableData(TimeTableDto tableDto)
@@ -43,26 +49,41 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
 
         public override async void Recalculate()
         {
-            if (!_timeTableData.Degree.HasValue || !_timeTableData.CourseNumber.HasValue)
-                return;
-            
-            SetUnloaded();
-            
-            var supportedGroupTypesApi = await _scheduleManager.GetGroupTypesForCourse(_timeTableData.Degree.Value, _timeTableData.CourseNumber.Value);
-            var supportedGroupTypes = supportedGroupTypesApi.Select(x =>
+            try
             {
-                var timeTableDto = new TimeTableDto();
+                if (!_timeTableData.Degree.HasValue || !_timeTableData.CourseNumber.HasValue)
+                    return;
 
-                timeTableDto.Merge(_timeTableData);
-                timeTableDto.SetGroupType(x.Name);
+                SetUnloaded();
 
-                var command = new SelectGroupTypesCommand(_navigationStore, _scheduleManager, timeTableDto);
+                var supportedGroupTypesApi =
+                    await _scheduleManager.GetGroupTypesForCourse(_timeTableData.Degree.Value,
+                        _timeTableData.CourseNumber.Value);
+                var supportedGroupTypes = supportedGroupTypesApi.Select(x =>
+                {
+                    var timeTableDto = new TimeTableDto();
 
-                return new TimeTableQuestionDto(x.Name, command);
-            });
+                    timeTableDto.Merge(_timeTableData);
+                    timeTableDto.SetGroupType(x.Name);
 
-            SupportedGroupTypes = new ObservableCollection<TimeTableQuestionDto>(supportedGroupTypes);
-            SetLoaded();
+                    var command = new SelectGroupTypesCommand(_navigationStore, _notificationStore, _scheduleManager, timeTableDto);
+
+                    return new TimeTableQuestionDto(x.Name, command);
+                });
+
+                SupportedGroupTypes = new ObservableCollection<TimeTableQuestionDto>(supportedGroupTypes);
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "Exception while syncing group types");
+
+                var textException = e.InnerException?.Message ?? e.Message;
+                _notificationStore.AddNotification(textException);
+            }
+            finally
+            {
+                SetLoaded();
+            }
         }
     }
 }

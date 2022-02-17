@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
+using Serilog;
 
 namespace ITTV.WPF.MVVM.ViewModels.Videos
 {
@@ -34,26 +36,41 @@ namespace ITTV.WPF.MVVM.ViewModels.Videos
 
 
         private readonly NavigationStore _navigationStore;
+        private readonly NotificationStore _notificationStore;
         
         public VideosViewModel(VideosManager videosManager, 
-            NavigationStore navigationStore)
+            NavigationStore navigationStore,
+            NotificationStore notificationStore)
         {
             _videosManager = videosManager;
             _navigationStore = navigationStore;
+            _notificationStore = notificationStore;
         }
 
         public override void Recalculate()
         {
-            SetUnloaded();
-            
-            var videos = _videosManager.GetVideos()
-                .Select(x => new VideoViewModel(Path.GetFileNameWithoutExtension(x.OriginalString), 
-                    x,
-                    _navigationStore));
+            try
+            {
+                SetUnloaded();
 
-            Videos = new ObservableCollection<VideoViewModel>(videos);
+                var videos = _videosManager.GetVideos()
+                    .Select(x => new VideoViewModel(Path.GetFileNameWithoutExtension(x.OriginalString),
+                        x,
+                        _navigationStore));
 
-            SetLoaded();
+                Videos = new ObservableCollection<VideoViewModel>(videos);
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "Exception while syncing videos");
+
+                var textException = e.InnerException?.Message ?? e.Message;
+                _notificationStore.AddNotification(textException);
+            }
+            finally
+            {
+                SetLoaded();
+            }
         }
     }
 }

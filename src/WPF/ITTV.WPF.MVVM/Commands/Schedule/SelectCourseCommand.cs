@@ -11,10 +11,14 @@ namespace ITTV.WPF.MVVM.Commands.Schedule
     {
         private readonly NavigationService<GroupTypesViewModel> _navigationService;
 
-        public SelectCourseCommand(NavigationStore navigationStore, ScheduleManager scheduleManager,
+        public SelectCourseCommand(NavigationStore navigationStore, 
+            NotificationStore notificationStore, 
+            ScheduleManager scheduleManager,
             TimeTableDto timeTableData)
         {
-            var groupTypesViewModel = new GroupTypesViewModel(scheduleManager, navigationStore);
+            var groupTypesViewModel = new GroupTypesViewModel(scheduleManager, 
+                navigationStore, 
+                notificationStore);
 
             groupTypesViewModel.SetTimeTableData(timeTableData);
 

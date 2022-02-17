@@ -1,11 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.Commands.Schedule;
 using ITTV.WPF.MVVM.DTOs;
+using Serilog;
 
 namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
@@ -27,12 +28,17 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
         
         private readonly ScheduleManager _scheduleManager;
         private readonly NavigationStore _navigationStore;
+        private readonly NotificationStore _notificationStore;
+        
         private TimeTableDto _timeTableData;
 
-        public GroupsViewModel(ScheduleManager scheduleManager, NavigationStore navigationStore)
+        public GroupsViewModel(ScheduleManager scheduleManager,
+            NavigationStore navigationStore,
+            NotificationStore notificationStore)
         {
             _scheduleManager = scheduleManager;
             _navigationStore = navigationStore;
+            _notificationStore = notificationStore;
         }
 
         public void SetTimeTableData(TimeTableDto tableDto)
@@ -42,27 +48,42 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
 
         public override async void Recalculate()
         {
-            if (!_timeTableData.Degree.HasValue ||
-                !_timeTableData.CourseNumber.HasValue || 
-                _timeTableData.GroupType is null)
-                return;
-            SetUnloaded();
-            
-            var groups = await _scheduleManager.GetGroups(_timeTableData.Degree.Value, _timeTableData.CourseNumber.Value, _timeTableData.GroupType);
-            var groupsQuestions = groups.Select(x =>
+            try
             {
-                var timeTableDto = new TimeTableDto();
+                if (!_timeTableData.Degree.HasValue ||
+                    !_timeTableData.CourseNumber.HasValue ||
+                    _timeTableData.GroupType is null)
+                    return;
+                
+                SetUnloaded();
 
-                timeTableDto.Merge(_timeTableData);
-                timeTableDto.SetGroupName(x);
+                var groups = await _scheduleManager.GetGroups(_timeTableData.Degree.Value,
+                    _timeTableData.CourseNumber.Value, _timeTableData.GroupType);
+                var groupsQuestions = groups.Select(x =>
+                {
+                    var timeTableDto = new TimeTableDto();
 
-                var command = new SelectGroupCommand(_navigationStore, _scheduleManager, timeTableDto);
+                    timeTableDto.Merge(_timeTableData);
+                    timeTableDto.SetGroupName(x);
 
-                return new TimeTableQuestionDto(x, command);
-            });
+                    var command = new SelectGroupCommand(_navigationStore, _notificationStore, _scheduleManager, timeTableDto);
 
-            GroupsForCourse = new ObservableCollection<TimeTableQuestionDto>(groupsQuestions);
-            SetLoaded();
+                    return new TimeTableQuestionDto(x, command);
+                });
+
+                GroupsForCourse = new ObservableCollection<TimeTableQuestionDto>(groupsQuestions);
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "Exception while syncing groups");
+
+                var textException = e.InnerException?.Message ?? e.Message;
+                _notificationStore.AddNotification(textException);
+            }
+            finally
+            {
+                SetLoaded();
+            }
         }
     }
 }

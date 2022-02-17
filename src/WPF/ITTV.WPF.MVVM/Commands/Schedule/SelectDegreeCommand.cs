@@ -12,9 +12,9 @@ namespace ITTV.WPF.MVVM.Commands.Schedule
         private readonly NavigationService<CoursesViewModel> _navigationService;
 
         public SelectDegreeCommand(NavigationStore navigationStore, ScheduleManager scheduleManager,
-            TimeTableDto timeTableData)
+            TimeTableDto timeTableData, NotificationStore notificationStore)
         {
-            var courseViewModel = new CoursesViewModel(scheduleManager, navigationStore);
+            var courseViewModel = new CoursesViewModel(scheduleManager, navigationStore, notificationStore);
             courseViewModel.SetTimeTableData(timeTableData);
             
             _navigationService = new NavigationService<CoursesViewModel>(navigationStore, courseViewModel);

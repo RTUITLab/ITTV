@@ -20,18 +20,6 @@ namespace ITTV.WPF.Core.Services.ApiClient
         /// <returns></returns>
         Task<ApiFullScheduleResponse> GetFullScheduleForGroup(string groupName);
         /// <summary>
-        /// Получение расписания группы на сегодня
-        /// </summary>
-        /// <param name="groupName"></param>
-        /// <returns></returns>
-        Task<ApiScheduleLesson[]> GetTodayScheduleForGroup(string groupName);
-        /// <summary>
-        /// Получение расписания группы на завтра
-        /// </summary>
-        /// <param name="groupName"></param>
-        /// <returns></returns>
-        Task<ApiScheduleLesson[]> GetTomorrowScheduleForGroup(string groupName);
-        /// <summary>
         /// Получение списка поддерживаемых групп
         /// </summary>
         /// <returns></returns>

@@ -29,6 +29,9 @@
         <DataTemplate DataType="{x:Type viewModels:FooterViewModel}">
             <views:FooterView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:NotificationViewModel}">
+            <views:NotificationView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type games:GamesViewModel}">
             <views:GamesView/>
         </DataTemplate>
@@ -74,6 +77,7 @@
         </Grid.RowDefinitions>
         
         <ContentControl Grid.Row="0" Name="CurrentView" Content="{Binding CurrentViewModel}" />
+        <ContentControl Grid.Row="0" Name="NotificationView" Content="{Binding NotificationViewModel}"/>
         <ContentControl Grid.Row="1" Name="Footer" Content="{Binding FooterViewModel}" />
     </Grid>
 </controls:KinectRegion>    

@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Core.Helpers;
+using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.DTOs;
+using Serilog;
 
 namespace ITTV.WPF.MVVM.ViewModels.Games
 {
@@ -31,18 +33,35 @@ namespace ITTV.WPF.MVVM.ViewModels.Games
             }
         }
 
-        public GamesViewModel()
-        { }
+        private readonly NotificationStore _notificationStore;
+
+        public GamesViewModel(NotificationStore notificationStore)
+        {
+            _notificationStore = notificationStore;
+        }
 
         public override void Recalculate()
         {
-            SetUnloaded();
-            
-            var games = Directory.GetDirectories(PathHelper.GetDirectoryGamesPath)
-                .Select(x => new GameDto(Path.GetFileName(x)));
+            try
+            {
+                SetUnloaded();
 
-            Games = new ObservableCollection<GameDto>(games);
-            SetLoaded();
+                var games = Directory.GetDirectories(PathHelper.GetDirectoryGamesPath)
+                    .Select(x => new GameDto(Path.GetFileName(x)));
+
+                Games = new ObservableCollection<GameDto>(games);
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "Exception while syncing games");
+
+                var textException = e.InnerException?.Message ?? e.Message;
+                _notificationStore.AddNotification(textException);
+            }
+            finally
+            {
+                SetLoaded();
+            }
         }
     }
 }

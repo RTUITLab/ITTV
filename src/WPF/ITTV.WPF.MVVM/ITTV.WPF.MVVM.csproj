@@ -100,6 +100,7 @@
         <Compile Include="ViewModels\MenuViewModel.cs" />
         <Compile Include="ViewModels\News\NewsElementViewModel.cs" />
         <Compile Include="ViewModels\News\NewsViewModel.cs" />
+        <Compile Include="ViewModels\NotificationViewModel.cs" />
         <Compile Include="ViewModels\Schedule\CoursesViewModel.cs" />
         <Compile Include="ViewModels\Schedule\GroupsViewModel.cs" />
         <Compile Include="ViewModels\Schedule\GroupTypesViewModel.cs" />
@@ -145,6 +146,9 @@
         </Compile>
         <Compile Include="Views\NewsView.xaml.cs">
           <DependentUpon>NewsView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\NotificationView.xaml.cs">
+          <DependentUpon>NotificationView.xaml</DependentUpon>
         </Compile>
         <Compile Include="Views\ScheduleForDayView.xaml.cs">
           <DependentUpon>ScheduleForDayView.xaml</DependentUpon>
@@ -261,6 +265,7 @@
       <Page Include="Views\GamesView.xaml" />
       <Page Include="Views\GroupsView.xaml" />
       <Page Include="Views\GroupTypesView.xaml" />
+      <Page Include="Views\NotificationView.xaml" />
       <Page Include="Views\Styles\HandPointerStyles.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -280,6 +285,9 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="Images\Gerb.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Images\warning.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
       <Resource Include="Images\Kinect.ico" />
