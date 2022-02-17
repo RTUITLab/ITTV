@@ -33,6 +33,7 @@ namespace ITTV.WPF.MVVM.Extensions
         private static void AddStores(IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<NavigationStore>();
+            serviceCollection.AddSingleton<NotificationStore>();
         }
         
         private static void AddServices(IServiceCollection serviceCollection)
@@ -77,6 +78,7 @@ namespace ITTV.WPF.MVVM.Extensions
             serviceCollection.AddSingleton<NewsElementViewModel>();
             serviceCollection.AddSingleton<TimeTableViewModel>();
             serviceCollection.AddSingleton<FooterViewModel>();
+            serviceCollection.AddSingleton<NotificationViewModel>();
         }
 
         private static void AddKinectServices(IServiceCollection serviceCollection)

@@ -4,7 +4,9 @@ using System.Linq;
 using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Services.ApiClient.Requests.GetScheduleForGroup;
+using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.DTOs;
+using Serilog;
 
 namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
@@ -12,9 +14,12 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
     {
         private readonly ScheduleManager _scheduleManager;
         private TimeTableDto _timeTableData;
-        public ScheduleViewModel(ScheduleManager scheduleManager)
+        private readonly NotificationStore _notificationStore;
+        public ScheduleViewModel(ScheduleManager scheduleManager, 
+            NotificationStore notificationStore)
         {
             _scheduleManager = scheduleManager;
+            _notificationStore = notificationStore;
         }
 
         public ObservableCollection<OverviewScheduleForDay> OverviewScheduleForDays
@@ -38,24 +43,39 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
         }
         public override async void Recalculate()
         {
-            SetUnloaded();
-            
-            var schedule = await _scheduleManager.GetFullSchedule(_timeTableData.GroupName);
-
-            var days = new[]
+            try
             {
-                "Понедельник",
-                "Вторник",
-                "Среда",
-                "Четверг",
-                "Пятница",
-                "Суббота"
-            };
+                SetUnloaded();
 
-            var lessons = days.Select(x => GetOverviewScheduleForDay(schedule, x));
+                var schedule = await _scheduleManager.GetFullSchedule(_timeTableData.GroupName);
 
-            OverviewScheduleForDays = new ObservableCollection<OverviewScheduleForDay>(lessons);
-            SetLoaded();
+                var days = new[]
+                {
+                    "Понедельник",
+                    "Вторник",
+                    "Среда",
+                    "Четверг",
+                    "Пятница",
+                    "Суббота"
+                };
+
+                var lessons = days.Select(x => GetOverviewScheduleForDay(schedule, x));
+
+                OverviewScheduleForDays = new ObservableCollection<OverviewScheduleForDay>(lessons);
+                SetLoaded();
+
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "Exception while getting full schedule {@0}", _timeTableData);
+
+                var textException = e.InnerException?.Message ?? e.Message;
+                _notificationStore.AddNotification(textException);
+            }
+            finally
+            {
+                SetLoaded();
+            }
         }
 
         private OverviewScheduleForDay GetOverviewScheduleForDay(ApiFullScheduleResponse schedule, string day)

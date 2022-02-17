@@ -31,17 +31,9 @@ namespace ITTV.WPF.Tests.UnitTests.Services
         {
             const string testGroup = "ИКБО-24-20";
             var actualSchedule = await _mireaApiClient.GetFullScheduleForGroup(testGroup);
-            
+
             Assert.NotNull(actualSchedule.FirstWeek);
             Assert.NotNull(actualSchedule.SecondWeek);
-        }
-        [Fact]
-        public async Task GetTodayScheduleForGroup()
-        {
-            const string testGroup = "ИКБО-24-20";
-            var actualSchedule = await _mireaApiClient.GetTodayScheduleForGroup(testGroup);
-            
-            Assert.NotEmpty(actualSchedule);
         }
 
         [Fact]

@@ -23,10 +23,12 @@ namespace ITTV.WPF.MVVM.ViewModels
             }
         }
         public FooterViewModel FooterViewModel { get; }
-        
+        public NotificationViewModel NotificationViewModel { get; }
+
         public MainViewModel(NavigationStore navigationStore,
             UserInterfaceManager userInterfaceManager,
-            FooterViewModel footerViewModel)
+            FooterViewModel footerViewModel,
+            NotificationViewModel notificationViewModel)
         {
             _navigationStore = navigationStore;
             _userInterfaceManager = userInterfaceManager;
@@ -35,6 +37,7 @@ namespace ITTV.WPF.MVVM.ViewModels
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
             
             FooterViewModel = footerViewModel;
+            NotificationViewModel = notificationViewModel;
         }
 
         private void NavigateToInactiveMode()

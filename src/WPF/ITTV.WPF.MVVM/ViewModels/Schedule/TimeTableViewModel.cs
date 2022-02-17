@@ -7,6 +7,7 @@ using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.Commands.Schedule;
 using ITTV.WPF.MVVM.DTOs;
+using Serilog;
 
 namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
@@ -28,27 +29,38 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
         private ObservableCollection<TimeTableQuestionDto> _supportedDegrees;
 
         public TimeTableViewModel(ScheduleManager scheduleManager,
-            NavigationStore navigationStore)
+            NavigationStore navigationStore,
+             NotificationStore notificationStore)
         {
-            var activeQuestions = scheduleManager.GetSupportedDegrees()
-                .Select(x =>
-                {
-                    var degree = x switch
+            try
+            {
+                var activeQuestions = scheduleManager.GetSupportedDegrees()
+                    .Select(x =>
                     {
-                        "Бакалавриат" => DegreeEnum.Bachelor,
-                        "Магистратура" => DegreeEnum.Master,
-                        _ => throw new ArgumentException("Unsupported degree")
-                    };
+                        var degree = x switch
+                        {
+                            "Бакалавриат" => DegreeEnum.Bachelor,
+                            "Магистратура" => DegreeEnum.Master,
+                            _ => throw new ArgumentException("Unsupported degree")
+                        };
 
-                    var timeTableData = new TimeTableDto();
-                    timeTableData.SetDegree(degree);
-                    
-                    var command = new SelectDegreeCommand(navigationStore, scheduleManager, timeTableData);
+                        var timeTableData = new TimeTableDto();
+                        timeTableData.SetDegree(degree);
+                        
+                        var command = new SelectDegreeCommand(navigationStore, scheduleManager, timeTableData, notificationStore);
 
-                    return new TimeTableQuestionDto(x, command);
-                });
+                        return new TimeTableQuestionDto(x, command);
+                    });
 
-            SupportedDegrees = new ObservableCollection<TimeTableQuestionDto>(activeQuestions);
+                SupportedDegrees = new ObservableCollection<TimeTableQuestionDto>(activeQuestions);
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "Exception while getting degrees");
+
+                var textException = e.InnerException?.Message ?? e.Message;
+                notificationStore.AddNotification(textException);
+            }
         }
     }
 }
