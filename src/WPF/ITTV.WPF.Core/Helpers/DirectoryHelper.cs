@@ -8,7 +8,7 @@ namespace ITTV.WPF.Core.Helpers
     {
         public static Uri GetExecuteFilePath(string directoryPath)
         {
-            const string executeFileExtension = ".exe";
+            const string executeFileExtension = "*.exe";
 
             var files = Directory.GetFiles(directoryPath, executeFileExtension);
 
