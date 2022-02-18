@@ -137,7 +137,7 @@
                                Text="{Binding CurrentWeekOfSemester}" Cursor="None"/>
                 </Grid>
                 
-                <controls:KinectUserViewer Grid.Row="0" 
+                <controls:KinectUserViewer controls:KinectRegion.KinectRegion="{Binding ElementName=KinectRegion}" Grid.Row="0" 
                                     Grid.Column="3" 
                                     VerticalAlignment="Stretch"/>
         </Grid>
