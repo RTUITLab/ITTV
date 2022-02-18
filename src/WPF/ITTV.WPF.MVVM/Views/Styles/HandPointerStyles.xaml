@@ -129,7 +129,8 @@
             </TextBlock>
             
             <DataGrid Grid.Row="1"
-                            BorderThickness="0"
+                            BorderThickness="1 1 0 0"
+                            BorderBrush="Black"
                             IsEnabled="False"
                             AutoGenerateColumns="False"
                             HeadersVisibility="None"
