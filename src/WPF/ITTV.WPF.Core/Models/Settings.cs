@@ -7,11 +7,11 @@ namespace ITTV.WPF.Core.Models
 { 
     public sealed class Settings
     {
-        public event Action SettingsUpdated;
+        public event Action<Settings> SettingsUpdated;
 
         private void OnSettingsUpdated()
         {
-            SettingsUpdated?.Invoke();
+            SettingsUpdated?.Invoke(this);
         }
         
         [JsonProperty("isAdminMode")]

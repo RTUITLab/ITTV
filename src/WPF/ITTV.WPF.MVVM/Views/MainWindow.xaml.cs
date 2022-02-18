@@ -1,5 +1,6 @@
-﻿using ITTV.WPF.MVVM.ViewModels;
-using Microsoft.Kinect.Wpf.Controls;
+﻿using System.Windows.Input;
+using ITTV.WPF.Core.Models;
+using ITTV.WPF.MVVM.ViewModels;
 
 namespace ITTV.WPF.MVVM.Views
 {
@@ -13,6 +14,25 @@ namespace ITTV.WPF.MVVM.Views
             InitializeComponent();
 
             DataContext = mainViewModel;
+            
+            mainViewModel.Settings.SettingsUpdated += UpdateConfiguration;
+            
+            UpdateConfiguration(mainViewModel.Settings);
+        }
+
+
+        private void UpdateConfiguration(Settings settings)
+        {
+            if (settings.IsAdminMode)
+            {
+                Topmost = false;
+                Cursor = Cursors.Arrow;
+                
+                return;
+            }
+
+            Cursor = Cursors.None;
+            Topmost = true;
         }
     }
 }

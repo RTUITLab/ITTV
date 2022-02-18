@@ -1,11 +1,15 @@
 ﻿using ITTV.WPF.Abstractions.Base.ViewModel;
+using ITTV.WPF.Core.Models;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
+using Microsoft.Extensions.Options;
 
 namespace ITTV.WPF.MVVM.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        public Settings Settings { get; private set; }
+        
         private readonly NavigationStore _navigationStore;
         private readonly UserInterfaceManager _userInterfaceManager;
 
@@ -28,7 +32,8 @@ namespace ITTV.WPF.MVVM.ViewModels
         public MainViewModel(NavigationStore navigationStore,
             UserInterfaceManager userInterfaceManager,
             FooterViewModel footerViewModel,
-            NotificationViewModel notificationViewModel)
+            NotificationViewModel notificationViewModel, 
+            IOptions<Settings> settings)
         {
             _navigationStore = navigationStore;
             _userInterfaceManager = userInterfaceManager;
@@ -38,6 +43,7 @@ namespace ITTV.WPF.MVVM.ViewModels
             
             FooterViewModel = footerViewModel;
             NotificationViewModel = notificationViewModel;
+            this.Settings = settings.Value;
         }
 
         private void NavigateToInactiveMode()

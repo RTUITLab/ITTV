@@ -30,19 +30,18 @@
                                FontSize="40"/>
                 </Grid>
                 <Grid x:Name="Content" 
-                      ShowGridLines="True"
                       VerticalAlignment="Center"
                       Margin="100 50 100 50"
                       Visibility="{Binding HasClasses, Converter={StaticResource BoolToVis}}">
                     <DataGrid
-                        BorderThickness="0"
+                        BorderThickness="1 1 1 0"
+                        BorderBrush="Black"
                         IsEnabled="False"
                         AutoGenerateColumns="False"
                         HeadersVisibility="None"
                         RowHeight="100"
                         ItemsSource="{Binding LessonsForSelectedDay}">
                         <DataGrid.Columns>
-                            
                             <DataGridTemplateColumn
                                 Width="Auto"
                                 MinWidth="50">
@@ -68,7 +67,7 @@
                             
                             <DataGridTemplateColumn
                                 Width="Auto"
-                                MinWidth="200">
+                                MinWidth="250">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate >
                                         <Grid>
@@ -80,7 +79,7 @@
                             
                             <DataGridTemplateColumn
                                 Width="Auto"
-                                MinWidth="200">
+                                MinWidth="250">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate >
                                         <Grid>
