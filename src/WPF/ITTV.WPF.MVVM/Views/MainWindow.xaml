@@ -68,6 +68,9 @@
         <DataTemplate DataType="{x:Type schedule:ScheduleViewModel}">
             <views:ScheduleView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type schedule:ScheduleForCourseViewModel}">
+            <views:ScheduleForCourseView/>
+        </DataTemplate>
     </Window.Resources>
 <controls:KinectRegion x:Name="KinectRegion">    
     <Grid>
