@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using ITTV.WPF.Abstractions.Enums;
 
 namespace ITTV.WPF.Core.Helpers
 {
@@ -72,6 +73,25 @@ namespace ITTV.WPF.Core.Helpers
                 Directory.CreateDirectory(DirectoryEggPath);
                 return DirectoryEggPath;
             }
+        }
+
+        private static readonly string DirectorySchedulePath =
+            Path.Combine(Directory.GetCurrentDirectory(), "Images/ScheduleImages");
+
+        public static string GetDirectorySchedulePath
+        {
+            get
+            {
+                Directory.CreateDirectory(DirectorySchedulePath);
+                return DirectorySchedulePath;
+            }
+        }
+
+        public static string DirectoryScheduleImages(DegreeEnum degreeTypeEnum)
+        {
+            var path = Path.Combine(GetDirectorySchedulePath, degreeTypeEnum.ToString());
+            Directory.CreateDirectory(path);
+            return path;
         }
 
         public static readonly string FileInactiveImageGerb = Path.Combine(Directory.GetCurrentDirectory(), "Images/Gerb.png");
