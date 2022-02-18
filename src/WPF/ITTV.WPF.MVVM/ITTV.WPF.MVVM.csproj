@@ -78,6 +78,7 @@
         <Compile Include="Commands\Schedule\SelectDegreeCommand.cs" />
         <Compile Include="Commands\Schedule\SelectGroupCommand.cs" />
         <Compile Include="Commands\Schedule\SelectGroupTypesCommand.cs" />
+        <Compile Include="Commands\Schedule\SelectScheduleForCourseCommand.cs" />
         <Compile Include="Commands\Schedule\SelectScheduleTypeCommand.cs" />
         <Compile Include="Commands\Videos\SelectVideoCommand.cs" />
         <Compile Include="Commands\Videos\VideoEndedCommand.cs" />
@@ -104,6 +105,7 @@
         <Compile Include="ViewModels\Schedule\CoursesViewModel.cs" />
         <Compile Include="ViewModels\Schedule\GroupsViewModel.cs" />
         <Compile Include="ViewModels\Schedule\GroupTypesViewModel.cs" />
+        <Compile Include="ViewModels\Schedule\ScheduleForCourseViewModel.cs" />
         <Compile Include="ViewModels\Schedule\ScheduleForDayViewModel.cs" />
         <Compile Include="ViewModels\Schedule\ScheduleTypeViewModel.cs" />
         <Compile Include="ViewModels\Schedule\ScheduleViewModel.cs" />
@@ -149,6 +151,9 @@
         </Compile>
         <Compile Include="Views\NotificationView.xaml.cs">
           <DependentUpon>NotificationView.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\ScheduleForCourseView.xaml.cs">
+          <DependentUpon>ScheduleForCourseView.xaml</DependentUpon>
         </Compile>
         <Compile Include="Views\ScheduleForDayView.xaml.cs">
           <DependentUpon>ScheduleForDayView.xaml</DependentUpon>
@@ -266,6 +271,7 @@
       <Page Include="Views\GroupsView.xaml" />
       <Page Include="Views\GroupTypesView.xaml" />
       <Page Include="Views\NotificationView.xaml" />
+      <Page Include="Views\ScheduleForCourseView.xaml" />
       <Page Include="Views\Styles\HandPointerStyles.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

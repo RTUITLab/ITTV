@@ -11,7 +11,7 @@ namespace ITTV.WPF.MVVM.Views.Converters
         {
             if (value is bool customizedBool)
             {
-                return customizedBool ? Visibility.Visible : Visibility.Hidden;
+                return customizedBool ? Visibility.Visible : Visibility.Collapsed;
             }
 
             throw new NotSupportedException();

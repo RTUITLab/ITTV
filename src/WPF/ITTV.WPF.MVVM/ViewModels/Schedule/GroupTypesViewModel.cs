@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Windows.Input;
 using ITTV.WPF.Abstractions.Base.ViewModel;
+using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.Commands.Schedule;
@@ -13,6 +15,20 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
     public class GroupTypesViewModel : ViewModelBase
     {
+        public ICommand ShowScheduleForCourseCommand { get; private set; }
+        public bool HasImageForScheduleForCourse
+        {
+            get => _hasImageForScheduleForCourse;
+            set
+            {
+                if (Equals(value, _hasImageForScheduleForCourse))
+                    return;
+
+                _hasImageForScheduleForCourse = value;
+                OnPropertyChanged(nameof(HasImageForScheduleForCourse));
+            }
+        }
+        private bool _hasImageForScheduleForCourse;
         public ObservableCollection<TimeTableQuestionDto> SupportedGroupTypes
         {
             get => _supportedGroupTypes;
@@ -72,6 +88,9 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
                 });
 
                 SupportedGroupTypes = new ObservableCollection<TimeTableQuestionDto>(supportedGroupTypes);
+                
+                UpdateScheduleForCourseImageStatus();
+                ShowScheduleForCourseCommand = new SelectScheduleForCourseCommand(_navigationStore, _notificationStore, _timeTableData);
             }
             catch (Exception e)
             {
@@ -84,6 +103,15 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
             {
                 SetLoaded();
             }
+        }
+
+        private void UpdateScheduleForCourseImageStatus()
+        {
+            var path = PathHelper.GetFileScheduleImageForCourse(_timeTableData.Degree, _timeTableData.CourseNumber);
+
+            var fileExist = File.Exists(path);
+
+            HasImageForScheduleForCourse = fileExist;
         }
     }
 }

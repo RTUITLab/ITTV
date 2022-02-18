@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using ITTV.WPF.Abstractions.Enums;
 
 namespace ITTV.WPF.Core.Helpers
@@ -92,6 +93,17 @@ namespace ITTV.WPF.Core.Helpers
             var path = Path.Combine(GetDirectorySchedulePath, degreeTypeEnum.ToString());
             Directory.CreateDirectory(path);
             return path;
+        }
+
+        public static string GetFileScheduleImageForCourse(DegreeEnum? degreeTypeEnum, int? courseNumber)
+        {
+            if (courseNumber == null || degreeTypeEnum == null)
+                throw new ArgumentException("CourseNumber or DegreeType can't be null");
+            
+            var directoryPath = GetDirectoryScheduleImages(degreeTypeEnum.Value);
+
+            var filePath = Path.Combine(directoryPath, courseNumber.ToString());
+            return filePath;
         }
 
         public static readonly string FileInactiveImageGerb = Path.Combine(Directory.GetCurrentDirectory(), "Images/Gerb.png");
