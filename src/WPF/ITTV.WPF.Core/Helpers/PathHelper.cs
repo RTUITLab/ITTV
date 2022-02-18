@@ -87,7 +87,7 @@ namespace ITTV.WPF.Core.Helpers
             }
         }
 
-        public static string DirectoryScheduleImages(DegreeEnum degreeTypeEnum)
+        public static string GetDirectoryScheduleImages(DegreeEnum degreeTypeEnum)
         {
             var path = Path.Combine(GetDirectorySchedulePath, degreeTypeEnum.ToString());
             Directory.CreateDirectory(path);
@@ -96,7 +96,7 @@ namespace ITTV.WPF.Core.Helpers
 
         public static readonly string FileInactiveImageGerb = Path.Combine(Directory.GetCurrentDirectory(), "Images/Gerb.png");
         
-        public const string FileSettingsPath = "settings.json";
+        public const string FileConfigurationPath = "configuration.json";
         public const string FileLogsPath = "logs.txt";
 
         public static readonly string FileGroupsCachePath = GetDirectoryCachePath + "groups.json";

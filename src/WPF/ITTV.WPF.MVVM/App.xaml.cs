@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Models;
@@ -21,9 +22,8 @@ namespace ITTV.WPF.MVVM
         private readonly IServiceProvider _serviceProvider;
         public App()
         {
-            const string configurationFile = "configuration.json";
             var configuration = new ConfigurationBuilder()
-                .AddJsonFile(configurationFile)
+                .AddJsonFile(PathHelper.FileConfigurationPath)
                 .Build();
 
             var serviceCollection = new ServiceCollection();
