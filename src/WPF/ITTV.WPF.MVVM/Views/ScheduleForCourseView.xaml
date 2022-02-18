@@ -11,11 +11,14 @@
              d:DataContext="{d:DesignInstance schedule:ScheduleForCourseViewModel,
                                                     IsDesignTimeCreatable=True}">
     <Grid>
-        <ScrollViewer Margin="0 20 0 0"
+        <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                      HorizontalScrollBarVisibility="Auto" 
+                      controls:KinectRegion.IsHorizontalRailEnabled="true" 
+                      controls:KinectRegion.IsVerticalRailEnabled="true"
+                      controls:KinectRegion.ZoomMode="Enabled"
                       controls:KinectRegion.IsScrollInertiaEnabled="true">
-            <MediaElement x:Name="ScheduleForCourse"
-                          Source="{Binding FilePath}"
-                          UnloadedBehavior="Stop"/>
+            <Image x:Name="ScheduleForCourse"
+                   Source="{Binding FilePath}"/>
         </ScrollViewer>
     </Grid>
 </UserControl>

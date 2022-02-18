@@ -102,7 +102,7 @@ namespace ITTV.WPF.Core.Helpers
             
             var directoryPath = GetDirectoryScheduleImages(degreeTypeEnum.Value);
 
-            var filePath = Path.Combine(directoryPath, courseNumber.ToString());
+            var filePath = Path.Combine(directoryPath, courseNumber.ToString()) + ".png";
             return filePath;
         }
 
