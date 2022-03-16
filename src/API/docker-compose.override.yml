@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  ittv:
+    build:
+      context: ./src/ITTV.API/Dockerfile
+    environment:
+	- ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_ENVIRONMENT=Development
+      - POSTGRESQL=User ID=postgres;Password=password;Server=postgres;Port=5432;Database=itlab-ittv-db;Integrated Security=true;
+      - JwtOptions__Authority=https://identity.dev.manage.rtuitlab.dev/
+      - JwtOptions__Audience=itlab
+      - JwtOptions__Scope=itlab.ittv
+      - S3Configuration__Endpoint=http://127.0.0.1:8000
+      - S3Configuration__AccessKey=accessKey1
+      - S3Configuration__SecretKey=verySecretKey1
+      - S3Configuration__BucketName=default
+    ports:
+      - 5509:5509
+    depends_on:
+      - postgres
+      - s3server
+  postgres:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
+  s3server:
+    image: scality/s3server
