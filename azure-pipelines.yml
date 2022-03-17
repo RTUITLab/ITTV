@@ -1,0 +1,16 @@
+trigger:
+  branches:
+    include:
+      - "*"
+  tags:
+    include:
+      - "*"
+
+name: $(BuildID)-$(Build.SourceBranchName)
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - script: ls
+    workingDirectory: $(Agent.BuildDirectory)
