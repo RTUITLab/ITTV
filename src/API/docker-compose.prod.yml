@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  back:
+    image: registry.rtuitlab.dev/ittv/back
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_ENVIRONMENT=Production
+    env_file:
+      - .env.prod
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 100M
+    networks:
+      - net
+networks:
+  net:
+    driver: overlay
