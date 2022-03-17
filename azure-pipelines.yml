@@ -1,0 +1,90 @@
+trigger:
+  branches:
+    include:
+      - "*"
+  tags:
+    include:
+      - "*"
+
+name: $(BuildID)-$(Build.SourceBranchName)
+
+resources:
+  - repo: self
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  ${{ if notIn(variables['Build.SourceBranch'], 'refs/heads/master', 'refs/tags/develop') }}:
+    dockerfile: 'Dockerfile'
+    dockerCommand: 'build'
+    dockerRepository: 'no'
+    deployService: false
+    deployEnvironment: 'no'
+    imageTags: 'no'
+    serviceName: 'no'
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/tags/develop') }}:
+    dockerfile: 'Dockerfile'
+    dockerCommand: 'buildAndPush'
+    dockerRepository: 'ittv/back'
+    deployService: true
+    deployEnvironment: 'production'
+    imageTags: |
+      $(Build.BuildId)
+      develop
+    serviceName: ittv_back
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+    dockerfile: 'Dockerfile'
+    dockerCommand: 'buildAndPush'
+    dockerRepository: 'ittv/back'
+    deployService: true
+    deployEnvironment: 'production'
+    imageTags: |
+      $(Build.BuildId)
+      latest
+    serviceName: ittv_back
+
+stages:
+  - stage: packDockerImages
+    displayName: Build/Push docker images
+    jobs:
+      - job: packPublicImage
+        displayName: Build public docker image
+        steps:
+          - task: Docker@2
+            displayName: Build image for docker hub
+            inputs:
+              containerRegistry: 'rtuitlab connection by admin'
+              repository: 'rtuitlab/${{ variables.dockerRepository }}'
+              Dockerfile: '$(Build.SourcesDirectory)/src/API/src/ITTV.API/${{ variables.dockerfile }}'
+              buildContext: '$(Build.SourcesDirectory)/src/API/src/ITTV.API'
+              command: '${{ variables.dockerCommand }}'
+              tags: '${{ variables.imageTags }}'
+      - job: packPrivateImage
+        displayName: Build private docker image
+        steps:
+          - task: Docker@2
+            displayName: Build image for private docker registry
+            inputs:
+              containerRegistry: 'private rtuitlab registry'
+              repository: '${{ variables.dockerRepository }}'
+              Dockerfile: '$(Build.SourcesDirectory)/src/API/src/ITTV.API/${{ variables.dockerfile }}'
+              buildContext: '$(Build.SourcesDirectory)/src/API/src/ITTV.API'
+              command: '${{ variables.dockerCommand }}'
+              tags: '${{ variables.imageTags }}'
+  - stage: deploy
+    condition: and(succeeded(), ${{ variables.deployService }})
+    jobs:
+      - deployment: deploy
+        environment: ${{ variables.deployEnvironment }}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: none
+                - task: SSH@0
+                  inputs:
+                    sshEndpoint: 'swarm manager'
+                    runOptions: 'commands'
+                    commands: 'docker service update --image registry.rtuitlab.dev/${{ variables.dockerRepository }}:$(Build.BuildId) ${{ variables.serviceName }} --with-registry-auth'
+                    readyTimeout: '20000'
