@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   back:
-    image: registry.rtuitlab.dev/ittv/back
+    image: registry.rtuitlab.dev/ittv-back
     environment:
       - ASPNETCORE_URLS=http://+:5000
       - ASPNETCORE_ENVIRONMENT=Production
@@ -16,8 +16,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.1"
-          memory: 100M
+          cpus: "0.3"
+          memory: 300M
     networks:
       - net
 networks:

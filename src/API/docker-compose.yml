@@ -2,4 +2,4 @@ version: '3.4'
 
 services:
   back:
-    image: rtuitlab/ittv/back
+    image: rtuitlab/ittv-back
