@@ -26,7 +26,7 @@ variables:
   ${{ if eq(variables['Build.SourceBranch'], 'refs/tags/develop') }}:
     dockerfile: 'Dockerfile'
     dockerCommand: 'buildAndPush'
-    dockerRepository: 'ittv/back'
+    dockerRepository: 'ittv-back'
     deployService: true
     deployEnvironment: 'production'
     imageTags: |
@@ -36,7 +36,7 @@ variables:
   ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
     dockerfile: 'Dockerfile'
     dockerCommand: 'buildAndPush'
-    dockerRepository: 'ittv/back'
+    dockerRepository: 'ittv-back'
     deployService: true
     deployEnvironment: 'production'
     imageTags: |
@@ -56,8 +56,8 @@ stages:
             inputs:
               containerRegistry: 'rtuitlab connection by admin'
               repository: 'rtuitlab/${{ variables.dockerRepository }}'
-              Dockerfile: '$(Build.SourcesDirectory)/src/API/src/ITTV.API/${{ variables.dockerfile }}'
-              buildContext: '$(Build.SourcesDirectory)/src/API/src/ITTV.API'
+              Dockerfile: '$(Build.SourcesDirectory)/src/API/${{ variables.dockerfile }}'
+              buildContext: '$(Build.SourcesDirectory)/src/API'
               command: '${{ variables.dockerCommand }}'
               tags: '${{ variables.imageTags }}'
       - job: packPrivateImage
@@ -68,8 +68,8 @@ stages:
             inputs:
               containerRegistry: 'private rtuitlab registry'
               repository: '${{ variables.dockerRepository }}'
-              Dockerfile: '$(Build.SourcesDirectory)/src/API/src/ITTV.API/${{ variables.dockerfile }}'
-              buildContext: '$(Build.SourcesDirectory)/src/API/src/ITTV.API'
+              Dockerfile: '$(Build.SourcesDirectory)/src/API/${{ variables.dockerfile }}'
+              buildContext: '$(Build.SourcesDirectory)/src/API'
               command: '${{ variables.dockerCommand }}'
               tags: '${{ variables.imageTags }}'
   - stage: deploy
