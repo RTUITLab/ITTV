@@ -86,7 +86,7 @@ namespace ITTV.WPF.Core.Services
                 _ => throw new ArgumentException($"Unsupported schedule type {scheduleType}")
             };
 
-            var weekNumber = MireaTimeHelper.CalculateNumberOfWeek(calculatingDay);
+            var weekNumber = MireaTimeHelper.CalculateNumberOfWeek(calculatingDay) % 2;
 
             if (weekNumber is null)
                 return Array.Empty<ApiScheduleLesson>();
@@ -95,8 +95,8 @@ namespace ITTV.WPF.Core.Services
 
             var selectedWeek = weekNumber switch
             {
-                1 => schedule.FirstWeek,
-                2 => schedule.SecondWeek,
+                0 => schedule.FirstWeek,
+                1 => schedule.SecondWeek,
                 _ => throw new ArgumentOutOfRangeException()
             };
 

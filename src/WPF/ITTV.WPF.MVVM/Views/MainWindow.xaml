@@ -71,6 +71,9 @@
         <DataTemplate DataType="{x:Type schedule:ScheduleForCourseViewModel}">
             <views:ScheduleForCourseView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:EggVideoViewModel}">
+            <views:EggVideoView/>
+        </DataTemplate>
     </Window.Resources>
 <controls:KinectRegion x:Name="KinectRegion">    
     <Grid>

@@ -13,6 +13,7 @@ using ITTV.WPF.MVVM.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.Kinect;
 using Serilog;
 
 namespace ITTV.WPF.MVVM

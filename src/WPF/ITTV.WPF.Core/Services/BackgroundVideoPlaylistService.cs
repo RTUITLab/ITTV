@@ -10,10 +10,10 @@ namespace ITTV.WPF.Core.Services
 {
     public class BackgroundVideoPlaylistService
     {
-        private int currentIndex = -1;
+        private int _currentIndex = -1;
         private readonly List<Uri> _playlist = new();
 
-        private Uri currentVideo;
+        private Uri _currentVideo;
 
         public BackgroundVideoPlaylistService(IOptions<Settings> settings)
         {
@@ -29,15 +29,15 @@ namespace ITTV.WPF.Core.Services
                 _playlist.Add(uri);
             }
             if (_playlist.Count > 0)
-                currentVideo = _playlist.First();
+                _currentVideo = _playlist.First();
         }
         
         public Uri NextVideo()
         {
-            currentIndex = (currentIndex + 1) % _playlist.Count;
+            _currentIndex = (_currentIndex + 1) % _playlist.Count;
 
-            currentVideo = new Uri(_playlist[currentIndex].AbsoluteUri);
-            return currentVideo;
+            _currentVideo = new Uri(_playlist[_currentIndex].AbsoluteUri);
+            return _currentVideo;
         }
 
         public bool ContainsAnyVideos()

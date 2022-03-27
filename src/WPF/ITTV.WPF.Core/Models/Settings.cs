@@ -132,5 +132,12 @@ namespace ITTV.WPF.Core.Models
             }
         }
 
+        [JsonProperty("eggVideoCommands")] 
+        private string[] _eggVideoCommands;
+        public string[] EggVideoCommands
+        {
+            get => _eggVideoCommands;
+            set => _eggVideoCommands = value;
+        }
     }
 }

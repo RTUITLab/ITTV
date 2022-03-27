@@ -9,11 +9,14 @@ namespace ITTV.WPF.Core.Services
     public class UserInterfaceManager : IDisposable
     {
         public DateTime LastActivityTime { get; private set; }
+        public bool IsActiveNow { get; private set; } = true;
         
         private readonly Timer _inactiveTimer;
         private readonly Settings _settings;
         
         public event Action OnStateChangedToInactive;
+
+        public event Action OnStateChanged;
 
         public UserInterfaceManager(IOptions<Settings> settings)
         {
@@ -30,11 +33,20 @@ namespace ITTV.WPF.Core.Services
         private void InactiveTimerOnElapsed(object sender, ElapsedEventArgs e)
         {
             var idleLastInputTime = IdleTimeDetector.GetIdleTimeInfo().LastInputTime;
-            TryUpdateLastActivityTime(idleLastInputTime);
+            var updated = TryUpdateLastActivityTime(idleLastInputTime);
+            if (updated && !IsActiveNow)
+            {
+                UpdateActiveStatus(true);
+                OnStateChanged?.Invoke();
+            }
             
             if (DateTime.Now - LastActivityTime > _settings.InactiveModeTime)
             {
-                OnStateChangedToInactive?.Invoke();
+                if (IsActiveNow)
+                {
+                    UpdateActiveStatus(false);
+                    OnStateChangedToInactive?.Invoke();
+                }
             }
         }
 
@@ -60,6 +72,12 @@ namespace ITTV.WPF.Core.Services
         protected virtual void OnThemeUpdated()
         {
             ThemeUpdated?.Invoke();
+        }
+
+        private void UpdateActiveStatus(bool status)
+        {
+            IsActiveNow = status;
+            OnStateChanged?.Invoke();
         }
 
         public void Dispose()

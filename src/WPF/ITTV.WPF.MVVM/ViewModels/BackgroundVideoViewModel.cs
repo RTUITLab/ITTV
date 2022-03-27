@@ -15,6 +15,7 @@ namespace ITTV.WPF.MVVM.ViewModels
     public class BackgroundVideoViewModel : ViewModelBase
     {
         private readonly BackgroundVideoPlaylistService _backgroundVideoPlaylistService;
+        private readonly UserInterfaceManager _userInterfaceManager;
         private readonly Settings _settings;
         
         private DispatcherTimer _timer;
@@ -34,6 +35,10 @@ namespace ITTV.WPF.MVVM.ViewModels
             ChangeThemeCommand = new ChangeThemeCommand(userInterfaceManager);
 
             _backgroundVideoPlaylistService = backgroundVideoPlaylistService;
+            
+            _userInterfaceManager = userInterfaceManager;
+            _userInterfaceManager.OnStateChanged += () => OnPropertyChanged(nameof(IsActiveStatus));
+            
             _settings = settings.Value;
             
             StartTimer();
@@ -90,25 +95,25 @@ namespace ITTV.WPF.MVVM.ViewModels
                 var isInactiveMode = _settings.NeedCheckTime 
                                      && (_settings.StartWorkTime > DateTime.Now.TimeOfDay
                                          || _settings.EndWorkTime < DateTime.Now.TimeOfDay);
-                IsInactiveMode = isInactiveMode;
+                IsInactiveWorkMode = isInactiveMode;
 
             };
         }
 
-        public bool IsInactiveMode
+        public bool IsInactiveWorkMode
         {
-            get => _isInactiveMode;
+            get => _isInactiveWorkMode;
             set
             {
-                if (Equals(_isInactiveMode, value))
+                if (Equals(_isInactiveWorkMode, value))
                 {
-                    if (!(_isInactiveMode && CurrentVideo == default))
+                    if (!(_isInactiveWorkMode && CurrentVideo == default))
                         return;
                 }
                 
-                _isInactiveMode = value;
+                _isInactiveWorkMode = value;
 
-                if (_isInactiveMode)
+                if (_isInactiveWorkMode)
                 {
                     CurrentVideo = new Uri(PathHelper.FileInactiveImageGerb);
                 }
@@ -117,10 +122,12 @@ namespace ITTV.WPF.MVVM.ViewModels
                     Setup();
                 }
                 
-                OnPropertyChanged(nameof(IsInactiveMode));
+                OnPropertyChanged(nameof(IsInactiveWorkMode));
             }
         }
+
+        public bool IsActiveStatus => _userInterfaceManager.IsActiveNow && !_isInactiveWorkMode;
     
-        private bool _isInactiveMode = true;
+        private bool _isInactiveWorkMode = true;
     }
 }
