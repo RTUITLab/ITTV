@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using ITTV.WPF.Abstractions.Base.ViewModel;
-using ITTV.WPF.Core.Services;
 
 namespace ITTV.WPF.Core.Stores
 {

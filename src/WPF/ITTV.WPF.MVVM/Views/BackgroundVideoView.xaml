@@ -15,7 +15,6 @@
             Volume="{Binding Volume}"
             UnloadedBehavior="Play" 
             HorizontalAlignment="Center"
-            Visibility="Visible"
             Width="1920"
             Height="1080">
             <b:Interaction.Triggers>
@@ -31,7 +30,7 @@
             Width="400" 
             Height="150" 
             Style="{StaticResource KinectTileButton}"
-            Visibility="{Binding IsInactiveMode, Converter={StaticResource InverseBoolToVis}}">
+            Visibility="{Binding IsActiveStatus, Converter={StaticResource BoolToVis}}">
             <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}" 
                   Width="400" 
                   Height="150">

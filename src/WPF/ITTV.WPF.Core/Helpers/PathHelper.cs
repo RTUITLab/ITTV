@@ -56,7 +56,7 @@ namespace ITTV.WPF.Core.Helpers
             }
         }
 
-        private static readonly string DirectoryGestureDatabasePath = Path.Combine(Directory.GetCurrentDirectory(), @"Gesture\");
+        private static readonly string DirectoryGestureDatabasePath = Path.Combine(Directory.GetCurrentDirectory(), @"GestureDatabase\");
         public static string GetDirectoryGestureDatabasePath
         {
             get
