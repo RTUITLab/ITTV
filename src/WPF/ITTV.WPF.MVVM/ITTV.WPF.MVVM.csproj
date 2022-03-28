@@ -316,5 +316,10 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
+    <ItemGroup>
+        <AssemblyAttribute Include="ITTV.WPF.Abstractions.Attributes.AssemblyITLabVersionAttribute">
+            <_Parameter1>$(ITLabVersion)</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Input;
 using System.Windows.Threading;
+using ITTV.WPF.Abstractions.Attributes;
 using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Services;
@@ -11,6 +13,8 @@ namespace ITTV.WPF.MVVM.ViewModels
 {
     public class FooterViewModel : ViewModelBase
     {
+        private const string DefaultVersionName = "Версия не задана";
+        
         private readonly UserInterfaceManager _userInterfaceManager;
         private readonly NavigationStore _navigationStore;
 
@@ -107,6 +111,9 @@ namespace ITTV.WPF.MVVM.ViewModels
         }
 
         private string _currentWeekOfSemester;
+
+        public string VersionOfProject =>
+            Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyITLabVersionAttribute>()?.Version ?? DefaultVersionName;
 
         private void Recalc()
         {
