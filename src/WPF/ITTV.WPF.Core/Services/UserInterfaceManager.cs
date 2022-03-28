@@ -33,7 +33,7 @@ namespace ITTV.WPF.Core.Services
         private void InactiveTimerOnElapsed(object sender, ElapsedEventArgs e)
         {
             var idleLastInputTime = IdleTimeDetector.GetIdleTimeInfo().LastInputTime;
-            var updated = TryUpdateLastActivityTime(idleLastInputTime);
+            TryUpdateLastActivityTime(idleLastInputTime);
 
             if (DateTime.Now - LastActivityTime > _settings.InactiveModeTime)
             {
