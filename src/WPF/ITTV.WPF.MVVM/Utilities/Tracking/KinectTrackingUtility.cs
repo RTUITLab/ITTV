@@ -75,7 +75,9 @@ namespace ITTV.WPF.MVVM.Utilities.Tracking
                 _trackingBodies = new List<Body>(new Body[maxBodiesCount]);
 
 
-                var navigationCommand = new TryNavigateEggVideoCommand(_navigationStore, _settings);
+                var navigationCommand = new TryNavigateEggVideoCommand(_navigationStore,
+                    _userInterfaceManager,
+                    _settings);
                 
                 _gestureDetectors = Enumerable.Range(0, maxBodiesCount)
                     .Select(x =>
@@ -126,7 +128,7 @@ namespace ITTV.WPF.MVVM.Utilities.Tracking
                     var body = _trackingBodies[i];
                     var trackingId = body.TrackingId;
 
-                    if (maxBodies >= _gestureDetectors.Count
+                    if (maxBodies > _gestureDetectors.Count
                         || trackingId == _gestureDetectors[i].TrackingId) 
                         continue;
                         

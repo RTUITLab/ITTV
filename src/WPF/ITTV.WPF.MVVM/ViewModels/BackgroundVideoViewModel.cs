@@ -128,6 +128,6 @@ namespace ITTV.WPF.MVVM.ViewModels
 
         public bool IsActiveStatus => _userInterfaceManager.IsActiveNow && !_isInactiveWorkMode;
     
-        private bool _isInactiveWorkMode = true;
+        private bool _isInactiveWorkMode;
     }
 }

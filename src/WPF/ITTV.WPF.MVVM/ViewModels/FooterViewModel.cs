@@ -13,7 +13,7 @@ namespace ITTV.WPF.MVVM.ViewModels
 {
     public class FooterViewModel : ViewModelBase
     {
-        private const string DefaultVersionName = "Версия не задана";
+        private const string DefaultVersionName = "";
         
         private readonly UserInterfaceManager _userInterfaceManager;
         private readonly NavigationStore _navigationStore;

@@ -10,19 +10,26 @@ namespace ITTV.WPF.MVVM.Commands.EggVideos
     {
         private readonly NavigationStore _navigationStore;
         private readonly NavigationService<EggVideoViewModel> _eggVideoNavigationService;
+        private readonly UserInterfaceManager _userInterfaceManager;
 
-        public TryNavigateEggVideoCommand(NavigationStore navigationStore, Settings settings)
+        public TryNavigateEggVideoCommand(NavigationStore navigationStore, 
+            UserInterfaceManager userInterfaceManager,
+            Settings settings)
         {
             _navigationStore = navigationStore;
+            _userInterfaceManager = userInterfaceManager;
 
-            var eggVideoViewModel = new EggVideoViewModel(navigationStore, settings);
+            var eggVideoViewModel = new EggVideoViewModel(navigationStore, settings, userInterfaceManager);
             _eggVideoNavigationService = new NavigationService<EggVideoViewModel>(navigationStore, eggVideoViewModel);
         }
 
         public override void Execute(object parameter)
         {
             if (_navigationStore.CurrentViewModel is not EggVideoViewModel)
+            {
+                _userInterfaceManager.ChangeThemeToWhite();
                 _eggVideoNavigationService.Navigate();
+            }
         }
     }
 }
