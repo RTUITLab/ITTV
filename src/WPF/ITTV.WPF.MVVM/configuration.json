@@ -8,9 +8,12 @@
     "cacheUpdateInterval": "00:20:00",
     "videoVolume": 1,
     "backgroundVideoOrder": [
-            "kinectrequired.mp4"
+        "1.mp4"
     ],
     "eggVideoCommands": [
+      "HUI1",
+      "HUI2",
+      "HUI3"
     ]
   }
 }
