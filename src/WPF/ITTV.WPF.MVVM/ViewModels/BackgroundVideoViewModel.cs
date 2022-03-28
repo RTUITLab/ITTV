@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Input;
 using System.Windows.Threading;
 using ITTV.WPF.Abstractions.Base.ViewModel;
@@ -19,8 +18,7 @@ namespace ITTV.WPF.MVVM.ViewModels
         private readonly Settings _settings;
         
         private DispatcherTimer _timer;
-
-
+        
         public ICommand BackgroundVideoEndedCommand { get; }
         public ICommand ShowMenuCommand { get; }
         public ICommand ChangeThemeCommand { get; }
@@ -123,11 +121,12 @@ namespace ITTV.WPF.MVVM.ViewModels
                 }
                 
                 OnPropertyChanged(nameof(IsInactiveWorkMode));
+                OnPropertyChanged(nameof(IsActiveStatus));
             }
         }
 
         public bool IsActiveStatus => _userInterfaceManager.IsActiveNow && !_isInactiveWorkMode;
     
-        private bool _isInactiveWorkMode;
+        private bool _isInactiveWorkMode = true;
     }
 }
