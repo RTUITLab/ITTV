@@ -71,6 +71,8 @@ namespace ITTV.WPF.Core.Stores
             CurrentViewModel = _historyViewModels.First();
 
             _historyViewModels = new List<ViewModelBase>();
+            
+            OnCurrentViewModelChanged();
             OnHistoryViewModelsUpdated();
             return true;
         }

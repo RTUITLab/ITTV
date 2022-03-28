@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using ITTV.WPF.Core.Helpers;
 using Microsoft.Kinect;
 using Microsoft.Kinect.VisualGestureBuilder;
@@ -157,15 +158,13 @@ namespace ITTV.WPF.MVVM.Utilities.Tracking
                 }
             }
             
-
-
             if (_gestureCommands[_currentWantedGesture] == localGesture?.Name)
             {
                 _lastGesture = localGesture;
                 _lastCoolGesture = DateTime.UtcNow;
                 _currentWantedGesture++;
 
-                if (_currentWantedGesture != _gestureCommands.Length)
+                if (_currentWantedGesture == _gestureCommands.Length)
                 {
                     OnGestureFired?.Invoke();
                     _currentWantedGesture = 0;

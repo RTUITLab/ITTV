@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace ITTV.WPF.Core.Services
 {
-    public class UserInterfaceManager : IDisposable
+    public class  UserInterfaceManager : IDisposable
     {
         public DateTime LastActivityTime { get; private set; }
         public bool IsActiveNow { get; private set; } = true;
@@ -34,12 +34,7 @@ namespace ITTV.WPF.Core.Services
         {
             var idleLastInputTime = IdleTimeDetector.GetIdleTimeInfo().LastInputTime;
             var updated = TryUpdateLastActivityTime(idleLastInputTime);
-            if (updated && !IsActiveNow)
-            {
-                UpdateActiveStatus(true);
-                OnStateChanged?.Invoke();
-            }
-            
+
             if (DateTime.Now - LastActivityTime > _settings.InactiveModeTime)
             {
                 if (IsActiveNow)
@@ -59,6 +54,12 @@ namespace ITTV.WPF.Core.Services
             IsDarkTheme = !IsDarkTheme;
             OnThemeUpdated();
         }
+        
+        public void ChangeThemeToWhite()
+        {
+            IsDarkTheme = !IsDarkTheme;
+            OnThemeUpdated();
+        }
 
         public bool TryUpdateLastActivityTime(DateTime newLastActivityTime)
         {
@@ -66,6 +67,13 @@ namespace ITTV.WPF.Core.Services
                 return false;
 
             LastActivityTime = newLastActivityTime;
+            
+            if (!IsActiveNow)
+            {
+                UpdateActiveStatus(true);
+                OnStateChanged?.Invoke();
+            }
+            
             return true;
         }
 

@@ -4,8 +4,8 @@
     "needCheckTime": true,
     "startWorkTime": "08:00:00",
     "endWorkTime": "22:00:00",
-    "inactiveModeTime" : "00:00:10",
-    "videoVolume": 0.6,
+    "inactiveModeTime" : "00:01:00",
+    "videoVolume": 1,
     "backgroundVideoOrder": [
       "1.mp4",
       "2.mp4"
