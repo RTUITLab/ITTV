@@ -8,7 +8,7 @@ namespace ITTV.WPF.Core.Services
 {
     public class  UserInterfaceManager : IDisposable
     {
-        public DateTime LastActivityTime { get; private set; }
+        public DateTime LastActivityTime { get; private set; } = DateTime.Now;
         public bool IsActiveNow { get; private set; } = true;
         
         private readonly Timer _inactiveTimer;
