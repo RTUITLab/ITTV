@@ -3,7 +3,7 @@ version: '3.4'
 services:
   back:
     build:
-      context: ./src/ITTV.API/Dockerfile
+      context: ./ITTV.API/Dockerfile
     environment:
       - ASPNETCORE_URLS=http://+:5000
       - ASPNETCORE_ENVIRONMENT=Development
