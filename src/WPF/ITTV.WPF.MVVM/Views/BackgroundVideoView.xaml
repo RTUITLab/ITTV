@@ -14,9 +14,7 @@
             Source="{Binding CurrentVideo, UpdateSourceTrigger=PropertyChanged}"
             Volume="{Binding Volume}"
             UnloadedBehavior="Play" 
-            HorizontalAlignment="Center"
-            Width="1920"
-            Height="1080">
+            HorizontalAlignment="Center">
             <b:Interaction.Triggers>
                 <b:EventTrigger EventName="MediaEnded">
                     <b:InvokeCommandAction Command="{Binding BackgroundVideoEndedCommand}"/>

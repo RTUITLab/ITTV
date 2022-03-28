@@ -11,6 +11,7 @@ namespace ITTV.WPF.Core.Providers.MireaApi
 {
     public class MireaApiProvider
     {
+        private readonly TimeSpan _timeForUpdate = TimeSpan.FromHours(1);
         private readonly IMireaApiClient _mireaApiClient;
         
         public MireaApiProvider(IMireaApiClient mireaApiClient)
@@ -18,9 +19,9 @@ namespace ITTV.WPF.Core.Providers.MireaApi
             _mireaApiClient = mireaApiClient;
         }
 
-        public async Task<ApiNewsItem[]> GetNews()
+        public async Task<ApiNewsItem[]> GetNews(TimeSpan? expireDateTime = default)
         {
-            var timeUpdated = TimeSpan.FromMinutes(5);
+            var timeUpdated = expireDateTime ?? _timeForUpdate;
             
             Func<Task<ApiNewsItem[]>> dataSource = () => _mireaApiClient.GetNews();
 
@@ -29,7 +30,7 @@ namespace ITTV.WPF.Core.Providers.MireaApi
         }
         public async Task<ApiGroups> GetGroups()
         {
-            var timeUpdated = TimeSpan.FromMinutes(5);
+            var timeUpdated = _timeForUpdate;
 
             Func<Task<ApiGroups>> dataSource = () => _mireaApiClient.GetAllGroups();
             
@@ -38,7 +39,7 @@ namespace ITTV.WPF.Core.Providers.MireaApi
         }
         public async Task<ApiFullScheduleResponse> GetFullSchedule(string group)
         {
-            var timeUpdated = TimeSpan.FromMinutes(5);
+            var timeUpdated = _timeForUpdate;
             
             Func<Task<ApiFullScheduleResponse>> dataSource = () => _mireaApiClient.GetFullScheduleForGroup(group);
             

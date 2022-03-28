@@ -57,7 +57,7 @@ namespace ITTV.WPF.Core.Services
         
         public void ChangeThemeToWhite()
         {
-            IsDarkTheme = !IsDarkTheme;
+            IsDarkTheme = false;
             OnThemeUpdated();
         }
 

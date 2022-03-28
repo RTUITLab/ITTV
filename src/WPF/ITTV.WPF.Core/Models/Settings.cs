@@ -132,6 +132,22 @@ namespace ITTV.WPF.Core.Models
             }
         }
 
+        [JsonProperty("cacheUpdateInterval")] 
+        private TimeSpan _cacheUpdateInterval;
+
+        public TimeSpan CacheUpdateInterval
+        {
+            get => _cacheUpdateInterval;
+            set
+            {
+                if (Equals(_cacheUpdateInterval, value))
+                    return;
+
+                _cacheUpdateInterval = value;
+                OnSettingsUpdated();
+            }
+        }
+
         [JsonProperty("eggVideoCommands")] 
         private string[] _eggVideoCommands;
         public string[] EggVideoCommands
