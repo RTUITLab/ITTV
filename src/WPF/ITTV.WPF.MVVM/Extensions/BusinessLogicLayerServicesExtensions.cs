@@ -2,6 +2,7 @@
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Services.ApiClient;
 using ITTV.WPF.Core.Stores;
+using ITTV.WPF.MVVM.BackgroundServices.Cache;
 using ITTV.WPF.MVVM.BackgroundServices.Tracking;
 using ITTV.WPF.MVVM.Commands;
 using ITTV.WPF.MVVM.Commands.BackgroundVideos;
@@ -89,6 +90,9 @@ namespace ITTV.WPF.MVVM.Extensions
 
             serviceCollection.AddSingleton<KinectTrackingHostedService>();
             serviceCollection.AddHostedService(x => x.GetRequiredService<KinectTrackingHostedService>());
+
+            serviceCollection.AddSingleton<NewsCacheUpdateHostedService>();
+            serviceCollection.AddHostedService(x => x.GetRequiredService<NewsCacheUpdateHostedService>());
         }
     }
 }

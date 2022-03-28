@@ -50,7 +50,7 @@ namespace ITTV.WPF.MVVM.Utilities.Tracking
         { 
             _kinectRegion = kinectRegion;
 
-            if (_settings.EggVideoCommands.Length > 0)
+            if (_settings.EggVideoCommands?.Length > 0)
             {
                 var eggVideoCommandsDatabasePath = PathHelper.FileGestureDatabasePath;
                 if (!File.Exists(eggVideoCommandsDatabasePath))

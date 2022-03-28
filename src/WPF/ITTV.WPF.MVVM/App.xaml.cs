@@ -5,6 +5,7 @@ using System.Windows;
 using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Models;
 using ITTV.WPF.Core.Services;
+using ITTV.WPF.MVVM.BackgroundServices.Cache;
 using ITTV.WPF.MVVM.BackgroundServices.Tracking;
 using ITTV.WPF.MVVM.Extensions;
 using ITTV.WPF.MVVM.Utilities.Tracking;
@@ -48,6 +49,9 @@ namespace ITTV.WPF.MVVM
         {
             var kinectHostedService = _serviceProvider.GetRequiredService<KinectTrackingHostedService>();
             kinectHostedService.StartAsync(default);
+            
+            var newsCacheUpdateHostedService = _serviceProvider.GetRequiredService<NewsCacheUpdateHostedService>();
+            newsCacheUpdateHostedService.StartAsync(default);
         }
 
         protected override void OnStartup(StartupEventArgs e)

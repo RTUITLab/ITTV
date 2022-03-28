@@ -65,6 +65,7 @@
             <DependentUpon>App.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+        <Compile Include="BackgroundServices\Cache\NewsCacheUpdateHostedService.cs" />
         <Compile Include="BackgroundServices\Tracking\KinectTrackingHostedService.cs" />
         <Compile Include="Commands\BackgroundVideos\BackgroundVideoEndedCommand.cs" />
         <Compile Include="Commands\BackgroundVideos\NavigateBackgroundVideoAndClearHistoryCommand.cs" />
