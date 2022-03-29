@@ -6,6 +6,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <converters:CustomBooleanToVisibilityConverter x:Key="BoolToVis" />
+            <converters:CustomBooleanToVisibilityWithCollapsedConverter x:Key="BoolToVisWithCollapsed" />
             <converters:CustomInverseBooleanToVisibilityConverter x:Key="InverseBoolToVis" />
             <converters:CustomBooleanToColorForDarkThemeConverter x:Key="DarkThemeConverter" />
             <converters:CustomBooleanToColorForDarkThemeTextConverter x:Key="DarkThemeTextConverter" />

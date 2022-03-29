@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using ITTV.WPF.Abstractions.Base.ViewModel;
 using ITTV.WPF.Abstractions.Enums;
+using ITTV.WPF.Abstractions.Interfaces;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
+using ITTV.WPF.MVVM.Commands;
 using ITTV.WPF.MVVM.Commands.Schedule;
 using ITTV.WPF.MVVM.DTOs;
 using Serilog;
 
 namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
-    public class TimeTableViewModel : ViewModelBase
+    public class TimeTableViewModel : ViewModelBase, INavigateBack
     {
+        public ICommand NavigateBackCommand { get; }
+
         public ObservableCollection<TimeTableQuestionDto> SupportedDegrees
         {
             get => _supportedDegrees;
@@ -32,6 +37,8 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
             NavigationStore navigationStore,
              NotificationStore notificationStore)
         {
+            NavigateBackCommand = new NavigateBackCommand(navigationStore);
+            
             try
             {
                 var activeQuestions = scheduleManager.GetSupportedDegrees()

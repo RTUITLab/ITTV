@@ -4,17 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using ITTV.WPF.Abstractions.Base.ViewModel;
+using ITTV.WPF.Abstractions.Interfaces;
 using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
+using ITTV.WPF.MVVM.Commands;
 using ITTV.WPF.MVVM.Commands.Schedule;
 using ITTV.WPF.MVVM.DTOs;
 using Serilog;
 
 namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
-    public class GroupTypesViewModel : ViewModelBase
+    public class GroupTypesViewModel : ViewModelBase, INavigateBack
     {
+        public ICommand NavigateBackCommand { get; }
         public ICommand ShowScheduleForCourseCommand { get; private set; }
         public bool HasImageForScheduleForCourse
         {
@@ -56,6 +59,8 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
             _scheduleManager = scheduleManager;
             _navigationStore = navigationStore;
             _notificationStore = notificationStore;
+
+            NavigateBackCommand = new NavigateBackCommand(_navigationStore);
         }
 
         public void SetTimeTableData(TimeTableDto tableDto)
@@ -90,6 +95,7 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
                 SupportedGroupTypes = new ObservableCollection<TimeTableQuestionDto>(supportedGroupTypes);
                 
                 UpdateScheduleForCourseImageStatus();
+                
                 ShowScheduleForCourseCommand = new SelectScheduleForCourseCommand(_navigationStore, _notificationStore, _timeTableData);
             }
             catch (Exception e)

@@ -23,42 +23,62 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
         
-            <ScrollViewer Grid.Row="0"
-                          VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled">
-                <ItemsControl Name="GroupTypes" 
-                              Margin="40 0"
-                              ItemsSource="{Binding SupportedGroupTypes}"
-                              ItemTemplate="{StaticResource TimeTableTemplate}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal"
-                                       HorizontalAlignment="Center" 
-                                       VerticalAlignment="Center"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </ScrollViewer>
+
+            <ItemsControl Name="GroupTypes" 
+                          Margin="40 0"
+                          ItemsSource="{Binding SupportedGroupTypes}"
+                          ItemTemplate="{StaticResource TimeTableTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
             
-            <Button Grid.Row="1"
-                    Width="600" 
-                    Height="200" 
-                    Margin="0 50 0 50"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource KinectTileButton}"
-                    Command="{Binding ShowScheduleForCourseCommand}"
-                    Visibility="{Binding HasImageForScheduleForCourse, Converter={StaticResource BoolToVis}}">
-                <Grid Background="{StaticResource BlueBrush}">
-                    <TextBlock Text="Полное расписание курса"
-                               HorizontalAlignment="Center"
-                               FontSize="45"
-                               TextWrapping="Wrap"
-                               Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
-                </Grid>
-            </Button>
+            <Grid Grid.Row="1">
+                <UniformGrid MaxHeight="200"
+                           HorizontalAlignment="Stretch">
+                    <UniformGrid.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource KinectTileButton}">
+                            <Setter Property="Margin" Value="10,0,0,0"/>
+                        </Style>
+                    </UniformGrid.Resources>
+                    <Button
+                        Margin="40 10"
+                            Height="150" 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Stretch"
+                            Command="{Binding NavigateBackCommand}">
+                        <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                            <TextBlock Text="Назад"
+                                       HorizontalAlignment="Center"
+                                       FontSize="45"
+                                       TextWrapping="Wrap"
+                                       Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
+                        </Grid>
+                    </Button>
+                    <Button
+                            Height="150" 
+                            Margin="40 10"
+                            HorizontalAlignment="Stretch"                 
+                            VerticalAlignment="Center"
+                            Command="{Binding ShowScheduleForCourseCommand}"
+                            Visibility="{Binding HasImageForScheduleForCourse, Converter={StaticResource BoolToVisWithCollapsed}}">
+                        <Grid Background="{StaticResource BlueBrush}">
+                            <TextBlock Text="Полное расписание курса"
+                                       HorizontalAlignment="Center"
+                                       FontSize="45"
+                                       TextWrapping="Wrap"
+                                       Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
+                        </Grid>
+                    </Button>
+                </UniformGrid>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

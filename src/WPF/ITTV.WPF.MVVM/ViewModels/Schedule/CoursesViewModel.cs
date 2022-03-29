@@ -2,17 +2,22 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using ITTV.WPF.Abstractions.Base.ViewModel;
+using ITTV.WPF.Abstractions.Interfaces;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
+using ITTV.WPF.MVVM.Commands;
 using ITTV.WPF.MVVM.Commands.Schedule;
 using ITTV.WPF.MVVM.DTOs;
 using Serilog;
 
 namespace ITTV.WPF.MVVM.ViewModels.Schedule
 {
-    public class CoursesViewModel : ViewModelBase
+    public class CoursesViewModel : ViewModelBase, INavigateBack
     {
+        public ICommand NavigateBackCommand { get; }
+
         public ObservableCollection<TimeTableQuestionDto> SupportedCourses
         {
             get => _supportedCourses;
@@ -45,6 +50,8 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
             _scheduleManager = scheduleManager;
             _navigationStore = navigationStore;
             _notificationStore = notificationStore;
+
+            NavigateBackCommand = new NavigateBackCommand(_navigationStore);
         }
 
         public void SetTimeTableData(TimeTableDto tableDto)
@@ -87,5 +94,6 @@ namespace ITTV.WPF.MVVM.ViewModels.Schedule
                 _notificationStore.AddNotification(textException);
             }
         }
+
     }
 }

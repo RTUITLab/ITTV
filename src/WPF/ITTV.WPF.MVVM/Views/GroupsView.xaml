@@ -43,6 +43,30 @@
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
             </ScrollViewer>
+            <Grid Grid.Row="1">
+                <UniformGrid MaxHeight="200"
+                             HorizontalAlignment="Stretch">
+                    <UniformGrid.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource KinectTileButton}">
+                            <Setter Property="Margin" Value="10,0,0,0"/>
+                        </Style>
+                    </UniformGrid.Resources>
+                    <Button
+                        Margin="40 10"
+                        Height="150" 
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        Command="{Binding NavigateBackCommand}">
+                        <Grid Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                            <TextBlock Text="Назад"
+                                       HorizontalAlignment="Center"
+                                       FontSize="45"
+                                       TextWrapping="Wrap"
+                                       Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}"/>
+                        </Grid>
+                    </Button>
+                </UniformGrid>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

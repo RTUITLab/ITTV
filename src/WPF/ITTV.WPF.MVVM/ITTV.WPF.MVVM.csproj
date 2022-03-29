@@ -125,6 +125,7 @@
         <Compile Include="Views\Converters\CustomBooleanToLaboratoryLogoSourceForDarkThemeConverter.cs" />
         <Compile Include="Views\Converters\CustomBooleanToUniversitySourceForDarkThemeConverter.cs" />
         <Compile Include="Views\Converters\CustomBooleanToVisibilityConverter.cs" />
+        <Compile Include="Views\Converters\CustomBooleanToVisibilityWithCollapsedConverter.cs" />
         <Compile Include="Views\Converters\CustomInverseBooleanToVisibilityConverter.cs" />
         <Compile Include="Views\CoursesView.xaml.cs">
           <DependentUpon>CoursesView.xaml</DependentUpon>
