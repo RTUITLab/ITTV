@@ -84,8 +84,6 @@ namespace ITTV.WPF.MVVM.Extensions
 
         private static void AddKinectServices(IServiceCollection serviceCollection)
         {
-            var kinectRegion = new KinectRegion();
-
             serviceCollection.AddSingleton<KinectTrackingUtility>();
 
             serviceCollection.AddSingleton<KinectTrackingHostedService>();
