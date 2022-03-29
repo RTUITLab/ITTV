@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using ITTV.WPF.Abstractions.Enums;
 
 namespace ITTV.WPF.Core.Helpers
@@ -102,7 +103,14 @@ namespace ITTV.WPF.Core.Helpers
             
             var directoryPath = GetDirectoryScheduleImages(degreeTypeEnum.Value);
 
-            var filePath = Path.Combine(directoryPath, courseNumber.ToString()) + ".png";
+            var supportedImageFormats = new [] {".png", ".jpg", ".jpeg"};
+
+            var mainPartFile = Path.Combine(directoryPath, courseNumber.ToString());
+
+            var filePath = supportedImageFormats.Select(x => mainPartFile + x)
+                .Where(File.Exists)
+                .SingleOrDefault();
+            
             return filePath;
         }
 
