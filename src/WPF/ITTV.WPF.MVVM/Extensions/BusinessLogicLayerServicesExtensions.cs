@@ -14,7 +14,6 @@ using ITTV.WPF.MVVM.ViewModels.Schedule;
 using ITTV.WPF.MVVM.ViewModels.Videos;
 using ITTV.WPF.MVVM.Views;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Kinect.Wpf.Controls;
 
 namespace ITTV.WPF.MVVM.Extensions
 {
@@ -42,7 +41,6 @@ namespace ITTV.WPF.MVVM.Extensions
             serviceCollection.AddScoped<BackgroundVideoPlaylistService>();
             serviceCollection.AddScoped<BackgroundVideoEndedCommand>();
             serviceCollection.AddSingleton<UserInterfaceManager>();
-            serviceCollection.AddSingleton<VideosManager>();
 
             serviceCollection.AddSingleton<IMireaApiClient, MireaApiClient>();
             serviceCollection.AddScoped<MireaApiProvider>();

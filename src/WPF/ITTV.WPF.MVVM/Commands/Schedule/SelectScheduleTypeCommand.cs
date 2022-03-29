@@ -3,7 +3,6 @@ using ITTV.WPF.Abstractions.Enums;
 using ITTV.WPF.Core.Services;
 using ITTV.WPF.Core.Stores;
 using ITTV.WPF.MVVM.DTOs;
-using ITTV.WPF.MVVM.ViewModels;
 using ITTV.WPF.MVVM.ViewModels.Schedule;
 
 namespace ITTV.WPF.MVVM.Commands.Schedule

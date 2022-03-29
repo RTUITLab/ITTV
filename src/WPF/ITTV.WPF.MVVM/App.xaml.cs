@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Models;
@@ -14,7 +13,6 @@ using ITTV.WPF.MVVM.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.Kinect;
 using Serilog;
 
 namespace ITTV.WPF.MVVM

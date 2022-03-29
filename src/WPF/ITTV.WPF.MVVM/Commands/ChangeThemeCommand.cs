@@ -1,5 +1,4 @@
-﻿using System.Windows.Input;
-using ITTV.WPF.Abstractions.Base.Command;
+﻿using ITTV.WPF.Abstractions.Base.Command;
 using ITTV.WPF.Core.Services;
 
 namespace ITTV.WPF.MVVM.Commands

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using ITTV.WPF.Core.Helpers;
 using Microsoft.Kinect;
 using Microsoft.Kinect.VisualGestureBuilder;
@@ -18,12 +17,11 @@ namespace ITTV.WPF.MVVM.Utilities.Tracking
         
         public static void SetGestureCommands(string[] gestureCommands)
             => _gestureCommands = gestureCommands;
-        
+
         /// <summary>
         /// Initializes a new instance of the GestureDetector class along with the gesture frame source and reader
         /// </summary>
         /// <param name="kinectSensor">Active sensor to initialize the VisualGestureBuilderFrameSource object with</param>
-        /// <param name="gestureCommands"></param>
         public KinectGestureDetector(KinectSensor kinectSensor)
         {
             if (_gestureCommands == null)
@@ -103,7 +101,7 @@ namespace ITTV.WPF.MVVM.Utilities.Tracking
         /// Disposes the VisualGestureBuilderFrameSource and VisualGestureBuilderFrameReader objects
         /// </summary>
         /// <param name="disposing">True if Dispose was called directly, false if the GC handles the disposing</param>
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (disposing)
             {

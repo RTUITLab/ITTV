@@ -1,6 +1,3 @@
-using System.Windows.Media.Imaging;
-using ITTV.WPF.Core.Helpers;
-
 namespace ITTV.WPF.Core.Services.ApiClient.Requests.GetNews
 {
     public class ApiImageItem

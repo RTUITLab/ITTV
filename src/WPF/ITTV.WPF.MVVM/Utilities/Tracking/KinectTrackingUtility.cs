@@ -80,7 +80,7 @@ namespace ITTV.WPF.MVVM.Utilities.Tracking
                     _settings);
                 
                 _gestureDetectors = Enumerable.Range(0, maxBodiesCount)
-                    .Select(x =>
+                    .Select(_ =>
                     {
                         var kinectGestureDetector = new KinectGestureDetector(_kinectRegion.KinectSensor);
                         kinectGestureDetector.OnGestureFired += () => navigationCommand.Execute(null);

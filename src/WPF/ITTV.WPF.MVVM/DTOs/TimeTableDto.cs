@@ -1,5 +1,4 @@
-﻿using System;
-using ITTV.WPF.Abstractions.Enums;
+﻿using ITTV.WPF.Abstractions.Enums;
 
 namespace ITTV.WPF.MVVM.DTOs
 {

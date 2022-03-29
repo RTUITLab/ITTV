@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ITTV.WPF.MVVM.DTOs
+﻿namespace ITTV.WPF.MVVM.DTOs
 {
     public class ScheduleLessonDto
     {
