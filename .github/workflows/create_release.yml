@@ -27,7 +27,7 @@ jobs:
         run: nuget restore src/ITTV.sln
 
       - name: Build app
-        run: msbuild src/WPF/ITTV.WPF.MVVM/ITTV.WPF.MVVM.csproj /p:ITLabVersion=${GITHUB_REF#refs/tags/} /p:OutputPath=build
+        run: msbuild src/WPF/ITTV.WPF.MVVM/ITTV.WPF.MVVM.csproj /p:ITLabVersion=${{ github.ref_name }} /p:OutputPath=src/WPF/ITTV.WPF.MVVM/build
 
       - name: Upload exe
         uses: actions/upload-artifact@v2
