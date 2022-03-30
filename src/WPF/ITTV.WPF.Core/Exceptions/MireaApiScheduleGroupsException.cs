@@ -4,8 +4,8 @@ namespace ITTV.WPF.Core.Exceptions
 {
     public class MireaApiScheduleGroupsException : Exception
     {
-        public MireaApiScheduleGroupsException()
-            : base("Не удалось получить список групп ИИТ")
+        public MireaApiScheduleGroupsException(string statusCode)
+            : base($"Не удалось получить список групп ИИТ, status code:{statusCode}")
         { }
     }
 }
