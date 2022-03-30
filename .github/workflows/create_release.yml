@@ -20,9 +20,11 @@ jobs:
 
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1.0.2
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
       - name: Restore Packages
-        run: nuget restore EzRep.sln
+        run: nuget restore src/ITTV.sln
 
       - name: Build app
         run: msbuild src/WPF/ITTV.WPF.MVVM/ITTV.WPF.MVVM.csproj /p:ITLabVersion=${GITHUB_REF#refs/tags/} /p:OutputPath=build
