@@ -1,0 +1,70 @@
+name: Create release of app
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  build:
+    name: Generate Release exe
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          vs-version: '17.0.0'
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.2
+
+      - name: Restore Packages
+        run: nuget restore EzRep.sln
+
+      - name: Build app
+        run: msbuild src/WPF/ITTV.WPF.MVVM/ITTV.WPF.MVVM.csproj /p:ITLabVersion=${GITHUB_REF#refs/tags/} /p:OutputPath=build
+
+      - name: Upload exe
+        uses: actions/upload-artifact@v2
+        with:
+          name: Release_Build
+          path: build
+  # create_release:
+  #   needs: [build_release_apk]
+  #   runs-on: ubuntu-latest
+  #   name: Create Release
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+
+  #     - name: Create Release
+  #       id: create_release
+  #       uses: actions/create-release@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+  #       with:
+  #         tag_name: ${{ github.ref }}
+  #         release_name: Release ${{ github.ref_name }}
+  #         body_path: ./.github/contents/release.md
+  #         draft: false
+  #         prerelease: false
+
+  #     - name: Download Artifacts
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: Release_Build
+  #         path: app/artifacts
+
+  #     - name: Upload our Artifact Assets
+  #       id: upload-release-asset
+  #       uses: actions/upload-release-asset@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         upload_url: ${{ steps.create_release.outputs.upload_url }}
+  #         asset_path: ./app/artifacts/app-release.apk
+  #         asset_name: RTUITLab.apk
+  #         asset_content_type: application/vnd.android.package-archive
