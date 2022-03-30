@@ -23,7 +23,14 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
-      - name: Restore Packages
+      - uses: actions/cache@v1
+        id: cache
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+
+      - name: NuGet Restore
+        if: steps.cache.outputs.cache-hit != 'true'
         run: nuget restore src/ITTV.sln
 
       - name: Build app
@@ -33,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Release_Build
-          path: build
+          path: src/WPF/ITTV.WPF.MVVM/build
   # create_release:
   #   needs: [build_release_apk]
   #   runs-on: ubuntu-latest
