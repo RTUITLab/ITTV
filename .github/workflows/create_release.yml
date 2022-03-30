@@ -23,12 +23,6 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
-      - uses: actions/cache@v1
-        id: cache
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-
       - name: NuGet Restore
         if: steps.cache.outputs.cache-hit != 'true'
         run: nuget restore src/ITTV.sln
