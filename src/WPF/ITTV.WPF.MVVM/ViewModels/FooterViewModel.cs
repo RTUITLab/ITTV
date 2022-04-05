@@ -113,7 +113,7 @@ namespace ITTV.WPF.MVVM.ViewModels
         private string _currentWeekOfSemester;
 
         public string VersionOfProject =>
-            Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyITLabVersionAttribute>()?.Version ?? DefaultVersionName;
+            Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyRTUITLabVersionAttribute>()?.Version ?? DefaultVersionName;
 
         private void Recalc()
         {
