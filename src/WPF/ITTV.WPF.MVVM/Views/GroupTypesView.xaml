@@ -41,8 +41,9 @@
             </ItemsControl>
             
             <Grid Grid.Row="1">
-                <UniformGrid MaxHeight="200"
-                           HorizontalAlignment="Stretch">
+                <UniformGrid Rows="1"
+                             MaxHeight="200"
+                             HorizontalAlignment="Stretch">
                     <UniformGrid.Resources>
                         <Style TargetType="Button" BasedOn="{StaticResource KinectTileButton}">
                             <Setter Property="Margin" Value="10,0,0,0"/>

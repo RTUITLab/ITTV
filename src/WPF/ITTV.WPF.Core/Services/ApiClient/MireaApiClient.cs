@@ -52,7 +52,7 @@ namespace ITTV.WPF.Core.Services.ApiClient
             {
                 var response = await _httpClient.GetAsync(MireaApiEndpoints.GetFullScheduleForGroup(groupName));
                 if (!response.IsSuccessStatusCode)
-                    throw new MireaApiScheduleForGroupException(groupName);
+                    throw new MireaApiScheduleForGroupException(groupName, response.StatusCode.ToString());
                 var responseMessage = await response.Content.ReadAsStringAsync();
 
                 var result = JsonConvert.DeserializeObject<ApiFullScheduleResponse>(responseMessage);
@@ -71,7 +71,7 @@ namespace ITTV.WPF.Core.Services.ApiClient
             {
                 var response = await _httpClient.GetAsync(MireaApiEndpoints.GetAllGroups);
                 if (!response.IsSuccessStatusCode)
-                    throw new MireaApiScheduleGroupsException();
+                    throw new MireaApiScheduleGroupsException(response.StatusCode.ToString());
                 
                 var responseMessage = await response.Content.ReadAsStringAsync();
 

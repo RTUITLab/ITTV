@@ -126,7 +126,6 @@
                                Foreground="{Binding IsDarkTheme, Converter={StaticResource DarkThemeTextConverter}}" 
                                FontSize="20"
                                TextWrapping="Wrap"
-                               Margin="0, 0, 7.5, 0"
                                Text="{Binding StageOfClasses}"/>
                     <TextBlock x:Name="Week"
                                Grid.Row="1"
