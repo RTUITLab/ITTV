@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
+using ITTV.WPF.Core.Exceptions;
 using ITTV.WPF.Core.Services.ApiClient.Requests.GetGroups;
 using ITTV.WPF.Core.Services.ApiClient.Requests.GetNews;
 using ITTV.WPF.Core.Services.ApiClient.Requests.GetScheduleForGroup;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace ITTV.WPF.Core.Services.ApiClient
 {
@@ -25,48 +27,62 @@ namespace ITTV.WPF.Core.Services.ApiClient
 
         public async Task<ApiNewsItem[]> GetNews(int countNews = 10)
         {
-            var uri = MireaApiEndpoints.GetNewsEndpoint;
-            var response = await _httpClient.GetAsync(uri);
-            var responseMessage = await response.Content.ReadAsStringAsync();
+            try
+            {
+                var uri = MireaApiEndpoints.GetNewsEndpoint;
+                var response = await _httpClient.GetAsync(uri);
+                if (!response.IsSuccessStatusCode)
+                    throw new MireaApiNewsException();
+                
+                var responseMessage = await response.Content.ReadAsStringAsync();
 
-            var result = await ParseToNews(responseMessage, countNews);
-            return result;
+                var result = await ParseToNews(responseMessage, countNews);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "Не удалось получить список новостей");
+                throw;
+            }
         }
 
         public async Task<ApiFullScheduleResponse> GetFullScheduleForGroup(string groupName)
         {
-            var response = await _httpClient.GetAsync(MireaApiEndpoints.GetFullScheduleForGroup(groupName));
-            var responseMessage = await response.Content.ReadAsStringAsync();
+            try
+            {
+                var response = await _httpClient.GetAsync(MireaApiEndpoints.GetFullScheduleForGroup(groupName));
+                if (!response.IsSuccessStatusCode)
+                    throw new MireaApiScheduleForGroupException(groupName, response.StatusCode.ToString());
+                var responseMessage = await response.Content.ReadAsStringAsync();
 
-            var result = JsonConvert.DeserializeObject<ApiFullScheduleResponse>(responseMessage);
-            return result;
-        }
-
-        public async Task<ApiScheduleLesson[]> GetTodayScheduleForGroup(string groupName)
-        {
-            var response = await _httpClient.GetAsync(MireaApiEndpoints.GetTodayScheduleForGroup(groupName));
-            var responseMessage = await response.Content.ReadAsStringAsync();
-
-            var result = JsonConvert.DeserializeObject<ApiScheduleLesson[]>(responseMessage);
-            return result;
-        }
-
-        public async Task<ApiScheduleLesson[]> GetTomorrowScheduleForGroup(string groupName)
-        {
-            var response = await _httpClient.GetAsync(MireaApiEndpoints.GetTomorrowScheduleForGroup(groupName));
-            var responseMessage = await response.Content.ReadAsStringAsync();
-    
-            var result = JsonConvert.DeserializeObject<ApiScheduleLesson[]>(responseMessage);
-            return result;
+                var result = JsonConvert.DeserializeObject<ApiFullScheduleResponse>(responseMessage);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "Не удалось получить полное расписание для группы {0}", groupName);
+                throw;
+            }
         }
 
         public async Task<ApiGroups> GetAllGroups()
         {
-            var response = await _httpClient.GetAsync(MireaApiEndpoints.GetAllGroups);
-            var responseMessage = await response.Content.ReadAsStringAsync();
+            try
+            {
+                var response = await _httpClient.GetAsync(MireaApiEndpoints.GetAllGroups);
+                if (!response.IsSuccessStatusCode)
+                    throw new MireaApiScheduleGroupsException(response.StatusCode.ToString());
+                
+                var responseMessage = await response.Content.ReadAsStringAsync();
 
-            var result = JsonConvert.DeserializeObject<ApiGroups>(responseMessage);
-            return result;
+                var result = JsonConvert.DeserializeObject<ApiGroups>(responseMessage);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "Не удалось получить список всех груп");
+                throw;
+            }
         }
 
         private async Task<ApiNewsItem[]> ParseToNews(string contentHtml, int countNews)

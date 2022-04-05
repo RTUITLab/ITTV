@@ -1,0 +1,109 @@
+﻿<UserControl x:Class="ITTV.WPF.MVVM.Views.ScheduleForDayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ITTV.WPF.MVVM.Views"
+             xmlns:viewModels="clr-namespace:ITTV.WPF.MVVM.ViewModels"
+             xmlns:schedule="clr-namespace:ITTV.WPF.MVVM.ViewModels.Schedule"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance schedule:ScheduleForDayViewModel,
+                                            IsDesignTimeCreatable=True}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid x:Name="Loading"
+                  VerticalAlignment="Center"
+                  Visibility="{Binding IsLoaded, Converter={StaticResource InverseBoolToVis}}">
+                
+                <Control Template="{StaticResource LoadingAnimation}" Visibility="Visible" />
+            </Grid>
+            <Grid
+                Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVis}}">
+                <Grid x:Name="EmptyData"
+                      VerticalAlignment="Center"
+                      Visibility="{Binding HasClasses, Converter={StaticResource InverseBoolToVis}}">
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="Пар в этот день нет"
+                               HorizontalAlignment="Center"
+                               FontWeight="Medium"
+                               FontSize="40"/>
+                </Grid>
+                <Grid x:Name="Content" 
+                      VerticalAlignment="Center"
+                      Margin="100 50 100 50"
+                      Visibility="{Binding HasClasses, Converter={StaticResource BoolToVis}}">
+                    <DataGrid
+                        BorderThickness="1 1 1 0"
+                        BorderBrush="Black"
+                        IsEnabled="False"
+                        AutoGenerateColumns="False"
+                        HeadersVisibility="None"
+                        RowHeight="100"
+                        ItemsSource="{Binding LessonsForSelectedDay}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn
+                                Width="Auto"
+                                MinWidth="50">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate >
+                                        <Grid>
+                                            <TextBlock Text="{Binding NumberLesson}"  TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTemplateColumn
+                                Width="700">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate >
+                                        <Grid>
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTemplateColumn
+                                Width="Auto"
+                                MinWidth="250">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate >
+                                        <Grid>
+                                            <TextBlock Text="{Binding Type}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTemplateColumn
+                                Width="Auto"
+                                MinWidth="250">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate >
+                                        <Grid>
+                                            <TextBlock Text="{Binding Teacher}" TextWrapping="Wrap"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTemplateColumn
+                                Width="Auto"
+                                MinWidth="200">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate >
+                                        <Grid>
+                                            <TextBlock Text="{Binding ClassRoom}" TextWrapping="Wrap"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
