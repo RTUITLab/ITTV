@@ -3,7 +3,7 @@ name: Create release of app
 on:
   push:
     tags:
-      - "[0-9]+.[0-9]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   build:
@@ -28,7 +28,7 @@ jobs:
         run: nuget restore src/ITTV.sln
 
       - name: Build app
-        run: msbuild src/WPF/ITTV.WPF.MVVM/ITTV.WPF.MVVM.csproj /p:Configuration=Release /p:ITLabVersion=${{ github.ref_name }} /p:OutputPath=build
+        run: msbuild src/WPF/ITTV.WPF.MVVM/ITTV.WPF.MVVM.csproj /p:Configuration=Release /p:RTUITLabVersion=${{ github.ref_name }} /p:OutputPath=build
 
       - name: Upload exe
         uses: actions/upload-artifact@v2
@@ -60,9 +60,9 @@ jobs:
         with:
           name: Release_Build
           path: app/artifacts
-      
+
       - name: Zip app
-        run: zip -r RTUITLab_ITTV.zip app/artifacts
+        run: cd app/artifacts/ && zip -r -9 ../../RTUITLab_ITTV.zip . && cd ../../
 
       - name: Upload our Artifact Assets
         id: upload-release-asset

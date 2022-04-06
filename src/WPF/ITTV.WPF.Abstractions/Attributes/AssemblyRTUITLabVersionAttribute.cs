@@ -3,9 +3,9 @@
 namespace ITTV.WPF.Abstractions.Attributes
 {
     [AttributeUsage(AttributeTargets.Assembly)]
-    public sealed class AssemblyITLabVersionAttribute : Attribute
+    public sealed class AssemblyRTUITLabVersionAttribute : Attribute
     {
-        public AssemblyITLabVersionAttribute(string version = null)
+        public AssemblyRTUITLabVersionAttribute(string version = null)
         {
             Version = version ?? throw new ArgumentNullException(nameof(version));
         }
