@@ -24,16 +24,26 @@ namespace ITTV.WPF.MVVM
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(PathHelper.FileConfigurationPath)
+                .AddUserSecrets<App>()
                 .Build();
 
             var serviceCollection = new ServiceCollection();
             serviceCollection.Configure<Settings>(configuration.GetSection(nameof(Settings)));
 
-            Log.Logger = new LoggerConfiguration()
+            var seqLoggerSettings = configuration.GetSection(nameof(ApiSeqLoggerSettings))
+                .Get<ApiSeqLoggerSettings>();
+
+            var logger = new LoggerConfiguration()
                 .Enrich.WithProperty("APP","ITTV")
                 .WriteTo.File(PathHelper.FileLogsPath)
-                .WriteTo.Console()
-                .CreateLogger();
+                .WriteTo.Console();
+
+            if (seqLoggerSettings != null && seqLoggerSettings.IsValid())
+            {
+                logger.WriteTo.Seq(seqLoggerSettings.Uri, apiKey: seqLoggerSettings.ApiKey);
+            }
+
+            Log.Logger = logger.CreateLogger();
 
             serviceCollection.AddLogging(l => l.AddSerilog());
             

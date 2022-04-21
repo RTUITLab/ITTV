@@ -7,7 +7,7 @@ namespace ITTV.WPF.Abstractions.Attributes
     {
         public AssemblyRTUITLabVersionAttribute(string version = null)
         {
-            Version = version ?? throw new ArgumentNullException(nameof(version));
+            Version = version;
         }
 
         public string Version { get; }
