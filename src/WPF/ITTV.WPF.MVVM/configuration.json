@@ -15,5 +15,10 @@
       "HUI2",
       "HUI3"
     ]
+  },
+  "ApiSeqLoggerSettings": {
+    "Uri": "",
+    "ApiKey": ""
   }
+  
 }
