@@ -307,6 +307,10 @@
       <Page Include="Views\VideosView.xaml" />
     </ItemGroup>
     <ItemGroup>
+      <Content Include="configuration.logging.json">
+        <DependentUpon>configuration.json</DependentUpon>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
       <Content Include="Images\Gerb.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>

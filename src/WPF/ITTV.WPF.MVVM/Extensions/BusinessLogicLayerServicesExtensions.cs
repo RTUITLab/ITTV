@@ -65,6 +65,7 @@ namespace ITTV.WPF.MVVM.Extensions
             serviceCollection.AddScoped<NavigateCommand<GamesViewModel>>();
             serviceCollection.AddScoped<NavigateCommand<MenuViewModel>>();
             serviceCollection.AddSingleton<BackgroundVideoViewModel>();
+            serviceCollection.AddScoped<NavigateBackgroundVideoAndClearHistoryCommand>();
         }
 
         private static void AddViewModels(IServiceCollection serviceCollection)

@@ -142,7 +142,7 @@ namespace ITTV.WPF.MVVM.Utilities.Tracking
         {
             if (_kinectRegion == null)
             {
-                Log.Logger.Warning("KinectTrackingUtility hands status update skipped");
+                Log.Logger.Warning("KinectTrackingUtility hands status update skipped because KinectRegion not configured");
                 return;
             }
             
@@ -156,13 +156,13 @@ namespace ITTV.WPF.MVVM.Utilities.Tracking
                 
                 if (!IsHoverNow)
                 {
-                    Log.Logger.Warning("Body status changed");
+                    Log.Logger.Information("Body status changed, is tracking now : {0}", IsHoverNow);
                     OnHoverStart?.Invoke();
                 }
             }
             else if (IsHoverNow)
             {
-                Log.Logger.Warning("Body status changed");
+                Log.Logger.Information("Body status changed, is tracking now : {0}", IsHoverNow);
                 OnHoverEnd?.Invoke();
             }
             IsHoverNow = hoverNow;
