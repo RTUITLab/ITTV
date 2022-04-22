@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
-using System.Threading;
 using System.Windows;
 using ITTV.WPF.Abstractions.Attributes;
 using ITTV.WPF.BackgroundServices.Cache;

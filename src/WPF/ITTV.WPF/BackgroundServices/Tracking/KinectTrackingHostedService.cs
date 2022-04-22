@@ -27,7 +27,7 @@ namespace ITTV.WPF.BackgroundServices.Tracking
             
             _logger.LogInformation("{0} service running", nameof(KinectTrackingHostedService));
 
-            _timer = new Timer((_) => DoWork(), null, TimeSpan.Zero, handsIntervalUpdate);
+            _timer = new Timer(_ => DoWork(), null, TimeSpan.Zero, handsIntervalUpdate);
             
             return Task.CompletedTask;
         }

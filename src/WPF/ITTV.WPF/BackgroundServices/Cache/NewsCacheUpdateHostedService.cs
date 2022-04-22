@@ -33,7 +33,7 @@ namespace ITTV.WPF.BackgroundServices.Cache
             
             _logger.LogInformation("{0} service running", nameof(NewsCacheUpdateHostedService));
 
-            _timer = new((_) => DoWork(), null, TimeSpan.Zero, newsUpdateTime);
+            _timer = new Timer(_ => DoWork(), null, TimeSpan.Zero, newsUpdateTime);
             
             return Task.CompletedTask;
         }
