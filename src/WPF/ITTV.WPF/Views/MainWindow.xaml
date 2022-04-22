@@ -1,0 +1,90 @@
+﻿<Window x:Class="ITTV.WPF.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:ITTV.WPF.ViewModels"
+        xmlns:views="clr-namespace:ITTV.WPF.Views"
+        xmlns:controls="http://schemas.microsoft.com/kinect/2014"
+        xmlns:schedule="clr-namespace:ITTV.WPF.ViewModels.Schedule"
+        xmlns:news="clr-namespace:ITTV.WPF.ViewModels.News"
+        xmlns:videos="clr-namespace:ITTV.WPF.ViewModels.Videos"
+        xmlns:games="clr-namespace:ITTV.WPF.ViewModels.Games"
+        mc:Ignorable="d"
+        Title="ITTV"
+        d:DesignWidth="1920"
+        d:DesignHeight="1080"
+        FontFamily="Segoe UI"
+        WindowState="Maximized"
+        WindowStyle="None" 
+        d:DataContext="{d:DesignInstance viewModels:MainViewModel,
+                                    IsDesignTimeCreatable=True}">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModels:MenuViewModel}">
+            <views:MenuView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:BackgroundVideoViewModel}">
+            <views:BackgroundVideoView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:FooterViewModel}">
+            <views:FooterView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:NotificationViewModel}">
+            <views:NotificationView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type games:GamesViewModel}">
+            <views:GamesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type videos:VideosViewModel}">
+            <views:VideosView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type schedule:TimeTableViewModel}">
+            <views:TimeTableView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type news:NewsViewModel}">
+            <views:NewsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type news:NewsElementViewModel}">
+            <views:NewsElementView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type videos:VideoViewModel}">
+            <views:VideoView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type schedule:CoursesViewModel}">
+            <views:CoursesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type schedule:GroupsViewModel}">
+            <views:GroupsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type schedule:GroupTypesViewModel}">
+            <views:GroupTypesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type schedule:ScheduleTypeViewModel}">
+            <views:ScheduleTypeView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type schedule:ScheduleForDayViewModel}">
+            <views:ScheduleForDayView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type schedule:ScheduleViewModel}">
+            <views:ScheduleView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type schedule:ScheduleForCourseViewModel}">
+            <views:ScheduleForCourseView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:EggVideoViewModel}">
+            <views:EggVideoView/>
+        </DataTemplate>
+    </Window.Resources>
+<controls:KinectRegion x:Name="KinectRegion">    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="90" />
+        </Grid.RowDefinitions>
+        
+        <ContentControl Grid.Row="0" Name="CurrentView" Content="{Binding CurrentViewModel}" />
+        <ContentControl Grid.Row="0" Name="NotificationView" Content="{Binding NotificationViewModel}"/>
+        <ContentControl Grid.Row="1" Name="Footer" Content="{Binding FooterViewModel}" />
+    </Grid>
+</controls:KinectRegion>    
+</Window>

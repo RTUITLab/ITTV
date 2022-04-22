@@ -1,0 +1,19 @@
+﻿{
+  "Settings": {
+    "isAdminMode": true,
+    "needCheckTime": true,
+    "startWorkTime": "08:00:00",
+    "endWorkTime": "22:00:00",
+    "inactiveModeTime" : "00:01:00",
+    "cacheUpdateInterval": "00:20:00",
+    "videoVolume": 1,
+    "backgroundVideoOrder": [
+        "1.mp4"
+    ],
+    "eggVideoCommands": [
+      "HUI1",
+      "HUI2",
+      "HUI3"
+    ]
+  }
+}

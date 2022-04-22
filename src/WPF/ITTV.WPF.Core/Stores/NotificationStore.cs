@@ -25,6 +25,14 @@ namespace ITTV.WPF.Core.Stores
             var notification = new Notification(message);
             AddNotification(notification);
         }
+        
+        public void AddNotification(Exception e)
+        {
+            var textException = e.InnerException?.Message ?? e.Message;
+
+            var notification = new Notification(textException);
+            AddNotification(notification);
+        }
 
         public void AddNotification(Notification notification)
         {
