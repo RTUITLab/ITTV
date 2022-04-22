@@ -40,7 +40,8 @@ namespace ITTV.WPF.BackgroundServices.Tracking
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Error while trying update hands status using kinect tracking utility");
+                _logger.LogError(e, "{0}: Error while trying update hands status using kinect tracking utility",
+                     nameof(KinectTrackingHostedService));
             }
         }
         

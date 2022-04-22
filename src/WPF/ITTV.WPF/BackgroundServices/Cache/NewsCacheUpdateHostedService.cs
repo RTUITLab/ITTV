@@ -42,15 +42,18 @@ namespace ITTV.WPF.BackgroundServices.Cache
         {
             try
             {
-                _logger.LogInformation("Starting sync news");
+                _logger.LogInformation("{0}: Starting sync news", 
+                    nameof(NewsCacheUpdateHostedService));
 
                 await _mireaApiProvider.GetNews(expireDateTime: TimeSpan.Zero);
                 
-                _logger.LogInformation("Sync news completed");
+                _logger.LogInformation("{0}: Sync news completed",
+                    nameof(NewsCacheUpdateHostedService));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Error while trying sync news");
+                _logger.LogError(e, "{0}: Error while trying sync news", 
+                    nameof(NewsCacheUpdateHostedService));
             }
         }
         
