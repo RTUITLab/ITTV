@@ -55,7 +55,8 @@ namespace ITTV.WPF.Utilities.Tracking
                 var eggVideoCommandsDatabasePath = PathHelper.FileGestureDatabasePath;
                 if (!File.Exists(eggVideoCommandsDatabasePath))
                 {
-                    Log.Logger.Error("File gesture database not found by path {0}!",
+                    Log.Logger.Error("{0}: File gesture database not found by path {1}!",
+                        nameof(KinectTrackingUtility),
                         PathHelper.FileGestureDatabasePath);
                     return;
                 }
@@ -63,7 +64,8 @@ namespace ITTV.WPF.Utilities.Tracking
                 var eggVideoPath = PathHelper.FileEggVideoPath;
                 if (!File.Exists(eggVideoPath))
                 {
-                    Log.Logger.Error("File egg video not found by path {0}!",
+                    Log.Logger.Error("{0}: File egg video not found by path {1}!",
+                        nameof(KinectTrackingUtility),
                         PathHelper.FileGestureDatabasePath);
                     return;
                 }
@@ -142,12 +144,12 @@ namespace ITTV.WPF.Utilities.Tracking
         {
             if (_kinectRegion == null)
             {
-                Log.Logger.Warning("KinectTrackingUtility hands status update skipped because KinectRegion not configured");
+                Log.Logger.Warning("{0}: Hands status update skipped because KinectRegion not configured",
+                    nameof(KinectTrackingUtility));
                 return;
             }
             
             var hoverNow = _kinectRegion?.EngagedBodyTrackingIds?.Count > 0;
-            throw new ArgumentException();
 
             if (hoverNow)
             {
@@ -157,13 +159,17 @@ namespace ITTV.WPF.Utilities.Tracking
                 
                 if (!IsHoverNow)
                 {
-                    Log.Logger.Information("Body status changed, is tracking now : {0}", IsHoverNow);
+                    Log.Logger.Information("{0}: Body status changed, is tracking now : {1}",
+                        nameof(KinectTrackingUtility),
+                        IsHoverNow);
                     OnHoverStart?.Invoke();
                 }
             }
             else if (IsHoverNow)
             {
-                Log.Logger.Information("Body status changed, is tracking now : {0}", IsHoverNow);
+                Log.Logger.Information("{0}: Body status changed, is tracking now : {1}",
+                    nameof(KinectTrackingUtility),
+                    IsHoverNow);
                 OnHoverEnd?.Invoke();
             }
             IsHoverNow = hoverNow;
