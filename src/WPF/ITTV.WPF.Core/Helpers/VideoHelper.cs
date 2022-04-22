@@ -32,7 +32,8 @@ namespace ITTV.WPF.Core.Helpers
                 var fileSupported = supportedVideoFormats.Contains(fileExtension);
                 if (!fileSupported)
                 {
-                    Log.Logger.Warning($"The format of the background video file {x} is not supported");
+                    Log.Logger.Warning("{0}: The format of the background video file {1} is not supported",
+                        nameof(VideoHelper), x);
                 }
 
                 return fileSupported;

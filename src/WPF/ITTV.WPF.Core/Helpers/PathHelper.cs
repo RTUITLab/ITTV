@@ -46,16 +46,6 @@ namespace ITTV.WPF.Core.Helpers
                 return DirectoryCachePath;
             }
         }
-        
-        private static readonly string DirectoryTimeTablesPath = Path.Combine(Directory.GetCurrentDirectory(), @"TimeTables\");
-        public static string GetDirectoryTimeTablesPath
-        {
-            get
-            {
-                Directory.CreateDirectory(DirectoryTimeTablesPath);
-                return DirectoryTimeTablesPath;
-            }
-        }
 
         private static readonly string DirectoryGestureDatabasePath = Path.Combine(Directory.GetCurrentDirectory(), @"GestureDatabase\");
         public static string GetDirectoryGestureDatabasePath
@@ -120,9 +110,6 @@ namespace ITTV.WPF.Core.Helpers
         public const string FileLoggingConfigurationPath = "configuration.logging.json";
 
         public const string FileLogsPath = "logs.txt";
-
-        public static readonly string FileGroupsCachePath = GetDirectoryCachePath + "groups.json";
-        public static readonly string FileNewsCachePath = GetDirectoryCachePath + "news.json";
 
         public static readonly string FileGestureDatabasePath = GetDirectoryGestureDatabasePath + "KinectGesture.gbd";
 
