@@ -11,10 +11,10 @@ namespace ITTV.WPF.Commands.Schedule
         private readonly NavigationService<ScheduleForCourseViewModel> _navigationService;
 
         public SelectScheduleForCourseCommand(NavigationStore navigationStore, 
-            NotificationStore notificationStore,
             TimeTableDto timeTableData)
         {
             var groupViewModel = new ScheduleForCourseViewModel(timeTableData);
+            groupViewModel.Recalculate();
             
             _navigationService = new NavigationService<ScheduleForCourseViewModel>(navigationStore, groupViewModel);
         }
