@@ -67,7 +67,7 @@ namespace ITTV.WPF.ViewModels.Schedule
         {
             _timeTableData = tableDto;
            
-            ShowScheduleForCourseCommand = new SelectScheduleForCourseCommand(_navigationStore, _timeTableData);
+            ShowScheduleForCourseCommand = new SelectScheduleForCourseCommand(_navigationStore, tableDto);
         }
 
         public override async void Recalculate()
