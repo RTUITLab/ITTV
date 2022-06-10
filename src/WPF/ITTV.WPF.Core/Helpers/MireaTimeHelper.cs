@@ -10,7 +10,7 @@ namespace ITTV.WPF.Core.Helpers
         private static readonly List<KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>> ScheduleOfClassesForDay = 
             new()
             {
-                new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("Идёт 1-я пара", (new TimeSpan(9, 0, 0), new TimeSpan(10, 30, 0))),
+                new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("1-я пара", (new TimeSpan(9, 0, 0), new TimeSpan(10, 30, 0))),
                 new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("Перерыв перед 2-ой парой", (new TimeSpan(10, 30, 0), new TimeSpan(10, 40, 0))),
                 new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("2-я пара", (new TimeSpan(10, 40, 0), new TimeSpan(12, 10, 0))),
                 new KeyValuePair<string, (TimeSpan StartTime, TimeSpan EndTime)>("Большой перерыв перед 3-ой парой", (new TimeSpan(12, 10, 0), new TimeSpan(12, 40, 0))),
@@ -48,7 +48,7 @@ namespace ITTV.WPF.Core.Helpers
         {
             var numberOfWeek = CalculateNumberOfWeek(dateTime);
            
-            return numberOfWeek == default ? string.Empty : $"Идёт {numberOfWeek}-я неделя";
+            return numberOfWeek == default ? string.Empty : $"{numberOfWeek}-я неделя";
         }
         //TODO: покрыть тестами
         public static int? CalculateNumberOfWeek(DateTime dateTime)

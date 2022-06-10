@@ -25,14 +25,12 @@ namespace ITTV.WPF.Views
         {
             if (settings.IsAdminMode)
             {
-                Topmost = false;
                 Cursor = Cursors.Arrow;
                 
                 return;
             }
 
             Cursor = Cursors.None;
-            Topmost = true;
         }
     }
 }
