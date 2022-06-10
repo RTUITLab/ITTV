@@ -104,7 +104,7 @@
                         Grid.Row="0"
                         Grid.Column="0"
                         VerticalAlignment="Center"
-                        HorizontalAlignment="Left"
+                        HorizontalAlignment="Right"
                         Foreground="{Binding IsDarkTheme, Converter={StaticResource DarkThemeTextConverter}}" 
                         FontSize="20"
                         TextWrapping="Wrap"
