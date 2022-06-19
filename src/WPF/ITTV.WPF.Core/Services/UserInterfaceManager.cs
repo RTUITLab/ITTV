@@ -3,7 +3,6 @@ using System.Timers;
 using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Models;
 using Microsoft.Extensions.Options;
-using Serilog.Core;
 
 namespace ITTV.WPF.Core.Services
 {
@@ -65,7 +64,7 @@ namespace ITTV.WPF.Core.Services
         private bool _isDarkTheme = true;
         public bool IsDarkTheme
         {
-            get => _isActiveNow;
+            get => _isDarkTheme;
             private set
             {
                 if (Equals(_isDarkTheme, value))
