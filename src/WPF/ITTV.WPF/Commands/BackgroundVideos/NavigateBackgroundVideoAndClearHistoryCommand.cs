@@ -18,7 +18,7 @@ namespace ITTV.WPF.Commands.BackgroundVideos
         public override void Execute(object parameter)
         {
             _navigationStore.NavigateToInactiveMode();
-            _userInterfaceManager.ChangeTheme();
+            _userInterfaceManager.ChangeThemeToDark();
         }
     }
 }

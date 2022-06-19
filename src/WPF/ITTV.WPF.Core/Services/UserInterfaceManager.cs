@@ -3,14 +3,34 @@ using System.Timers;
 using ITTV.WPF.Core.Helpers;
 using ITTV.WPF.Core.Models;
 using Microsoft.Extensions.Options;
+using Serilog.Core;
 
 namespace ITTV.WPF.Core.Services
 {
     public class  UserInterfaceManager : IDisposable
     {
         public DateTime LastActivityTime { get; private set; } = DateTime.Now;
-        public bool IsActiveNow { get; private set; } = true;
-        
+
+        private bool _isActiveNow = true;
+
+        public bool IsActiveNow
+        {
+            get => _isActiveNow;
+            private set
+            {
+                if (Equals(_isActiveNow, value))
+                    return;
+
+                _isActiveNow = value;
+                OnStateChanged?.Invoke();
+
+                if (_isActiveNow == false)
+                {
+                    OnStateChangedToInactive?.Invoke();
+                }
+            }
+        }
+
         private readonly Timer _inactiveTimer;
         private readonly Settings _settings;
         
@@ -35,30 +55,42 @@ namespace ITTV.WPF.Core.Services
             var idleLastInputTime = IdleTimeDetector.GetIdleTimeInfo().LastInputTime;
             TryUpdateLastActivityTime(idleLastInputTime);
 
-            if (DateTime.Now - LastActivityTime > _settings.InactiveModeTime)
+            if (DateTime.Now - LastActivityTime > _settings.InactiveModeTime 
+                && IsActiveNow)
             {
-                if (IsActiveNow)
-                {
-                    UpdateActiveStatus(false);
-                    OnStateChangedToInactive?.Invoke();
-                }
+                IsActiveNow = false;
             }
         }
 
-        public bool IsDarkTheme { get; private set; } = true;
+        private bool _isDarkTheme = true;
+        public bool IsDarkTheme
+        {
+            get => _isActiveNow;
+            private set
+            {
+                if (Equals(_isDarkTheme, value))
+                    return;
+                
+                _isDarkTheme = value;
+                ThemeUpdated?.Invoke();
+            }
+        }
 
         public event Action ThemeUpdated;
 
         public void ChangeTheme()
         {
             IsDarkTheme = !IsDarkTheme;
-            OnThemeUpdated();
         }
         
         public void ChangeThemeToWhite()
         {
             IsDarkTheme = false;
-            OnThemeUpdated();
+        }
+        
+        public void ChangeThemeToDark()
+        {
+            IsDarkTheme = true;
         }
 
         public bool TryUpdateLastActivityTime(DateTime newLastActivityTime)
@@ -70,22 +102,10 @@ namespace ITTV.WPF.Core.Services
             
             if (!IsActiveNow)
             {
-                UpdateActiveStatus(true);
-                OnStateChanged?.Invoke();
+                IsActiveNow = true;
             }
             
             return true;
-        }
-
-        protected virtual void OnThemeUpdated()
-        {
-            ThemeUpdated?.Invoke();
-        }
-
-        private void UpdateActiveStatus(bool status)
-        {
-            IsActiveNow = status;
-            OnStateChanged?.Invoke();
         }
 
         public void Dispose()
