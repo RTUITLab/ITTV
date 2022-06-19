@@ -54,7 +54,7 @@ namespace ITTV.WPF.ViewModels
             var navigated = _navigationStore.NavigateToInactiveMode();
             if (navigated)
             {
-                _userInterfaceManager.ChangeTheme();
+                _userInterfaceManager.ChangeThemeToDark();
             }
         }
         private void OnCurrentViewModelChanged()

@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Input;
 using ITTV.WPF.Core.Models;
 using ITTV.WPF.ViewModels;
 
@@ -26,7 +27,8 @@ namespace ITTV.WPF.Views
             if (settings.IsAdminMode)
             {
                 Cursor = Cursors.Arrow;
-                
+                Topmost = true;
+
                 return;
             }
 
