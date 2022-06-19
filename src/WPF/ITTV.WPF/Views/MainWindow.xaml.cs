@@ -27,13 +27,11 @@ namespace ITTV.WPF.Views
             if (settings.IsAdminMode)
             {
                 Cursor = Cursors.Arrow;
-                Topmost = false;
 
                 return;
             }
 
             Cursor = Cursors.None;
-            Topmost = true;
         }
     }
 }
